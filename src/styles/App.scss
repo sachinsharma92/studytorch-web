@@ -1,0 +1,94 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&display=swap');
+
+// variables
+@import './variables/colors';
+@import './variables/mixins';
+
+// theme styles files
+@import './xtras';
+// @import './fonts';
+
+
+// custom css
+* {
+  font-family: 'Lato', sans-serif !important;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  // height: 100%;
+}
+
+.app-container {
+  position: relative;
+  // height: 100%;
+  // overflow-x: hidden;
+
+  overflow-x: hidden;
+}
+
+// Typography Style
+.title1,
+.title2,
+.title3,
+.title4,
+.title5,
+.title6 {
+  margin: 0;
+}
+
+.title1 {
+  font-size: 2rem;
+  line-height: 39px;
+  font-weight: bold;
+}
+
+.title2 {
+  font-size: 1.75rem;
+  line-height: 39px;
+  font-weight: 600;
+}
+
+.title3 {
+  font-size: 1.5rem;
+  line-height: 32px;
+  font-weight: 600;
+
+  // On mobile
+  @include mobile {
+    font-size: 1.3rem;
+  }
+}
+
+.title4 {
+  font-size: 1.3rem;
+  line-height: 39px;
+  font-weight: 600;
+}
+
+.title5 {
+  font-size: 1rem;
+  line-height: 20px;
+  font-weight: 600;
+}
+
+.title6 {
+  font-size: 0.875rem;
+  line-height: 20px;
+  font-weight: 600;
+}
