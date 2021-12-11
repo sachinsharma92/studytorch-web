@@ -1,0 +1,81 @@
+// variables
+@import '../../styles/variables/colors';
+@import '../../styles/variables/mixins';
+
+
+.login-page-style {
+  height: 100vh;
+ overflow: hidden;
+ position: fixed;
+ width: 100%;
+    
+	.left-section {
+		background-color: $theme-primary;
+		min-height: 100vh;
+		padding: 50px;
+		position: relative;
+
+		.logo-img {
+			margin-bottom: 80px;
+		}
+	
+		.title1 {
+			color: $white;
+			max-width: 70%;
+			margin-bottom: 30px;
+		}
+	
+		.description {
+			color: $white;
+			max-width: 80%;
+			font-size: 16px;
+		}
+	
+		.illustration-img {
+			position: absolute;
+			bottom: -129px;
+			right: -90px;
+		}
+	}
+
+	.ant-input-affix-wrapper {
+		padding: 0 10px;
+	}
+
+	.right-section {
+		padding: 50px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		overflow: scroll;
+		min-height: 100vh;
+
+		.title1 {
+			margin-bottom: 10px;
+		}
+
+		.description {
+			font-size: 16px;
+		}
+	
+
+		.emoji-style {
+			font-size: 40px;
+			margin-bottom: 30px;
+		}
+
+		.content {
+			margin-bottom: 30px;
+		}
+
+		.btn-danger {
+			width: 100%;
+		}
+	}
+
+	.checkbox-style {
+		max-width: 80%;
+		margin: 44px 0 24px;
+	}
+}

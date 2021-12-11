@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&display=swap');
+@import url('http://fonts.cdnfonts.com/css/sofia-pro');
 
 // variables
 @import './variables/colors';
@@ -11,7 +11,7 @@
 
 // custom css
 * {
-  font-family: 'Lato', sans-serif !important;
+  font-family: 'Sofia Pro', sans-serif !important;
 }
 
 *,
@@ -25,6 +25,7 @@ body {
   height: 100%;
   padding: 0;
   margin: 0;
+  font-size: 14px;
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -36,10 +37,11 @@ body {
 
 .app-container {
   position: relative;
-  // height: 100%;
-  // overflow-x: hidden;
-
   overflow-x: hidden;
+}
+
+p {
+  font-size: 14px;
 }
 
 // Typography Style
@@ -53,9 +55,9 @@ body {
 }
 
 .title1 {
-  font-size: 2rem;
-  line-height: 39px;
-  font-weight: bold;
+  font-size: 40px;
+  line-height: 40px;
+  font-weight: 700;
 }
 
 .title2 {
@@ -91,4 +93,58 @@ body {
   font-size: 0.875rem;
   line-height: 20px;
   font-weight: 600;
+}
+
+
+// * required none
+.ant-form-item-label > label.ant-form-item-required:not(.ant-form-item-required-mark-optional)::before {
+  display: none;
+}
+
+// Input style
+.ant-input {
+  height: 46px;
+  border-radius: 6px;
+}
+
+// buttons style
+.ant-btn {
+  border: none;
+  height: 39px;
+  border-radius: 8px;
+  font-size: 14px;
+  line-height: 23px;
+}
+
+// btn link style
+.ant-btn-link {
+  padding: 0;
+  font-size: 16px;
+
+  &.color-primary {
+    color: $theme-primary;
+  }
+}
+
+.btn-danger {
+  background-color: $theme-secondary;
+  color: white;
+  border: none;
+
+  &:hover, &:focus, &:active {
+    background-color: rgba($theme-secondary, 0.6);
+    color: white;
+  }
+}
+
+
+// text align style
+.text-right {
+  text-align: right;
+}
+.text-left {
+  text-align: right;
+}
+.text-center {
+  text-align: right;
 }
