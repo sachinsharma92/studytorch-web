@@ -11,6 +11,7 @@ import * as ROUTES from './router/routes';
 const HomeScreen = lazy(() => import(/* webpackChunkName: "HomeScreen" */ './pages/homeScreen'));
 const LoginScreen = lazy(() => import(/* webpackChunkName: "LoginScreen" */ './pages/auth/loginScreen'));
 const RegisterScreen = lazy(() => import(/* webpackChunkName: "LoginScreen" */ './pages/auth/registerScreen'));
+const ForgotScreen = lazy(() => import(/* webpackChunkName: "LoginScreen" */ './pages/auth/forgotScreen'));
 
 const AppRouter = () => {
     const isLoggedIn = useSelector((state) => get(state, 'auth.isLoggedIn'));
@@ -23,7 +24,8 @@ const AppRouter = () => {
                     <Routes>
                         <Route path={ROUTES.HOME_SCREEN} element={<HomeScreen />} />
                         <Route path={ROUTES.LOGIN_SCREEN} element={<LoginScreen />} />
-                        <Route path="/register" element={<RegisterScreen />} />
+                        <Route path={ROUTES.SIGNUP_SCREEN} element={<RegisterScreen />} />
+                        <Route path={ROUTES.FORGOT_SCREEN} element={<ForgotScreen/>} />
                     </Routes>
                 </Router>
             </Suspense>
