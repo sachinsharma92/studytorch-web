@@ -1,8 +1,9 @@
 import { Button } from 'antd';
 import React from 'react'
 import { useDispatch } from 'react-redux';
-import requireAuth from '../hocs/requireAuth'
-import { logout } from '../redux/actions/userActions';
+import PrimaryLayout from '../../common/primaryLayout/primaryLayout';
+import requireAuth from '../../hocs/requireAuth'
+import { logout } from '../../redux/actions/userActions';
 
 function HomeScreen() {
 
@@ -13,10 +14,10 @@ function HomeScreen() {
     }
 
     return (
-        <div>
+        <PrimaryLayout>
             HomeScreen
             <Button onClick={onLogout}>Logout</Button>
-        </div>
+        </PrimaryLayout>
     )
 }
 

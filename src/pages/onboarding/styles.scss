@@ -1,0 +1,87 @@
+// variables
+@import "../../styles/variables/colors";
+@import "../../styles/variables/mixins";
+
+.onboarding-screen-style {
+	background: #1e265e;
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	.card {
+		background-color: $white;
+		width: 420px;
+		min-height: 570px;
+		border-radius: 16px;
+	}
+
+	.body-content {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-direction: column;
+		padding: 50px 0;
+	}
+
+	.title3 {
+		font-size: 28px;
+
+		span {
+			color: $theme-primary;
+		}
+	}
+
+	.description {
+		max-width: 60%;
+		text-align: center;
+		font-size: 16px;
+		color: $textColor;
+		margin-top: 16px;
+	}
+
+	.slick-next, .slick-prev {
+		font-size: 20px;
+		font-weight: 600;
+		bottom: 0;
+		top: 100%;
+	}
+
+	.slick-next::before,
+	.slick-prev::before {
+		display: none;
+	}
+
+	.ant-carousel .slick-prev {
+		left: 45px;
+		color: #718096;
+	}
+
+	.ant-carousel .slick-next {
+		right: 55px;
+		color: $theme-primary;
+	}
+
+	.slick-dots-bottom {
+		bottom: -8px;
+
+		li {
+			min-width: 8px;
+			min-height: 8px;
+			max-width: 8px;
+			max-height: 8px;
+			border-radius: 50px;
+			background-color: rgba($theme-primary, 0.2);
+		}
+
+		.slick-active {
+			background-color: rgba($theme-primary, 1);
+			width: 8px;
+			height: 8px;
+		}
+
+		button {
+			height: auto !important;
+		}
+	}
+}

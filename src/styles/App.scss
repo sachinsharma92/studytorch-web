@@ -113,7 +113,27 @@ p {
   height: 39px;
   border-radius: 8px;
   font-size: 14px;
-  padding: 8px 24px;
+  padding: 0 !important;
+
+  &.btn-primary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &.btn-danger {
+    background-color: $theme-secondary;
+    color: white;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+    &:hover, &:focus, &:active {
+      background-color: rgba($theme-secondary, 0.6);
+      color: white;
+    }
+  }
 }
 
 // btn link style
@@ -123,17 +143,6 @@ p {
 
   &.color-primary {
     color: $theme-primary;
-  }
-}
-
-.btn-danger {
-  background-color: $theme-secondary;
-  color: white;
-  border: none;
-
-  &:hover, &:focus, &:active {
-    background-color: rgba($theme-secondary, 0.6);
-    color: white;
   }
 }
 

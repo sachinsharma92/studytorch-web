@@ -1,0 +1,34 @@
+// variables
+@import "../../styles/variables/colors";
+@import "../../styles/variables/mixins";
+
+.search-primary {
+  background: #fafafb;
+  border-radius: 20px;
+  height: 40px;
+  padding: 0 10px;
+
+  .ant-input, .ant-btn {
+    border: none;
+    background: none;
+    outline: none;
+    box-shadow: none;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ant-input-group-addon {
+    background: none;
+  }
+
+  .ant-layout-header {
+    display: flex;
+    align-items: center;
+
+    .ant-row {
+      width: 100%;
+    }
+  }
+}

@@ -8,10 +8,11 @@ import * as ROUTES from './router/routes';
 /**
  * Screens
  */
-const HomeScreen = lazy(() => import(/* webpackChunkName: "HomeScreen" */ './pages/homeScreen'));
+const HomeScreen = lazy(() => import(/* webpackChunkName: "HomeScreen" */ './pages/homepage/homeScreen'));
 const LoginScreen = lazy(() => import(/* webpackChunkName: "LoginScreen" */ './pages/auth/loginScreen'));
 const RegisterScreen = lazy(() => import(/* webpackChunkName: "LoginScreen" */ './pages/auth/registerScreen'));
 const ForgotScreen = lazy(() => import(/* webpackChunkName: "LoginScreen" */ './pages/auth/forgotScreen'));
+const OnboardingScreen = lazy(() => import(/* webpackChunkName: "LoginScreen" */ './pages/onboarding/onboardingScreen'));
 
 const AppRouter = () => {
     const isLoggedIn = useSelector((state) => get(state, 'auth.isLoggedIn'));
@@ -26,6 +27,7 @@ const AppRouter = () => {
                         <Route path={ROUTES.LOGIN_SCREEN} element={<LoginScreen />} />
                         <Route path={ROUTES.SIGNUP_SCREEN} element={<RegisterScreen />} />
                         <Route path={ROUTES.FORGOT_SCREEN} element={<ForgotScreen/>} />
+                        <Route path={ROUTES.ONBOARDING_SCREEN} element={<OnboardingScreen/>} />
                     </Routes>
                 </Router>
             </Suspense>
