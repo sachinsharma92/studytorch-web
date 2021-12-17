@@ -1,5 +1,5 @@
-import { Col, Layout, Menu, Row, Dropdown, Avatar, Image } from 'antd';
-import { DownOutlined } from '@ant-design/icons';
+import { Col, Layout, Menu, Row, Dropdown, Avatar } from 'antd';
+
 import LogoPrimary from '../logoPrimary/logoPrimary';
 import SearchPrimary from '../searchPrimary/searchPrimary';
 
@@ -37,7 +37,7 @@ const { Header, Content, Sider } = Layout;
 
 export default function PrimaryLayout(props: any) {
   return (
-    <div className='layout-primary'>
+    <div className={`layout-primary ${props.className}`}>
       <Layout>
         <Layout>
           <Sider width={259} className="sider-style">
