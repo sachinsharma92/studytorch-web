@@ -11,6 +11,8 @@
 
   .section-main {
     padding: 24px;
+    height:calc(100vh - 64px);
+    overflow-x: scroll;
   }
 
   .title-md {
@@ -40,6 +42,7 @@
     padding: 16px;
     margin-bottom: 24px;
     max-height: 176px;
+    overflow: hidden;
   }
 
   .flex-style {
@@ -109,6 +112,37 @@
 
     .description {
       margin: 0;
+    }
+  }
+
+
+  // study-section
+  .study-section {
+    margin-bottom: 50px;
+    margin-top: 30px;
+  }
+
+  .quiz-section {
+    margin-bottom: 50px;
+  }
+
+  .score-chart-card {
+    border: 1px solid #F2F2F2;
+    border-radius: 40px;
+    padding: 20px;
+    margin-top: 30px;
+  }
+
+  .arrow-icon {
+    display: flex;
+    align-items: center;
+
+    .description {
+      margin-bottom: 0em;
+    }
+
+    img {
+      margin-left: 10px;
     }
   }
 }

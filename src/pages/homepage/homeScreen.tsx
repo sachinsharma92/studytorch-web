@@ -1,34 +1,19 @@
+import { useState } from 'react';
 import { Card, Col, Row } from 'antd';
-import { RingProgress, Column } from '@ant-design/charts';
+import PieChart from '../../components/charts/pieHighchartChart';
+
 import PrimaryLayout from '../../common/primaryLayout/primaryLayout';
 import folder1 from "../../assets/images/icons/folder-1.svg";
 import folder2 from "../../assets/images/icons/folder-2.svg";
-// import { useDispatch } from 'react-redux';
-// import requireAuth from '../../hocs/requireAuth'
-// import { logout } from '../../redux/actions/userActions';
+import arrowIcon1 from "../../assets/images/icons/arrow-down1.svg";
+import arrowIcon2 from "../../assets/images/icons/arrow-down2.svg";
+
 // Styles
 import './styles.scss';
-
-const config = {
-	height: 140,
-	width: 140,
-	autoFit: false,
-	percent: 0.6,
-	color: ['#66CB9F', '#E1FCEF'],
-	innerRadius: 0.7,
-	radius: 0.98,
-	statistic: {
-		title: false
-	},
-};
+import ColumnHighchartChart from '../../components/charts/columnHighchartChart';
+import ScoreHighchartChart from '../../components/charts/scoreHighchartChart';
 
 function HomeScreen() {
-
-	// const dispatch = useDispatch();
-
-	// const onLogout = () => {
-	//     dispatch(logout());
-	// }
 
 	return (
 		<PrimaryLayout>
@@ -148,23 +133,31 @@ function HomeScreen() {
 												</div>
 											</div>
 										</div>
-										<RingProgress {...config} />
+
+										<PieChart />
 									</div>
 								</Col>
 							</Row>
 
-							<section>
-								<h3 className="title3">Study Pattern</h3>
-								<p className="description">01 - 21 March, 2021</p>
-
-
+							<section className="study-section">
+									<h3 className="title3">Study Pattern</h3>
+									<div className="arrow-icon">
+									<p className="description">01 - 21 March, 2021</p>
+									<img src={arrowIcon1} />
+								</div>
+								<ColumnHighchartChart />
 							</section>
 
-							<section>
+							<section className="quiz-section">
 								<h3 className="title3">Quiz Score Analysis</h3>
-								<p className="description">01 - 21 March, 2021</p>
+								<div className="arrow-icon">
+									<p className="description">01 - 21 March, 2021</p>
+									<img src={arrowIcon2} />
+								</div>
 
-
+								<Card className="score-chart-card">
+									<ScoreHighchartChart />
+								</Card>
 							</section>
 						</div>
 					</Col>
