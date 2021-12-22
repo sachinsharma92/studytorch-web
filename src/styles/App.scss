@@ -1,17 +1,16 @@
-@import url('http://fonts.cdnfonts.com/css/sofia-pro');
+@import url("http://fonts.cdnfonts.com/css/sofia-pro");
 
 // variables
-@import './variables/colors';
-@import './variables/mixins';
+@import "./variables/colors";
+@import "./variables/mixins";
 
 // theme styles files
-@import './xtras';
+@import "./xtras";
 // @import './fonts';
-
 
 // custom css
 * {
-  font-family: 'Sofia Pro', sans-serif !important;
+  font-family: "Sofia Pro", sans-serif !important;
 }
 
 *,
@@ -95,7 +94,6 @@ p {
   font-weight: 600;
 }
 
-
 // * required none
 .ant-form-item-label > label.ant-form-item-required:not(.ant-form-item-required-mark-optional)::before {
   display: none;
@@ -113,7 +111,6 @@ p {
   height: 39px;
   border-radius: 8px;
   font-size: 14px;
-  padding: 0 !important;
 
   &.btn-primary {
     display: flex;
@@ -128,12 +125,24 @@ p {
     display: flex;
     align-items: center;
     justify-content: center;
-  
-    &:hover, &:focus, &:active {
+
+    &:hover,
+    &:focus,
+    &:active {
       background-color: rgba($theme-secondary, 0.6);
       color: white;
     }
   }
+}
+
+// Button Add Style here
+.button-add-circle {
+  position: fixed;
+  bottom: 60px;
+  right: 60px;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
 }
 
 // btn link style
@@ -146,7 +155,6 @@ p {
   }
 }
 
-
 // text align style
 .text-right {
   text-align: right;
@@ -157,3 +165,30 @@ p {
 .text-center {
   text-align: right;
 }
+
+// Popover Style here
+.toggle-menu {
+  display: flex;
+  flex-direction: column;
+
+  a {
+    padding: 10px 10px;
+    font-size: 15px;
+    color: $textDarkColor;
+  }
+}
+
+.ant-popover-inner-content {
+  border: 1px solid #edf2f7;
+  box-shadow: $shadowPrimary;
+  width: 214px;
+  height: auto;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.ant-popover-inner {
+  box-shadow: none;
+  border-radius: 0;
+}
+// End Popover Style here
