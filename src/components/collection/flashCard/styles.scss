@@ -1,0 +1,64 @@
+// variables
+@import "../../../styles/variables/colors";
+@import "../../../styles/variables/mixins";
+
+.flash-card-style {
+  border: 1px solid #E4ECF7;
+  padding: 24px;
+  display: flex;
+  align-content: center;
+  justify-content: flex-start;
+  border-radius: 16px;
+  position: relative;
+  flex-direction: column;
+  margin-bottom: 32px;
+
+  .title4 {
+    margin: 0;
+    line-height: 1.2;
+  }
+
+  .title-section {
+    display: flex;
+    align-items: center;
+
+    img {
+      margin-right: 10px;
+    }
+  }
+
+  .img-style {
+    margin-right: 20px;
+  }
+
+  .button-section {
+    display: flex;
+    align-items: center;
+  }
+
+  .ant-dropdown-link {
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    margin-left: 10px;
+  }
+
+  .flex-style {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+  
+  .content-sec {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .description {
+    margin: 0;
+  }
+
+}

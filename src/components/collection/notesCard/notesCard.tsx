@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Dropdown, Tag } from 'antd';
-import { MoreOutlined } from '@ant-design/icons';
+import { Dropdown, Tag, Button } from 'antd';
+import { MoreOutlined, EditOutlined } from '@ant-design/icons';
 
 // Styles
 import './styles.scss';
@@ -9,12 +9,13 @@ import './styles.scss';
 function NotesCard(props: any) {
 
 	return (
-		<div className="collection-card-style">
+		<div className="note-card-style">
 			<Dropdown overlayClassName="collection-dropdown" overlay={props.menuData}>
 				<a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
 					<MoreOutlined className="icon-style" />
 				</a>
 			</Dropdown>
+
 			<Link to={props.cardHandler}>
 				<a className="flex-style">
 					<div className="content-sec">
@@ -26,6 +27,11 @@ function NotesCard(props: any) {
 					</div>
 				</a>
 			</Link>
+
+			<div className="button-section">
+				<Button className="btn-outline-primary circle" icon={<EditOutlined />} />
+				<Button className="btn-outline-primary">Read Note</Button>
+			</div>
 		</div>
 	)
 }

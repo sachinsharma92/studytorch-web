@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Col, Menu, Row, Modal, Popover, Input, Radio, Tabs } from 'antd';
+import { Button, Col, Menu, Row, Modal, Popover, Input, Radio, Tabs, Breadcrumb, PageHeader } from 'antd';
 import PrimaryLayout from '../../common/primaryLayout/primaryLayout';
 import EmptyState from '../../common/emptyState/emptyState';
-import { PlusOutlined, EditOutlined, DeleteOutlined, UserAddOutlined, InfoCircleOutlined } from '@ant-design/icons';
+import { PlusOutlined, EditOutlined, DeleteOutlined, ShareAltOutlined, InfoCircleOutlined } from '@ant-design/icons';
 
 // Images
-import folderGray from "../../assets/images/icons/folder-gray.svg";
+import arrowLeft from "../../assets/images/icons/arrow-left.svg";
 import folderPurple from "../../assets/images/icons/folder-purple.svg";
 import coralFolder from "../../assets/images/icons/coral-folder.svg";
 import blueFolder from "../../assets/images/icons/folder-1.svg";
@@ -17,6 +17,7 @@ import CollectionCard from '../../components/collection/collectionCard/collectio
 // Styles
 import './styles.scss';
 import NotesCard from '../../components/collection/notesCard/notesCard';
+import FlashCard from '../../components/collection/flashCard/flashCard';
 
 const { TabPane } = Tabs;
 
@@ -24,22 +25,12 @@ const menu = (
 	<Menu>
 		<Menu.Item icon={<EditOutlined />}>
 			<a target="_blank" rel="noopener noreferrer" href="#">
-				Rename
+				Edit
 			</a>
 		</Menu.Item>
 		<Menu.Item icon={<DeleteOutlined />}>
 			<a target="_blank" rel="noopener noreferrer" href="#">
 				Delete
-			</a>
-		</Menu.Item>
-		<Menu.Item icon={<InfoCircleOutlined />}>
-			<a target="_blank" rel="noopener noreferrer" href="#">
-				Get Details
-			</a>
-		</Menu.Item>
-		<Menu.Item icon={<UserAddOutlined />}>
-			<a target="_blank" rel="noopener noreferrer" href="#">
-				Share
 			</a>
 		</Menu.Item>
 	</Menu>
@@ -92,36 +83,98 @@ const noteCardData = [
 	{
 		title: "Headline label",
 		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Adipiscing  elit fringilla vitae...",
+		tag: 'Tag 1',
 	},
 	{
 		title: "Headline label",
 		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Adipiscing  elit fringilla vitae...",
+		tag: 'Tag 1',
 	},
 	{
 		title: "Headline label",
 		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Adipiscing  elit fringilla vitae...",
+		tag: 'Tag 1',
 	},
 	{
 		title: "Headline label",
 		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Adipiscing  elit fringilla vitae...",
+		tag: 'Tag 1',
 	},
 	{
 		title: "Headline label",
 		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Adipiscing  elit fringilla vitae...",
+		tag: 'Tag 1',
 	},
 	{
 		title: "Headline label",
 		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Adipiscing  elit fringilla vitae...",
+		tag: 'Tag 1',
 	},
 	{
 		title: "Headline label",
 		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Adipiscing  elit fringilla vitae...",
+		tag: 'Tag 1',
 	},
 	{
 		title: "Headline label",
 		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Adipiscing  elit fringilla vitae...",
+		tag: 'Tag 1',
 	},
 ]
+
+const flashCardData = [
+	{
+		title: "Headline label",
+		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Adipiscing  elit fringilla vitae...",
+		tag: 'Tag 1',
+	},
+	{
+		title: "Headline label",
+		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Adipiscing  elit fringilla vitae...",
+		tag: 'Tag 1',
+	},
+	{
+		title: "Headline label",
+		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Adipiscing  elit fringilla vitae...",
+		tag: 'Tag 1',
+	},
+	{
+		title: "Headline label",
+		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Adipiscing  elit fringilla vitae...",
+		tag: 'Tag 1',
+	},
+	{
+		title: "Headline label",
+		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Adipiscing  elit fringilla vitae...",
+		tag: 'Tag 1',
+	},
+	{
+		title: "Headline label",
+		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Adipiscing  elit fringilla vitae...",
+		tag: 'Tag 1',
+	},
+	{
+		title: "Headline label",
+		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Adipiscing  elit fringilla vitae...",
+		tag: 'Tag 1',
+	},
+	{
+		title: "Headline label",
+		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Adipiscing  elit fringilla vitae...",
+		tag: 'Tag 1',
+	},
+]
+
+const routes = [
+	{
+		path: 'index',
+		breadcrumbName: 'Collections',
+	},
+	{
+		path: 'first',
+		breadcrumbName: 'Maths',
+	},
+];
 
 function CollectionDetails(props: any) {
 	const [isCollectionModal, setIsCollectionModal] = useState(false);
@@ -145,7 +198,18 @@ function CollectionDetails(props: any) {
 	return (
 		<PrimaryLayout>
 			<div className="collection-page-style">
-				<h3 className="title3">My Collection</h3>
+
+				<PageHeader
+					className="site-page-header header-back"
+					onBack={() => null}
+					title="Maths"
+					breadcrumb={{ routes }}
+					extra={[
+						<Button icon={<ShareAltOutlined />} shape="round" type="primary">
+							Share
+						</Button>,
+					]}
+				/>
 
 				<div className="tab-section">
 					<Tabs defaultActiveKey="1">
@@ -176,7 +240,7 @@ function CollectionDetails(props: any) {
 												description={data.description}
 												menuData={menu}
 												cardHandler="/"
-												tag="Tag 1"
+												tag={data.tag}
 											/>
 										</Col>
 									))}
@@ -185,9 +249,22 @@ function CollectionDetails(props: any) {
 						</TabPane>
 						<TabPane tab="Question" key="3">
 							Content of Tab Pane 3
+
 						</TabPane>
-						<TabPane tab="Flash Card" key="3">
-							Content of Tab Pane 3
+						<TabPane tab="Flash Card" key="4">
+							<div className="card-section note-section">
+								<Row gutter={32}>
+									{flashCardData.map((data, index) => (
+										<Col sm={8} key={index}>
+											<FlashCard
+												title={data.title}
+												description={data.description}
+												menuData={menu}
+											/>
+										</Col>
+									))}
+								</Row>
+							</div>
 						</TabPane>
 					</Tabs>
 				</div>

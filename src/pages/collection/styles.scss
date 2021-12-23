@@ -23,6 +23,22 @@
 
   .tab-section {
     margin-top: 20px;
+
+    .ant-tabs-tab-btn {
+      font-size: 16px;
+      color: rgba($textColor-dark, 0.4);
+    }
+
+    .ant-tabs-tab-active {
+
+      .ant-tabs-tab-btn {
+        color: rgba($theme-primary, 1);
+      }
+    }
+
+    .ant-tabs-ink-bar {
+      background: $theme-primary;
+    }
   }
 }
 

@@ -135,6 +135,28 @@ p {
   }
 }
 
+// btn-outline-primary
+.btn-outline-primary {
+  border: 1px solid $theme-primary;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $theme-primary;
+  font-weight: 600;
+  height: 30px;
+  border-radius: 50px;
+  padding: 0 20px;
+
+  span {
+    margin-top: 3px;
+  }
+
+  &.circle {
+    border-radius: 50%;
+    padding: 0px;
+  }
+}
+
 // Button Add Style here
 .button-add-circle {
   position: fixed;
@@ -153,6 +175,11 @@ p {
   &.color-primary {
     color: $theme-primary;
   }
+}
+
+.ant-btn-round {
+  border-radius: 50px;
+  padding-top: 5px;
 }
 
 // text align style
@@ -192,3 +219,37 @@ p {
   border-radius: 0;
 }
 // End Popover Style here
+
+
+// Back header style
+.header-back {
+  display: flex;
+  align-items: center;
+
+  img {}
+}
+
+
+// Header back style
+.header-back {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: flex-start;
+  padding: 0;
+
+  .ant-page-header-heading {
+    width: 100%;
+  }
+
+  .title2 {
+    font-size: 28px;
+  }
+  
+  .ant-page-header-heading-title {
+    font-size: 26px;
+  }
+
+  .ant-page-header-heading-left {
+    margin-bottom: 20px;
+  }
+}
