@@ -9,6 +9,7 @@
   align-content: center;
   justify-content: flex-start;
   border-radius: 8px;
+  position: relative;
 
   .title4 {
     margin: 0;
@@ -23,6 +24,8 @@
     display: flex;
     align-items: center;
     margin-left: 20px;
+    position: absolute;
+    right: 0;
   }
 
   .flex-style {
@@ -37,6 +40,25 @@
 
   .description {
     margin: 0;
+  }
+
+  .tag-section {
+    display: flex;
+    align-items: center;
+    margin: 15px 0;
+  }
+
+  .tag-style {
+    background: #E4ECF7;
+    color: #505780;
+    border-radius: 100px;
+    height: 24px;
+    min-width: 50px;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 17px;
   }
 }
 

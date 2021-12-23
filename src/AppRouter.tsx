@@ -10,10 +10,11 @@ import * as ROUTES from './router/routes';
  */
 const HomeScreen = lazy(() => import(/* webpackChunkName: "HomeScreen" */ './pages/homepage/homeScreen'));
 const LoginScreen = lazy(() => import(/* webpackChunkName: "LoginScreen" */ './pages/auth/loginScreen'));
-const RegisterScreen = lazy(() => import(/* webpackChunkName: "LoginScreen" */ './pages/auth/registerScreen'));
-const ForgotScreen = lazy(() => import(/* webpackChunkName: "LoginScreen" */ './pages/auth/forgotScreen'));
-const OnboardingScreen = lazy(() => import(/* webpackChunkName: "LoginScreen" */ './pages/onboarding/onboardingScreen'));
-const CollectionScreen = lazy(() => import(/* webpackChunkName: "LoginScreen" */ './pages/collection/collection'));
+const RegisterScreen = lazy(() => import(/* webpackChunkName: "RegisterScreen" */ './pages/auth/registerScreen'));
+const ForgotScreen = lazy(() => import(/* webpackChunkName: "ForgotScreen" */ './pages/auth/forgotScreen'));
+const OnboardingScreen = lazy(() => import(/* webpackChunkName: "OnboardingScreen" */ './pages/onboarding/onboardingScreen'));
+const CollectionScreen = lazy(() => import(/* webpackChunkName: "Collection" */ './pages/collection/collection'));
+const CollectionDetailsScreen = lazy(() => import(/* webpackChunkName: "CollectionDetails" */ './pages/collection/collectionDetails'));
 
 const AppRouter = () => {
     const isLoggedIn = useSelector((state) => get(state, 'auth.isLoggedIn'));
@@ -32,6 +33,7 @@ const AppRouter = () => {
 
                         {/* New flow here */}
                         <Route path={ROUTES.COLLECTION_SCREEN} element={<CollectionScreen/>} />
+                        <Route path={ROUTES.COLLECTION_DETAILS_SCREEN} element={<CollectionDetailsScreen/>} />
                     </Routes>
                 </Router>
             </Suspense>

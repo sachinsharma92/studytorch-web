@@ -8,3 +8,4 @@ export const FORGOT_SCREEN = "/forgot";
 export const HOME_SCREEN="/";
 export const ONBOARDING_SCREEN="/onboarding";
 export const COLLECTION_SCREEN="/collection";
+export const COLLECTION_DETAILS_SCREEN="/details";

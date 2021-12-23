@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Col, Menu, Row, Modal, Popover, Input, Radio } from 'antd';
+import { Button, Col, Menu, Row, Modal, Popover, Input, Radio, Tabs } from 'antd';
 import PrimaryLayout from '../../common/primaryLayout/primaryLayout';
 import EmptyState from '../../common/emptyState/emptyState';
 import { PlusOutlined, EditOutlined, DeleteOutlined, UserAddOutlined, InfoCircleOutlined } from '@ant-design/icons';
@@ -16,8 +16,9 @@ import CollectionCard from '../../components/collection/collectionCard/collectio
 
 // Styles
 import './styles.scss';
-import ROUTES from '../../router';
+import NotesCard from '../../components/collection/notesCard/notesCard';
 
+const { TabPane } = Tabs;
 
 const menu = (
 	<Menu>
@@ -87,7 +88,42 @@ const cardData = [
 	},
 ]
 
-function CollectionScreen(props: any) {
+const noteCardData = [
+	{
+		title: "Headline label",
+		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Adipiscing  elit fringilla vitae...",
+	},
+	{
+		title: "Headline label",
+		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Adipiscing  elit fringilla vitae...",
+	},
+	{
+		title: "Headline label",
+		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Adipiscing  elit fringilla vitae...",
+	},
+	{
+		title: "Headline label",
+		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Adipiscing  elit fringilla vitae...",
+	},
+	{
+		title: "Headline label",
+		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Adipiscing  elit fringilla vitae...",
+	},
+	{
+		title: "Headline label",
+		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Adipiscing  elit fringilla vitae...",
+	},
+	{
+		title: "Headline label",
+		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Adipiscing  elit fringilla vitae...",
+	},
+	{
+		title: "Headline label",
+		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Adipiscing  elit fringilla vitae...",
+	},
+]
+
+function CollectionDetails(props: any) {
 	const [isCollectionModal, setIsCollectionModal] = useState(false);
 
 	const showModal = () => {
@@ -111,33 +147,50 @@ function CollectionScreen(props: any) {
 			<div className="collection-page-style">
 				<h3 className="title3">My Collection</h3>
 
-				{props.collectionData ? <div className="state-center">
-					<EmptyState
-						imgUrl={folderGray}
-						title="Create your Collection"
-						description=" Your Collection can be the folder underwhich all the study material is kept"
-						buttonText="Add Collection"
-						buttonType="primary"
-						/>
+				<div className="tab-section">
+					<Tabs defaultActiveKey="1">
+						<TabPane tab="Collection" key="1">
+							<div className="card-section">
+								<Row gutter={32}>
+									{cardData.map((data, index) => (
+										<Col sm={6} key={index}>
+											<CollectionCard
+												title={data.title}
+												description={data.description}
+												imgUrl={data.imgUrl}
+												menuData={menu}
+												cardHandler="/"
+											/>
+										</Col>
+									))}
+								</Row>
+							</div>
+						</TabPane>
+						<TabPane tab="Notes" key="2">
+							<div className="card-section note-section">
+								<Row gutter={32}>
+									{noteCardData.map((data, index) => (
+										<Col sm={8} key={index}>
+											<NotesCard
+												title={data.title}
+												description={data.description}
+												menuData={menu}
+												cardHandler="/"
+												tag="Tag 1"
+											/>
+										</Col>
+									))}
+								</Row>
+							</div>
+						</TabPane>
+						<TabPane tab="Question" key="3">
+							Content of Tab Pane 3
+						</TabPane>
+						<TabPane tab="Flash Card" key="3">
+							Content of Tab Pane 3
+						</TabPane>
+					</Tabs>
 				</div>
-					:
-					<div className="card-section">
-						<Row gutter={32}>
-							{cardData.map((data, index) => (
-								<Col sm={6} key={index}>
-									<CollectionCard
-										title={data.title}
-										description={data.description}
-										imgUrl={data.imgUrl}
-										menuData={menu}
-										cardHandler={ROUTES.COLLECTION_DETAILS_SCREEN}
-									/>
-								</Col>
-							))}
-						</Row>
-					</div>
-
-				}
 			</div>
 
 
@@ -186,4 +239,4 @@ function CollectionScreen(props: any) {
 	)
 }
 
-export default CollectionScreen;
+export default CollectionDetails;
