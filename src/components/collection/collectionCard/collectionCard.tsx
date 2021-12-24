@@ -1,6 +1,5 @@
-import { useState } from 'react';
 import { Dropdown } from 'antd';
-import { MoreOutlined } from '@ant-design/icons';
+import verticalDot from "../../../assets/images/icons/vertical-dot.svg";
 
 // Styles
 import './styles.scss';
@@ -22,7 +21,7 @@ function CollectionCard(props: any) {
 
 			<Dropdown overlayClassName="collection-dropdown" overlay={props.menuData}>
 				<a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-					<MoreOutlined className="icon-style" />
+					<img src={verticalDot} className="icon-style" />
 				</a>
 			</Dropdown>
 		</div>

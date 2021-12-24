@@ -127,11 +127,7 @@ $desktop-width-lg: 1500px;
 // ----------------------------------
 // Transition Mixin
 // ----------------------------------
-@mixin transition(
-  $transition-property: all,
-  $transition-time: 0.3s,
-  $method: cubic-bezier(0.165, 0.84, 0.44, 1)
-) {
+@mixin transition($transition-property: all, $transition-time: 0.3s, $method: cubic-bezier(0.165, 0.84, 0.44, 1)) {
   -webkit-transition: $transition-property $transition-time $method;
   -moz-transition: $transition-property $transition-time $method;
   -ms-transition: $transition-property $transition-time $method;
@@ -237,6 +233,12 @@ $desktop-width-lg: 1500px;
   object-position: top;
 }
 
+@mixin flex-center() {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 // primary shadow
 $primaryshadow: 0 5px 32px rgba(0, 0, 0, 0.1);
 
@@ -246,5 +248,6 @@ $radius-primary: 8px;
 // primary padding
 $padding-horizontal: 0 16px;
 
+$shadowPrimary: 0px 0px 1px rgba(12, 26, 75, 0.24), 0px 3px 8px -1px rgba(50, 50, 71, 0.05);
 
-$shadowPrimary : 0px 0px 1px rgba(12, 26, 75, 0.24), 0px 3px 8px -1px rgba(50, 50, 71, 0.05);
+$shadowSecondary: 0px 0px 1px rgba(12, 26, 75, 0.1), 0px 4px 20px -2px rgba(50, 50, 71, 0.08);

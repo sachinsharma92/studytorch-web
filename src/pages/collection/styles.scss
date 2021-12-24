@@ -30,7 +30,6 @@
     }
 
     .ant-tabs-tab-active {
-
       .ant-tabs-tab-btn {
         color: rgba($theme-primary, 1);
       }
@@ -40,70 +39,24 @@
       background: $theme-primary;
     }
   }
-}
 
-// collection-modal-style
-.collection-modal-style {
-
-  .ant-modal {
-    max-width: 505px;
+  .ant-tabs-content {
+    overflow-x: scroll;
+    height: calc(100vh - 277px);
   }
 
-  .ant-modal-content {
-    border-radius: 8px;
-  }
-
-  .ant-btn {
+  .inline-button-section {
     display: flex;
     align-items: center;
-    justify-content: center;
-    font-weight: 600;
-  }
+    justify-content: flex-end;
 
-  .label {
-    font-size: 14px;
-    color: #2e3142;
-    margin-bottom: 10px;
-  }
+    .button-custom {
+      margin-left: 10px;
 
-  .input-section {
-    margin: 25px 0;
-  }
-
-  .folder-color-section {
-    margin-bottom: 24px;
-
-    .radio-button {
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      border: none;
-      margin-right: 8px;
-      padding: 0;
-    }
-
-    .ant-radio-button-wrapper-checked {
-      transform: scale(1.1);
-    }
-
-    .purple-color {
-      background: $theme-primary;
-    }
-
-    .face-color {
-      background: #fcab8e;
-    }
-
-    .ant-radio-button-wrapper:not(:first-child)::before {
-      display: none;
-    }
-
-    .coral-color {
-      background-color: #ff8b8b;
-    }
-
-    .sky-blue-color {
-      background: #6fbef6;
+      img {
+        width: 15px;
+        margin-right: 10px;
+      }
     }
   }
 }

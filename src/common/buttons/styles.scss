@@ -1,0 +1,18 @@
+// variables
+@import "../../styles/variables/colors";
+@import "../../styles/variables/mixins";
+
+.button-custom {
+
+  .ant-btn {
+    display: flex;
+    align-items: center;
+  }
+  
+
+  .round-primary {
+    border-radius: 100px;
+    border:1px solid $theme-primary;
+    color: $theme-primary;
+  }
+}

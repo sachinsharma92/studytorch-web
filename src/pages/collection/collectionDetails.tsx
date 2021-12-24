@@ -1,12 +1,17 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Col, Menu, Row, Modal, Popover, Input, Radio, Tabs, Breadcrumb, PageHeader } from 'antd';
+import { Button, Col, Menu, Row, Popover, Tabs, Select, PageHeader } from 'antd';
 import PrimaryLayout from '../../common/primaryLayout/primaryLayout';
-import EmptyState from '../../common/emptyState/emptyState';
-import { PlusOutlined, EditOutlined, DeleteOutlined, ShareAltOutlined, InfoCircleOutlined } from '@ant-design/icons';
+import { PlusOutlined, EditOutlined, DeleteOutlined, ShareAltOutlined } from '@ant-design/icons';
+import NotesCard from '../../components/collection/notesCard/notesCard';
+import FlashCard from '../../components/collection/flashCard/flashCard';
+import ROUTES from '../../router';
+import ShareCollectionModal from '../../components/collection/modals/shareCollection';
+import MasterCollectionModal from '../../components/collection/modals/masterCollection';
+import ButtonCustom from '../../common/buttons/buttonCustom';
 
 // Images
-import arrowLeft from "../../assets/images/icons/arrow-left.svg";
+import filter from "../../assets/images/icons/filter.svg";
 import folderPurple from "../../assets/images/icons/folder-purple.svg";
 import coralFolder from "../../assets/images/icons/coral-folder.svg";
 import blueFolder from "../../assets/images/icons/folder-1.svg";
@@ -16,10 +21,11 @@ import CollectionCard from '../../components/collection/collectionCard/collectio
 
 // Styles
 import './styles.scss';
-import NotesCard from '../../components/collection/notesCard/notesCard';
-import FlashCard from '../../components/collection/flashCard/flashCard';
+import QuestionCard from '../../components/collection/questionCard/questionCard';
 
 const { TabPane } = Tabs;
+
+const { Option } = Select;
 
 const menu = (
 	<Menu>
@@ -165,6 +171,18 @@ const flashCardData = [
 	},
 ]
 
+const questionCardData = [
+	{
+		tag: 'Objective  MCQ',
+		questionTitle: "Question title goes here .............................",
+	},
+	{
+		tag: 'Objective',
+		questionTitle: "Question title goes here .............................",
+		description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis ac dignissim urna risus  dolor'
+	},
+]
+
 const routes = [
 	{
 		path: 'index',
@@ -178,18 +196,18 @@ const routes = [
 
 function CollectionDetails(props: any) {
 	const [isCollectionModal, setIsCollectionModal] = useState(false);
-
-	const showModal = () => {
-		setIsCollectionModal(true);
+	const collectionToggleModal = () => {
+		setIsCollectionModal(!isCollectionModal);
 	};
 
-	const handleCancel = () => {
-		setIsCollectionModal(false);
+	const [isShareModal, setIsShareModal] = useState(false);
+	const shareToggleModal = () => {
+		setIsShareModal(!isShareModal);
 	};
 
 	const toggleData = (
 		<div className="toggle-menu">
-			<a onClick={showModal}>New Collection</a>
+			<a onClick={collectionToggleModal}>New Collection</a>
 			<Link to="/">Notes</Link>
 			<Link to="/">Question</Link>
 		</div>
@@ -205,7 +223,7 @@ function CollectionDetails(props: any) {
 					title="Maths"
 					breadcrumb={{ routes }}
 					extra={[
-						<Button icon={<ShareAltOutlined />} shape="round" type="primary">
+						<Button icon={<ShareAltOutlined />} onClick={shareToggleModal} shape="round" type="primary">
 							Share
 						</Button>,
 					]}
@@ -248,10 +266,32 @@ function CollectionDetails(props: any) {
 							</div>
 						</TabPane>
 						<TabPane tab="Question" key="3">
-							Content of Tab Pane 3
+
+							<div className="inline-button-section mt--20 mb--30">
+								<ButtonCustom className="round-primary" title="Take a Quiz" />
+								<ButtonCustom className="round-primary" icon={<img src={filter} alt="" />} title="Filter" />
+							</div>
+
+							<div className="card-section note-section">
+								<Row gutter={32}>
+									{questionCardData.map((data, index) => (
+										<Col sm={12} key={index}>
+											<QuestionCard
+												questionTitle={data.questionTitle}
+												tag={data.tag}
+												menuData={menu}
+												description={data.description}
+											/>
+										</Col>
+									))}
+								</Row>
+							</div>
 
 						</TabPane>
 						<TabPane tab="Flash Card" key="4">
+							<div className="inline-button-section mt--20">
+								<ButtonCustom className="round-primary" title="Revision Mode" />
+							</div>
 							<div className="card-section note-section">
 								<Row gutter={32}>
 									{flashCardData.map((data, index) => (
@@ -272,39 +312,19 @@ function CollectionDetails(props: any) {
 
 
 			{/* Collection Modal here */}
-			<Modal
-				centered
+			<MasterCollectionModal
 				visible={isCollectionModal}
-				footer={false}
-				onCancel={handleCancel}
-				wrapClassName="collection-modal-style"
-				maskStyle={{ background: '#787D9F' }}
-			>
+				onCancel={collectionToggleModal}
+				buttonHandler={ROUTES.COLLECTION_DETAILS_SCREEN}
+			/>
 
-				<div className="card-modal">
-					<h3 className="title3">Create a Master Collection</h3>
-
-					<div className="input-section">
-						<div className="label">
-							Collection name
-						</div>
-						<Input placeholder="Ex. Maths" />
-					</div>
-
-					<div className="folder-color-section">
-						<div className="label">Select Color</div>
-
-						<Radio.Group>
-							<Radio.Button value="a" className='radio-button purple-color' />
-							<Radio.Button value="b" className='radio-button face-color' />
-							<Radio.Button value="c" className='radio-button coral-color' />
-							<Radio.Button value="d" className='radio-button sky-blue-color' />
-						</Radio.Group>
-					</div>
-					<Button block type='primary' onClick={handleCancel}>Created</Button>
-				</div>
-
-			</Modal>
+			{/* Share Modal here */}
+			<ShareCollectionModal
+				visible={isShareModal}
+				onCancel={shareToggleModal}
+				doneHandler={shareToggleModal}
+				cancelHandler={shareToggleModal}
+			/>
 
 			<Popover
 				content={toggleData}

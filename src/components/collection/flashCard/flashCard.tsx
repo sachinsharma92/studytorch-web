@@ -1,11 +1,10 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Dropdown, Tag, Button } from 'antd';
-import { MoreOutlined, EditOutlined } from '@ant-design/icons';
+import { Dropdown } from 'antd';
 
 // Images
 import shareIcon from "../../../assets/images/icons/external-link.svg";
 import quickIcon from "../../../assets/images/icons/quick.svg";
+import verticalDot from "../../../assets/images/icons/vertical-dot.svg";
 
 // Styles
 import './styles.scss';
@@ -26,7 +25,7 @@ function FlashCard(props: any) {
 						<Link to="/"><img src={shareIcon} alt="" /></Link>
 						<Dropdown overlayClassName="collection-dropdown" overlay={props.menuData}>
 							<a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-								<MoreOutlined className="icon-style" />
+								<img src={verticalDot} className="icon-style" />
 							</a>
 						</Dropdown>
 					</div>

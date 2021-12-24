@@ -136,7 +136,6 @@ function CollectionScreen(props: any) {
 							))}
 						</Row>
 					</div>
-
 				}
 			</div>
 
@@ -153,7 +152,6 @@ function CollectionScreen(props: any) {
 
 				<div className="card-modal">
 					<h3 className="title3">Create a Master Collection</h3>
-
 					<div className="input-section">
 						<div className="label">
 							Collection name
@@ -163,7 +161,6 @@ function CollectionScreen(props: any) {
 
 					<div className="folder-color-section">
 						<div className="label">Select Color</div>
-
 						<Radio.Group>
 							<Radio.Button value="a" className='radio-button purple-color' />
 							<Radio.Button value="b" className='radio-button face-color' />
@@ -173,7 +170,6 @@ function CollectionScreen(props: any) {
 					</div>
 					<Button block type='primary' onClick={handleCancel}>Created</Button>
 				</div>
-
 			</Modal>
 
 			<Popover
