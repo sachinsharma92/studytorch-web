@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Col, Menu, Row, Modal, Popover, Input, Radio } from 'antd';
+import { Button, Col, Menu, Row, Popover, } from 'antd';
+import { PlusOutlined, EditOutlined, DeleteOutlined, UserAddOutlined, InfoCircleOutlined } from '@ant-design/icons';
+import ROUTES from '../../router';
 import PrimaryLayout from '../../common/primaryLayout/primaryLayout';
 import EmptyState from '../../common/emptyState/emptyState';
-import { PlusOutlined, EditOutlined, DeleteOutlined, UserAddOutlined, InfoCircleOutlined } from '@ant-design/icons';
+import CollectionCard from '../../components/collection/collectionCard/collectionCard';
+import MasterCollectionModal from '../../components/collection/modals/masterCollection';
 
 // Images
 import folderGray from "../../assets/images/icons/folder-gray.svg";
@@ -12,11 +15,12 @@ import coralFolder from "../../assets/images/icons/coral-folder.svg";
 import blueFolder from "../../assets/images/icons/folder-1.svg";
 import folderPurpleUsers from "../../assets/images/icons/folder-purple-with-users.svg";
 import babyPinkFolder from "../../assets/images/icons/baby-pink-folder.svg";
-import CollectionCard from '../../components/collection/collectionCard/collectionCard';
 
 // Styles
 import './styles.scss';
-import ROUTES from '../../router';
+import ShareCollectionModal from '../../components/collection/modals/shareCollection';
+import NoteModalCard from '../../components/collection/modals/noteModalCard';
+import QuestionModal from '../../components/collection/modals/questionModal';
 
 
 const menu = (
@@ -88,21 +92,32 @@ const cardData = [
 ]
 
 function CollectionScreen(props: any) {
-	const [isCollectionModal, setIsCollectionModal] = useState(false);
 
-	const showModal = () => {
-		setIsCollectionModal(true);
+	const [isCollectionModal, setIsCollectionModal] = useState(false);
+	const collectionToggleModal = () => {
+		setIsCollectionModal(!isCollectionModal);
 	};
 
-	const handleCancel = () => {
-		setIsCollectionModal(false);
+	const [isShareModal, setIsShareModal] = useState(false);
+	const shareToggleModal = () => {
+		setIsShareModal(!isShareModal);
+	};
+
+	const [isNoteModal, setIsNoteModal] = useState(false);
+	const noteToggleModal = () => {
+		setIsNoteModal(!isNoteModal);
+	};
+
+	const [isQuestionModal, setIsQuestionModal] = useState(false);
+	const questionToggleModal = () => {
+		setIsQuestionModal(!isQuestionModal);
 	};
 
 	const toggleData = (
 		<div className="toggle-menu">
-			<a onClick={showModal}>New Collection</a>
-			<Link to="/">Notes</Link>
-			<Link to="/">Question</Link>
+					<a onClick={collectionToggleModal}>New Collection</a>
+			<a onClick={noteToggleModal}>Notes</a>
+			<a onClick={questionToggleModal}>Question</a>
 		</div>
 	);
 
@@ -118,7 +133,7 @@ function CollectionScreen(props: any) {
 						description=" Your Collection can be the folder underwhich all the study material is kept"
 						buttonText="Add Collection"
 						buttonType="primary"
-						/>
+					/>
 				</div>
 					:
 					<div className="card-section">
@@ -141,36 +156,36 @@ function CollectionScreen(props: any) {
 
 
 			{/* Collection Modal here */}
-			<Modal
-				centered
+			<MasterCollectionModal
 				visible={isCollectionModal}
-				footer={false}
-				onCancel={handleCancel}
-				wrapClassName="collection-modal-style"
-				maskStyle={{ background: '#787D9F' }}
-			>
+				onCancel={collectionToggleModal}
+				buttonHandler={ROUTES.COLLECTION_DETAILS_SCREEN}
+			/>
 
-				<div className="card-modal">
-					<h3 className="title3">Create a Master Collection</h3>
-					<div className="input-section">
-						<div className="label">
-							Collection name
-						</div>
-						<Input placeholder="Ex. Maths" />
-					</div>
+			{/* Share Modal here */}
+			<ShareCollectionModal
+				visible={isShareModal}
+				onCancel={shareToggleModal}
+				doneHandler={shareToggleModal}
+				cancelHandler={shareToggleModal}
+			/>
 
-					<div className="folder-color-section">
-						<div className="label">Select Color</div>
-						<Radio.Group>
-							<Radio.Button value="a" className='radio-button purple-color' />
-							<Radio.Button value="b" className='radio-button face-color' />
-							<Radio.Button value="c" className='radio-button coral-color' />
-							<Radio.Button value="d" className='radio-button sky-blue-color' />
-						</Radio.Group>
-					</div>
-					<Button block type='primary' onClick={handleCancel}>Created</Button>
-				</div>
-			</Modal>
+			{/* Note Modal here */}
+			<NoteModalCard
+				visible={isNoteModal}
+				onCancel={noteToggleModal}
+				addHandler={noteToggleModal}
+				cancelHandler={noteToggleModal}
+				onBack={noteToggleModal}
+			/>
+
+			{/* Questions Modal */}
+			<QuestionModal
+				visible={isQuestionModal}
+				addHandler={questionToggleModal}
+				cancelHandler={questionToggleModal}
+				onBack={questionToggleModal}
+			/>
 
 			<Popover
 				content={toggleData}

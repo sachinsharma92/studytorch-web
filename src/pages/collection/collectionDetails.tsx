@@ -22,6 +22,8 @@ import CollectionCard from '../../components/collection/collectionCard/collectio
 // Styles
 import './styles.scss';
 import QuestionCard from '../../components/collection/questionCard/questionCard';
+import NoteModalCard from '../../components/collection/modals/noteModalCard';
+import QuestionModal from '../../components/collection/modals/questionModal';
 
 const { TabPane } = Tabs;
 
@@ -195,6 +197,7 @@ const routes = [
 ];
 
 function CollectionDetails(props: any) {
+
 	const [isCollectionModal, setIsCollectionModal] = useState(false);
 	const collectionToggleModal = () => {
 		setIsCollectionModal(!isCollectionModal);
@@ -205,11 +208,22 @@ function CollectionDetails(props: any) {
 		setIsShareModal(!isShareModal);
 	};
 
+	const [isNoteModal, setIsNoteModal] = useState(false);
+	const noteToggleModal = () => {
+		setIsNoteModal(!isNoteModal);
+	};
+
+	const [isQuestionModal, setIsQuestionModal] = useState(false);
+	const questionToggleModal = () => {
+		setIsQuestionModal(!isQuestionModal);
+	};
+
+
 	const toggleData = (
 		<div className="toggle-menu">
 			<a onClick={collectionToggleModal}>New Collection</a>
-			<Link to="/">Notes</Link>
-			<Link to="/">Question</Link>
+			<a onClick={noteToggleModal}>Notes</a>
+			<a onClick={questionToggleModal}>Question</a>
 		</div>
 	);
 
@@ -324,6 +338,23 @@ function CollectionDetails(props: any) {
 				onCancel={shareToggleModal}
 				doneHandler={shareToggleModal}
 				cancelHandler={shareToggleModal}
+			/>
+
+			{/* Note Modal here */}
+			<NoteModalCard
+				visible={isNoteModal}
+				onCancel={noteToggleModal}
+				addHandler={noteToggleModal}
+				cancelHandler={noteToggleModal}
+				onBack={noteToggleModal}
+			/>
+
+			{/* Questions Modal */}
+			<QuestionModal
+				visible={isQuestionModal}
+				addHandler={questionToggleModal}
+				cancelHandler={questionToggleModal}
+				onBack={questionToggleModal}
 			/>
 
 			<Popover
