@@ -13,6 +13,7 @@ const LoginScreen = lazy(() => import(/* webpackChunkName: "LoginScreen" */ './p
 const RegisterScreen = lazy(() => import(/* webpackChunkName: "LoginScreen" */ './pages/auth/registerScreen'));
 const ForgotScreen = lazy(() => import(/* webpackChunkName: "LoginScreen" */ './pages/auth/forgotScreen'));
 const OnboardingScreen = lazy(() => import(/* webpackChunkName: "LoginScreen" */ './pages/onboarding/onboardingScreen'));
+const SharedWithMeScreen = lazy(() => import(/* webpackChunkName: "LoginScreen" */ './pages/sharedWithMe/sharedWithMeScreen'));
 
 const AppRouter = () => {
     const isLoggedIn = useSelector((state) => get(state, 'auth.isLoggedIn'));
@@ -27,6 +28,7 @@ const AppRouter = () => {
                         <Route path={ROUTES.LOGIN_SCREEN} element={<LoginScreen />} />
                         <Route path={ROUTES.SIGNUP_SCREEN} element={<RegisterScreen />} />
                         <Route path={ROUTES.FORGOT_SCREEN} element={<ForgotScreen/>} />
+                        <Route path={ROUTES.SHARED_SCREEN} element={<SharedWithMeScreen/>} />
                         <Route path={ROUTES.ONBOARDING_SCREEN} element={<OnboardingScreen/>} />
                     </Routes>
                 </Router>
