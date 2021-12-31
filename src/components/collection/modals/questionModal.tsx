@@ -114,7 +114,7 @@ function QuestionModal(props: any) {
 
         <div className="button-bottom-section">
           <ButtonCustom onClick={props.cancelHandler} className="round-sm-primary" title="Cancel" />
-          <ButtonCustom type='primary' onClick={props.addHandler} title="Submit" />
+          <ButtonCustom type='primary' onClick={props.btnSubmitHandler} title="Submit" />
         </div>
       </div>
 

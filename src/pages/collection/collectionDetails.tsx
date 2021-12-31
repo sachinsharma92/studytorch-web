@@ -1,14 +1,20 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { Button, Col, Menu, Row, Popover, Tabs, Select, PageHeader } from 'antd';
-import PrimaryLayout from '../../common/primaryLayout/primaryLayout';
 import { PlusOutlined, EditOutlined, DeleteOutlined, ShareAltOutlined } from '@ant-design/icons';
+
+// Custom Component and Modal
+import ROUTES from '../../router';
+import PrimaryLayout from '../../common/primaryLayout/primaryLayout';
 import NotesCard from '../../components/collection/notesCard/notesCard';
 import FlashCard from '../../components/collection/flashCard/flashCard';
-import ROUTES from '../../router';
 import ShareCollectionModal from '../../components/collection/modals/shareCollection';
 import MasterCollectionModal from '../../components/collection/modals/masterCollection';
 import ButtonCustom from '../../common/buttons/buttonCustom';
+import QuestionCard from '../../components/collection/questionCard/questionCard';
+import NoteModalCard from '../../components/collection/modals/noteModalCard';
+import QuestionModal from '../../components/collection/modals/questionModal';
+import QuestionAddedModal from '../../components/collection/modals/questionAddedModal';
+import FlashEditModal from '../../components/collection/modals/flashEditModal';
 
 // Images
 import filter from "../../assets/images/icons/filter.svg";
@@ -21,9 +27,7 @@ import CollectionCard from '../../components/collection/collectionCard/collectio
 
 // Styles
 import './styles.scss';
-import QuestionCard from '../../components/collection/questionCard/questionCard';
-import NoteModalCard from '../../components/collection/modals/noteModalCard';
-import QuestionModal from '../../components/collection/modals/questionModal';
+import RevisionModeModal from '../../components/collection/modals/revisionModeModal';
 
 const { TabPane } = Tabs;
 
@@ -216,6 +220,23 @@ function CollectionDetails(props: any) {
 	const [isQuestionModal, setIsQuestionModal] = useState(false);
 	const questionToggleModal = () => {
 		setIsQuestionModal(!isQuestionModal);
+		setIsQuestionAddedModal(false);
+	};
+
+	const [isQuestionAddedModal, setIsQuestionAddedModal] = useState(false);
+	const questionAddedTpggleModal = () => {
+		setIsQuestionAddedModal(!isQuestionAddedModal);
+		setIsQuestionModal(false);
+	};
+
+	const [isFlashEditModal, setIsFlashEditModal] = useState(false);
+	const flashEditModalTpggleModal = () => {
+		setIsFlashEditModal(!isFlashEditModal);
+	};
+
+	const [isRevisionModeModal, setIsRevisionModeModal] = useState(false);
+	const revisionModeToggle = () => {
+		setIsRevisionModeModal(!isRevisionModeModal);
 	};
 
 
@@ -304,8 +325,12 @@ function CollectionDetails(props: any) {
 						</TabPane>
 						<TabPane tab="Flash Card" key="4">
 							<div className="inline-button-section mt--20">
-								<ButtonCustom className="round-primary" title="Revision Mode" />
+								<ButtonCustom className="round-primary" onClick={revisionModeToggle} title="Revision Mode" />
 							</div>
+							<RevisionModeModal
+									visible={isRevisionModeModal}
+									closeHandler={revisionModeToggle}
+								/>
 							<div className="card-section note-section">
 								<Row gutter={32}>
 									{flashCardData.map((data, index) => (
@@ -313,11 +338,32 @@ function CollectionDetails(props: any) {
 											<FlashCard
 												title={data.title}
 												description={data.description}
-												menuData={menu}
+												menuData={
+													<Menu>
+														<Menu.Item icon={<EditOutlined />}>
+															<a onClick={flashEditModalTpggleModal}>
+																Edit
+															</a>
+														</Menu.Item>
+														<Menu.Item icon={<DeleteOutlined />}>
+															<a target="_blank" rel="noopener noreferrer" href="#">
+																Delete
+															</a>
+														</Menu.Item>
+													</Menu>
+												}
 											/>
 										</Col>
 									))}
 								</Row>
+
+								<FlashEditModal
+									visible={isFlashEditModal}
+									btnAddHandler={flashEditModalTpggleModal}
+									cancelHandler={flashEditModalTpggleModal}
+									backHandler={flashEditModalTpggleModal}
+								/>
+
 							</div>
 						</TabPane>
 					</Tabs>
@@ -352,9 +398,15 @@ function CollectionDetails(props: any) {
 			{/* Questions Modal */}
 			<QuestionModal
 				visible={isQuestionModal}
-				addHandler={questionToggleModal}
+				btnSubmitHandler={questionAddedTpggleModal}
 				cancelHandler={questionToggleModal}
 				onBack={questionToggleModal}
+			/>
+
+			<QuestionAddedModal
+				visible={isQuestionAddedModal}
+				buttonDoneHandler={questionAddedTpggleModal}
+				addButtonHandler={questionToggleModal}
 			/>
 
 			<Popover

@@ -453,3 +453,275 @@
     }
   }
 }
+
+//Question Added Modal
+.question-add-modal-style {
+  .ant-modal {
+    max-width: 350px;
+  }
+
+  .title3 {
+    font-size: 28px;
+    color: #4aae8c;
+    margin: 23px 0 12px;
+  }
+
+  .ant-modal-content {
+    border-radius: 8px;
+  }
+
+  .modal-content-body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  .modal-footer-style {
+    display: flex;
+    justify-content: flex-end;
+    padding: 20px;
+    margin: 0 -20px -20px;
+
+    .round-sm-primary {
+      margin-left: 20px;
+    }
+
+    .ant-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+
+      &.ant-btn-primary {
+        span {
+          margin-top: 2px;
+        }
+      }
+    }
+  }
+}
+
+// Flash Edit Modal
+.flash-edit-modal {
+  .ant-modal {
+    min-width: 975px;
+  }
+
+  .title3 {
+    font-size: 28px;
+  }
+
+  .ant-modal-close {
+    display: none;
+  }
+
+  .ant-modal-content {
+    border-radius: 8px;
+  }
+
+  .top-button-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 30px;
+
+    .action-sec {
+      .ant-btn {
+        margin-right: 20px;
+      }
+    }
+
+    .ant-btn {
+      border: none;
+      box-shadow: none;
+      padding: 0;
+      margin-left: 20px;
+
+      &.btn-outline {
+        border: 1px solid #e4ecf7;
+        border-radius: 50px;
+        min-width: 80px;
+        margin-left: 0px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        span {
+          margin-top: 4px;
+        }
+      }
+    }
+  }
+
+  .main-content-section {
+    border-top: 1px solid $borderColor;
+    margin: 20px -20px 0;
+    padding: 20px 20px 0;
+    min-height: 500px;
+    max-height: 500px;
+    overflow-x: scroll;
+
+    .title2 {
+      margin: 0px 0 10px;
+    }
+  }
+
+  .button-bottom-section {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    border-top: 1px solid $borderColor;
+    margin: 20px -20px 0;
+    padding: 20px 20px 0;
+
+    .ant-btn {
+      padding: 0 20px;
+      margin-left: 20px;
+
+      span {
+        margin-top: 2px;
+      }
+    }
+  }
+}
+
+// revision-mode-modal
+.revision-mode-modal {
+  .ant-modal {
+    min-width: 100%;
+  }
+
+  .title3 {
+    font-size: 28px;
+  }
+  
+  .title2 {
+    color: #3C3F54;
+    font-weight: 700;
+  }
+
+  .description {
+    margin: 20px 0 30px;
+    font-size: 18px;
+    -webkit-line-clamp: 7;
+    -webkit-box-orient: vertical;
+    display: -webkit-box;
+    white-space: normal;
+    overflow: hidden;
+
+    &.blur {
+      color: transparent;
+      text-shadow: 0 0 5px rgba(0,0,0,0.5);
+    }
+    &.unblur {
+      filter: blur(0);
+    }
+  }
+
+  .card-modal {
+    max-width: 536px;
+    margin: 0 auto;
+    border: 1px solid #E4ECF7;
+    padding: 40px;
+    border-radius: 16px;
+
+    .ant-btn {
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      span {
+        position: relative;
+        top: 2px;
+      }
+    }
+
+    .icon-circle {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background-color: $theme-primary;
+      @include flex-center;
+      margin-bottom: 30px;
+  
+      img {
+        width: 35px;
+      }
+    }
+  }
+
+  .slick-slide {
+    padding: 40px;
+  }
+
+  .slick-next,
+  .slick-prev {
+    margin-top: -20rem;
+    width: 80px;
+    height: 90px;
+    background-repeat: no-repeat;
+
+    span {
+      display: none;
+    }
+  }
+
+  .ant-modal-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+  }
+
+  .ant-modal-close {
+    display: none;
+  }
+
+  .ant-modal-content {
+    border-radius: 0px;
+    box-shadow: none;
+    padding: 0 50px;
+    height: 100vh;
+  }
+
+  .top-button-section {
+    display: flex;
+    justify-content: space-between;
+    position: fixed;
+    width: 90%;
+    height: 100%;
+    left: 0;
+    right: 0;
+    top: 0;
+    margin: 50px auto 0;
+
+    .action-sec {
+      .ant-btn {
+        margin-right: 20px;
+      }
+    }
+
+    .ant-btn {
+      border: none;
+      box-shadow: none;
+      padding: 0;
+      margin-left: 20px;
+
+      &.btn-outline {
+        border: 1px solid #e4ecf7;
+        border-radius: 50px;
+        min-width: 80px;
+        margin-left: 0px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        span {
+          margin-top: 4px;
+        }
+      }
+    }
+  }
+}

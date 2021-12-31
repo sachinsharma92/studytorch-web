@@ -21,7 +21,7 @@ function OnboardingScreen(props: OnboardingScreenProps) {
 
 	return (
 		<div className="onboarding-screen-style">
-			<div className="card">
+			<div className="card slider-custom">
 				<Carousel arrows {...settings}>
 					<div>
 						<img src={onboarding1} />
