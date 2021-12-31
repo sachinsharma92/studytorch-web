@@ -2,8 +2,7 @@
 @import "../../styles/variables/colors";
 @import "../../styles/variables/mixins";
 
-.collection-page-style {
-  min-height: 100vh;
+.group-page-style {
   padding: 30px;
 
   .state-center {
@@ -21,42 +20,13 @@
     }
   }
 
-  .tab-section {
-    margin-top: 20px;
-
-    .ant-tabs-tab-btn {
-      font-size: 16px;
-      color: rgba($textColor-dark, 0.4);
-    }
-
-    .ant-tabs-tab-active {
-      .ant-tabs-tab-btn {
-        color: rgba($theme-primary, 1);
-      }
-    }
-
-    .ant-tabs-ink-bar {
-      background: $theme-primary;
-    }
+  .btn-add {
+    background: red;
   }
+}
 
-  .ant-tabs-content {
-    overflow-x: scroll;
-    height: calc(100vh - 277px);
-  }
-
-  .inline-button-section {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-
-    .button-custom {
-      margin-left: 10px;
-
-      img {
-        width: 15px;
-        margin-right: 10px;
-      }
-    }
-  }
+.group-btn-add {
+  position: fixed;
+  bottom: 50px;
+  right: 20px;
 }

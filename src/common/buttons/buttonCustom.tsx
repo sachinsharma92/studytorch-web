@@ -5,7 +5,7 @@ import './styles.scss';
 
 export default function ButtonCustom(props: any) {
   return (
-    <div className={`button-custom`}>
+    <div className={`button-custom ${props.btnContainer}`}>
       <Button
         type={props.type}
         size={props.size}

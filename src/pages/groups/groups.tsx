@@ -1,27 +1,19 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Button, Col, Menu, Row, Popover, } from 'antd';
+import { Col, Menu, Row, } from 'antd';
 import { PlusOutlined, EditOutlined, DeleteOutlined, UserAddOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import ROUTES from '../../router';
 import PrimaryLayout from '../../common/primaryLayout/primaryLayout';
 import EmptyState from '../../common/emptyState/emptyState';
-import MasterCollectionModal from '../../components/collection/modals/masterCollection';
+import GroupsCard from '../../components/groups/groupsCard/groupsCard';
+import ButtonCustom from '../../common/buttons/buttonCustom';
+import GroupCreateModal from '../../components/groups/modals/groupCreateModal';
 
 // Images
 import folderGray from "../../assets/images/icons/folder-gray.svg";
-import folderPurple from "../../assets/images/icons/folder-purple.svg";
-import coralFolder from "../../assets/images/icons/coral-folder.svg";
-import blueFolder from "../../assets/images/icons/folder-1.svg";
-import folderPurpleUsers from "../../assets/images/icons/folder-purple-with-users.svg";
-import babyPinkFolder from "../../assets/images/icons/baby-pink-folder.svg";
 import curveImgae from "../../assets/images/curve-lines.svg";
 
 // Styles
 import './styles.scss';
-import ShareCollectionModal from '../../components/collection/modals/shareCollection';
-import NoteModalCard from '../../components/collection/modals/noteModalCard';
-import QuestionModal from '../../components/collection/modals/questionModal';
-import GroupsCard from '../../components/groups/groupsCard/groupsCard';
 
 
 const menu = (
@@ -90,37 +82,14 @@ const cardData = [
 
 function GroupsScreen(props: any) {
 
-	const [isCollectionModal, setIsCollectionModal] = useState(false);
-	const collectionToggleModal = () => {
-		setIsCollectionModal(!isCollectionModal);
+	const [isGroupCreateModal, setIsGroupCreateModal] = useState(false);
+	const groupToggleModal = () => {
+		setIsGroupCreateModal(!isGroupCreateModal);
 	};
-
-	const [isShareModal, setIsShareModal] = useState(false);
-	const shareToggleModal = () => {
-		setIsShareModal(!isShareModal);
-	};
-
-	const [isNoteModal, setIsNoteModal] = useState(false);
-	const noteToggleModal = () => {
-		setIsNoteModal(!isNoteModal);
-	};
-
-	const [isQuestionModal, setIsQuestionModal] = useState(false);
-	const questionToggleModal = () => {
-		setIsQuestionModal(!isQuestionModal);
-	};
-
-	const toggleData = (
-		<div className="toggle-menu">
-			<a onClick={collectionToggleModal}>New Collection</a>
-			<a onClick={noteToggleModal}>Notes</a>
-			<a onClick={questionToggleModal}>Question</a>
-		</div>
-	);
 
 	return (
 		<PrimaryLayout>
-			<div className="collection-page-style">
+			<div className="group-page-style">
 				<h3 className="title3">Groups</h3>
 
 				{props.collectionData ? <div className="state-center">
@@ -154,42 +123,13 @@ function GroupsScreen(props: any) {
 
 
 			{/* Collection Modal here */}
-			<MasterCollectionModal
-				visible={isCollectionModal}
-				onCancel={collectionToggleModal}
+			<GroupCreateModal
+				visible={isGroupCreateModal}
+				onCancel={groupToggleModal}
 				buttonHandler={ROUTES.COLLECTION_DETAILS_SCREEN}
 			/>
 
-			{/* Share Modal here */}
-			<ShareCollectionModal
-				visible={isShareModal}
-				onCancel={shareToggleModal}
-				doneHandler={shareToggleModal}
-				cancelHandler={shareToggleModal}
-			/>
-
-			{/* Note Modal here */}
-			<NoteModalCard
-				visible={isNoteModal}
-				onCancel={noteToggleModal}
-				addHandler={noteToggleModal}
-				cancelHandler={noteToggleModal}
-				onBack={noteToggleModal}
-			/>
-
-			{/* Questions Modal */}
-			<QuestionModal
-				visible={isQuestionModal}
-				addHandler={questionToggleModal}
-				cancelHandler={questionToggleModal}
-				onBack={questionToggleModal}
-			/>
-
-			<Popover
-				content={toggleData}
-				placement="topRight">
-				<Button className="button-add-circle" shape="circle" type='primary' icon={<PlusOutlined />} />
-			</Popover>
+			<ButtonCustom onClick={groupToggleModal} icon={<PlusOutlined />} title="Create Group" type="primary" btnContainer="group-btn-add" />
 
 		</PrimaryLayout>
 	)

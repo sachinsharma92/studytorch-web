@@ -21,7 +21,8 @@
     margin-top: 48px;
 
     .ant-avatar {
-
+      background-color: $theme-primary;
+      font-weight: 600;
     }
   }
 
@@ -56,13 +57,12 @@
 
   .description {
     margin: 0;
-    color: #1E265E;
+    color: #1e265e;
   }
 }
 
 // collection-dropdown
 .collection-dropdown {
-
   .ant-dropdown-menu {
     width: 214px;
     padding: 14px;

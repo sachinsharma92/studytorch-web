@@ -1,0 +1,72 @@
+// variables
+@import "../../../styles/variables/colors";
+@import "../../../styles/variables/mixins";
+
+// collection-modal-style
+.group-modal-style {
+  .ant-modal {
+    max-width: 505px;
+  }
+
+  .title3 {
+    font-size: 28px;
+  }
+
+  .ant-modal-content {
+    border-radius: 8px;
+  }
+
+  .ant-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+  }
+
+  .label {
+    font-size: 14px;
+    color: #2e3142;
+    margin-bottom: 10px;
+  }
+
+  .input-section {
+    margin: 25px 0;
+  }
+
+  .folder-color-section {
+    margin-bottom: 24px;
+
+    .radio-button {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: none;
+      margin-right: 8px;
+      padding: 0;
+    }
+
+    .ant-radio-button-wrapper-checked {
+      transform: scale(1.1);
+    }
+
+    .purple-color {
+      background: #EFF2FF;
+    }
+
+    .face-color {
+      background: #FFE3E1;
+    }
+    .coral-color {
+      background-color: #E3F8FF;
+    }
+
+    .sky-blue-color {
+      background: #FFEDE3;
+    }
+
+    .ant-radio-button-wrapper:not(:first-child)::before {
+      display: none;
+    }
+
+  }
+}
