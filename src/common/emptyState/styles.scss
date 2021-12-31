@@ -1,0 +1,40 @@
+// variables
+@import "../../styles/variables/colors";
+@import "../../styles/variables/mixins";
+
+.empty-state-primary {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+
+
+  img {
+    width: 110px;
+    margin: 0 auto 20px;
+  }
+
+  .title4 {
+    color: $textColor-dark;
+  }
+
+  .description {
+    max-width: 80%;
+    margin: 0 auto;
+  }
+
+  .button-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 24px;
+
+    .ant-btn {
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}

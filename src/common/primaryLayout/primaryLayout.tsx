@@ -1,5 +1,5 @@
-import { Col, Layout, Menu, Row, Dropdown, Avatar, Image } from 'antd';
-import { DownOutlined } from '@ant-design/icons';
+import { Col, Layout, Menu, Row, Dropdown, Avatar } from 'antd';
+
 import LogoPrimary from '../logoPrimary/logoPrimary';
 import SearchPrimary from '../searchPrimary/searchPrimary';
 
@@ -16,6 +16,9 @@ import iconQuiz from "../../assets/images/icons/help-circle.svg"
 
 // Styles
 import './styles.scss';
+import { Link, useLocation } from 'react-router-dom';
+import ROUTES from '../../router';
+import { useEffect, useState } from 'react';
 
 const menu = (
   <Menu>
@@ -36,8 +39,28 @@ const menu = (
 const { Header, Content, Sider } = Layout;
 
 export default function PrimaryLayout(props: any) {
+  let location = useLocation();
+  const [current, setCurrent] = useState(
+      location.pathname === "/" || location.pathname === ""
+          ? "/dashboard"
+          : location.pathname,
+  );
+  //or simply use const [current, setCurrent] = useState(location.pathname)        
+
+  useEffect(() => {
+      if (location) {
+          if( current !== location.pathname ) {
+              setCurrent(location.pathname);
+          }
+      }
+  }, [location, current]);
+
+  function handleClick(e: any) {
+      setCurrent(e.key);
+  }
+
   return (
-    <div className='layout-primary'>
+    <div className={`layout-primary ${props.className}`}>
       <Layout>
         <Layout>
           <Sider width={259} className="sider-style">
@@ -45,14 +68,14 @@ export default function PrimaryLayout(props: any) {
 
             <Menu
               mode="inline"
-              defaultSelectedKeys={['1']}
-              defaultOpenKeys={['sub1']}
+              onClick={handleClick}
+              selectedKeys={[current]}
               style={{ height: '100%', borderRight: 0 }}
             >
-              <Menu.Item icon={<img src={iconDashboard} />} key="1">Dashboard</Menu.Item>
-              <Menu.Item icon={<img src={iconCollections} />} key="2">Collections</Menu.Item>
+              <Menu.Item icon={<img src={iconDashboard} />} key={ROUTES.HOME_SCREEN}><Link to={ROUTES.HOME_SCREEN}>Dashboard</Link></Menu.Item>
+              <Menu.Item icon={<img src={iconCollections} />} key={ROUTES.COLLECTION_SCREEN}><Link to={ROUTES.COLLECTION_SCREEN}>Collections</Link></Menu.Item>
               <Menu.Item icon={<img src={iconShared} />} key="3">Shared with me</Menu.Item>
-              <Menu.Item icon={<img src={iconGroups} />} key="4">Groups</Menu.Item>
+              <Menu.Item icon={<img src={iconGroups} />} key={ROUTES.GROUPS_SCREEN}><Link to={ROUTES.GROUPS_SCREEN}>Groups</Link></Menu.Item>
               <Menu.Item icon={<img src={iconPlanner} />} key="5">Planner</Menu.Item>
               <Menu.Item icon={<img src={iconChecklist} />} key="6">Checklist</Menu.Item>
               <Menu.Item icon={<img src={iconQuiz} />} key="7">Quiz</Menu.Item>
