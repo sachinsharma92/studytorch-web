@@ -140,6 +140,10 @@ p {
   }
 }
 
+.ant-btn-dangerous {
+  background: $theme-secondary !important;
+}
+
 // btn-outline-primary
 .btn-outline-primary {
   border: 1px solid $theme-primary;

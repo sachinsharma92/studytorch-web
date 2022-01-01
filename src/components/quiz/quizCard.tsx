@@ -1,4 +1,4 @@
-import { Row, Col, Tag, Progress } from 'antd';
+import { Tag, Progress } from 'antd';
 import ButtonCustom from '../../common/buttons/buttonCustom';
 
 // Styles
@@ -7,7 +7,7 @@ import './styles.scss';
 function QuizCard(props: any) {
 
 	return (
-		<div className="quiz-view-card-style" style={{ backgroundImage: `url(${props.backgroundImgae})`, backgroundColor: props.bgColor }}>
+		<div className="quiz-view-card-style" onClick={props.onClick} style={{ backgroundImage: `url(${props.backgroundImgae})`, backgroundColor: props.bgColor }}>
 			<div className="card-style">
 				<div>
 					<h4 className="title4">{props.quizName}</h4>

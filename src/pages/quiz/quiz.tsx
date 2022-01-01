@@ -1,25 +1,18 @@
 import { useState } from 'react';
-import { Button, Col, Menu, Row, Popover, Tabs, PageHeader, Pagination } from 'antd';
-import { PlusOutlined, EditOutlined, DeleteOutlined, UserAddOutlined, InfoCircleOutlined, } from '@ant-design/icons';
-import ROUTES from '../../router';
+import { Button, Col, Menu, Row, Tabs, PageHeader, Pagination } from 'antd';
+import { EditOutlined, DeleteOutlined, UserAddOutlined, InfoCircleOutlined, } from '@ant-design/icons';
 import PrimaryLayout from '../../common/primaryLayout/primaryLayout';
 import EmptyState from '../../common/emptyState/emptyState';
-import MasterCollectionModal from '../../components/collection/modals/masterCollection';
-import ShareCollectionModal from '../../components/collection/modals/shareCollection';
-import NoteModalCard from '../../components/collection/modals/noteModalCard';
-import QuestionModal from '../../components/collection/modals/questionModal';
 import QuizCard from '../../components/quiz/quizCard';
 
 // Images
 import folderGray from "../../assets/images/icons/folder-gray.svg";
-import folderPurple from "../../assets/images/icons/folder-purple.svg";
-import coralFolder from "../../assets/images/icons/coral-folder.svg";
-import blueFolder from "../../assets/images/icons/folder-1.svg";
-import folderPurpleUsers from "../../assets/images/icons/folder-purple-with-users.svg";
-import babyPinkFolder from "../../assets/images/icons/baby-pink-folder.svg";
 
 // Styles
 import './styles.scss';
+import CreateQuizModal from '../../components/quiz/modals/createQuizModal';
+import QuizResultModal from '../../components/quiz/modals/quizResultModal';
+import QuizSelectModal from '../../components/quiz/modals/quizSelectModal';
 
 
 const { TabPane } = Tabs;
@@ -95,33 +88,23 @@ const quizViewData = [
 
 function QuizScreen(props: any) {
 
-	const [isCollectionModal, setIsCollectionModal] = useState(false);
-	const collectionToggleModal = () => {
-		setIsCollectionModal(!isCollectionModal);
+	const [isCreateQuizModal, setIsCreateQuizModal] = useState(false);
+	const createQuizToggleModal= () => {
+		setIsCreateQuizModal(!isCreateQuizModal);
 	};
 
-	const [isShareModal, setIsShareModal] = useState(false);
-	const shareToggleModal = () => {
-		setIsShareModal(!isShareModal);
+	const [isQuizSelectModal, setIsQuizSelectModal] = useState(false);
+	const quizSelectToggleModal= () => {
+		setIsQuizSelectModal(!isQuizSelectModal);
 	};
 
-	const [isNoteModal, setIsNoteModal] = useState(false);
-	const noteToggleModal = () => {
-		setIsNoteModal(!isNoteModal);
+	const [isQuizResultModal, setIsQuizResultModal] = useState(false);
+	const quizResultToggleModal= () => {
+		setIsQuizResultModal(!isQuizResultModal);
+		setIsQuizSelectModal(!isQuizSelectModal);
 	};
 
-	const [isQuestionModal, setIsQuestionModal] = useState(false);
-	const questionToggleModal = () => {
-		setIsQuestionModal(!isQuestionModal);
-	};
 
-	const toggleData = (
-		<div className="toggle-menu">
-			<a onClick={collectionToggleModal}>New Collection</a>
-			<a onClick={noteToggleModal}>Notes</a>
-			<a onClick={questionToggleModal}>Question</a>
-		</div>
-	);
 
 	return (
 		<PrimaryLayout>
@@ -131,7 +114,7 @@ function QuizScreen(props: any) {
 					className="site-page-header header-back"
 					title="Quiz"
 					extra={[
-						<Button onClick={shareToggleModal} shape="round" size="large" type="primary">
+						<Button onClick={createQuizToggleModal} shape="round" size="large" type="primary">
 							Create Quiz
 						</Button>
 					]}
@@ -161,6 +144,7 @@ function QuizScreen(props: any) {
 													collectionName={data.collectionName}
 													date={data.date}
 													quizComplete={false}
+													onClick={quizSelectToggleModal}
 												/>
 											</Col>
 										))}
@@ -180,6 +164,7 @@ function QuizScreen(props: any) {
 													quizName={data.quizName}
 													collectionName={data.collectionName}
 													date={data.date}
+													quizComplete={true}
 												/>
 											</Col>
 										))}
@@ -195,43 +180,31 @@ function QuizScreen(props: any) {
 
 			</div>
 
-			{/* Collection Modal here */}
-			<MasterCollectionModal
-				visible={isCollectionModal}
-				onCancel={collectionToggleModal}
-				buttonHandler={ROUTES.COLLECTION_DETAILS_SCREEN}
-			/>
-
-			{/* Share Modal here */}
-			<ShareCollectionModal
-				visible={isShareModal}
-				onCancel={shareToggleModal}
-				doneHandler={shareToggleModal}
-				cancelHandler={shareToggleModal}
-			/>
-
-			{/* Note Modal here */}
-			<NoteModalCard
-				visible={isNoteModal}
-				onCancel={noteToggleModal}
-				addHandler={noteToggleModal}
-				cancelHandler={noteToggleModal}
-				onBack={noteToggleModal}
+			
+			{/* Questions Modal */}
+			<CreateQuizModal
+				visible={isCreateQuizModal}
+				addHandler={createQuizToggleModal}
+				cancelHandler={createQuizToggleModal}
+				onBack={createQuizToggleModal}
 			/>
 
 			{/* Questions Modal */}
-			<QuestionModal
-				visible={isQuestionModal}
-				addHandler={questionToggleModal}
-				cancelHandler={questionToggleModal}
-				onBack={questionToggleModal}
+			<QuizSelectModal
+				visible={isQuizSelectModal}
+				saveHandler={quizSelectToggleModal}
+				previusHandler={quizSelectToggleModal}
+				onCancel={quizSelectToggleModal}
+				submitHandler={quizResultToggleModal}
 			/>
 
-			<Popover
-				content={toggleData}
-				placement="topRight">
-				<Button className="button-add-circle" shape="circle" type='primary' icon={<PlusOutlined />} />
-			</Popover>
+			{/* Questions Modal */}
+			<QuizResultModal
+				visible={isQuizResultModal}
+				addHandler={quizResultToggleModal}
+				cancelHandler={quizResultToggleModal}
+				onBack={quizResultToggleModal}
+			/>
 
 		</PrimaryLayout>
 	)
