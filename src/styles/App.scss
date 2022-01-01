@@ -165,8 +165,8 @@ p {
 // Button Add Style here
 .button-add-circle {
   position: fixed;
-  bottom: 60px;
-  right: 60px;
+  bottom: 40px;
+  right: 22px;
   border-radius: 50%;
   width: 50px;
   height: 50px;
@@ -433,5 +433,60 @@ p {
   .ant-avatar {
     background-color: $theme-primary;
     font-weight: 600;
+  }
+}
+
+// Progress Primary
+.prgress-primary-section {
+  width: 100%;
+
+  .ant-progress-line {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+
+  .ant-progress-bg {
+    background: $theme-success;
+  }
+
+  .ant-progress-text {
+    margin-left: 0;
+    display: flex;
+    align-items: center;
+    color: $theme-success;
+    margin-bottom: 10px;
+
+    &:after {
+      display: flex;
+      content: "completed";
+      margin-left: 5px;
+    }
+  }
+}
+
+// pagination-section
+.pagination-section {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  .ant-pagination-item-link, .ant-pagination-item {
+    border-radius: 50%;
+  }
+
+  .ant-pagination-item {
+
+    a {
+      position: relative;
+      top: 2px;
+    }
+  }
+
+  .ant-pagination-item-active {
+    background: $theme-primary;
+
+    a {
+      color: white;
+    }
   }
 }

@@ -1,0 +1,90 @@
+// variables
+@import "../../styles/variables/colors";
+@import "../../styles/variables/mixins";
+
+.quiz-view-card-style {
+  margin-bottom: 32px;
+  position: relative;
+  border: 1px solid #e4ecf7;
+  border-radius: 8px;
+  padding: 20px;
+
+  .card-style {
+    margin-bottom: 50px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    width: 100%;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+
+  .tag-section {
+    .tag-green {
+      background: rgba($theme-success, 0.1);
+      color: $theme-success;
+      border-color: $theme-success;
+      height: 28px;
+      min-width: 84px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 500;
+    }
+  }
+
+  .tag-section {
+    .tag-blue{
+      background: rgba($theme-blue, 0.1);
+      color: $theme-blue;
+      border-color: $theme-blue;
+      height: 28px;
+      min-width: 84px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 500;
+    }
+  }
+
+  .scrore-sec {
+    background: rgba($theme-blue, 0.1);
+    color: $theme-blue;
+    border-color: $theme-blue;
+    height: 40px;
+    min-width: 95px;
+    border-radius: 50px;
+    font-weight: 500;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .ant-btn {
+    span {
+      position: relative;
+      top: 2px;
+    }
+  }
+
+  .title4 {
+    margin: 0;
+    line-height: 1.2;
+  }
+
+  .description {
+    margin: 0;
+    color: #1e265e;
+    font-size: 16px;
+
+    &.sm {
+      opacity: 0.6;
+      font-size: 13px;
+    }
+  }
+}

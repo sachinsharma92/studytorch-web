@@ -78,7 +78,7 @@ export default function PrimaryLayout(props: any) {
               <Menu.Item icon={<img src={iconGroups} />} key={ROUTES.GROUPS_SCREEN}><Link to={ROUTES.GROUPS_SCREEN}>Groups</Link></Menu.Item>
               <Menu.Item icon={<img src={iconPlanner} />} key="5">Planner</Menu.Item>
               <Menu.Item icon={<img src={iconChecklist} />} key="6">Checklist</Menu.Item>
-              <Menu.Item icon={<img src={iconQuiz} />} key="7">Quiz</Menu.Item>
+              <Menu.Item icon={<img src={iconQuiz} />} key={ROUTES.QUIZ_SCREEN}><Link to={ROUTES.QUIZ_SCREEN}>Quiz</Link></Menu.Item>
 
             </Menu>
           </Sider>
