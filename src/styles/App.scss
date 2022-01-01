@@ -43,6 +43,11 @@ p {
   font-size: 14px;
 }
 
+// img-white
+.img-white {
+  filter: contrast(0) brightness(100);
+}
+
 // Typography Style
 .title1,
 .title2,
@@ -420,4 +425,13 @@ p {
 			height: auto !important;
 		}
 	}
+}
+
+// avatar avatar
+.avatar-group {
+
+  .ant-avatar {
+    background-color: $theme-primary;
+    font-weight: 600;
+  }
 }

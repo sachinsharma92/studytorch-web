@@ -9,7 +9,15 @@
     align-items: center;
     background: $theme-primary;
   }
-  
+
+  .ant-btn-danger {
+    background-color: $theme-danger;
+  }
+
+  .ant-btn-link {
+    background: none;
+    border: none;
+  }
 
   .round-primary {
     border-radius: 100px;

@@ -1,0 +1,61 @@
+// variables
+@import "../../styles/variables/colors";
+@import "../../styles/variables/mixins";
+
+// modal-confirmation-modal-style
+.modal-confirmation {
+  .ant-modal {
+    max-width: 505px;
+  }
+
+  .title3 {
+    font-size: 28px;
+  }
+
+  .ant-modal-content {
+    border-radius: 8px;
+  }
+
+
+  .input-section {
+    margin: 25px 0;
+  }
+
+  .theme-color {
+    color: $theme-primary;
+
+    span {
+      color: $text-dark;
+    }
+  }
+
+  .confirmation-section {
+
+    h2 {
+      margin-bottom: 0;
+    }
+  }
+
+  .ant-modal-close {
+    top: 15px;
+    right: 10px;
+  }
+
+  .button-bottom-section {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin: 20px -20px -20px;
+    padding: 20px 20px 20px;
+    background: #FAFAFA;
+
+    .ant-btn {
+      padding: 0 20px;
+      margin-left: 10px;
+
+      span {
+        margin-top: 2px;
+      }
+    }
+  }
+}

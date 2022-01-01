@@ -126,7 +126,7 @@ function GroupsScreen(props: any) {
 			<GroupCreateModal
 				visible={isGroupCreateModal}
 				onCancel={groupToggleModal}
-				buttonHandler={ROUTES.COLLECTION_DETAILS_SCREEN}
+				buttonHandler={ROUTES.GROUPS_DETAIL_SCREEN}
 			/>
 
 			<ButtonCustom onClick={groupToggleModal} icon={<PlusOutlined />} title="Create Group" type="primary" btnContainer="group-btn-add" />
