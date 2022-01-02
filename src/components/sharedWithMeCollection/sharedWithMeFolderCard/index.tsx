@@ -1,12 +1,12 @@
 import { Card } from 'antd';
-import image from "../../assets/images/sharedWithMe/image.svg";
-import EllipsisMenu from "../ellipsisMenu"
+import image from "../../../assets/images/sharedWithMe/image.svg";
+import EllipsisMenu from "../../ellipsisMenu"
 import CollectionFolder from "./collectionFolderSVG"
-import Images from "../../assets/images/images";
+import Images from "../../../assets/images/images";
 
 import './styles.scss';
 
-interface SharedFolderCardProps {
+export interface SharedFolderCardProps {
     folderName: string,
     folderColor: string,
     notes: string,
