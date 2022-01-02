@@ -1,28 +1,32 @@
-import kebabMenu from "../../assets/images/sharedWithMe/kebabMenu.svg"
-import MenuItem from "./menuItem"
+import kebabMenu from "../../assets/images/sharedWithMe/kebabMenu.svg";
+import Images from '../../assets/images/images';
 import { Menu } from 'antd';
 
 import './styles.scss';
 
 const { SubMenu } = Menu;
-
 interface EllipsisMenuProps {
-    items: item[];
+    menuItems: IMenuItemsProps[];    
 }
-
-interface item {
+interface IMenuItemsProps {
     name: string;
     iconName: string;
 }
 
 function EllipsisMenu(props : EllipsisMenuProps) {
-    let menuItems = props.items;
+    let menuItems = props.menuItems;
     return(
         <div className="vertical-ellipsis-menu">
             <Menu mode="vertical" triggerSubMenuAction="hover">
                 <SubMenu icon={<img src={kebabMenu} />}>
-                    {
-                        menuItems.map(item => <MenuItem name={item.name} iconName={item.iconName}/>)                     
+                    {       
+                        menuItems.map((item, index) => (
+                            <Menu.Item 
+                                key={index} 
+                                icon={<img src={(Images["sharedWithMe"][item.iconName]).default} />}>
+                                    {item.name}
+                            </Menu.Item>
+                        ))
                     }            
                 </SubMenu>
             </Menu>
