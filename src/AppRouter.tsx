@@ -3,6 +3,7 @@ import get from 'lodash/get';
 import { lazy, Suspense, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import ChecklistScreen from './pages/checklist/checklist';
 import * as ROUTES from './router/routes';
 
 /**
@@ -42,7 +43,8 @@ const AppRouter = () => {
                         <Route path={ROUTES.GROUPS_DETAIL_SCREEN} element={<GroupDetailScreen/>} />
                         <Route path={ROUTES.QUIZ_SCREEN} element={<QuizScreen/>} />
                         <Route path={ROUTES.PLANNER_SCREEN} element={<PlannerScreen/>} />
-                        
+                        <Route path={ROUTES.CHECKLIST_SCREEN} element={<ChecklistScreen/>} />
+
                     </Routes>
                 </Router>
             </Suspense>

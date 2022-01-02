@@ -1,9 +1,9 @@
+import { Link } from 'react-router-dom';
 import { Dropdown } from 'antd';
 import verticalDot from "../../../assets/images/icons/vertical-dot.svg";
 
 // Styles
 import './styles.scss';
-import { Link } from 'react-router-dom';
 
 function CollectionCard(props: any) {
 

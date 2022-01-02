@@ -41,22 +41,22 @@ const { Header, Content, Sider } = Layout;
 export default function PrimaryLayout(props: any) {
   let location = useLocation();
   const [current, setCurrent] = useState(
-      location.pathname === "/" || location.pathname === ""
-          ? "/dashboard"
-          : location.pathname,
+    location.pathname === "/" || location.pathname === ""
+      ? "/dashboard"
+      : location.pathname,
   );
   //or simply use const [current, setCurrent] = useState(location.pathname)        
 
   useEffect(() => {
-      if (location) {
-          if( current !== location.pathname ) {
-              setCurrent(location.pathname);
-          }
+    if (location) {
+      if (current !== location.pathname) {
+        setCurrent(location.pathname);
       }
+    }
   }, [location, current]);
 
   function handleClick(e: any) {
-      setCurrent(e.key);
+    setCurrent(e.key);
   }
 
   return (
@@ -77,7 +77,7 @@ export default function PrimaryLayout(props: any) {
               <Menu.Item icon={<img src={iconShared} />} key="3">Shared with me</Menu.Item>
               <Menu.Item icon={<img src={iconGroups} />} key={ROUTES.GROUPS_SCREEN}><Link to={ROUTES.GROUPS_SCREEN}>Groups</Link></Menu.Item>
               <Menu.Item icon={<img src={iconPlanner} />} key={ROUTES.PLANNER_SCREEN}><Link to={ROUTES.PLANNER_SCREEN}>Planner</Link></Menu.Item>
-              <Menu.Item icon={<img src={iconChecklist} />} key="6">Checklist</Menu.Item>
+              <Menu.Item icon={<img src={iconChecklist} />} key={ROUTES.CHECKLIST_SCREEN}><Link to={ROUTES.CHECKLIST_SCREEN}>Checklist</Link></Menu.Item>
               <Menu.Item icon={<img src={iconQuiz} />} key={ROUTES.QUIZ_SCREEN}><Link to={ROUTES.QUIZ_SCREEN}>Quiz</Link></Menu.Item>
 
             </Menu>

@@ -21,3 +21,7 @@ export const QUIZ_SCREEN="/quiz";
 
 // Planner Section
 export const PLANNER_SCREEN="/planner";
+
+// Planner Section
+export const CHECKLIST_SCREEN="/checklist";
+
