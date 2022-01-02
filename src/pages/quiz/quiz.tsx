@@ -184,9 +184,9 @@ function QuizScreen(props: any) {
 			{/* Questions Modal */}
 			<CreateQuizModal
 				visible={isCreateQuizModal}
-				addHandler={createQuizToggleModal}
+				createHandler={createQuizToggleModal}
 				cancelHandler={createQuizToggleModal}
-				onBack={createQuizToggleModal}
+				onCancel={createQuizToggleModal}
 			/>
 
 			{/* Questions Modal */}

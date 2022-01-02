@@ -1,0 +1,142 @@
+// variables
+@import "../../../styles/variables/colors";
+@import "../../../styles/variables/mixins";
+
+// collection-modal-style
+.planner-modal-style {
+  .ant-modal {
+    max-width: 400px;
+  }
+
+  .title3 {
+    font-size: 28px;
+  }
+
+  .question-section {
+    margin-top: 30px;
+  }
+
+  .ant-modal-content {
+    border-radius: 8px;
+  }
+
+  .ant-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+  }
+
+  .input-section {
+    margin: 25px 0;
+  }
+
+
+  .button-section {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    background: #F7F7F9;
+    margin: 0 -20px -20px;
+    padding:15px 20px;
+
+    .btn-cancel {
+      border: none;
+      background: none;
+      font-weight: 700;
+      font-size: 16px;
+      color: #3C3F54;
+    }
+
+    .ant-btn {
+      height: 45px;
+      padding: 0 25px;
+      border: none;
+      outline: none;
+      box-shadow: none;
+
+      span {
+        position: relative;
+        top: 2px;
+      }
+    }
+  }
+
+  .date-planner, .timepicker {
+    width: 100%;
+    height: 40px;
+    border: 1px solid #EAEAEC;
+  }
+
+  .ant-input {
+    border: 1px solid #EAEAEC;
+    border-radius: 6px;
+  }
+
+  .ant-progress-text {
+    display: none;
+  }
+
+  .folder-color-section {
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+
+    .text-label {
+      margin-right: 30px;
+    }
+
+    .radio-button {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: none;
+      margin-right: 8px;
+      padding: 0;
+    }
+
+    .ant-radio-button-wrapper-checked {
+      position: relative;
+
+      &:after {
+      position: absolute;
+      top: 0;
+      left: 0;
+      margin: 0 auto;
+      text-align: center;
+      color: white;
+      width: 100%;
+      height: 100%;
+      content: '✓';
+    }
+
+    }
+
+    .gray-color {
+      background: #878C93;
+    }
+
+    .purple-color {
+      background: #6153CC;
+    }
+
+    .orange-color {
+      background: #FF715B;
+    }
+
+    .light-red-color {
+      background: #FB7E7E;
+    }
+    .yellow-color {
+      background: #FFB627;
+    }
+
+    .ant-radio-button-wrapper:not(:first-child)::before {
+      display: none;
+    }
+  }
+
+  .ant-modal-close {
+    display: none;
+  }
+}

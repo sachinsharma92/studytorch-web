@@ -265,17 +265,80 @@
   align-items: center;
   flex-direction: flex-end;
 
+  .ant-modal {
+    max-width: 480px;
+  }
+
+  .title3 {
+    font-size: 26px;
+    font-weight: 700;
+  }
+
+  .ant-modal-content {
+    border-radius: 12px;
+  }
+
+  .ant-modal-close {
+    display: none;
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 30px;
+  }
+
+  .content-body {
+    padding: 20px;
+  }
+
+  .ant-form-item-control-input {
+
+    .description {
+      margin-bottom: 5px;
+    }
+  }
+
+  .ant-select-selector {
+    height: 40px !important;
+    border-radius: 8px !important;
+
+    .ant-select-selection-placeholder {
+      height: 40px;
+      display: flex;
+      align-items: center;
+    }
+
+    .ant-select-selection-item {
+      display: flex;
+      align-items: center;
+    }
+  }
   
   .button-section {
     background: #F7F7F9;
-    padding: 20px;
+    padding: 20px 40px;
     margin: -20px;
     margin-top: 30px;
     display: flex;
     justify-content: flex-end;
 
+    .btn-cancel {
+      background: none;
+      outline: none;
+      box-shadow: none;
+      padding: 0;
+      font-size: 16px;
+    }
+
     .ant-btn {
       margin-left: 20px;
+
+      span {
+        position: relative;
+        top: 2px;
+      }
     }
   }
 }

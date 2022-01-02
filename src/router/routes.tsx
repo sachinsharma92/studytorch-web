@@ -18,3 +18,6 @@ export const GROUPS_DETAIL_SCREEN="/group/group-details";
 
 // Quiz Section
 export const QUIZ_SCREEN="/quiz";
+
+// Planner Section
+export const PLANNER_SCREEN="/planner";

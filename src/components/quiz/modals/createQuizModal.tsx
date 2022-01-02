@@ -1,8 +1,10 @@
-import { Button, Col, Modal, Radio, Checkbox, Form, Input } from 'antd';
-import { ClockCircleOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons';
+import { Button, Modal, Radio, Select, Form, Input } from 'antd';
+import { CloseOutlined } from '@ant-design/icons';
 
 // Styles
 import './styles.scss';
+
+const { Option } = Select;
 
 function CreateQuizModal(props: any) {
   const onFinish = (values: any) => {
@@ -24,52 +26,58 @@ function CreateQuizModal(props: any) {
     >
 
       <div className="card-modal">
-        <h3 className="title3">Create Quiz</h3>
 
-        <div className="question-section">
-          <Form
-            name="basic"
-            layout="vertical"
-            initialValues={{ remember: true }}
-            onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
-            autoComplete="off"
-          >
-            <Form.Item
-              label="Collection"
-              name="username"
-              rules={[{ required: true, message: 'Please input your username!' }]}
+        <div className="content-body">
+
+          <div className="header">
+            <h3 className="title3">Create Quiz</h3>
+          </div>
+
+          <div className="question-section">
+            <Form
+              name="basic"
+              layout="vertical"
+              initialValues={{ remember: true }}
+              onFinish={onFinish}
+              onFinishFailed={onFinishFailed}
+              autoComplete="off"
             >
-              <Input />
-            </Form.Item>
+              <Form.Item name="collection" label="Collection" rules={[{ required: true }]}>
+                <Select
+                  placeholder="Select collection"
+                  allowClear
+                >
+                  <Option value="maths">Maths</Option>
+                  <Option value="hindi">Hindi</Option>
+                  <Option value="other">other</Option>
+                </Select>
+              </Form.Item>
 
-            <Form.Item
-              label="No. of Questions"
-              name="password"
-              rules={[{ required: true, message: 'Please input your password!' }]}
-            >
-              <Input.Password />
-            </Form.Item>
+              <Form.Item name="no-questions" label="No. of Questions" rules={[{ required: true }]}>
+                <Select
+                  placeholder="Select No. of Questions"
+                  allowClear
+                >
+                  <Option value="four">Four</Option>
+                  <Option value="five">Five</Option>
+                  <Option value="six">Six</Option>
+                </Select>
+              </Form.Item>
 
-            <Form.Item name="radio-group">
-              <h4 className="title4">Include sub questions</h4>
-              <Radio.Group>
-                <Radio value="a">Yes</Radio>
-                <Radio value="b">No</Radio>
-              </Radio.Group>
-            </Form.Item>
-{/* 
-            <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-              <Button type="primary" htmlType="submit">
-                Submit
-              </Button>
-            </Form.Item> */}
-          </Form>
+              <Form.Item name="radio-group">
+                <p className="description">Include sub questions</p>
+                <Radio.Group>
+                  <Radio value="a">Yes</Radio>
+                  <Radio value="b">No</Radio>
+                </Radio.Group>
+              </Form.Item>
+            </Form>
+          </div>
         </div>
 
         <div className="button-section">
-          <Button onClick={props.buttonHandler}>Cancel</Button>
-          <Button type="primary" onClick={props.buttonHandler}>Create Quiz</Button>
+          <Button className="btn-cancel" onClick={props.cancelHandler}>Cancel</Button>
+          <Button type="primary" onClick={props.createHandler}>Create Quiz</Button>
         </div>
       </div>
 
