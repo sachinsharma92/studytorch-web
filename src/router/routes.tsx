@@ -25,3 +25,6 @@ export const PLANNER_SCREEN="/planner";
 // Planner Section
 export const CHECKLIST_SCREEN="/checklist";
 
+// Shared With Me
+export const SHARED_SCREEN="/shared-with-me";
+

@@ -11,6 +11,7 @@ import * as ROUTES from './router/routes';
  */
 const HomeScreen = lazy(() => import(/* webpackChunkName: "HomeScreen" */ './pages/homepage/homeScreen'));
 const LoginScreen = lazy(() => import(/* webpackChunkName: "LoginScreen" */ './pages/auth/loginScreen'));
+const SharedWithMeScreen = lazy(() => import(/* webpackChunkName: "LoginScreen" */ './pages/sharedWithMe/sharedWithMeScreen'));
 const RegisterScreen = lazy(() => import(/* webpackChunkName: "RegisterScreen" */ './pages/auth/registerScreen'));
 const ForgotScreen = lazy(() => import(/* webpackChunkName: "ForgotScreen" */ './pages/auth/forgotScreen'));
 const OnboardingScreen = lazy(() => import(/* webpackChunkName: "OnboardingScreen" */ './pages/onboarding/onboardingScreen'));
@@ -34,6 +35,7 @@ const AppRouter = () => {
                         <Route path={ROUTES.LOGIN_SCREEN} element={<LoginScreen />} />
                         <Route path={ROUTES.SIGNUP_SCREEN} element={<RegisterScreen />} />
                         <Route path={ROUTES.FORGOT_SCREEN} element={<ForgotScreen/>} />
+                        <Route path={ROUTES.SHARED_SCREEN} element={<SharedWithMeScreen/>} />
                         <Route path={ROUTES.ONBOARDING_SCREEN} element={<OnboardingScreen/>} />
 
                         {/* New flow here */}
