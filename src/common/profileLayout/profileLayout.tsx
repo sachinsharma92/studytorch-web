@@ -36,11 +36,12 @@ function ProfileLayout(props: any) {
 
 					</Menu.Item>
 					<Menu.Item key="3">
-						Securtiy
+						<Link to={ROUTES.SECURITY_SCREEN}>Security</Link>
+
 					</Menu.Item>
 				</Menu>
 
-				<div className="link-custom delete"><Link to="/">Delete Account</Link></div>
+				<div className="link-custom delete"><Link to={ROUTES.ACCOUNT_DELETE_SCREEN}>Delete Account</Link></div>
 			</Sider>
 			<Layout>
 				<Content>

@@ -23,6 +23,8 @@ const QuizScreen = lazy(() => import(/* webpackChunkName: "CollectionDetails" */
 const PlannerScreen = lazy(() => import(/* webpackChunkName: "CollectionDetails" */ './pages/planner/planner'));
 const ProfileScreen = lazy(() => import(/* webpackChunkName: "CollectionDetails" */ './pages/profile/profile'));
 const NotificationScreen = lazy(() => import(/* webpackChunkName: "CollectionDetails" */ './pages/profile/notification'));
+const SecurityScreen = lazy(() => import(/* webpackChunkName: "CollectionDetails" */ './pages/profile/security'));
+const AccountDeleteScreen = lazy(() => import(/* webpackChunkName: "CollectionDetails" */ './pages/profile/accountDelete'));
 
 const AppRouter = () => {
     const isLoggedIn = useSelector((state) => get(state, 'auth.isLoggedIn'));
@@ -50,7 +52,8 @@ const AppRouter = () => {
                         <Route path={ROUTES.CHECKLIST_SCREEN} element={<ChecklistScreen/>} />
                         <Route path={ROUTES.PROFILE_SCREEN} element={<ProfileScreen/>} />
                         <Route path={ROUTES.NOTIFICATION_SCREEN} element={<NotificationScreen/>} />
-                        
+                        <Route path={ROUTES.SECURITY_SCREEN} element={<SecurityScreen/>} />
+                        <Route path={ROUTES.ACCOUNT_DELETE_SCREEN} element={<AccountDeleteScreen/>} />
 
                     </Routes>
                 </Router>

@@ -519,6 +519,8 @@ function GroupDetailScreen(props: any) {
 				visible={isModalConfirmation}
 				handleCancel={modalConfirmationToggle}
 				handleLeave={modalConfirmationToggle}
+				cancelTitle="Cancel"
+				confirmTitle="Yes. Leave"
 			>
 				<div className="confirmation-section">
 					<h2>

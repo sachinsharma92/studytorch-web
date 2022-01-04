@@ -20,8 +20,8 @@ function ModalConfirmation(props: any) {
 					{props.children}
 				</div>
 				<div className="button-bottom-section">
-					<ButtonCustom onClick={props.handleCancel} type="link" title="Cancel" />
-					<ButtonCustom type='danger' onClick={props.handleLeave} title="Yes. Leave" />
+					<ButtonCustom onClick={props.handleCancel} type="link" title={props.cancelTitle} />
+					<ButtonCustom type='danger' onClick={props.handleLeave} title={props.confirmTitle} />
 				</div>
 			</div>
 

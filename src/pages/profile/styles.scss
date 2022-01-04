@@ -70,3 +70,62 @@
     margin: 15px 0;
   }
 }
+
+.security-page-style {
+  .title-sm {
+    font-size: 20px;
+    margin-top: 20px;
+  }
+
+  .description {
+    font-size: 16px;
+    color: #718096;
+  }
+
+  .edit-section {
+    margin-top: 55px;
+  }
+
+  .ant-btn-link {
+    color: $theme-primary;
+    font-size: 18px;
+    font-weight: 600;
+  }
+}
+
+.delete-account-style {
+  .title-sm {
+    font-size: 20px;
+    margin-top: 20px;
+  }
+
+  .description {
+    font-size: 18px;
+    color: #718096;
+    max-width: 70%;
+  }
+
+  .edit-section {
+  }
+
+  .ant-btn-link {
+    color: #F16063;
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  .alert {
+    border-radius: 8px;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    color: #F16063;
+    font-size: 20px;
+    padding: 0 30px;
+    margin: 25px 0;
+
+    &.alert-danger {
+      background: #ffe7e7;
+    }
+  }
+}
