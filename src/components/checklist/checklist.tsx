@@ -1,4 +1,5 @@
 import { Dropdown, Input, Checkbox, Row, Col } from 'antd';
+import { useState } from 'react';
 import verticalDot from "../../assets/images/icons/vertical-dot.svg";
 
 // Styles
@@ -10,6 +11,8 @@ function ChecklistCard(props: any) {
 	function onChange(checkedValues: any) {
 		console.log('checked = ', checkedValues);
 	}
+
+	const [checked, setChecked] = useState(false);
 
 	return (
 		<div className="checklist-card-style" onClick={props.onClick}>
@@ -31,52 +34,33 @@ function ChecklistCard(props: any) {
 						<Row>
 							<Col span={24}>
 								<div className="checkbox-item">
-									<Checkbox value="a">Add prototype device type</Checkbox>
-									<Dropdown overlayClassName="list-dropdown" overlay={props.menuData}>
+									<Checkbox value="a" defaultChecked={checked} onChange={() => setChecked(!checked)}>Add prototype device type</Checkbox>
+									
+									{checked === true && <Dropdown overlayClassName="collection-dropdown" overlay={props.listMenuData}>
 										<a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
 											<img src={verticalDot} className="icon-style" />
 										</a>
-									</Dropdown>
+									</Dropdown>}
 								</div>
 							</Col>
 							<Col span={24}>
 								<div className="checkbox-item">
 									<Checkbox value="b">Do we need a design for the new SE?</Checkbox>
-									<Dropdown overlayClassName="list-dropdown" overlay={props.menuData}>
-										<a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-											<img src={verticalDot} className="icon-style" />
-										</a>
-									</Dropdown>
 								</div>
 							</Col>
 							<Col span={24}>
 								<div className="checkbox-item">
 									<Checkbox value="c">Link design in JIRA</Checkbox>
-									<Dropdown overlayClassName="list-dropdown" overlay={props.menuData}>
-										<a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-											<img src={verticalDot} className="icon-style" />
-										</a>
-									</Dropdown>
 								</div>
 							</Col>
 							<Col span={24}>
 								<div className="checkbox-item">
 									<Checkbox value="d">Draw new chevron icon</Checkbox>
-									<Dropdown overlayClassName="list-dropdown" overlay={props.menuData}>
-										<a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-											<img src={verticalDot} className="icon-style" />
-										</a>
-									</Dropdown>
 								</div>
 							</Col>
 							<Col span={24}>
 								<div className="checkbox-item">
 									<Checkbox value="e">Draw new chevron icon</Checkbox>
-									<Dropdown overlayClassName="list-dropdown" overlay={props.menuData}>
-										<a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-											<img src={verticalDot} className="icon-style" />
-										</a>
-									</Dropdown>
 								</div>
 							</Col>
 						</Row>
