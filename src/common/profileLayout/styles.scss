@@ -1,0 +1,85 @@
+// variables
+@import "../../styles/variables/colors";
+@import "../../styles/variables/mixins";
+
+.profile-layout-style {
+  min-height: 100vh;
+
+  .site-layout {
+    height: 100vh;
+  }
+
+  .ant-menu {
+    background: none;
+  }
+
+  .ant-layout-sider {
+    background: #fafafb;
+    position: fixed;
+    height: 100%;
+  }
+
+  .ant-menu-item,
+  .link-custom a {
+    font-size: 18px;
+    color: $text-dark;
+  }
+
+  .delete {
+    color: #718096;
+  }
+
+  .ant-layout-sider-children {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-direction: column;
+    padding: 40px 0;
+  }
+
+  .link-custom {
+    padding: 0 20px;
+  }
+
+  .site-layout-background {
+    background: $white;
+    padding: 24px;
+    height: 100%;
+    margin-left: 200px;
+  }
+}
+
+
+// image-upload-card
+.image-upload-card {
+  position: relative;
+  width: 120px;
+  height: 120px;
+
+  .ant-upload {
+    border-radius: 100px;
+    width: 120px;
+    height: 120px;
+    overflow: hidden;
+    background: linear-gradient(225deg, #F1F1F5 0%, #E4ECF7 100%);
+    border: none;
+    position: relative;
+    padding-top: 10px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  }
+
+  .btn-edit {
+    background: none;
+    border: none;
+    position: absolute;
+    bottom: 5px;
+    right: -5px;
+  }
+}

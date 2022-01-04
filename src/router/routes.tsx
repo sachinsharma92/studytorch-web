@@ -28,3 +28,8 @@ export const CHECKLIST_SCREEN="/checklist";
 // Shared With Me
 export const SHARED_SCREEN="/shared-with-me";
 
+// PROFILE 
+export const PROFILE_SCREEN="/profile";
+export const NOTIFICATION_SCREEN="/notification";
+
+

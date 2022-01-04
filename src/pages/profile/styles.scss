@@ -1,0 +1,72 @@
+// variables
+@import "../../styles/variables/colors";
+@import "../../styles/variables/mixins";
+
+.profile-page-style {
+  .profile-image-upload {
+    margin-top: 70px;
+    display: flex;
+    align-items: center;
+
+    .info-sec {
+      margin-left: 30px;
+    }
+
+    .title3 {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+  }
+
+  .title-sm {
+    font-size: 20px;
+    margin-top: 20px;
+  }
+
+  .form-section {
+    max-width: 50%;
+    margin-top: 60px;
+
+    .ant-btn {
+      min-width: 202px;
+      height: 45px;
+    }
+  }
+}
+
+.notification-page-style {
+  .title-sm {
+    font-size: 20px;
+    margin-top: 20px;
+  }
+
+  .choose-section {
+    margin-top: 55px;
+  }
+
+  .ant-checkbox-group {
+    display: flex;
+    flex-direction: column;
+    margin: 20px 0;
+  }
+
+  .ant-checkbox-wrapper {
+    margin: 10px 0;
+    font-size: 18px;
+    font-weight: 400;
+  }
+
+  .description {
+    font-size: 16px;
+    color: #718096;
+  }
+
+  .ant-checkbox-inner {
+    width: 18px;
+    height: 18px;
+  }
+
+  .ant-checkbox-wrapper + .ant-checkbox-wrapper {
+    margin: 15px 0;
+  }
+}

@@ -21,6 +21,8 @@ const GroupsScreen = lazy(() => import(/* webpackChunkName: "CollectionDetails" 
 const GroupDetailScreen = lazy(() => import(/* webpackChunkName: "CollectionDetails" */ './pages/groups/groupsDetails'));
 const QuizScreen = lazy(() => import(/* webpackChunkName: "CollectionDetails" */ './pages/quiz/quiz'));
 const PlannerScreen = lazy(() => import(/* webpackChunkName: "CollectionDetails" */ './pages/planner/planner'));
+const ProfileScreen = lazy(() => import(/* webpackChunkName: "CollectionDetails" */ './pages/profile/profile'));
+const NotificationScreen = lazy(() => import(/* webpackChunkName: "CollectionDetails" */ './pages/profile/notification'));
 
 const AppRouter = () => {
     const isLoggedIn = useSelector((state) => get(state, 'auth.isLoggedIn'));
@@ -46,6 +48,9 @@ const AppRouter = () => {
                         <Route path={ROUTES.QUIZ_SCREEN} element={<QuizScreen/>} />
                         <Route path={ROUTES.PLANNER_SCREEN} element={<PlannerScreen/>} />
                         <Route path={ROUTES.CHECKLIST_SCREEN} element={<ChecklistScreen/>} />
+                        <Route path={ROUTES.PROFILE_SCREEN} element={<ProfileScreen/>} />
+                        <Route path={ROUTES.NOTIFICATION_SCREEN} element={<NotificationScreen/>} />
+                        
 
                     </Routes>
                 </Router>

@@ -23,7 +23,7 @@ import { useEffect, useState } from 'react';
 const menu = (
   <Menu>
     <Menu.Item>
-      <a href="https://www.antgroup.com">
+      <a href="/profile">
         Edit Profile
       </a>
     </Menu.Item>
@@ -74,7 +74,7 @@ export default function PrimaryLayout(props: any) {
             >
               <Menu.Item icon={<img src={iconDashboard} />} key={ROUTES.HOME_SCREEN}><Link to={ROUTES.HOME_SCREEN}>Dashboard</Link></Menu.Item>
               <Menu.Item icon={<img src={iconCollections} />} key={ROUTES.COLLECTION_SCREEN}><Link to={ROUTES.COLLECTION_SCREEN}>Collections</Link></Menu.Item>
-              <Menu.Item icon={<img src={iconShared} />} key="3"><Link to={ROUTES.SHARED_SCREEN}>Shared with me</Link></Menu.Item>
+              <Menu.Item icon={<img src={iconShared} />} key={ROUTES.SHARED_SCREEN}><Link to={ROUTES.SHARED_SCREEN}>Shared with me</Link></Menu.Item>
               <Menu.Item icon={<img src={iconGroups} />} key={ROUTES.GROUPS_SCREEN}><Link to={ROUTES.GROUPS_SCREEN}>Groups</Link></Menu.Item>
               <Menu.Item icon={<img src={iconPlanner} />} key={ROUTES.PLANNER_SCREEN}><Link to={ROUTES.PLANNER_SCREEN}>Planner</Link></Menu.Item>
               <Menu.Item icon={<img src={iconChecklist} />} key={ROUTES.CHECKLIST_SCREEN}><Link to={ROUTES.CHECKLIST_SCREEN}>Checklist</Link></Menu.Item>
