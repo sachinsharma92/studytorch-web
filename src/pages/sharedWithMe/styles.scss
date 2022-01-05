@@ -1,5 +1,79 @@
+// variables
+@import "../../styles/variables/colors";
+@import "../../styles/variables/mixins";
+
 .shared-page-style {
-    min-height: 100vh;
+    height: calc(100vh - 64px);
+    overflow-x: scroll;
     padding: 30px;
 }
 
+// shared-information-drawer
+.shared-information-drawer {
+
+    .ant-drawer-content-wrapper {
+        min-width: 420px;
+    }
+
+    .ant-drawer-wrapper-body {
+        padding: 30px;
+    }
+
+    .ant-drawer-header {
+        padding: 16px 0;
+    }
+
+    .ant-drawer-title {
+        font-size: 28px;
+        font-weight: 600;
+    }
+
+    .ant-drawer-body {
+        padding: 24px 0;
+    }
+
+    .flex {
+        display: flex;
+        align-items: center;
+    }
+
+    .folder-icon {
+        margin-right: 20px;
+
+        svg {
+            width: 64px;
+            height: 64px;
+        }
+    }
+
+    .info-sec {
+        p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .title4 {
+            font-size: 20px;
+            font-weight: 500;
+            line-height: 1.2;
+        } 
+    }
+
+    .shared-details {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+
+        p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .title4 {
+            margin-top: 0px;
+            font-size: 20px;
+            font-weight: 500;
+            line-height: 1.2;
+        }
+    }
+}
