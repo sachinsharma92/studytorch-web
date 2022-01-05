@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Drawer, Button } from 'antd';
+import { Drawer } from 'antd';
 import PrimaryLayout from "../../common/primaryLayout/primaryLayout"
 import SharedWithMeCollection from "../../components/sharedWithMeCollection"
 import CollectionFolderSVG from "../../common/collectionFolderSVG";
