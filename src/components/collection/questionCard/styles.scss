@@ -1,0 +1,141 @@
+// variables
+@import "../../../styles/variables/colors";
+@import "../../../styles/variables/mixins";
+
+.question-style {
+  display: flex;
+  align-content: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  border: 1px solid #e4ecf7;
+  padding: 24px;
+  border-radius: 16px;
+  position: relative;
+  margin-bottom: 32px;
+  box-shadow: $shadowSecondary;
+
+  .title4 {
+    margin: 0;
+    line-height: 1.2;
+  }
+
+  .img-style {
+    margin-right: 20px;
+  }
+
+  .tag-section {
+    display: flex;
+    align-items: center;
+    margin: 15px 0;
+    padding: 0 40px;
+
+    .tag-style {
+      background: #e4ecf7;
+      color: #505780;
+      border-radius: 100px;
+      height: 28px;
+      min-width: 60px;
+      padding: 0 15px;
+      border: none;
+      @include flex-center();
+      margin-right: 17px;
+      font-size: 13px;
+    }
+  }
+
+  .description-sec {
+    padding: 0 45px;
+  }
+
+  .button-section {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: 10px;
+    padding: 0 45px;
+
+    .ant-btn {
+      margin-right: 10px;
+      width: 25px;
+      height: 25px;
+    }
+
+    .anticon {
+      font-size: 13px;
+      position: relative;
+      bottom: 2px;
+    }
+  }
+
+  .title-section {
+    display: flex;
+    align-items: center;
+  }
+
+  .question-tag {
+    width: 32px;
+    height: 32px;
+    background-color: $theme-primary;
+    border-radius: 8px;
+    color: $white;
+    font-weight: 600;
+    margin-right: 10px;
+
+    @include flex-center();
+  }
+
+  .ant-dropdown-link {
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    margin-left: 10px;
+  }
+
+  .content-sec {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .description {
+    margin: 0;
+  }
+
+  .list-section {
+    padding: 0 30px;
+
+    .ant-radio-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .ant-radio-button-wrapper {
+      border: none;
+
+      span {
+        font-size: 16px;
+      }
+    }
+
+    .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled):focus-within,
+    .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled):focus-within {
+      box-shadow: none;
+    }
+
+    .ant-radio-button-wrapper-checked {
+      color: #4aae8c;
+
+      &:after {
+        display: inline-block;
+        content: "✅";
+        margin-left: 10px;
+      }
+    }
+
+    .ant-radio-button-wrapper:not(:first-child)::before {
+      display: none;
+    }
+  }
+}

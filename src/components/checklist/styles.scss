@@ -1,0 +1,76 @@
+// variables
+@import "../../styles/variables/colors";
+@import "../../styles/variables/mixins";
+
+.checklist-card-style {
+  border: 1px solid #e4ecf7;
+  border-radius: 16px;
+  overflow: hidden;
+
+  .title4 {
+    span {
+      color: $theme-primary;
+    }
+  }
+
+  .header {
+    border-bottom: 1px solid #edf2f7;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .input-section {
+    padding: 20px;
+
+    .ant-input-wrapper {
+      border: 1px solid #edf2f7;
+      border-radius: 4px;
+    }
+    .ant-input {
+      border: none;
+    }
+
+    .ant-input-group-addon {
+      left: 0;
+      margin-right: 10px;
+    }
+
+    .ant-btn {
+      font-size: 20px;
+      height: 35px;
+      border-radius: 5px !important;
+      margin-right: 4px;
+      background: #F76F6F;
+    }
+  }
+
+  .checkbox-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .checkbox-item {
+    margin-top: 20px;
+  }
+
+  .list-dropdown {
+    position: absolute;
+    right: 0;
+  }
+
+  .ant-checkbox-wrapper {
+    color: #718096;
+    font-size: 16px;
+  }
+
+
+  .list-section {
+    padding: 20px;
+  }
+
+  .ant-checkbox-wrapper-checked {
+    text-decoration: line-through;
+  }
+}

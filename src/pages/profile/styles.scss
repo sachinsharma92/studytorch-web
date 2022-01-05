@@ -1,0 +1,131 @@
+// variables
+@import "../../styles/variables/colors";
+@import "../../styles/variables/mixins";
+
+.profile-page-style {
+  .profile-image-upload {
+    margin-top: 70px;
+    display: flex;
+    align-items: center;
+
+    .info-sec {
+      margin-left: 30px;
+    }
+
+    .title3 {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+  }
+
+  .title-sm {
+    font-size: 20px;
+    margin-top: 20px;
+  }
+
+  .form-section {
+    max-width: 50%;
+    margin-top: 60px;
+
+    .ant-btn {
+      min-width: 202px;
+      height: 45px;
+    }
+  }
+}
+
+.notification-page-style {
+  .title-sm {
+    font-size: 20px;
+    margin-top: 20px;
+  }
+
+  .choose-section {
+    margin-top: 55px;
+  }
+
+  .ant-checkbox-group {
+    display: flex;
+    flex-direction: column;
+    margin: 20px 0;
+  }
+
+  .ant-checkbox-wrapper {
+    margin: 10px 0;
+    font-size: 18px;
+    font-weight: 400;
+  }
+
+  .description {
+    font-size: 16px;
+    color: #718096;
+  }
+
+  .ant-checkbox-inner {
+    width: 18px;
+    height: 18px;
+  }
+
+  .ant-checkbox-wrapper + .ant-checkbox-wrapper {
+    margin: 15px 0;
+  }
+}
+
+.security-page-style {
+  .title-sm {
+    font-size: 20px;
+    margin-top: 20px;
+  }
+
+  .description {
+    font-size: 16px;
+    color: #718096;
+  }
+
+  .edit-section {
+    margin-top: 55px;
+  }
+
+  .ant-btn-link {
+    color: $theme-primary;
+    font-size: 18px;
+    font-weight: 600;
+  }
+}
+
+.delete-account-style {
+  .title-sm {
+    font-size: 20px;
+    margin-top: 20px;
+  }
+
+  .description {
+    font-size: 18px;
+    color: #718096;
+    max-width: 70%;
+  }
+
+  .edit-section {
+  }
+
+  .ant-btn-link {
+    color: #F16063;
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  .alert {
+    border-radius: 8px;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    color: #F16063;
+    font-size: 20px;
+    padding: 0 30px;
+    margin: 25px 0;
+
+    &.alert-danger {
+      background: #ffe7e7;
+    }
+  }
+}

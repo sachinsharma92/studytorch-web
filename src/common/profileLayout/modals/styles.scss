@@ -1,0 +1,74 @@
+// variables
+@import "../../../styles/variables/colors";
+@import "../../../styles/variables/mixins";
+
+// collection-modal-style
+.planner-modal-style {
+  .ant-modal {
+    max-width: 505px;
+  }
+
+  .title3 {
+    font-size: 28px;
+  }
+
+  .question-section {
+    margin-top: 30px;
+  }
+
+  .ant-modal-content {
+    border-radius: 8px;
+  }
+
+  .ant-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+  }
+
+  .input-section {
+    margin: 25px 0;
+  }
+
+
+  .button-bottom-section {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin: 20px -20px -20px;
+    padding: 20px 20px 20px;
+    background: #FAFAFA;
+
+    .ant-btn {
+      padding: 0 20px;
+      margin-left: 10px;
+      min-width: 100px;
+      font-size: 16px;
+
+      span {
+        margin-top: 2px;
+      }
+    }
+
+    .btn-cancel {
+      background: none;
+      box-shadow: none;
+      min-width: auto;
+    }
+  }
+
+  .ant-input {
+    border: 1px solid #EAEAEC;
+    border-radius: 6px;
+  }
+
+  .ant-progress-text {
+    display: none;
+  }
+
+
+  .ant-modal-close {
+    display: none;
+  }
+}

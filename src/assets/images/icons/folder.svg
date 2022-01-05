@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="22px" height="22px" viewBox="0 0 22 22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>folder</title>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="folder" transform="translate(1.250000, 1.249756)" stroke="#6C5ECF" stroke-width="1.5">
+            <path d="M19.169,13.482 C19.169,17.06 17.06,19.169 13.482,19.169 L5.7,19.169 C2.113,19.169 0,17.06 0,13.482 L0,5.682 C0,2.109 1.314,0 4.893,0 L6.893,0 C7.611,0.001 8.287,0.338 8.717,0.913 L9.63,2.127 C10.062,2.701 10.738,3.039 11.456,3.04 L14.286,3.04 C17.873,3.04 19.197,4.866 19.197,8.517 L19.169,13.482 Z" id="Path"></path>
+            <line x1="5.2312" y1="12.2129" x2="13.9662" y2="12.2129" id="Path"></line>
+        </g>
+    </g>
+</svg>

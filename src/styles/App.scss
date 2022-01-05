@@ -1,17 +1,16 @@
-@import url('http://fonts.cdnfonts.com/css/sofia-pro');
+@import url("http://fonts.cdnfonts.com/css/sofia-pro");
 
 // variables
-@import './variables/colors';
-@import './variables/mixins';
+@import "./variables/colors";
+@import "./variables/mixins";
 
 // theme styles files
-@import './xtras';
+@import "./xtras";
 // @import './fonts';
-
 
 // custom css
 * {
-  font-family: 'Sofia Pro', sans-serif !important;
+  font-family: "Sofia Pro", sans-serif !important;
 }
 
 *,
@@ -44,6 +43,11 @@ p {
   font-size: 14px;
 }
 
+// img-white
+.img-white {
+  filter: contrast(0) brightness(100);
+}
+
 // Typography Style
 .title1,
 .title2,
@@ -56,12 +60,12 @@ p {
 
 .title1 {
   font-size: 40px;
-  line-height: 40px;
+  line-height: 45px;
   font-weight: 700;
 }
 
 .title2 {
-  font-size: 1.75rem;
+  font-size: 36px;
   line-height: 39px;
   font-weight: 600;
 }
@@ -95,7 +99,6 @@ p {
   font-weight: 600;
 }
 
-
 // * required none
 .ant-form-item-label > label.ant-form-item-required:not(.ant-form-item-required-mark-optional)::before {
   display: none;
@@ -113,7 +116,64 @@ p {
   height: 39px;
   border-radius: 8px;
   font-size: 14px;
-  line-height: 23px;
+
+  &.btn-primary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &.btn-danger {
+    background-color: $theme-secondary;
+    color: white;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover,
+    &:focus,
+    &:active {
+      background-color: rgba($theme-secondary, 0.6);
+      color: white;
+    }
+  }
+}
+
+.ant-btn-dangerous {
+  background: $theme-secondary !important;
+}
+
+// btn-outline-primary
+.btn-outline-primary {
+  border: 1px solid $theme-primary;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $theme-primary;
+  font-weight: 600;
+  height: 30px;
+  border-radius: 50px;
+  padding: 0 20px;
+
+  span {
+    margin-top: 3px;
+  }
+
+  &.circle {
+    border-radius: 50%;
+    padding: 0px;
+  }
+}
+
+// Button Add Style here
+.button-add-circle {
+  position: fixed;
+  bottom: 40px;
+  right: 22px;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
 }
 
 // btn link style
@@ -126,17 +186,10 @@ p {
   }
 }
 
-.btn-danger {
-  background-color: $theme-secondary;
-  color: white;
-  border: none;
-
-  &:hover, &:focus, &:active {
-    background-color: rgba($theme-secondary, 0.6);
-    color: white;
-  }
+.ant-btn-round {
+  border-radius: 50px;
+  padding-top: 5px;
 }
-
 
 // text align style
 .text-right {
@@ -147,4 +200,317 @@ p {
 }
 .text-center {
   text-align: right;
+}
+
+// Popover Style here
+.toggle-menu {
+  display: flex;
+  flex-direction: column;
+
+  a {
+    padding: 10px 10px;
+    font-size: 15px;
+    color: $textDarkColor;
+  }
+}
+
+.ant-popover-inner-content {
+  border: 1px solid $borderColor;
+  box-shadow: $shadowPrimary;
+  width: 214px;
+  height: auto;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.ant-popover-inner {
+  box-shadow: none;
+  border-radius: 0;
+}
+// End Popover Style here
+
+// Back header style
+.header-back {
+  display: flex;
+  align-items: center;
+}
+
+// Header back style
+.header-back {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: flex-start;
+  padding: 0;
+
+  .ant-page-header-heading {
+    width: 100%;
+  }
+
+  .title2 {
+    font-size: 28px;
+  }
+
+  .ant-page-header-heading-title {
+    font-size: 26px;
+  }
+
+  .ant-page-header-heading-left {
+    margin-bottom: 20px;
+  }
+}
+
+// Editor Style
+.editor-section {
+  margin-top: 20px;
+
+  .rdw-editor-toolbar {
+    border: none;
+    border-bottom: 1px solid $borderColor;
+    margin: 0 -20px;
+    padding: 0 20px;
+  }
+}
+
+.ant-dropdown-menu-item:hover,
+.ant-dropdown-menu-submenu-title:hover {
+  background-color: transparent;
+
+  a {
+    color: $theme-primary;
+  }
+
+  .anticon {
+    color: $theme-primary;
+  }
+}
+
+// tab-button-style
+.tab-button-style {
+  margin-top: 30px;
+
+  .ant-tabs-nav::before {
+    display: none;
+  }
+
+  .ant-tabs-ink-bar {
+    display: none;
+  }
+
+  .ant-tabs-nav-list {
+    background: #f7fafc;
+    padding: 5px;
+    border-radius: 8px;
+    overflow: hidden;
+    height: 45px;
+
+    .ant-tabs-tab-btn {
+      font-size: 16px;
+    }
+  }
+
+  .ant-tabs-tab {
+    border-radius: 8px;
+  }
+
+  .ant-tabs-tab-active {
+    background-color: $theme-primary;
+    
+    .ant-tabs-tab-btn {
+      color: white;
+    }
+  }
+
+  .ant-tabs-tab {
+    width: 120px;
+  }
+  
+}
+
+
+// slider custom
+.slider-custom {
+
+  .slick-next, .slick-prev {
+		font-size: 20px;
+		font-weight: 600;
+		bottom: 0;
+		top: 100%;
+	}
+
+	.slick-next::before,
+	.slick-prev::before {
+		display: none;
+	}
+
+	.ant-carousel .slick-prev {
+		left: 45px;
+		color: #718096;
+	}
+
+	.ant-carousel .slick-next {
+		right: 55px;
+		color: $theme-primary;
+	}
+
+	.slick-dots-bottom {
+		bottom: -8px;
+
+		li {
+			min-width: 8px;
+			min-height: 8px;
+			max-width: 8px;
+			max-height: 8px;
+			border-radius: 50px;
+			background-color: rgba($theme-primary, 0.2);
+		}
+
+		.slick-active {
+			background-color: rgba($theme-primary, 1);
+			width: 8px;
+			height: 8px;
+		}
+
+		button {
+			height: auto !important;
+		}
+	}
+}
+
+.slider-arrow {
+
+  .slick-next, .slick-prev {
+		font-size: 20px;
+		font-weight: 600;
+		bottom: 0;
+		top: 100%;
+	}
+
+	.slick-next::before,
+	.slick-prev::before {
+		display: none;
+	}
+
+	.ant-carousel .slick-prev {
+		left: 45px;
+		color: #718096;
+    background: url('../assets/images/icons/prev-long.svg');
+    background-repeat: no-repeat;
+	}
+
+	.ant-carousel .slick-next {
+		right: 55px;
+		color: $theme-primary;
+    background: url('../assets/images/icons/next-long.svg');
+    background-repeat: no-repeat;
+	}
+
+	.slick-dots-bottom {
+		bottom: -8px;
+
+		li {
+			min-width: 8px;
+			min-height: 8px;
+			max-width: 8px;
+			max-height: 8px;
+			border-radius: 50px;
+			background-color: rgba($theme-primary, 0.2);
+		}
+
+		.slick-active {
+			background-color: rgba($theme-primary, 1);
+			width: 8px;
+			height: 8px;
+		}
+
+		button {
+			height: auto !important;
+		}
+	}
+}
+
+// avatar avatar
+.avatar-group {
+
+  .ant-avatar {
+    background-color: $theme-primary;
+    font-weight: 600;
+  }
+}
+
+// Progress Primary
+.prgress-primary-section {
+  width: 100%;
+
+  .ant-progress-line {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+
+  .ant-progress-bg {
+    background: $theme-success;
+  }
+
+  .ant-progress-text {
+    margin-left: 0;
+    display: flex;
+    align-items: center;
+    color: $theme-success;
+    margin-bottom: 10px;
+
+    &:after {
+      display: flex;
+      content: "completed";
+      margin-left: 5px;
+    }
+  }
+}
+
+// pagination-section
+.pagination-section {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  .ant-pagination-item-link, .ant-pagination-item {
+    border-radius: 50%;
+  }
+
+  .ant-pagination-item {
+
+    a {
+      position: relative;
+      top: 2px;
+    }
+  }
+
+  .ant-pagination-item-active {
+    background: $theme-primary;
+
+    a {
+      color: white;
+    }
+  }
+}
+
+
+// collection-dropdown
+.collection-dropdown {
+
+  .ant-dropdown-menu {
+    min-width: 214px;
+    padding: 14px;
+    border-radius: 8px;
+    border: 1px solid $borderColor;
+  }
+
+  .ant-dropdown-menu-item {
+    font-size: 18px;
+    padding: 10px 12px;
+    color: #425466;
+  }
+
+  .anticon {
+    font-size: 16px;
+    margin-right: 15px;
+  }
 }

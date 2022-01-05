@@ -1,0 +1,57 @@
+// variables
+@import "../../../styles/variables/colors";
+@import "../../../styles/variables/mixins";
+
+.groups-card-style {
+  display: flex;
+  align-content: center;
+  justify-content: flex-start;
+  border-radius: 16px;
+  margin-bottom: 32px;
+  background-repeat: no-repeat;
+  background-position: top right;
+  position: relative;
+
+  .title4 {
+    margin: 0;
+    line-height: 1.2;
+  }
+
+  .avatar-group {
+    margin-top: 48px;
+  }
+
+  .ant-avatar {
+    border: 1px solid $white;
+  }
+
+  .img-style {
+    margin-right: 20px;
+  }
+
+  .ant-dropdown-link {
+    display: flex;
+    align-items: flex-start;
+    margin-left: 20px;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+  }
+
+  .flex-style {
+    display: flex;
+    align-items: flex-start;
+    cursor: pointer;
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .icon-style {
+    font-size: 26px;
+  }
+
+  .description {
+    margin: 0;
+    color: #1e265e;
+  }
+}

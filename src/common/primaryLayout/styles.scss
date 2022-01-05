@@ -1,0 +1,82 @@
+// variables
+@import "../../styles/variables/colors";
+@import "../../styles/variables/mixins";
+
+.layout-primary {
+  overflow: hidden;
+
+  .logo-style {
+    height: 170px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: $white;
+  }
+
+  .ant-layout-header {
+    background-color: $white;
+    border-bottom: 1px solid $borderColor;
+  }
+
+  .site-layout {
+    height: calc(100vh - 68px);
+    background-color: $white;
+    border-radius: 0;
+  }
+
+  .sider-style {
+    height: 100vh;
+    border-right: 1px solid $borderColor;
+  }
+
+  .flex-right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    .ant-avatar {
+      margin-right: 8px;
+    }
+  }
+
+  // Menu Style
+  .ant-menu-item {
+    height: 64px !important;
+  }
+
+  .ant-menu-item {
+    opacity: 0.4;
+    align-items: center;
+
+    img {
+      filter: grayscale(100);
+    }
+
+    &.ant-menu-item-selected {
+      opacity: 1;
+
+      img {
+        filter: grayscale(0);
+      }
+    }
+  }
+
+  .ant-menu-title-content {
+    margin-top: 5px;
+  }
+
+  .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+    background: linear-gradient(90deg, #f2f5ff -0.67%, rgba(225, 232, 255, 0) 100%);
+  }
+
+  .ant-menu-inline .ant-menu-item::after {
+    left: 0;
+    height: 60%;
+    top: auto;
+    bottom: auto;
+    background: #6C5ECF;
+    box-shadow: 0px 0px 5px rgba(139, 117, 245, 0.4);
+    border-radius: 0px 8px 8px 0px;
+   width: 5px;
+  }
+}

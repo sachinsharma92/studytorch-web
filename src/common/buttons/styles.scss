@@ -1,0 +1,35 @@
+// variables
+@import "../../styles/variables/colors";
+@import "../../styles/variables/mixins";
+
+.button-custom {
+
+  .ant-btn {
+    display: flex;
+    align-items: center;
+    background: $theme-primary;
+  }
+
+  .ant-btn-danger {
+    background-color: $theme-danger;
+  }
+
+  .ant-btn-link {
+    background: none;
+    border: none;
+  }
+
+  .round-primary {
+    border-radius: 100px;
+    border:1px solid $theme-primary;
+    color: $theme-primary;
+    background: none;
+  }
+
+  .round-sm-primary {
+    border-radius: 10px;
+    border:1px solid $theme-primary;
+    color: $theme-primary;
+    background: none;
+  }
+}

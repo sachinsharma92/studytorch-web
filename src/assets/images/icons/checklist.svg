@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="21px" height="21px" viewBox="0 0 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>checklist</title>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="checklist" transform="translate(1.000488, 1.000000)" stroke="#6C5ECF" stroke-width="1.5">
+            <path d="M13.584012,0 L4.915002,0 C1.894002,0 0,2.138996 0,5.165996 L0,13.333956 C0,16.360956 1.885002,18.499956 4.915002,18.499956 L13.583012,18.499956 C16.614012,18.499956 18.500012,16.360956 18.500012,13.333956 L18.500012,5.165996 C18.500012,2.138996 16.614012,0 13.584012,0 Z" id="Path"></path>
+            <polyline id="Path" points="5.689452 9.249956 8.063452 11.622956 12.809412 6.876956"></polyline>
+        </g>
+    </g>
+</svg>

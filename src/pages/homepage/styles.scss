@@ -1,0 +1,148 @@
+// variables
+@import "../../styles/variables/colors";
+@import "../../styles/variables/mixins";
+
+.homepage-style {
+  .right-section {
+    background: #fafafb;
+    min-height: 100vh;
+    padding: 24px;
+  }
+
+  .section-main {
+    padding: 24px;
+    height:calc(100vh - 64px);
+    overflow-x: scroll;
+  }
+
+  .title-md {
+    font-size: 28px;
+    margin: 0;
+    font-weight: 600;
+    color: #3c3f54;
+    line-height: 1.3;
+  }
+
+  .description {
+    font-size: 14px;
+    color: #425466;
+  }
+
+  .gray-box {
+    width: 64px;
+    height: 64px;
+    border-radius: 8px;
+    margin-bottom: 19px;
+    background: #f7fafc;
+  }
+
+  .card-outline {
+    border: 1px solid $borderColor;
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 24px;
+    max-height: 176px;
+    overflow: hidden;
+  }
+
+  .flex-style {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .content-sec {
+      margin-right: 20px;
+      width: 180px;
+      padding-top: 20px;
+    }
+
+    .title4 {
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  .dot-Successful {
+    width: 14.5px;
+    height: 14.5px;
+    border-radius: 5.27px;
+    display: flex;
+    background: #66cb9f;
+    margin-right: 5px;
+  }
+
+  .dot-unsuccessful {
+    width: 14.5px;
+    height: 14.5px;
+    border-radius: 5.27px;
+    display: flex;
+    background: #e1fcef;
+    margin-right: 5px;
+  }
+
+  .space-md {
+    margin-bottom: 33px;
+  }
+  .space-md-top {
+    margin-top: 20px;
+  }
+
+  .mt-3 {
+    margin-top: 3rem;
+  }
+
+  // collection-card
+  .collection-card {
+    background: #ffffff;
+    border-radius: 8px;
+    border: 1px solid $borderColor;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+
+    .icon-folder {
+      margin-right: 12px;
+    }
+
+    .title4 {
+      margin: 0;
+      line-height: 1.3;
+    }
+
+    .description {
+      margin: 0;
+    }
+  }
+
+
+  // study-section
+  .study-section {
+    margin-bottom: 50px;
+    margin-top: 30px;
+  }
+
+  .quiz-section {
+    margin-bottom: 50px;
+  }
+
+  .score-chart-card {
+    border: 1px solid #F2F2F2;
+    border-radius: 40px;
+    padding: 20px;
+    margin-top: 30px;
+  }
+
+  .arrow-icon {
+    display: flex;
+    align-items: center;
+
+    .description {
+      margin-bottom: 0em;
+    }
+
+    img {
+      margin-left: 10px;
+    }
+  }
+}

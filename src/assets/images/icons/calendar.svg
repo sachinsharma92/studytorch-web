@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="21px" height="23px" viewBox="0 0 21 23" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>calendar</title>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+        <g id="calendar" transform="translate(1.000000, 1.299806)" stroke="#6C5ECF" stroke-width="1.5">
+            <path d="M0,10.72595 C0,3.76895 2.319,1.44995 9.274,1.44995 C16.23,1.44995 18.549,3.76795 18.549,10.72395 C18.549,17.68095 16.23,19.9989503 9.274,19.9989503 C2.319,19.99995 0,17.67995 0,10.72595 Z" id="Path"></path>
+            <line x1="0.2749" y1="7.27392" x2="18.2829" y2="7.27392" id="Path"></line>
+            <line x1="13.679" y1="11.21095" x2="13.688" y2="11.21095" id="Path"></line>
+            <line x1="9.2791" y1="11.21095" x2="9.2881" y2="11.21095" id="Path"></line>
+            <line x1="4.87207" y1="11.21095" x2="4.88107" y2="11.21095" id="Path"></line>
+            <line x1="13.679" y1="15.06295" x2="13.688" y2="15.06295" id="Path"></line>
+            <line x1="9.2791" y1="15.06295" x2="9.2881" y2="15.06295" id="Path"></line>
+            <line x1="4.87207" y1="15.06295" x2="4.88107" y2="15.06295" id="Path"></line>
+            <line x1="13.283" y1="0" x2="13.283" y2="3.262" id="Path"></line>
+            <line x1="5.2749" y1="0" x2="5.2749" y2="3.262" id="Path"></line>
+        </g>
+    </g>
+</svg>

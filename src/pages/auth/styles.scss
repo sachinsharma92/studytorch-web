@@ -1,14 +1,13 @@
 // variables
-@import '../../styles/variables/colors';
-@import '../../styles/variables/mixins';
+@import "../../styles/variables/colors";
+@import "../../styles/variables/mixins";
 
+.auth-page-style {
+	height: 100vh;
+	overflow: hidden;
+	position: fixed;
+	width: 100%;
 
-.login-page-style {
-  height: 100vh;
- overflow: hidden;
- position: fixed;
- width: 100%;
-    
 	.left-section {
 		background-color: $theme-primary;
 		min-height: 100vh;
@@ -18,19 +17,19 @@
 		.logo-img {
 			margin-bottom: 80px;
 		}
-	
+
 		.title1 {
 			color: $white;
 			max-width: 70%;
 			margin-bottom: 30px;
 		}
-	
+
 		.description {
 			color: $white;
 			max-width: 80%;
 			font-size: 16px;
 		}
-	
+
 		.illustration-img {
 			position: absolute;
 			bottom: -129px;
@@ -51,14 +50,22 @@
 		overflow: scroll;
 		min-height: 100vh;
 
+		.form-section {
+			max-width: 500px;
+			padding-right: 5%;
+		}
+
 		.title1 {
 			margin-bottom: 10px;
 		}
 
 		.description {
 			font-size: 16px;
+
+			a {
+				color: $theme-primary;
+			}
 		}
-	
 
 		.emoji-style {
 			font-size: 40px;
@@ -75,7 +82,7 @@
 	}
 
 	.checkbox-style {
-		max-width: 80%;
+		max-width: 100%;
 		margin: 44px 0 24px;
 	}
 }
