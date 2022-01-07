@@ -6,6 +6,7 @@ import FolderIconSVG from "../../common/FolderIconSVG";
 
 // Styles
 import './styles.scss';
+import ModalConfirmation from "../../common/modalConfirmation";
 
 function SharedWithMeScreen() {
   const folderList = [
@@ -124,9 +125,14 @@ function SharedWithMeScreen() {
     }
   ]
 
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(true);
   const handleToggleDrawer = () => {
     setVisible(!visible);
+  };
+
+  const [isModalConfirmation, setIsModalConfirmation] = useState(true);
+  const modalConfirmationToggle = () => {
+    setIsModalConfirmation(!isModalConfirmation);
   };
 
   return (
@@ -145,6 +151,23 @@ function SharedWithMeScreen() {
           }
         </div>
 
+        <ModalConfirmation
+          visible={isModalConfirmation}
+          handleCancel={modalConfirmationToggle}
+          handleLeave={modalConfirmationToggle}
+          cancelTitle="Cancel"
+          confirmTitle="Yes. Leave"
+        >
+          <div className="confirmation-section">
+            <h2>
+              Are you sure you want to leave the
+            </h2>
+            <h2 className="theme-color">
+              Maths Collection <span>?</span>
+            </h2>
+          </div>
+        </ModalConfirmation>
+
 
         {/* Drawer Style here */}
         <Drawer
@@ -154,7 +177,7 @@ function SharedWithMeScreen() {
           className="shared-information-drawer"
           placement="right"
           onClose={handleToggleDrawer}
-          visible={false}
+          visible={visible}
         >
           <div className="detail-section">
             <div className="flex">

@@ -33,7 +33,7 @@ function ShareCollectionModal(props: any) {
 				footer={false}
 				onCancel={props.onCancel}
 				wrapClassName="share-modal-style primary-modal-style"
-				maskStyle={{ background: '#787D9F' }}
+				maskStyle={{ background: 'rgba(30,39,94, 0.8)' }}
 				closable={false}
 			>
 				<div className="card-modal">
@@ -82,7 +82,7 @@ function ShareCollectionModal(props: any) {
 				footer={false}
 				onCancel={settingModalToggle}
 				wrapClassName="share-modal-style share-setting"
-				maskStyle={{ background: '#787D9F' }}
+				maskStyle={{ background: '#4A527E' }}
 				closable={false}
 			>
 				<div className="card-modal">

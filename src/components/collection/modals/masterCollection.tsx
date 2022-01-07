@@ -12,7 +12,7 @@ function CollectionDetails(props: any) {
 			footer={false}
 			onCancel={props.onCancel}
 			wrapClassName="collection-modal-style primary-modal-style"
-			maskStyle={{ background: '#787D9F' }}
+			maskStyle={{ background: 'rgba(30,39,94, 0.8)' }}
 		>
 
 			<div className="card-modal">

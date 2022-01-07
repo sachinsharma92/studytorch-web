@@ -6,7 +6,7 @@ import './styles.scss';
 
 interface SharedWithMeCollectionProps {
   timeFilter: string;
-  folders: SharedFolderCardProps[]
+  folders: SharedFolderCardProps[]; 
 }
 
 function SharedWithMeCollection(props: SharedWithMeCollectionProps) {

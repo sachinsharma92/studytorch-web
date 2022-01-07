@@ -1,11 +1,11 @@
-import { Card } from 'antd';
-import image from "../../../assets/images/sharedWithMe/image.svg";
-import EllipsisMenu from "../../ellipsisMenu"
-import CollectionFolder from "../../../common/FolderIconSVG"
-
-import './styles.scss';
+import { Card, Dropdown } from 'antd';
 import ROUTES from '../../../router';
 import { Link } from 'react-router-dom';
+import image from "../../../assets/images/sharedWithMe/image.svg";
+import EllipsisMenu from "../../ellipsisMenu"
+import FolderIconSVG from "../../../common/FolderIconSVG"
+
+import './styles.scss';
 
 export interface SharedFolderCardProps {
   folderName: string,
@@ -14,6 +14,7 @@ export interface SharedFolderCardProps {
   quizzes: string,
   sharedBy: string,
   cardhandler?: any,
+  menuDotToggle?: any,
 }
 
 function SharedFolderCard(props: SharedFolderCardProps) {
@@ -23,7 +24,7 @@ function SharedFolderCard(props: SharedFolderCardProps) {
         <div className="top-card-layer">
           <Link className="top-card-layer-left" to={ROUTES.SHARED_DETAILS_SCREEN}>
             <div className="folder-icon">
-              <CollectionFolder withUserStyle fillColor={props.folderColor} />
+              <FolderIconSVG withUserStyle fillColor={props.folderColor} />
             </div>
             <div className="collection-details">
               <div className="collection-name">

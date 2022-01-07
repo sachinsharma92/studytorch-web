@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { Button, Col, Menu, Row, Popover, } from 'antd';
 import { PlusOutlined, EditOutlined, DeleteOutlined, UserAddOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import ROUTES from '../../router';
@@ -7,20 +6,15 @@ import PrimaryLayout from '../../common/primaryLayout/primaryLayout';
 import EmptyState from '../../common/emptyState/emptyState';
 import CollectionCard from '../../components/collection/collectionCard/collectionCard';
 import MasterCollectionModal from '../../components/collection/modals/masterCollection';
-
-// Images
-import folderGray from "../../assets/images/icons/folder-gray.svg";
-import folderPurple from "../../assets/images/icons/folder-purple.svg";
-import coralFolder from "../../assets/images/icons/coral-folder.svg";
-import blueFolder from "../../assets/images/icons/folder-1.svg";
-import folderPurpleUsers from "../../assets/images/icons/folder-purple-with-users.svg";
-import babyPinkFolder from "../../assets/images/icons/baby-pink-folder.svg";
-
-// Styles
-import './styles.scss';
 import ShareCollectionModal from '../../components/collection/modals/shareCollection';
 import NoteModalCard from '../../components/collection/modals/noteModalCard';
 import QuestionModal from '../../components/collection/modals/questionModal';
+
+// Images
+import folderGray from "../../assets/images/icons/folder-gray.svg";
+
+// Styles
+import './styles.scss';
 
 
 const menu = (
@@ -83,6 +77,7 @@ const cardData = [
 		title: "Maths",
 		description: "20 Notes, 2 quizes",
 		folderColor: "#6C5ECF",
+		folderType:'folderUser',
 	},
 	{
 		title: "Maths",
@@ -144,6 +139,7 @@ function CollectionScreen(props: any) {
 										title={data.title}
 										description={data.description}
 										fillColor={data.folderColor}
+										withUserStyle={data.folderType === 'folderUser' && true}
 										menuData={menu}
 										cardHandler={ROUTES.COLLECTION_DETAILS_SCREEN}
 									/>

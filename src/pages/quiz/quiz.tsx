@@ -101,7 +101,7 @@ function QuizScreen(props: any) {
 	const [isQuizResultModal, setIsQuizResultModal] = useState(false);
 	const quizResultToggleModal= () => {
 		setIsQuizResultModal(!isQuizResultModal);
-		setIsQuizSelectModal(!isQuizSelectModal);
+		setIsQuizSelectModal(false);
 	};
 
 
@@ -201,9 +201,9 @@ function QuizScreen(props: any) {
 			{/* Questions Modal */}
 			<QuizResultModal
 				visible={isQuizResultModal}
-				addHandler={quizResultToggleModal}
-				cancelHandler={quizResultToggleModal}
+				buttonHandler={quizResultToggleModal}
 				onBack={quizResultToggleModal}
+				onCancel={quizResultToggleModal}
 			/>
 
 		</PrimaryLayout>

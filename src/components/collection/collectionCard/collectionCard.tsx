@@ -13,7 +13,7 @@ function CollectionCard(props: any) {
 			<Link to={props.cardHandler}>
 				<a className="flex-style">
 					<div className="folder-icon">
-						<FolderIconSVG fillColor={props.fillColor} />
+						<FolderIconSVG withUserStyle={props.withUserStyle} fillColor={props.fillColor} />
 					</div>
 					<div className="content-sec">
 						<h4 className="title4">{props.title}</h4>

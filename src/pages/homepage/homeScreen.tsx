@@ -1,17 +1,55 @@
-import { useState } from 'react';
 import { Card, Col, Row } from 'antd';
 import PieChart from '../../components/charts/pieHighchartChart';
-
+import ColumnHighchartChart from '../../components/charts/columnHighchartChart';
+import ScoreHighchartChart from '../../components/charts/scoreHighchartChart';
+import FolderIconSVG from '../../common/FolderIconSVG';
+import ROUTES from '../../router';
+import { Link } from 'react-router-dom';
 import PrimaryLayout from '../../common/primaryLayout/primaryLayout';
-import folder1 from "../../assets/images/icons/folder-1.svg";
-import folder2 from "../../assets/images/icons/folder-2.svg";
+
 import arrowIcon1 from "../../assets/images/icons/arrow-down1.svg";
 import arrowIcon2 from "../../assets/images/icons/arrow-down2.svg";
 
 // Styles
 import './styles.scss';
-import ColumnHighchartChart from '../../components/charts/columnHighchartChart';
-import ScoreHighchartChart from '../../components/charts/scoreHighchartChart';
+
+
+const collectionList = [
+	{
+		folderColor: "#6FBEF6",
+		title: "Maths",
+		notes: "20",
+		quizzes: "2",
+	},
+	{
+		folderColor: "#6253CC",
+		title: "Maths",
+		notes: "20",
+		quizzes: "2",
+		folderType: 'folderUser'
+	},
+	{
+		folderColor: "#6253CC",
+		title: "Maths",
+		notes: "20",
+		quizzes: "2",
+		folderType: 'folderUser'
+	},
+	{
+		folderColor: "#6253CC",
+		title: "Maths",
+		notes: "20",
+		quizzes: "2",
+		folderType: 'folderUser'
+	},
+	{
+		folderColor: "#6253CC",
+		title: "Maths",
+		notes: "20",
+		quizzes: "2",
+		folderType: 'folderUser'
+	}
+]
 
 function HomeScreen() {
 
@@ -140,8 +178,8 @@ function HomeScreen() {
 							</Row>
 
 							<section className="study-section">
-									<h3 className="title3">Study Pattern</h3>
-									<div className="arrow-icon">
+								<h3 className="title3">Study Pattern</h3>
+								<div className="arrow-icon">
 									<p className="description">01 - 21 March, 2021</p>
 									<img src={arrowIcon1} />
 								</div>
@@ -165,67 +203,33 @@ function HomeScreen() {
 						<div className="right-section">
 							<h4 className="title4">Most Studied Collections</h4>
 
-							<div className="collection-card">
-								<div className="icon-folder">
-									<img src={folder1} />
-								</div>
-								<div className="content-sec">
-									<h4 className="title4">Maths</h4>
-									<p className="description">20 Notes, 2 quizes</p>
-								</div>
-							</div>
-
-							<div className="collection-card">
-								<div className="icon-folder">
-									<img src={folder2} />
-								</div>
-								<div className="content-sec">
-									<h4 className="title4">Maths</h4>
-									<p className="description">20 Notes, 2 quizes</p>
-								</div>
-							</div>
-
-							<div className="collection-card">
-								<div className="icon-folder">
-									<img src={folder2} />
-								</div>
-								<div className="content-sec">
-									<h4 className="title4">Maths</h4>
-									<p className="description">20 Notes, 2 quizes</p>
-								</div>
-							</div>
-
-							<div className="collection-card">
-								<div className="icon-folder">
-									<img src={folder2} />
-								</div>
-								<div className="content-sec">
-									<h4 className="title4">Maths</h4>
-									<p className="description">20 Notes, 2 quizes</p>
-								</div>
-							</div>
+							{collectionList.map((data, index) => (
+								<Link className="collection-card" key={index} to={ROUTES.COLLECTION_DETAILS_SCREEN}>
+									<div className="icon-folder">
+										<FolderIconSVG withUserStyle={data.folderType === 'folderUser' && true} fillColor={data.folderColor} />
+									</div>
+									<div className="content-sec">
+										<h4 className="title4">{data.title}</h4>
+										<p className="description">{data.notes} notes, {data.quizzes} quizzes</p>
+									</div>
+								</Link>
+							))
+							}
 
 							<h4 className="title4 mt-3">Recent Studied Collections</h4>
 
-							<div className="collection-card">
-								<div className="icon-folder">
-									<img src={folder1} />
-								</div>
-								<div className="content-sec">
-									<h4 className="title4">Maths</h4>
-									<p className="description">20 Notes, 2 quizes</p>
-								</div>
-							</div>
-
-							<div className="collection-card">
-								<div className="icon-folder">
-									<img src={folder1} />
-								</div>
-								<div className="content-sec">
-									<h4 className="title4">Maths</h4>
-									<p className="description">20 Notes, 2 quizes</p>
-								</div>
-							</div>
+							{collectionList.map((data, index) => (
+								<Link className="collection-card" key={index} to={ROUTES.COLLECTION_DETAILS_SCREEN}>
+									<div className="icon-folder">
+										<FolderIconSVG fillColor={data.folderColor} />
+									</div>
+									<div className="content-sec">
+										<h4 className="title4">{data.title}</h4>
+										<p className="description">{data.notes} notes, {data.quizzes} quizzes</p>
+									</div>
+								</Link>
+							))
+							}
 						</div>
 					</Col>
 				</Row>

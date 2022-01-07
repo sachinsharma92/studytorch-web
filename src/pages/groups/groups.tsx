@@ -111,7 +111,7 @@ function GroupsScreen(props: any) {
 										title={data.title}
 										description={data.description}
 										menuData={menu}
-										cardHandler={ROUTES.COLLECTION_DETAILS_SCREEN}
+										cardHandler={ROUTES.GROUPS_DETAIL_SCREEN}
 										bgColor={data.cardBg}
 									/>
 								</Col>

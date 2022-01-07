@@ -83,6 +83,7 @@ const cardData = [
 		title: "Maths",
 		description: "20 Notes, 2 quizes",
 		folderColor: "#6C5ECF",
+		folderType:'folderUser',
 	},
 	{
 		title: "Maths",
@@ -275,6 +276,7 @@ function CollectionDetails(props: any) {
 												title={data.title}
 												description={data.description}
 												fillColor={data.folderColor}
+												withUserStyle={data.folderType === 'folderUser' && true}
 												menuData={menu}
 												cardHandler="/"
 											/>

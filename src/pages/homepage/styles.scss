@@ -5,7 +5,8 @@
 .homepage-style {
   .right-section {
     background: #fafafb;
-    min-height: 100vh;
+    height: calc(100vh - 64px);
+    overflow-x:scroll ;
     padding: 24px;
   }
 

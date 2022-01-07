@@ -21,21 +21,22 @@
     margin: 25px 0;
   }
 
-  .theme-color {
-    color: $theme-primary;
-
-    span {
-      color: $text-dark;
-    }
-  }
-
   .confirmation-section {
+
+    .theme-color {
+      color: $theme-primary;
+  
+      span {
+        color: $text-dark;
+      }
+    }
 
     h2 {
       margin-bottom: 0;
       max-width: 90%;
-      font-weight: 700;
+      font-weight: 600;
       color: #3C3F54;
+      font-size: 28px;
     }
   }
 
