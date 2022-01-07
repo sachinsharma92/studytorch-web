@@ -11,7 +11,6 @@ import * as ROUTES from './router/routes';
  */
 const HomeScreen = lazy(() => import(/* webpackChunkName: "HomeScreen" */ './pages/homepage/homeScreen'));
 const LoginScreen = lazy(() => import(/* webpackChunkName: "LoginScreen" */ './pages/auth/loginScreen'));
-const SharedWithMeScreen = lazy(() => import(/* webpackChunkName: "LoginScreen" */ './pages/sharedWithMe/sharedWithMeScreen'));
 const RegisterScreen = lazy(() => import(/* webpackChunkName: "RegisterScreen" */ './pages/auth/registerScreen'));
 const ForgotScreen = lazy(() => import(/* webpackChunkName: "ForgotScreen" */ './pages/auth/forgotScreen'));
 const OnboardingScreen = lazy(() => import(/* webpackChunkName: "OnboardingScreen" */ './pages/onboarding/onboardingScreen'));
@@ -25,6 +24,8 @@ const ProfileScreen = lazy(() => import(/* webpackChunkName: "CollectionDetails"
 const NotificationScreen = lazy(() => import(/* webpackChunkName: "CollectionDetails" */ './pages/profile/notification'));
 const SecurityScreen = lazy(() => import(/* webpackChunkName: "CollectionDetails" */ './pages/profile/security'));
 const AccountDeleteScreen = lazy(() => import(/* webpackChunkName: "CollectionDetails" */ './pages/profile/accountDelete'));
+const SharedWithMeScreen = lazy(() => import(/* webpackChunkName: "LoginScreen" */ './pages/sharedWithMe/sharedWithMeScreen'));
+const SharedWithMeDetailScreen = lazy(() => import(/* webpackChunkName: "CollectionDetails" */ './pages/sharedWithMe/shareWithMeDetails'));
 
 const AppRouter = () => {
     const isLoggedIn = useSelector((state) => get(state, 'auth.isLoggedIn'));
@@ -39,7 +40,6 @@ const AppRouter = () => {
                         <Route path={ROUTES.LOGIN_SCREEN} element={<LoginScreen />} />
                         <Route path={ROUTES.SIGNUP_SCREEN} element={<RegisterScreen />} />
                         <Route path={ROUTES.FORGOT_SCREEN} element={<ForgotScreen/>} />
-                        <Route path={ROUTES.SHARED_SCREEN} element={<SharedWithMeScreen/>} />
                         <Route path={ROUTES.ONBOARDING_SCREEN} element={<OnboardingScreen/>} />
 
                         {/* New flow here */}
@@ -54,6 +54,8 @@ const AppRouter = () => {
                         <Route path={ROUTES.NOTIFICATION_SCREEN} element={<NotificationScreen/>} />
                         <Route path={ROUTES.SECURITY_SCREEN} element={<SecurityScreen/>} />
                         <Route path={ROUTES.ACCOUNT_DELETE_SCREEN} element={<AccountDeleteScreen/>} />
+                        <Route path={ROUTES.SHARED_SCREEN} element={<SharedWithMeScreen/>} />
+                        <Route path={ROUTES.SHARED_DETAILS_SCREEN} element={<SharedWithMeDetailScreen/>} />
 
                     </Routes>
                 </Router>

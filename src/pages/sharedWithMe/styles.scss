@@ -8,6 +8,91 @@
     padding: 30px;
 }
 
+.share-detail-page-style {
+    min-height: 100vh;
+    padding: 30px;
+  
+    .state-center {
+      min-height: calc(100vh - 125px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .mb--20 {
+        margin-bottom: 20px;
+        margin-top: 10px;
+    }
+
+    .btn-section-top {
+        display: flex;
+        align-items: center;
+    
+        .round-primary {
+          margin-right: 20px;
+          padding: 0 20px;
+          font-size: 16px;
+        }
+      
+
+      .btn-outline-primary {
+        height: 40px;
+        margin-left: 10px;
+        min-width: 140px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+    }
+  
+    .card-section {
+      margin-top: 30px;
+  
+      .collection-card-style {
+        margin-bottom: 32px;
+      }
+    }
+  
+    .tab-section {
+      margin-top: 20px;
+  
+      .ant-tabs-tab-btn {
+        font-size: 16px;
+        color: rgba($textColor-dark, 0.4);
+      }
+  
+      .ant-tabs-tab-active {
+        .ant-tabs-tab-btn {
+          color: rgba($theme-primary, 1);
+        }
+      }
+  
+      .ant-tabs-ink-bar {
+        background: $theme-primary;
+      }
+    }
+  
+    .ant-tabs-content {
+      overflow-x: scroll;
+      height: calc(100vh - 277px);
+    }
+  
+    .inline-button-section {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+  
+      .button-custom {
+        margin-left: 10px;
+  
+        img {
+          width: 15px;
+          margin-right: 10px;
+        }
+      }
+    }
+  }
+
 // shared-information-drawer
 .shared-information-drawer {
 

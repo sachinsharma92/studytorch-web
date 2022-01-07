@@ -1,4 +1,4 @@
-import { Button, Modal, Input, Radio } from 'antd';
+import { Modal } from 'antd';
 import ButtonCustom from '../buttons/buttonCustom';
 
 // Styles

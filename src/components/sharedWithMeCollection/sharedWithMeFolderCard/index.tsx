@@ -1,9 +1,11 @@
 import { Card } from 'antd';
 import image from "../../../assets/images/sharedWithMe/image.svg";
 import EllipsisMenu from "../../ellipsisMenu"
-import CollectionFolder from "../../../common/collectionFolderSVG"
+import CollectionFolder from "../../../common/FolderIconSVG"
 
 import './styles.scss';
+import ROUTES from '../../../router';
+import { Link } from 'react-router-dom';
 
 export interface SharedFolderCardProps {
   folderName: string,
@@ -11,6 +13,7 @@ export interface SharedFolderCardProps {
   notes: string,
   quizzes: string,
   sharedBy: string,
+  cardhandler?: any,
 }
 
 function SharedFolderCard(props: SharedFolderCardProps) {
@@ -18,9 +21,9 @@ function SharedFolderCard(props: SharedFolderCardProps) {
     <div className="shared-folder-card-style">
       <Card>
         <div className="top-card-layer">
-          <div className="top-card-layer-left ">
+          <Link className="top-card-layer-left" to={ROUTES.SHARED_DETAILS_SCREEN}>
             <div className="folder-icon">
-              <CollectionFolder fillColor={props.folderColor} />
+              <CollectionFolder withUserStyle fillColor={props.folderColor} />
             </div>
             <div className="collection-details">
               <div className="collection-name">
@@ -30,7 +33,7 @@ function SharedFolderCard(props: SharedFolderCardProps) {
                 <p>{props.notes} notes, {props.quizzes} quizzes</p>
               </div>
             </div>
-          </div>
+          </Link>
           <div className="top-card-layer-right">
             <EllipsisMenu menuItems={[{ name: "View Details", iconName: "infoIcon", }, { name: "Remove from shared", iconName: "deleteIcon" }]} />
           </div>

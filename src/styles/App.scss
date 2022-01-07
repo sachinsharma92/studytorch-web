@@ -514,3 +514,24 @@ p {
     margin-right: 15px;
   }
 }
+
+// Search Primary
+.search-btn-primary {
+  background: #fafafb;
+  border-radius: 20px;
+  height: 40px;
+  min-width: 450px;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  align-items: center;
+  padding: 3px 15px 0 10px;
+  color: $gray-9;
+  font-size: 15px;
+
+  &:hover, &:focus {
+    background: #fafafb;
+    color: $gray-9;
+    opacity: 0.7;
+  }
+}

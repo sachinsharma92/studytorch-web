@@ -52,42 +52,42 @@ const cardData = [
 	{
 		title: "Maths",
 		description: "20 Notes, 2 quizes",
-		imgUrl: folderPurple,
+		folderColor: "#6C5ECF",
 	},
 	{
 		title: "Maths",
 		description: "20 Notes, 2 quizes",
-		imgUrl: babyPinkFolder,
+		folderColor: "#FCAB8E",
 	},
 	{
 		title: "Maths",
 		description: "20 Notes, 2 quizes",
-		imgUrl: blueFolder,
+		folderColor: "#6FBEF6",
 	},
 	{
 		title: "Maths",
 		description: "20 Notes, 2 quizes",
-		imgUrl: coralFolder,
+		folderColor: "#FF8B8B",
 	},
 	{
 		title: "Maths",
 		description: "20 Notes, 2 quizes",
-		imgUrl: folderPurple,
+		folderColor: "#503FC8",
 	},
 	{
 		title: "Maths",
 		description: "20 Notes, 2 quizes",
-		imgUrl: folderPurple,
+		folderColor: "#FCAB8E",
 	},
 	{
 		title: "Maths",
 		description: "20 Notes, 2 quizes",
-		imgUrl: folderPurpleUsers,
+		folderColor: "#6C5ECF",
 	},
 	{
 		title: "Maths",
 		description: "20 Notes, 2 quizes",
-		imgUrl: folderPurple,
+		folderColor: "#6C5ECF",
 	},
 ]
 
@@ -274,7 +274,7 @@ function CollectionDetails(props: any) {
 											<CollectionCard
 												title={data.title}
 												description={data.description}
-												imgUrl={data.imgUrl}
+												fillColor={data.folderColor}
 												menuData={menu}
 												cardHandler="/"
 											/>

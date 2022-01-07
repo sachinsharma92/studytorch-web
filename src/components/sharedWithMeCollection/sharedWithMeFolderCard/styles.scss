@@ -3,96 +3,94 @@
 @import "../../../styles/variables/mixins";
 
 .shared-folder-card-style {
+	.ant-card {
+		padding: 8px 16px 12px 16px;
+		max-width: 300px;
+		min-width: 255px;
+		border-radius: 8px;
+	}
 
-    .ant-card {
-        padding: 8px 16px 12px 16px;
-        max-width: 300px;
-        min-width: 255px;
-        border-radius: 8px;
-    }
+	.ant-card-body {
+		padding: 0px;
+	}
 
-    .ant-card-body {
-        padding: 0px;
-    }
+	.line {
+		border: 1px solid $borderColor;
+		position: relative;
+		top: 0px;
+	}
 
-    .line {
-        border: 1px solid $borderColor;
-        position: relative;
-        top: 0px;
-    }
+	.top-card-layer {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
 
-    .top-card-layer {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
+		.top-card-layer-left {
+			display: flex;
+			flex-direction: row;
+			cursor: pointer;
 
-        .top-card-layer-left {
-            display: flex;
-            flex-direction: row;
+			.collection-details {
+				display: flex;
+				flex-direction: column;
+				margin-left: 8px;
+				max-width: 120px;
+				max-height: 45px;
+				padding-top: 2px;
 
-            .collection-details {
-                display: flex;
-                flex-direction: column;
-                margin-left: 8px;
-                max-width: 120px;
-                max-height: 45px;
-                padding-top: 2px;
+				.collection-name {
+					max-height: 25px;
 
-                .collection-name {
-                    max-height: 25px;
-                
-                    p {
-                        font-size: 16px;
-                        font-style: normal;
-                        font-weight: 600;
-                        line-height: 25px;
-                        letter-spacing: 0em;
-                        text-align: left;
-                    }
+					p {
+						font-size: 16px;
+						font-style: normal;
+						font-weight: 600;
+						line-height: 25px;
+						letter-spacing: 0em;
+						text-align: left;
+					}
+				}
 
-                }
+				.collection-notes-quizzes p {
+					font-family: Sofia Pro;
+					font-size: 12px;
+					font-style: normal;
+					font-weight: 400;
+					line-height: 20px;
+					letter-spacing: 0em;
+					text-align: left;
+					max-height: 20px;
+				}
+			}
+		}
 
-                .collection-notes-quizzes p {
-                    font-family: Sofia Pro;
-                    font-size: 12px;
-                    font-style: normal;
-                    font-weight: 400;
-                    line-height: 20px;
-                    letter-spacing: 0em;
-                    text-align: left;
-                    max-height: 20px;
-                }
-            }
-        }
+		.top-card-layer-right {
+			margin-right: 6px;
+			margin-top: 6px;
+		}
+	}
 
-        .top-card-layer-right {
-            margin-right: 6px;
-            margin-top: 6px;
-        
-        }
-    }
+	.bottom-card-layer {
+		display: flex;
+		flex-direction: row;
+		align-items: flex-start;
+		padding-top: 6px;
 
-    .bottom-card-layer {
-        display: flex;
-        flex-direction: row;
-        align-items: flex-start;
-        padding-top: 6px;
+		p {
+			height: 20px;
+			font-family: Sofia Pro;
+			font-style: normal;
+			font-weight: normal;
+			font-size: 12px;
+			line-height: 20px;
+			color: #3c3f54;
+			margin-left: 8px;
+			margin-bottom: 0px;
+		}
 
-        p {
-            height: 20px;
-            font-family: Sofia Pro;
-            font-style: normal;
-            font-weight: normal;
-            font-size: 12px;
-            line-height: 20px;
-            color: #3C3F54;
-            margin-left: 8px;
-            margin-bottom: 0px;
-        }
-
-        img {
-            width: 20px;
-            height: auto;
-        }
-    }
+		img {
+			width: 20px;
+			height: auto;
+		}
+	}
 }

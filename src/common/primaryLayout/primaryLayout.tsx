@@ -19,6 +19,7 @@ import './styles.scss';
 import { Link, useLocation } from 'react-router-dom';
 import ROUTES from '../../router';
 import { useEffect, useState } from 'react';
+import SearchDataModal from '../searchPrimary/searchDataModal';
 
 const menu = (
   <Menu>
@@ -59,6 +60,11 @@ export default function PrimaryLayout(props: any) {
     setCurrent(e.key);
   }
 
+  const [isModalSearch, setIsModalSearch] = useState(false);
+  const modalSearchToggle = () => {
+    setIsModalSearch(!isModalSearch);
+  };
+
   return (
     <div className={`layout-primary ${props.className}`}>
       <Layout>
@@ -90,7 +96,12 @@ export default function PrimaryLayout(props: any) {
                 <Col sm={8}>
                 </Col>
                 <Col sm={10}>
-                  <SearchPrimary />
+                  <SearchPrimary onClick={modalSearchToggle} />
+                  <SearchDataModal
+                    visible={isModalSearch}
+                    handleCancel={modalSearchToggle}
+                    handleLeave={modalSearchToggle}
+                  />
                 </Col>
                 <Col sm={6}>
                   <div className="flex-right">

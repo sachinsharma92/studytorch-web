@@ -1,24 +1,21 @@
-import { Input } from 'antd';
-import { AudioOutlined } from '@ant-design/icons';
+import { Button, Input } from 'antd';
+import { SearchOutlined } from '@ant-design/icons';
 
 // Styles
 import './styles.scss';
 
 const { Search } = Input;
 
-const suffix = (
-  <AudioOutlined
-    style={{
-      fontSize: 16,
-      color: '#1890ff',
-    }}
-  />
-);
-
 export default function SearchPrimary(props: any) {
   return (
-    <div className={`search-primary ${props.searchStyle}`}>
-     <Search placeholder="Search WorkSpace" />
-    </div>
+    <>
+      {props.clickable ?
+        <div className={`search-primary ${props.searchStyle}`}>
+          <Search placeholder="Search WorkSpace" />
+        </div>
+        :
+        <Button onClick={props.onClick} className={`search-btn-primary ${props.searchStyle}`} icon={<SearchOutlined />}>Search WorkSpace</Button>
+      }
+    </>
   )
 }

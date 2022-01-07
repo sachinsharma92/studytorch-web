@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Drawer } from 'antd';
 import PrimaryLayout from "../../common/primaryLayout/primaryLayout"
 import SharedWithMeCollection from "../../components/sharedWithMeCollection"
-import CollectionFolderSVG from "../../common/collectionFolderSVG";
+import FolderIconSVG from "../../common/FolderIconSVG";
 
 // Styles
 import './styles.scss';
@@ -154,12 +154,12 @@ function SharedWithMeScreen() {
           className="shared-information-drawer"
           placement="right"
           onClose={handleToggleDrawer}
-          visible={true}
+          visible={false}
         >
           <div className="detail-section">
             <div className="flex">
               <div className="folder-icon">
-                <CollectionFolderSVG fillColor={"#6C5ECF"} />
+                <FolderIconSVG fillColor={"#6C5ECF"} />
               </div>
               <div className="info-sec">
                 <h4 className="title4">Maths</h4>
