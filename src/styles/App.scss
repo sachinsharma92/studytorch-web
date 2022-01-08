@@ -244,6 +244,9 @@ p {
 
   .ant-page-header-heading {
     width: 100%;
+    @include mobile {
+      margin-bottom: 30px;
+    }
   }
 
   .title2 {
@@ -528,6 +531,10 @@ p {
   padding: 3px 15px 0 10px;
   color: $gray-9;
   font-size: 15px;
+
+  @include mobile {
+    min-width: 190px;
+  }
 
   &:hover, &:focus {
     background: #fafafb;

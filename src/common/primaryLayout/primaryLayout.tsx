@@ -1,4 +1,12 @@
+import React, { useEffect, useState } from 'react';
 import { Col, Layout, Menu, Row, Dropdown, Avatar } from 'antd';
+import { Link, useLocation } from 'react-router-dom';
+import ROUTES from '../../router';
+import SearchDataModal from '../searchPrimary/searchDataModal';
+import {
+  MenuUnfoldOutlined,
+  MenuFoldOutlined,
+} from '@ant-design/icons';
 
 import LogoPrimary from '../logoPrimary/logoPrimary';
 import SearchPrimary from '../searchPrimary/searchPrimary';
@@ -16,10 +24,6 @@ import iconQuiz from "../../assets/images/icons/help-circle.svg"
 
 // Styles
 import './styles.scss';
-import { Link, useLocation } from 'react-router-dom';
-import ROUTES from '../../router';
-import { useEffect, useState } from 'react';
-import SearchDataModal from '../searchPrimary/searchDataModal';
 
 const menu = (
   <Menu>
@@ -40,6 +44,7 @@ const menu = (
 const { Header, Content, Sider } = Layout;
 
 export default function PrimaryLayout(props: any) {
+  const media = window.matchMedia(`(max-width: 767px)`);
   let location = useLocation();
   const [current, setCurrent] = useState(
     location.pathname === "/" || location.pathname === ""
@@ -65,12 +70,18 @@ export default function PrimaryLayout(props: any) {
     setIsModalSearch(!isModalSearch);
   };
 
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  const collapseToggle = () => {
+    setIsCollapsed(!isCollapsed);
+  };
+
+
   return (
     <div className={`layout-primary ${props.className}`}>
       <Layout>
         <Layout>
-          <Sider width={259} className="sider-style">
-            <LogoPrimary logoStyle="logo-style" />
+          <Sider className="sider-style" breakpoint="sm" trigger={null} collapsible collapsed={isCollapsed}>
+            <LogoPrimary logoPrimary={!isCollapsed ? true : false} logoStyle="logo-style" />
 
             <Menu
               mode="inline"
@@ -93,9 +104,13 @@ export default function PrimaryLayout(props: any) {
             {/* Top Header here */}
             <Header className="header">
               <Row align="middle">
-                <Col sm={8}>
+                <Col xs={4} md={8}>
+                  {React.createElement(isCollapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
+                    className: 'trigger',
+                    onClick: collapseToggle,
+                  })}
                 </Col>
-                <Col sm={10}>
+                <Col xs={10} md={10}>
                   <SearchPrimary onClick={modalSearchToggle} />
                   <SearchDataModal
                     visible={isModalSearch}
@@ -103,11 +118,12 @@ export default function PrimaryLayout(props: any) {
                     handleLeave={modalSearchToggle}
                   />
                 </Col>
-                <Col sm={6}>
+                <Col xs={10} md={6}>
                   <div className="flex-right">
                     <Dropdown overlay={menu}>
                       <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-                        <Avatar size={30} src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8ZmFjZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60" /> Ayush Parashar
+                        <Avatar size={30} src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8ZmFjZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60" /> 
+                        <span className='profile-text'>Ayush Parashar</span>
                       </a>
                     </Dropdown>
                   </div>

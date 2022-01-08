@@ -6,6 +6,10 @@
 .modal-confirmation {
   .ant-modal {
     min-width: 640px;
+
+    @include mobile {
+      min-width: auto;
+    }
   }
 
   .title3 {
@@ -37,6 +41,10 @@
       font-weight: 600;
       color: #3C3F54;
       font-size: 28px;
+
+      @include mobile {
+        font-size: 22px;
+      }
     }
   }
 

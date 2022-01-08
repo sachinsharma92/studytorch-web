@@ -138,7 +138,7 @@ function QuizScreen(props: any) {
 								<div className="card-section">
 									<Row gutter={32}>
 										{quizViewData.map((data, index) => (
-											<Col sm={8} key={index}>
+											<Col xs={24} sm={8} key={index}>
 												<QuizCard
 													quizName={data.quizName}
 													collectionName={data.collectionName}

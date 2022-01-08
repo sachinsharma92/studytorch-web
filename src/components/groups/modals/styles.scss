@@ -6,6 +6,10 @@
 .group-modal-style {
   .ant-modal {
     max-width: 505px;
+
+    @include mobile {
+      max-width: 95%;
+    }
   }
 
   .title3 {
@@ -74,6 +78,10 @@
 .group-members-style {
   .ant-modal {
     max-width: 640px;
+
+    @include mobile {
+      max-width: 95%;
+    }
   }
 
   .title3 {

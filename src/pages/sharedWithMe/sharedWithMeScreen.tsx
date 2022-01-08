@@ -125,7 +125,7 @@ function SharedWithMeScreen() {
     }
   ]
 
-  const [visible, setVisible] = useState(true);
+  const [visible, setVisible] = useState(false);
   const handleToggleDrawer = () => {
     setVisible(!visible);
   };

@@ -271,7 +271,7 @@ function CollectionDetails(props: any) {
 							<div className="card-section">
 								<Row gutter={32}>
 									{cardData.map((data, index) => (
-										<Col sm={6} key={index}>
+										<Col xs={24} sm={6} key={index}>
 											<CollectionCard
 												title={data.title}
 												description={data.description}

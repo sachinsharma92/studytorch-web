@@ -61,42 +61,43 @@ const cardData = [
 	{
 		title: "Maths",
 		description: "20 Notes, 2 quizes",
-		imgUrl: folderPurple,
+		folderColor: "#6C5ECF",
 	},
 	{
 		title: "Maths",
 		description: "20 Notes, 2 quizes",
-		imgUrl: babyPinkFolder,
+		folderColor: "#FCAB8E",
 	},
 	{
 		title: "Maths",
 		description: "20 Notes, 2 quizes",
-		imgUrl: blueFolder,
+		folderColor: "#6FBEF6",
 	},
 	{
 		title: "Maths",
 		description: "20 Notes, 2 quizes",
-		imgUrl: coralFolder,
+		folderColor: "#FF8B8B",
 	},
 	{
 		title: "Maths",
 		description: "20 Notes, 2 quizes",
-		imgUrl: folderPurple,
+		folderColor: "#503FC8",
 	},
 	{
 		title: "Maths",
 		description: "20 Notes, 2 quizes",
-		imgUrl: folderPurple,
+		folderColor: "#FCAB8E",
 	},
 	{
 		title: "Maths",
 		description: "20 Notes, 2 quizes",
-		imgUrl: folderPurpleUsers,
+		folderColor: "#6C5ECF",
+		folderType:'folderUser',
 	},
 	{
 		title: "Maths",
 		description: "20 Notes, 2 quizes",
-		imgUrl: folderPurple,
+		folderColor: "#6C5ECF",
 	},
 ]
 
@@ -345,11 +346,12 @@ function GroupDetailScreen(props: any) {
 							<div className="card-section">
 								<Row gutter={32}>
 									{cardData.map((data, index) => (
-										<Col sm={6} key={index}>
+										<Col xs={24} sm={6} key={index}>
 											<CollectionCard
 												title={data.title}
 												description={data.description}
-												imgUrl={data.imgUrl}
+												fillColor={data.folderColor}
+												withUserStyle={data.folderType === 'folderUser' && true}
 												menuData={menu}
 												cardHandler="/"
 											/>

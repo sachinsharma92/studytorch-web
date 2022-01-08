@@ -62,7 +62,7 @@ function HomeScreen() {
 							<h3 className="title3 space-md">Welcome , Ayush</h3>
 
 							<Row gutter={24}>
-								<Col sm={6}>
+								<Col xs={12} sm={6}>
 									<div className="card-outline">
 										<div className="gray-box">
 
@@ -76,7 +76,7 @@ function HomeScreen() {
 									</div>
 								</Col>
 
-								<Col sm={6}>
+								<Col xs={12} sm={6}>
 									<div className="card-outline">
 										<div className="gray-box">
 
@@ -90,7 +90,7 @@ function HomeScreen() {
 									</div>
 								</Col>
 
-								<Col sm={6}>
+								<Col xs={12} sm={6}>
 									<div className="card-outline">
 										<div className="gray-box">
 
@@ -104,7 +104,7 @@ function HomeScreen() {
 									</div>
 								</Col>
 
-								<Col sm={6}>
+								<Col xs={12} sm={6}>
 									<div className="card-outline">
 										<div className="gray-box">
 
@@ -118,7 +118,7 @@ function HomeScreen() {
 									</div>
 								</Col>
 
-								<Col sm={6}>
+								<Col xs={12} sm={6}>
 									<div className="card-outline">
 										<div className="gray-box">
 
@@ -132,7 +132,7 @@ function HomeScreen() {
 									</div>
 								</Col>
 
-								<Col sm={6}>
+								<Col xs={12} sm={6}>
 									<div className="card-outline">
 										<div className="gray-box">
 

@@ -16,7 +16,7 @@ function SharedWithMeCollection(props: SharedWithMeCollectionProps) {
       <p className="time-divider">{props.timeFilter}</p>
       <Row gutter={[20, 20]}>
         {folders.map((data, index) => (
-          <Col key={index}>
+          <Col xs={24} key={index}>
             <SharedFolderCard
               folderName={data.folderName}
               folderColor={data.folderColor}

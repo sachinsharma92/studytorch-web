@@ -16,6 +16,7 @@
   .ant-layout-header {
     background-color: $white;
     border-bottom: 1px solid $borderColor;
+    padding: 0 30px 0 20px;
   }
 
   .site-layout {
@@ -27,6 +28,24 @@
   .sider-style {
     height: 100vh;
     border-right: 1px solid $borderColor;
+
+    @include mobile {
+      position: fixed;
+      left: -100%;
+      width: 259px !important;
+      transition: all 0.5s ease-in-out;
+      background-color: red;
+      z-index: 99;
+      height: calc(100vh - 64px);
+      overflow: scroll;
+      top: 64px;
+    }
+
+    &.ant-layout-sider-collapsed {
+      @include mobile {
+        left: 0;
+      }
+    }
   }
 
   .flex-right {
@@ -74,9 +93,16 @@
     height: 60%;
     top: auto;
     bottom: auto;
-    background: #6C5ECF;
+    background: #6c5ecf;
     box-shadow: 0px 0px 5px rgba(139, 117, 245, 0.4);
     border-radius: 0px 8px 8px 0px;
-   width: 5px;
+    width: 5px;
+  }
+
+  .profile-text {
+
+    @include mobile {
+      display: none;
+    }
   }
 }

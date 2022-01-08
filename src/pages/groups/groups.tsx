@@ -105,7 +105,7 @@ function GroupsScreen(props: any) {
 					<div className="card-section">
 						<Row gutter={32}>
 							{cardData.map((data, index) => (
-								<Col sm={8} key={index}>
+								<Col xs={24} sm={8} key={index}>
 									<GroupsCard
 										backgroundImgae={data.backgroundImgae}
 										title={data.title}

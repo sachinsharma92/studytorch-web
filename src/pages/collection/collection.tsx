@@ -132,9 +132,9 @@ function CollectionScreen(props: any) {
 				</div>
 					:
 					<div className="card-section">
-						<Row gutter={32}>
+						<Row gutter={{ xs: 0, sm: 32, md: 32, lg: 32 }}>
 							{cardData.map((data, index) => (
-								<Col sm={6} key={index}>
+								<Col xs={24} sm={6} key={index}>
 									<CollectionCard
 										title={data.title}
 										description={data.description}

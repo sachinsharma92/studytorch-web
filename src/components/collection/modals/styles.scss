@@ -6,6 +6,10 @@
 .collection-modal-style {
   .ant-modal {
     max-width: 505px;
+
+    @include mobile {
+      max-width: 95%;
+    }
   }
 
   .title3 {
@@ -75,6 +79,10 @@
 .share-modal-style {
   .ant-modal {
     max-width: 640px;
+
+    @include mobile {
+      max-width: 95%;
+    }
   }
 
   .title3 {
@@ -231,6 +239,10 @@
 .note-modal-style {
   .ant-modal {
     min-width: 975px;
+
+    @include mobile {
+      min-width: auto;
+    }
   }
 
   .title3 {
@@ -310,6 +322,10 @@
 .question-modal-style {
   .ant-modal {
     min-width: 975px;
+
+    @include mobile {
+      min-width: auto;
+    }
   }
 
   .title3 {
@@ -458,6 +474,10 @@
 .question-add-modal-style {
   .ant-modal {
     max-width: 350px;
+
+    @include mobile {
+      max-width: 95%;
+    }
   }
 
   .title3 {
@@ -506,6 +526,10 @@
 .flash-edit-modal {
   .ant-modal {
     min-width: 975px;
+
+    @include mobile {
+      min-width: auto;
+    }
   }
 
   .title3 {

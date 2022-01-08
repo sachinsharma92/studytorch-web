@@ -61,7 +61,7 @@ function ChecklistScreen(props: any) {
 					<div className="checklist-section">
 						<Row gutter={22}>
 							{checklistCardData.map((data, index) => (
-								<Col sm={8} key={index}>
+								<Col xs={24} sm={8} key={index}>
 									<ChecklistCard menuData={
 											<Menu>
 												<Menu.Item icon={<EditOutlined />}>
