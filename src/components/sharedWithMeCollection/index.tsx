@@ -6,7 +6,7 @@ import './styles.scss';
 
 interface SharedWithMeCollectionProps {
   timeFilter: string;
-  folders: SharedFolderCardProps[]; 
+  folders: SharedFolderCardProps[];
 }
 
 function SharedWithMeCollection(props: SharedWithMeCollectionProps) {
@@ -16,7 +16,7 @@ function SharedWithMeCollection(props: SharedWithMeCollectionProps) {
       <p className="time-divider">{props.timeFilter}</p>
       <Row gutter={[20, 20]}>
         {folders.map((data, index) => (
-          <Col xs={24} key={index}>
+          <Col xs={24} sm={6} key={index}>
             <SharedFolderCard
               folderName={data.folderName}
               folderColor={data.folderColor}

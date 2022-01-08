@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Col, Menu, Row, Tabs, Select, PageHeader, Dropdown, Avatar } from 'antd';
 import { EditOutlined, DeleteOutlined, UserOutlined, LoginOutlined } from '@ant-design/icons';
+import { useNavigate } from "react-router-dom";
 
 // Custom Component and Modal
 import ROUTES from '../../router';
@@ -181,6 +182,7 @@ const folderList = [
 ]
 
 function ShareWithMeDetails(props: any) {
+	const navigate = useNavigate();
 
 	const [isCollectionModal, setIsCollectionModal] = useState(false);
 	const collectionToggleModal = () => {
@@ -225,7 +227,7 @@ function ShareWithMeDetails(props: any) {
 
 				<PageHeader
 					className="site-page-header header-back"
-					onBack={() => null}
+					onBack={() => navigate('/collection')}
 					title="Maths"
 					extra={[
 						<div className="btn-section-top">

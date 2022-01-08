@@ -6,11 +6,27 @@
     height: calc(100vh - 64px);
     overflow-x: scroll;
     padding: 30px;
+
+    @include mobile {
+      padding: 20px;
+    }
 }
 
 .share-detail-page-style {
     min-height: 100vh;
     padding: 30px;
+
+    @include mobile {
+      padding: 20px;
+    }
+
+    .ant-tabs-content {
+      overflow-x: scroll;
+      height: calc(100vh - 277px);
+
+      @include mobile {
+      }
+    }
   
     .state-center {
       min-height: calc(100vh - 125px);
@@ -71,11 +87,7 @@
         background: $theme-primary;
       }
     }
-  
-    .ant-tabs-content {
-      overflow-x: scroll;
-      height: calc(100vh - 277px);
-    }
+
   
     .inline-button-section {
       display: flex;
@@ -90,6 +102,10 @@
           margin-right: 10px;
         }
       }
+    }
+
+    .shared-folder-collection-style {
+      padding: 0 30px 100px 20px;
     }
   }
 

@@ -146,8 +146,8 @@ function HomeScreen() {
 									</div>
 								</Col>
 
-								<Col sm={12}>
-									<div className="card-outline flex-style">
+								<Col xs={24} sm={12}>
+									<div className="card-outline pie-graph-card flex-style">
 										<div className="content-sec">
 											<h3 className="title-md">
 												80%

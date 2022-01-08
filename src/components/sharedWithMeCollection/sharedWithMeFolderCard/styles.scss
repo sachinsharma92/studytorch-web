@@ -3,11 +3,17 @@
 @import "../../../styles/variables/mixins";
 
 .shared-folder-card-style {
+
 	.ant-card {
 		padding: 8px 16px 12px 16px;
 		max-width: 300px;
 		min-width: 255px;
 		border-radius: 8px;
+
+		@include mobile {
+			min-width: 100%;
+			max-width: 100%;
+		}
 	}
 
 	.ant-card-body {

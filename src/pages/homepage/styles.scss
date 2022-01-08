@@ -22,6 +22,10 @@
     font-weight: 600;
     color: #3c3f54;
     line-height: 1.3;
+
+    @include mobile {
+      font-size: 24px;
+    }
   }
 
   .description {
@@ -44,6 +48,17 @@
     margin-bottom: 24px;
     max-height: 176px;
     overflow: hidden;
+
+    @include mobile {
+      max-height: 100%;
+    }
+  }
+
+  .pie-graph-card {
+
+    @include mobile {
+      flex-direction: column;
+    }
   }
 
   .flex-style {

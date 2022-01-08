@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Button, Col, Menu, Row, Popover, Tabs, Select, PageHeader } from 'antd';
 import { PlusOutlined, EditOutlined, DeleteOutlined, ShareAltOutlined } from '@ant-design/icons';
+import { useNavigate } from "react-router-dom";
 
 // Custom Component and Modal
 import ROUTES from '../../router';
@@ -15,19 +16,14 @@ import NoteModalCard from '../../components/collection/modals/noteModalCard';
 import QuestionModal from '../../components/collection/modals/questionModal';
 import QuestionAddedModal from '../../components/collection/modals/questionAddedModal';
 import FlashEditModal from '../../components/collection/modals/flashEditModal';
+import RevisionModeModal from '../../components/collection/modals/revisionModeModal';
+import CollectionCard from '../../components/collection/collectionCard/collectionCard';
 
 // Images
 import filter from "../../assets/images/icons/filter.svg";
-import folderPurple from "../../assets/images/icons/folder-purple.svg";
-import coralFolder from "../../assets/images/icons/coral-folder.svg";
-import blueFolder from "../../assets/images/icons/folder-1.svg";
-import folderPurpleUsers from "../../assets/images/icons/folder-purple-with-users.svg";
-import babyPinkFolder from "../../assets/images/icons/baby-pink-folder.svg";
-import CollectionCard from '../../components/collection/collectionCard/collectionCard';
 
 // Styles
 import './styles.scss';
-import RevisionModeModal from '../../components/collection/modals/revisionModeModal';
 
 const { TabPane } = Tabs;
 
@@ -201,7 +197,10 @@ const routes = [
 	},
 ];
 
+
 function CollectionDetails(props: any) {
+
+	const navigate = useNavigate();
 
 	const [isCollectionModal, setIsCollectionModal] = useState(false);
 	const collectionToggleModal = () => {
@@ -255,7 +254,7 @@ function CollectionDetails(props: any) {
 
 				<PageHeader
 					className="site-page-header header-back"
-					onBack={() => null}
+					onBack={() => navigate('/collection')}
 					title="Maths"
 					breadcrumb={{ routes }}
 					extra={[

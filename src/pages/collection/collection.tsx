@@ -84,6 +84,7 @@ const cardData = [
 		description: "20 Notes, 2 quizes",
 		folderColor: "#6C5ECF",
 	},
+	
 ]
 
 function CollectionScreen(props: any) {

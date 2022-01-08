@@ -124,9 +124,9 @@ function QuizScreen(props: any) {
 				<div className="state-center">
 					<EmptyState
 						imgUrl={folderGray}
-						title="Create your Collection"
-						description=" Your Collection can be the folder underwhich all the study material is kept"
-						buttonText="Add Collection"
+						title="Create Quiz"
+						description=" Your Create can be the folder underwhich all the study material is kept"
+						buttonText="Create Quiz"
 						buttonType="primary"
 					/>
 				</div>
