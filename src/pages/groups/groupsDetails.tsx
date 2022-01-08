@@ -259,6 +259,10 @@ function GroupDetailScreen(props: any) {
 		setIsModalConfirmation(!isModalConfirmation);
 	};
 
+	const [isModalDelete, setIsModalDelete] = useState(false);
+	const modalDeleteToggle = () => {
+		setIsModalDelete(!isModalDelete);
+	};
 
 
 	const toggleData = (
@@ -289,7 +293,7 @@ function GroupDetailScreen(props: any) {
 							<Dropdown placement="bottomRight" overlayClassName="collection-dropdown" overlay={
 								<Menu>
 									<Menu.Item icon={<DeleteOutlined />}>
-										<a target="_blank" rel="noopener noreferrer" href="#">
+										<a onClick={modalDeleteToggle}>
 											Delete Group
 										</a>
 									</Menu.Item>
@@ -530,6 +534,21 @@ function GroupDetailScreen(props: any) {
 					</h2>
 					<h2 className="theme-color">
 						Maths Group <span>?</span>
+					</h2>
+				</div>
+			</ModalConfirmation>
+
+			<ModalConfirmation
+				visible={isModalDelete}
+				handleCancel={modalDeleteToggle}
+				handleLeave={modalDeleteToggle}
+				wrapClassName="delete-modal-style"
+				cancelTitle="Cancel"
+				confirmTitle="Yes. Delete"
+			>
+				<div className="confirmation-section">
+					<h2>
+						Are you sure you want to delete this Group!
 					</h2>
 				</div>
 			</ModalConfirmation>

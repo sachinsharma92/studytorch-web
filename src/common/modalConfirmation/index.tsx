@@ -12,7 +12,7 @@ function ModalConfirmation(props: any) {
 			visible={props.visible}
 			footer={false}
 			onCancel={props.handleCancel}
-			wrapClassName="modal-confirmation primary-modal-style"
+			wrapClassName={`modal-confirmation primary-modal-style ${props.wrapClassName}`}
 			maskStyle={{ background: 'rgba(30,39,94, 0.6)'}}
 		>
 			<div className="card-modal">

@@ -24,6 +24,8 @@ import filter from "../../assets/images/icons/filter.svg";
 
 // Styles
 import './styles.scss';
+import McqQuestionModal from '../../components/collection/modals/mcqQuestionModal';
+import ModalConfirmation from '../../common/modalConfirmation';
 
 const { TabPane } = Tabs;
 
@@ -79,7 +81,7 @@ const cardData = [
 		title: "Maths",
 		description: "20 Notes, 2 quizes",
 		folderColor: "#6C5ECF",
-		folderType:'folderUser',
+		folderType: 'folderUser',
 	},
 	{
 		title: "Maths",
@@ -239,6 +241,16 @@ function CollectionDetails(props: any) {
 		setIsRevisionModeModal(!isRevisionModeModal);
 	};
 
+	const [isMcqQuestionModal, setIsMcqQuestionModal] = useState(false);
+	const mcqQuestionToggle = () => {
+		setIsMcqQuestionModal(!isMcqQuestionModal);
+	};
+
+	const [isModalConfirmation, setIsModalConfirmation] = useState(false);
+	const modalConfirmationToggle = () => {
+		setIsModalConfirmation(!isModalConfirmation);
+	};
+
 
 	const toggleData = (
 		<div className="toggle-menu">
@@ -317,6 +329,8 @@ function CollectionDetails(props: any) {
 												tag={data.tag}
 												menuData={menu}
 												description={data.description}
+												editHandler={mcqQuestionToggle}
+												deleteHandler={setIsModalConfirmation}
 											/>
 										</Col>
 									))}
@@ -329,9 +343,9 @@ function CollectionDetails(props: any) {
 								<ButtonCustom className="round-primary" onClick={revisionModeToggle} title="Revision Mode" />
 							</div>
 							<RevisionModeModal
-									visible={isRevisionModeModal}
-									closeHandler={revisionModeToggle}
-								/>
+								visible={isRevisionModeModal}
+								closeHandler={revisionModeToggle}
+							/>
 							<div className="card-section note-section">
 								<Row gutter={32}>
 									{flashCardData.map((data, index) => (
@@ -372,6 +386,14 @@ function CollectionDetails(props: any) {
 			</div>
 
 
+			{/* Questions Modal */}
+			<McqQuestionModal
+				visible={isMcqQuestionModal}
+				createHandler={mcqQuestionToggle}
+				cancelHandler={mcqQuestionToggle}
+				onCancel={mcqQuestionToggle}
+			/>
+
 			{/* Collection Modal here */}
 			<MasterCollectionModal
 				visible={isCollectionModal}
@@ -409,6 +431,22 @@ function CollectionDetails(props: any) {
 				buttonDoneHandler={questionAddedTpggleModal}
 				addButtonHandler={questionToggleModal}
 			/>
+
+			{/* Modal Delete */}
+			<ModalConfirmation
+				visible={isModalConfirmation}
+				handleCancel={modalConfirmationToggle}
+				handleLeave={modalConfirmationToggle}
+				cancelTitle="Cancel"
+				confirmTitle="Yes. Delete"
+				wrapClassName="delete-modal-style"
+			>
+				<div className="confirmation-section">
+					<h2>
+						Are you sure you want to delete this item!
+					</h2>
+				</div>
+			</ModalConfirmation>
 
 			<Popover
 				content={toggleData}

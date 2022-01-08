@@ -88,4 +88,27 @@
       }
     }
   }
+
+
+  // Delete Modal Style
+  &.delete-modal-style {
+
+    .ant-modal-close {
+      display: none;
+    }
+
+    h2 {
+      max-width: 100%;
+      font-size: 25px;
+    }
+
+    .ant-modal {
+      min-width: 450px;
+      max-width: 450px;
+  
+      @include mobile {
+        max-width: auto;
+      }
+    }
+  }
 }
