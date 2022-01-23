@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Col, Menu, Row, Popover, Tabs, Select, PageHeader, Dropdown, Avatar, Pagination } from 'antd';
+import { Button, Col, Menu, Row, Popover, Tabs, Select, PageHeader, Dropdown, Avatar, Pagination, Drawer } from 'antd';
 import { PlusOutlined, EditOutlined, DeleteOutlined, LoginOutlined, CheckSquareOutlined } from '@ant-design/icons';
 
 // Custom Component and Modal
@@ -35,6 +35,7 @@ import heroBackground from "../../assets/images/banner-group.png";
 import './styles.scss';
 import CreateQuizModal from '../../components/quiz/modals/createQuizModal';
 import QuizReportCard from '../../components/quiz/quizReportCard';
+import ReportDetailCard from '../../components/groups/drawerCards/reportDetailCard';
 
 const { TabPane } = Tabs;
 
@@ -296,6 +297,13 @@ function GroupDetailScreen(props: any) {
 		setIsCreateQuizModal(!isCreateQuizModal);
 	};
 
+
+	// Drawer Function
+	const [isInfoDrawer, setInfoDrawer] = useState(true);
+  const infoDrawerToggle = () => {
+    setInfoDrawer(!isInfoDrawer);
+  };
+
 	const toggleData = (
 		<div className="toggle-menu">
 			<a onClick={collectionToggleModal}>New Collection</a>
@@ -487,7 +495,7 @@ function GroupDetailScreen(props: any) {
 						<TabPane tab="Quiz" key="5">
 
 							<div className="card-section note-section">
-								<div className="tab-section">
+								<div className="tab-section inner-tab-style">
 									<Tabs defaultActiveKey="1">
 										<TabPane tab="Active Quizes (3)" key="1">
 											<div className='inline-button-section'>
@@ -725,6 +733,16 @@ function GroupDetailScreen(props: any) {
 				placement="topRight">
 				<Button className="button-add-circle" shape="circle" type='primary' icon={<PlusOutlined />} />
 			</Popover>
+
+			<Drawer
+        width={450}
+				closable={false}
+				onClose={infoDrawerToggle}
+				maskClosable={true}
+        visible={isInfoDrawer}
+      >
+        <ReportDetailCard/>
+      </Drawer>
 
 		</PrimaryLayout>
 	)

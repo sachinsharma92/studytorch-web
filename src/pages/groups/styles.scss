@@ -147,6 +147,42 @@
       flex-direction: column;
     }
   }
+
+
+  // inner-tab-style
+  .inner-tab-style {
+
+    .ant-tabs-nav {
+
+      &::before {
+        display: none;
+      }
+    }
+    
+    .ant-tabs-nav-list {
+      background-color: #F7FAFC;
+      border-radius: 50px;
+      overflow: hidden;
+    }
+
+    .ant-tabs-ink-bar {
+      display: none;
+    }
+
+    .ant-tabs-tab  {
+      padding: 12px 20px;
+      border-radius: 50px;
+      margin: 0;
+    }
+
+    .ant-tabs-tab-active {
+      background-color: $theme-primary;
+
+      .ant-tabs-tab-btn {
+        color: white;
+      }
+    }
+  }
 }
 
 .group-btn-add {
