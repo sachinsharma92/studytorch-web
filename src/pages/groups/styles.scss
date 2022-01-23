@@ -54,18 +54,39 @@
     margin-left: 10px;
   }
 
-  .btn-outline-primary {
-    height: 40px;
-    margin-right: 10px;
-    min-width: 140px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  .btn-section-top {
+    .btn-outline-primary {
+      height: 40px;
+      margin-right: 10px;
+      min-width: 140px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      span {
+        margin: 0 6px;
+      }
+    }
   }
 
   &.detail-page-style {
     .avatar-group {
       margin-top: 15px;
+    }
+
+    .inline-button-section {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+
+      .button-custom {
+        margin-left: 10px;
+
+        img {
+          width: 15px;
+          margin-right: 10px;
+        }
+      }
     }
   }
 
@@ -85,6 +106,45 @@
       background: none;
       color: $white;
       border: 1px solid $white;
+    }
+  }
+
+  .report-section {
+    .title3 {
+      margin-bottom: 15px;
+    }
+  }
+
+  .card-outline {
+    border: 1px solid $borderColor;
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 24px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+
+    .title-md {
+      margin-bottom: 0;
+      font-size: 24px;
+      font-weight: 600;
+    }
+
+    .description {
+      margin: 0;
+    }
+
+    .gray-box {
+      width: 64px;
+      height: 64px;
+      border-radius: 8px;
+      background: #f7fafc;
+      margin-right: 20px;
+    }
+
+    .flex {
+      display: flex;
+      flex-direction: column;
     }
   }
 }

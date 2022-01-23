@@ -1,5 +1,6 @@
-import { Tag, Progress } from 'antd';
+import { Tag, Progress, Dropdown } from 'antd';
 import ButtonCustom from '../../common/buttons/buttonCustom';
+import verticalDot from "../../assets/images/icons/vertical-dot.svg";
 
 // Styles
 import './styles.scss';
@@ -16,7 +17,14 @@ function QuizCard(props: any) {
 				</div>
 				<div className="tag-section">
 					{!props.quizComplete ?
-						<Tag className="tag-green">In-progress</Tag>
+						<div className='tag-flex'>
+							<Tag className="tag-green">In-progress</Tag>
+							{props.menuData && <Dropdown overlayClassName="collection-dropdown" overlay={props.menuData}>
+								<a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
+									<img src={verticalDot} className="icon-style" />
+								</a>
+							</Dropdown>}
+						</div>
 						:
 						<Tag className="tag-blue">Completed</Tag>
 					}

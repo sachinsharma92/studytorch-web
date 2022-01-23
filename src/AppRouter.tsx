@@ -3,7 +3,6 @@ import get from 'lodash/get';
 import { lazy, Suspense, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import ChecklistScreen from './pages/checklist/checklist';
 import * as ROUTES from './router/routes';
 
 /**
@@ -20,12 +19,16 @@ const GroupsScreen = lazy(() => import(/* webpackChunkName: "CollectionDetails" 
 const GroupDetailScreen = lazy(() => import(/* webpackChunkName: "CollectionDetails" */ './pages/groups/groupsDetails'));
 const QuizScreen = lazy(() => import(/* webpackChunkName: "CollectionDetails" */ './pages/quiz/quiz'));
 const PlannerScreen = lazy(() => import(/* webpackChunkName: "CollectionDetails" */ './pages/planner/planner'));
+const ChecklistScreen = lazy(() => import(/* webpackChunkName: "CollectionDetails" */ './pages/groups/members/'));
 const ProfileScreen = lazy(() => import(/* webpackChunkName: "CollectionDetails" */ './pages/profile/profile'));
 const NotificationScreen = lazy(() => import(/* webpackChunkName: "CollectionDetails" */ './pages/profile/notification'));
 const SecurityScreen = lazy(() => import(/* webpackChunkName: "CollectionDetails" */ './pages/profile/security'));
 const AccountDeleteScreen = lazy(() => import(/* webpackChunkName: "CollectionDetails" */ './pages/profile/accountDelete'));
 const SharedWithMeScreen = lazy(() => import(/* webpackChunkName: "LoginScreen" */ './pages/sharedWithMe/sharedWithMeScreen'));
-const SharedWithMeDetailScreen = lazy(() => import(/* webpackChunkName: "CollectionDetails" */ './pages/sharedWithMe/shareWithMeDetails'));
+const SharedWithMeDetailScreen = lazy(() => import(/* webpackChunkName: "CollectionDetails" */ './pages/checklist/checklist'));
+const GroupMembersScreen = lazy(() => import(/* webpackChunkName: "CollectionDetails" */ './pages/groups/members/'));
+const ScoreDetailScreen = lazy(() => import(/* webpackChunkName: "CollectionDetails" */ './pages/groups/scoreDetails/'));
+
 
 const AppRouter = () => {
     const isLoggedIn = useSelector((state) => get(state, 'auth.isLoggedIn'));
@@ -56,6 +59,8 @@ const AppRouter = () => {
                         <Route path={ROUTES.ACCOUNT_DELETE_SCREEN} element={<AccountDeleteScreen/>} />
                         <Route path={ROUTES.SHARED_SCREEN} element={<SharedWithMeScreen/>} />
                         <Route path={ROUTES.SHARED_DETAILS_SCREEN} element={<SharedWithMeDetailScreen/>} />
+                        <Route path={ROUTES.GROUP_MEMBERS_SCREEN} element={<GroupMembersScreen/>} />
+                        <Route path={ROUTES.GROUP_SCORE_DETAILS_SCREEN} element={<ScoreDetailScreen/>} />
 
                     </Routes>
                 </Router>

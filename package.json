@@ -67,7 +67,7 @@
   "devDependencies": {
     "@types/react-big-calendar": "^0.36.2",
     "@types/react-draft-wysiwyg": "^1.13.3",
-    "less": "^4.1.2",
+    "less": "^2.7.2",
     "source-map-explorer": "^2.5.2"
   }
 }

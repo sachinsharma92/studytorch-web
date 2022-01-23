@@ -1,0 +1,128 @@
+// variables
+@import "../../../styles/variables/colors";
+@import "../../../styles/variables/mixins";
+
+.member-page-style {
+  height: calc(100vh - 64px);
+  overflow-x: scroll;
+  padding: 30px 30px 100px;
+
+  @include mobile {
+    padding: 20px 20px 100px;
+  }
+
+  .btn-close {
+    border: 1px solid $theme-dark;
+    font-size: 16px;
+    padding: 2px 0 0;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+  }
+
+  .name-section {
+    .ant-avatar {
+      background: #ebf2fa;
+      width: 32px;
+      height: 32px;
+      color: $black;
+      margin-right: 10px;
+    }
+    .name {
+      color: $theme-primary;
+    }
+  }
+
+  .title-top {
+
+    span {
+      color: $theme-primary;
+    }
+  }
+
+  .select-box {
+
+    .ant-select-selector {
+      background: #FAFAFB;
+      min-width: 80px;
+    }
+  }
+
+  .state-center {
+    min-height: calc(100vh - 125px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .table-section {
+    margin-top: 30px;
+
+    .ant-table-thead {
+      text-transform: uppercase;
+    }
+  }
+
+  .img-user {
+    margin-right: 10px;
+    width: 18px;
+
+    &.md {
+      width: 20px;
+    }
+  }
+
+  .btn-section-top {
+    display: flex;
+
+    .round-primary {
+      margin-right: 20px;
+      padding: 0 20px;
+      font-size: 16px;
+    }
+  }
+
+  .ant-dropdown-link {
+    display: flex;
+    margin-left: 10px;
+  }
+
+  .btn-section-top {
+    .btn-outline-primary {
+      height: 40px;
+      margin-right: 10px;
+      min-width: 140px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      span {
+        margin: 0 6px;
+      }
+    }
+  }
+
+  &.detail-page-style {
+    .avatar-group {
+      margin-top: 15px;
+    }
+
+    .inline-button-section {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+
+      .button-custom {
+        margin-left: 10px;
+
+        img {
+          width: 15px;
+          margin-right: 10px;
+        }
+      }
+    }
+  }
+}

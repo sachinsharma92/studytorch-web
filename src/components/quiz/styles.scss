@@ -17,6 +17,10 @@
     justify-content: space-between;
     width: 100%;
 
+    &.center {
+      align-items: center;
+    }
+
     &:last-child {
       margin-bottom: 0;
     }
@@ -35,6 +39,11 @@
       justify-content: center;
       font-size: 14px;
       font-weight: 500;
+    }
+
+    .tag-flex {
+      display: flex;
+      align-items: center;
     }
   }
 
@@ -86,6 +95,41 @@
     &.sm {
       opacity: 0.6;
       font-size: 13px;
+    }
+  }
+
+  .marks-style {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+
+    span {
+      color: $theme-green;
+      margin-left:5px;
+    }
+  }
+
+  .btn-custom {
+    flex-direction: row-reverse;
+
+    .anticon {
+      margin-left: 8px;
+    }
+  }
+
+  .progress-text {
+    display: flex;
+    flex-direction: column;
+
+    .value {
+      font-size: 20px;
+      margin-bottom: 5px;
+      font-weight: 700;
+    }
+
+    .text {
+      font-weight: 400;
+      font-size: 12px;
     }
   }
 }

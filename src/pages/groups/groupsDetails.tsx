@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { Button, Col, Menu, Row, Popover, Tabs, Select, PageHeader, Dropdown, Avatar } from 'antd';
-import { PlusOutlined, EditOutlined, DeleteOutlined, LoginOutlined } from '@ant-design/icons';
+import { Button, Col, Menu, Row, Popover, Tabs, Select, PageHeader, Dropdown, Avatar, Pagination } from 'antd';
+import { PlusOutlined, EditOutlined, DeleteOutlined, LoginOutlined, CheckSquareOutlined } from '@ant-design/icons';
 
 // Custom Component and Modal
 import ROUTES from '../../router';
@@ -19,14 +19,10 @@ import CollectionCard from '../../components/collection/collectionCard/collectio
 import RevisionModeModal from '../../components/collection/modals/revisionModeModal';
 import GroupMemberModal from '../../components/groups/modals/groupMemberModal';
 import ModalConfirmation from '../../common/modalConfirmation';
+import QuizCard from '../../components/quiz/quizCard';
 
 // Images
 import filter from "../../assets/images/icons/filter.svg";
-import folderPurple from "../../assets/images/icons/folder-purple.svg";
-import coralFolder from "../../assets/images/icons/coral-folder.svg";
-import blueFolder from "../../assets/images/icons/folder-1.svg";
-import folderPurpleUsers from "../../assets/images/icons/folder-purple-with-users.svg";
-import babyPinkFolder from "../../assets/images/icons/baby-pink-folder.svg";
 import Users3 from "../../assets/images/icons/3-user.svg";
 import User from "../../assets/images/icons/user.svg";
 import verticalDot from "../../assets/images/icons/vertical-dot.svg";
@@ -37,6 +33,8 @@ import heroBackground from "../../assets/images/banner-group.png";
 
 // Styles
 import './styles.scss';
+import CreateQuizModal from '../../components/quiz/modals/createQuizModal';
+import QuizReportCard from '../../components/quiz/quizReportCard';
 
 const { TabPane } = Tabs;
 
@@ -92,7 +90,7 @@ const cardData = [
 		title: "Maths",
 		description: "20 Notes, 2 quizes",
 		folderColor: "#6C5ECF",
-		folderType:'folderUser',
+		folderType: 'folderUser',
 	},
 	{
 		title: "Maths",
@@ -210,6 +208,34 @@ const routes = [
 	},
 ];
 
+const quizViewData = [
+	{
+		quizName: 'QUIZ NAME',
+		collectionName: 'Collection name',
+		date: '22nd Sep 2021',
+		marks: '70%',
+	},
+	{
+		quizName: 'QUIZ NAME',
+		collectionName: 'Collection name',
+		date: '22nd Sep 2021',
+		marks: '70%',
+	},
+	{
+		quizName: 'QUIZ NAME',
+		collectionName: 'Collection name',
+		date: '22nd Sep 2021',
+		marks: '80%',
+	},
+	{
+		quizName: 'QUIZ NAME',
+		collectionName: 'Collection name',
+		date: '22nd Sep 2021',
+		marks: '90%',
+	},
+]
+
+
 function GroupDetailScreen(props: any) {
 
 	const [isCollectionModal, setIsCollectionModal] = useState(false);
@@ -265,6 +291,11 @@ function GroupDetailScreen(props: any) {
 	};
 
 
+	const [isCreateQuizModal, setIsCreateQuizModal] = useState(false);
+	const createQuizToggleModal = () => {
+		setIsCreateQuizModal(!isCreateQuizModal);
+	};
+
 	const toggleData = (
 		<div className="toggle-menu">
 			<a onClick={collectionToggleModal}>New Collection</a>
@@ -306,7 +337,7 @@ function GroupDetailScreen(props: any) {
 							}>
 								<a className="ant-dropdown-link btn-outline-primary" onClick={e => e.preventDefault()}>
 									<img src={Users3} className="icon-style" />
-									Joined
+									<span>	Joined</span>
 									<img src={arrowDown} className="icon-style" />
 								</a>
 							</Dropdown>
@@ -318,8 +349,13 @@ function GroupDetailScreen(props: any) {
 							<Dropdown overlayClassName="collection-dropdown" overlay={
 								<Menu>
 									<Menu.Item icon={<EditOutlined />}>
-										<a target="_blank" rel="noopener noreferrer" href="#">
+										<a href="#">
 											Edit Group
+										</a>
+									</Menu.Item>
+									<Menu.Item icon={<EditOutlined />}>
+										<a href="#">
+											Show Cover
 										</a>
 									</Menu.Item>
 								</Menu>
@@ -357,7 +393,7 @@ function GroupDetailScreen(props: any) {
 												fillColor={data.folderColor}
 												withUserStyle={data.folderType === 'folderUser' && true}
 												menuData={menu}
-												cardHandler="/"
+												cardHandler="/group/member"
 											/>
 										</Col>
 									))}
@@ -450,26 +486,148 @@ function GroupDetailScreen(props: any) {
 
 						<TabPane tab="Quiz" key="5">
 
-							<div className="inline-button-section mt--20 mb--30">
-								<ButtonCustom className="round-primary" title="Take a Quiz" />
-								<ButtonCustom className="round-primary" icon={<img src={filter} alt="" />} title="Filter" />
-							</div>
-
 							<div className="card-section note-section">
+								<div className="tab-section">
+									<Tabs defaultActiveKey="1">
+										<TabPane tab="Active Quizes (3)" key="1">
+											<div className='inline-button-section'>
+												<ButtonCustom className="round-primary" title="Create Quiz" onClick={createQuizToggleModal} />
+											</div>
+											<div className="card-section">
+												<Row gutter={32}>
+													{quizViewData.map((data, index) => (
+														<Col xs={24} sm={8} key={index}>
+															<QuizCard
+																quizName={data.quizName}
+																collectionName={data.collectionName}
+																date={data.date}
+																quizComplete={false}
+																menuData={
+																	<Menu>
+																		<Menu.Item icon={<DeleteOutlined />}>
+																			<a href="#">
+																				Edit
+																			</a>
+																		</Menu.Item>
+																		<Menu.Item icon={<CheckSquareOutlined />}>
+																			<a href="#">
+																				Mark as Completed
+																			</a>
+																		</Menu.Item>
+																	</Menu>
+																}
+															/>
+														</Col>
+													))}
+												</Row>
+												<div className="pagination-section">
+													<Pagination defaultCurrent={1} total={50} />
+												</div>
+											</div>
+										</TabPane>
+
+										<TabPane tab="Completed Quizes (2)" key="2">
+											<div className='inline-button-section'>
+												<ButtonCustom className="round-primary" title="Create Quiz" onClick={createQuizToggleModal} />
+											</div>
+											<div className="card-section">
+												<Row gutter={32}>
+													{quizViewData.map((data, index) => (
+														<Col sm={8} key={index}>
+															<QuizCard
+																quizName={data.quizName}
+																collectionName={data.collectionName}
+																date={data.date}
+																quizComplete={true}
+															/>
+														</Col>
+													))}
+												</Row>
+												<div className="pagination-section">
+													<Pagination defaultCurrent={1} total={50} />
+												</div>
+											</div>
+										</TabPane>
+									</Tabs>
+								</div>
+							</div>
+						</TabPane>
+
+
+						<TabPane tab="Reports" key="6">
+							<Row gutter={24}>
+								<Col xs={12} sm={6}>
+									<div className="card-outline">
+										<div className="gray-box" />
+										<div className='flex'>
+											<h3 className="title-md">
+												24
+											</h3>
+											<p className="description">
+												Group Members
+											</p>
+										</div>
+									</div>
+								</Col>
+								<Col xs={12} sm={6}>
+									<div className="card-outline">
+										<div className="gray-box" />
+										<div className='flex'>
+											<h3 className="title-md">
+												12
+											</h3>
+											<p className="description">
+												Total Collections
+											</p>
+										</div>
+									</div>
+								</Col>
+
+								<Col xs={12} sm={6}>
+									<div className="card-outline">
+										<div className="gray-box" />
+										<div className='flex'>
+											<h3 className="title-md">
+												10
+											</h3>
+											<p className="description">
+												Total Quizes
+											</p>
+										</div>
+									</div>
+								</Col>
+
+								<Col xs={12} sm={6}>
+									<div className="card-outline">
+										<div className="gray-box" />
+										<div className='flex'>
+											<h3 className="title-md">
+												12.5 Hrs
+											</h3>
+											<p className="description">
+												Group Studied
+											</p>
+										</div>
+									</div>
+								</Col>
+							</Row>
+							<div className="card-section report-section">
+								<h3 className='title3'>Quiz Reports</h3>
 								<Row gutter={32}>
-									{questionCardData.map((data, index) => (
-										<Col sm={12} key={index}>
-											<QuestionCard
-												questionTitle={data.questionTitle}
-												tag={data.tag}
-												menuData={menu}
-												description={data.description}
+									{quizViewData.map((data, index) => (
+										<Col sm={8} key={index}>
+											<QuizReportCard
+												quizName={data.quizName}
+												collectionName={data.collectionName}
+												date={data.date}
+												quizComplete={false}
+												marks={data.marks}
+												btnAddHandler={ROUTES.GROUP_SCORE_DETAILS_SCREEN}
 											/>
 										</Col>
 									))}
 								</Row>
 							</div>
-
 						</TabPane>
 					</Tabs>
 				</div>
@@ -519,6 +677,7 @@ function GroupDetailScreen(props: any) {
 				visible={isGroupMemberModal}
 				onCancel={groupMemberModalToggle}
 				cancelHandler={groupMemberModalToggle}
+				memberList
 			/>
 
 			<ModalConfirmation
@@ -552,6 +711,14 @@ function GroupDetailScreen(props: any) {
 					</h2>
 				</div>
 			</ModalConfirmation>
+
+			{/* Questions Modal */}
+			<CreateQuizModal
+				visible={isCreateQuizModal}
+				createHandler={createQuizToggleModal}
+				cancelHandler={createQuizToggleModal}
+				onCancel={createQuizToggleModal}
+			/>
 
 			<Popover
 				content={toggleData}

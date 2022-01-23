@@ -15,6 +15,8 @@ export const COLLECTION_DETAILS_SCREEN="/collection/details";
 // Group Section
 export const GROUPS_SCREEN="/groups";
 export const GROUPS_DETAIL_SCREEN="/group/group-details";
+export const GROUP_MEMBERS_SCREEN="/group/member";
+export const GROUP_SCORE_DETAILS_SCREEN="/group/score-details";
 
 // Quiz Section
 export const QUIZ_SCREEN="/quiz";

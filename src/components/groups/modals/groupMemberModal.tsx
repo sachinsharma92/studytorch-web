@@ -56,7 +56,7 @@ function GroupMemberModal(props: any) {
 							<Button onClick={props.addButtonHandler} className="btn-add" type="primary">Add</Button>
 						</div>
 
-						<div className="list-section">
+						{props.memberList && <div className="list-section">
 							<Row>
 								<Col sm={16}><div className="list-head-text">Members</div></Col>
 								<Col sm={8}><div className="list-head-text">Role</div></Col>
@@ -77,7 +77,7 @@ function GroupMemberModal(props: any) {
 									</List.Item>
 								)}
 							/>
-						</div>
+						</div>}
 					</div>
 				</div>
 			</Modal>
