@@ -15,19 +15,19 @@ const ForgotScreen = lazy(() => import(/* webpackChunkName: "ForgotScreen" */ '.
 const OnboardingScreen = lazy(() => import(/* webpackChunkName: "OnboardingScreen" */ './pages/onboarding/onboardingScreen'));
 const CollectionScreen = lazy(() => import(/* webpackChunkName: "Collection" */ './pages/collection/collection'));
 const CollectionDetailsScreen = lazy(() => import(/* webpackChunkName: "CollectionDetails" */ './pages/collection/collectionDetails'));
-const GroupsScreen = lazy(() => import(/* webpackChunkName: "CollectionDetails" */ './pages/groups/groups'));
-const GroupDetailScreen = lazy(() => import(/* webpackChunkName: "CollectionDetails" */ './pages/groups/groupsDetails'));
-const QuizScreen = lazy(() => import(/* webpackChunkName: "CollectionDetails" */ './pages/quiz/quiz'));
-const PlannerScreen = lazy(() => import(/* webpackChunkName: "CollectionDetails" */ './pages/planner/planner'));
-const ChecklistScreen = lazy(() => import(/* webpackChunkName: "CollectionDetails" */ './pages/groups/members/'));
-const ProfileScreen = lazy(() => import(/* webpackChunkName: "CollectionDetails" */ './pages/profile/profile'));
-const NotificationScreen = lazy(() => import(/* webpackChunkName: "CollectionDetails" */ './pages/profile/notification'));
-const SecurityScreen = lazy(() => import(/* webpackChunkName: "CollectionDetails" */ './pages/profile/security'));
-const AccountDeleteScreen = lazy(() => import(/* webpackChunkName: "CollectionDetails" */ './pages/profile/accountDelete'));
-const SharedWithMeScreen = lazy(() => import(/* webpackChunkName: "LoginScreen" */ './pages/sharedWithMe/sharedWithMeScreen'));
-const SharedWithMeDetailScreen = lazy(() => import(/* webpackChunkName: "CollectionDetails" */ './pages/checklist/checklist'));
-const GroupMembersScreen = lazy(() => import(/* webpackChunkName: "CollectionDetails" */ './pages/groups/members/'));
-const ScoreDetailScreen = lazy(() => import(/* webpackChunkName: "CollectionDetails" */ './pages/groups/scoreDetails/'));
+const GroupsScreen = lazy(() => import(/* webpackChunkName: "groups" */ './pages/groups/groups'));
+const GroupDetailScreen = lazy(() => import(/* webpackChunkName: "groupsDetails" */ './pages/groups/groupsDetails'));
+const QuizScreen = lazy(() => import(/* webpackChunkName: "quiz" */ './pages/quiz/quiz'));
+const PlannerScreen = lazy(() => import(/* webpackChunkName: "planner" */ './pages/planner/planner'));
+const ChecklistScreen = lazy(() => import(/* webpackChunkName: "checklist" */ './pages/checklist/checklist'));
+const ProfileScreen = lazy(() => import(/* webpackChunkName: "profile" */ './pages/profile/profile'));
+const NotificationScreen = lazy(() => import(/* webpackChunkName: "notification" */ './pages/profile/notification'));
+const SecurityScreen = lazy(() => import(/* webpackChunkName: "security" */ './pages/profile/security'));
+const AccountDeleteScreen = lazy(() => import(/* webpackChunkName: "accountDelete" */ './pages/profile/accountDelete'));
+const SharedWithMeScreen = lazy(() => import(/* webpackChunkName: "sharedWithMeScreen" */ './pages/sharedWithMe/sharedWithMeScreen'));
+const SharedWithMeDetailScreen = lazy(() => import(/* webpackChunkName: "shareWithMeDetails" */ './pages/sharedWithMe/shareWithMeDetails'));
+const GroupMembersScreen = lazy(() => import(/* webpackChunkName: "members" */ './pages/groups/members/'));
+const ScoreDetailScreen = lazy(() => import(/* webpackChunkName: "scoreDetails" */ './pages/groups/scoreDetails/'));
 
 
 const AppRouter = () => {

@@ -29,8 +29,6 @@ import SharedWithMeCollection from '../../components/sharedWithMeCollection';
 
 const { TabPane } = Tabs;
 
-const { Option } = Select;
-
 const menu = (
 	<Menu>
 		<Menu.Item icon={<EditOutlined />}>
@@ -46,6 +44,17 @@ const menu = (
 	</Menu>
 );
 
+
+const routes = [
+	{
+		path: 'index',
+		breadcrumbName: 'Collections',
+	},
+	{
+		path: 'first',
+		breadcrumbName: 'Maths Group',
+	},
+];
 
 const noteCardData = [
 	{
@@ -229,6 +238,7 @@ function ShareWithMeDetails(props: any) {
 					className="site-page-header header-back"
 					onBack={() => navigate('/collection')}
 					title="Maths"
+					breadcrumb={{ routes }}
 					extra={[
 						<div className="btn-section-top">
 							<div className='user-flex-icon'>

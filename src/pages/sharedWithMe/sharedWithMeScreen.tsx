@@ -3,10 +3,10 @@ import { Drawer } from 'antd';
 import PrimaryLayout from "../../common/primaryLayout/primaryLayout"
 import SharedWithMeCollection from "../../components/sharedWithMeCollection"
 import FolderIconSVG from "../../common/FolderIconSVG";
+import ModalConfirmation from "../../common/modalConfirmation";
 
 // Styles
 import './styles.scss';
-import ModalConfirmation from "../../common/modalConfirmation";
 
 function SharedWithMeScreen() {
   const folderList = [
@@ -125,9 +125,9 @@ function SharedWithMeScreen() {
     }
   ]
 
-  const [visible, setVisible] = useState(false);
-  const handleToggleDrawer = () => {
-    setVisible(!visible);
+  const [isSharedDrawer, setSharedDrawer] = useState(true);
+  const sharedToggleDrawer = () => {
+    setSharedDrawer(!isSharedDrawer);
   };
 
   const [isModalConfirmation, setIsModalConfirmation] = useState(true);
@@ -176,8 +176,8 @@ function SharedWithMeScreen() {
           closable={false}
           className="shared-information-drawer"
           placement="right"
-          onClose={handleToggleDrawer}
-          visible={visible}
+          onClose={sharedToggleDrawer}
+          visible={isSharedDrawer}
         >
           <div className="detail-section">
             <div className="flex">

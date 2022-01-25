@@ -1,9 +1,9 @@
-import { Card, Dropdown } from 'antd';
+import { Card } from 'antd';
 import ROUTES from '../../../router';
 import { Link } from 'react-router-dom';
 import image from "../../../assets/images/sharedWithMe/image.svg";
-import EllipsisMenu from "../../ellipsisMenu"
 import FolderIconSVG from "../../../common/FolderIconSVG"
+import EllipsisMenu from "../../ellipsisMenu"
 
 import './styles.scss';
 
