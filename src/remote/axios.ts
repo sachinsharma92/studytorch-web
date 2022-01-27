@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { notification } from 'antd';
 import get from 'lodash/get';
-const API_BASE_URL = 'http://localhost:3000';
+const API_BASE_URL = 'http://13.236.91.89';
 
 const instance = axios.create({
   baseURL: API_BASE_URL,
