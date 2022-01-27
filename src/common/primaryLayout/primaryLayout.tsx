@@ -1,8 +1,8 @@
 import { Col, Layout, Menu, Row, Dropdown, Avatar } from 'antd';
-
+import {useSelector} from 'react-redux'
+import get from 'lodash/get';
 import LogoPrimary from '../logoPrimary/logoPrimary';
 import SearchPrimary from '../searchPrimary/searchPrimary';
-
 
 // Icons here
 import iconDashboard from "../../assets/images/icons/dashboard.svg"
@@ -27,12 +27,9 @@ const menu = (
         Edit Profile
       </a>
     </Menu.Item>
-    <Menu.Item>
-      <a href="https://www.aliyun.com">
-        Read About
-      </a>
-    </Menu.Item>
-    <Menu.Item danger>Logout</Menu.Item>
+  
+    <Menu.Item danger>
+      <Link to={ROUTES.LOGOUT_SCREEN}>Logout</Link></Menu.Item>
   </Menu>
 );
 
@@ -40,6 +37,7 @@ const { Header, Content, Sider } = Layout;
 
 export default function PrimaryLayout(props: any) {
   let location = useLocation();
+  const  user = useSelector((state) => get(state, 'userState.user'));
   const [current, setCurrent] = useState(
     location.pathname === "/" || location.pathname === ""
       ? "/dashboard"
@@ -72,13 +70,13 @@ export default function PrimaryLayout(props: any) {
               selectedKeys={[current]}
               style={{ height: '100%', borderRight: 0 }}
             >
-              <Menu.Item icon={<img src={iconDashboard} />} key={ROUTES.HOME_SCREEN}><Link to={ROUTES.HOME_SCREEN}>Dashboard</Link></Menu.Item>
-              <Menu.Item icon={<img src={iconCollections} />} key={ROUTES.COLLECTION_SCREEN}><Link to={ROUTES.COLLECTION_SCREEN}>Collections</Link></Menu.Item>
-              <Menu.Item icon={<img src={iconShared} />} key={ROUTES.SHARED_SCREEN}><Link to={ROUTES.SHARED_SCREEN}>Shared with me</Link></Menu.Item>
-              <Menu.Item icon={<img src={iconGroups} />} key={ROUTES.GROUPS_SCREEN}><Link to={ROUTES.GROUPS_SCREEN}>Groups</Link></Menu.Item>
-              <Menu.Item icon={<img src={iconPlanner} />} key={ROUTES.PLANNER_SCREEN}><Link to={ROUTES.PLANNER_SCREEN}>Planner</Link></Menu.Item>
-              <Menu.Item icon={<img src={iconChecklist} />} key={ROUTES.CHECKLIST_SCREEN}><Link to={ROUTES.CHECKLIST_SCREEN}>Checklist</Link></Menu.Item>
-              <Menu.Item icon={<img src={iconQuiz} />} key={ROUTES.QUIZ_SCREEN}><Link to={ROUTES.QUIZ_SCREEN}>Quiz</Link></Menu.Item>
+              <Menu.Item icon={<img src={iconDashboard} alt=""/>} key={ROUTES.HOME_SCREEN}><Link to={ROUTES.HOME_SCREEN}>Dashboard</Link></Menu.Item>
+              <Menu.Item icon={<img src={iconCollections} alt=""/>} key={ROUTES.COLLECTION_SCREEN}><Link to={ROUTES.COLLECTION_SCREEN}>Collections</Link></Menu.Item>
+              <Menu.Item icon={<img src={iconShared} alt=""/>} key={ROUTES.SHARED_SCREEN}><Link to={ROUTES.SHARED_SCREEN}>Shared with me</Link></Menu.Item>
+              <Menu.Item icon={<img src={iconGroups} alt=""/>} key={ROUTES.GROUPS_SCREEN}><Link to={ROUTES.GROUPS_SCREEN}>Groups</Link></Menu.Item>
+              <Menu.Item icon={<img src={iconPlanner} alt=""/>} key={ROUTES.PLANNER_SCREEN}><Link to={ROUTES.PLANNER_SCREEN}>Planner</Link></Menu.Item>
+              <Menu.Item icon={<img src={iconChecklist} alt=""/>} key={ROUTES.CHECKLIST_SCREEN}><Link to={ROUTES.CHECKLIST_SCREEN}>Checklist</Link></Menu.Item>
+              <Menu.Item icon={<img src={iconQuiz} alt=""/>} key={ROUTES.QUIZ_SCREEN}><Link to={ROUTES.QUIZ_SCREEN}>Quiz</Link></Menu.Item>
 
             </Menu>
           </Sider>
@@ -96,7 +94,7 @@ export default function PrimaryLayout(props: any) {
                   <div className="flex-right">
                     <Dropdown overlay={menu}>
                       <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-                        <Avatar size={30} src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8ZmFjZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60" /> Ayush Parashar
+                        <Avatar size={30} src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8ZmFjZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60" /> {get(user,'name')}
                       </a>
                     </Dropdown>
                   </div>

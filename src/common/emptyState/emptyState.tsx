@@ -10,10 +10,13 @@ export default function EmptyState(props: any) {
       {props.imgUrl && <img src={props.imgUrl} className={props.imgStyle} />}
       {props.title && <h4 className="title4">{props.title}</h4>}
       {props.description && <p className="description">{props.description}</p>}
-      {props.buttonText && <div className="button-section">
-        <Button type={props.buttonType} onClick={props.buttonHandler}>{props.buttonText}</Button>
-      </div>
-      }
+      {props.buttonText && (
+        <div className="button-section">
+          <Button type={props.buttonType} onClick={props.buttonHandler}>
+            {props.buttonText}
+          </Button>
+        </div>
+      )}
     </div>
-  )
+  );
 }

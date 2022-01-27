@@ -8,7 +8,7 @@ import PrimaryLayout from '../../common/primaryLayout/primaryLayout';
 import NotesCard from '../../components/collection/notesCard/notesCard';
 import FlashCard from '../../components/collection/flashCard/flashCard';
 import ShareCollectionModal from '../../components/collection/modals/shareCollection';
-import MasterCollectionModal from '../../components/collection/modals/masterCollection';
+import MasterCollectionModal from '../../components/collection/modals/createCollection';
 import ButtonCustom from '../../common/buttons/buttonCustom';
 import QuestionCard from '../../components/collection/questionCard/questionCard';
 import NoteModalCard from '../../components/collection/modals/noteModalCard';

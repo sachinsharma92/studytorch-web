@@ -1,5 +1,7 @@
 import { useState } from 'react';
+import {useSelector} from 'react-redux'
 import { Card, Col, Row } from 'antd';
+import get from 'lodash/get'
 import PieChart from '../../components/charts/pieHighchartChart';
 
 import PrimaryLayout from '../../common/primaryLayout/primaryLayout';
@@ -7,6 +9,7 @@ import folder1 from "../../assets/images/icons/folder-1.svg";
 import folder2 from "../../assets/images/icons/folder-2.svg";
 import arrowIcon1 from "../../assets/images/icons/arrow-down1.svg";
 import arrowIcon2 from "../../assets/images/icons/arrow-down2.svg";
+import requireAuth  from '../../hocs/requireAuth'
 
 // Styles
 import './styles.scss';
@@ -14,6 +17,7 @@ import ColumnHighchartChart from '../../components/charts/columnHighchartChart';
 import ScoreHighchartChart from '../../components/charts/scoreHighchartChart';
 
 function HomeScreen() {
+	const  user = useSelector((state) => get(state, 'userState.user'));
 
 	return (
 		<PrimaryLayout>
@@ -21,7 +25,7 @@ function HomeScreen() {
 				<Row>
 					<Col sm={18}>
 						<div className="section-main">
-							<h3 className="title3 space-md">Welcome , Ayush</h3>
+							<h3 className="title3 space-md">Welcome , {get(user,'first_name')}</h3>
 
 							<Row gutter={24}>
 								<Col sm={6}>
@@ -234,5 +238,5 @@ function HomeScreen() {
 	)
 }
 
-export default HomeScreen;
-// export default requireAuth(HomeScreen);
+
+export default requireAuth(HomeScreen);

@@ -1,20 +1,28 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Col, Menu, Row, Popover, } from 'antd';
-import { PlusOutlined, EditOutlined, DeleteOutlined, UserAddOutlined, InfoCircleOutlined } from '@ant-design/icons';
+import { Button, Col, Menu, Row, Popover, Spin } from 'antd';
+import get from 'lodash/get';
+import map from 'lodash/map';
+import find from 'lodash/find';
+import replace from 'lodash/replace';
+import {
+  PlusOutlined,
+  EditOutlined,
+  DeleteOutlined,
+  UserAddOutlined,
+  InfoCircleOutlined,
+} from '@ant-design/icons';
+import { useDispatch, useSelector } from 'react-redux';
 import ROUTES from '../../router';
+import { collectionColors } from '../../constants/collections';
 import PrimaryLayout from '../../common/primaryLayout/primaryLayout';
 import EmptyState from '../../common/emptyState/emptyState';
 import CollectionCard from '../../components/collection/collectionCard/collectionCard';
-import MasterCollectionModal from '../../components/collection/modals/masterCollection';
+import CreateCollectionModal from '../../components/collection/modals/createCollection';
+import { fetchCollection } from '../../redux/actions/collectionActions';
 
 // Images
-import folderGray from "../../assets/images/icons/folder-gray.svg";
-import folderPurple from "../../assets/images/icons/folder-purple.svg";
-import coralFolder from "../../assets/images/icons/coral-folder.svg";
-import blueFolder from "../../assets/images/icons/folder-1.svg";
-import folderPurpleUsers from "../../assets/images/icons/folder-purple-with-users.svg";
-import babyPinkFolder from "../../assets/images/icons/baby-pink-folder.svg";
+import folderGray from '../../assets/images/icons/folder-gray.svg';
 
 // Styles
 import './styles.scss';
@@ -22,179 +30,167 @@ import ShareCollectionModal from '../../components/collection/modals/shareCollec
 import NoteModalCard from '../../components/collection/modals/noteModalCard';
 import QuestionModal from '../../components/collection/modals/questionModal';
 
-
-const menu = (
-	<Menu>
-		<Menu.Item icon={<EditOutlined />}>
-			<a target="_blank" rel="noopener noreferrer" href="#">
-				Rename
-			</a>
-		</Menu.Item>
-		<Menu.Item icon={<DeleteOutlined />}>
-			<a target="_blank" rel="noopener noreferrer" href="#">
-				Delete
-			</a>
-		</Menu.Item>
-		<Menu.Item icon={<InfoCircleOutlined />}>
-			<a target="_blank" rel="noopener noreferrer" href="#">
-				Get Details
-			</a>
-		</Menu.Item>
-		<Menu.Item icon={<UserAddOutlined />}>
-			<a target="_blank" rel="noopener noreferrer" href="#">
-				Share
-			</a>
-		</Menu.Item>
-	</Menu>
-);
-
-const cardData = [
-	{
-		title: "Maths",
-		description: "20 Notes, 2 quizes",
-		imgUrl: folderPurple,
-	},
-	{
-		title: "Maths",
-		description: "20 Notes, 2 quizes",
-		imgUrl: babyPinkFolder,
-	},
-	{
-		title: "Maths",
-		description: "20 Notes, 2 quizes",
-		imgUrl: blueFolder,
-	},
-	{
-		title: "Maths",
-		description: "20 Notes, 2 quizes",
-		imgUrl: coralFolder,
-	},
-	{
-		title: "Maths",
-		description: "20 Notes, 2 quizes",
-		imgUrl: folderPurple,
-	},
-	{
-		title: "Maths",
-		description: "20 Notes, 2 quizes",
-		imgUrl: folderPurple,
-	},
-	{
-		title: "Maths",
-		description: "20 Notes, 2 quizes",
-		imgUrl: folderPurpleUsers,
-	},
-	{
-		title: "Maths",
-		description: "20 Notes, 2 quizes",
-		imgUrl: folderPurple,
-	},
-]
-
 function CollectionScreen(props: any) {
+  const [collectionModal, setCollectionModal] = useState<any>({
+    visible: false,
+    data: null,
+  });
+  const [loading, setLoading] = useState(false);
+  const [collectionDetails, setCollectionDetails] = useState(null);
+  const rootCollection = useSelector((state) =>
+    get(state, 'userState.user.rootCollection')
+  );
 
-	const [isCollectionModal, setIsCollectionModal] = useState(false);
-	const collectionToggleModal = () => {
-		setIsCollectionModal(!isCollectionModal);
-	};
+  const dispatch = useDispatch();
+  const toggleCollectionModal = (data = null) => {
+    setCollectionModal({
+      visible: !get(collectionModal, 'visible'),
+      data: data,
+    });
+  };
 
-	const [isShareModal, setIsShareModal] = useState(false);
-	const shareToggleModal = () => {
-		setIsShareModal(!isShareModal);
-	};
+  const [isShareModal, setIsShareModal] = useState(false);
+  const shareToggleModal = () => {
+    setIsShareModal(!isShareModal);
+  };
 
-	const [isNoteModal, setIsNoteModal] = useState(false);
-	const noteToggleModal = () => {
-		setIsNoteModal(!isNoteModal);
-	};
+  const [isNoteModal, setIsNoteModal] = useState(false);
+  const noteToggleModal = () => {
+    setIsNoteModal(!isNoteModal);
+  };
 
-	const [isQuestionModal, setIsQuestionModal] = useState(false);
-	const questionToggleModal = () => {
-		setIsQuestionModal(!isQuestionModal);
-	};
+  const [isQuestionModal, setIsQuestionModal] = useState(false);
+  const questionToggleModal = () => {
+    setIsQuestionModal(!isQuestionModal);
+  };
 
-	const toggleData = (
-		<div className="toggle-menu">
-					<a onClick={collectionToggleModal}>New Collection</a>
-			<a onClick={noteToggleModal}>Notes</a>
-			<a onClick={questionToggleModal}>Question</a>
-		</div>
-	);
+  const onCreateSuccess = () => {
+    toggleCollectionModal(null);
+    fetchCollectionDetails();
+  };
 
-	return (
-		<PrimaryLayout>
-			<div className="collection-page-style">
-				<h3 className="title3">My Collection</h3>
+  const fetchCollectionDetails = () => {
+    setLoading(true);
+    dispatch(fetchCollection(get(rootCollection, 'id')))
+      .then((result: any) => {
+        setCollectionDetails(result);
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  };
 
-				{props.collectionData ? <div className="state-center">
-					<EmptyState
-						imgUrl={folderGray}
-						title="Create your Collection"
-						description=" Your Collection can be the folder underwhich all the study material is kept"
-						buttonText="Add Collection"
-						buttonType="primary"
-					/>
-				</div>
-					:
-					<div className="card-section">
-						<Row gutter={32}>
-							{cardData.map((data, index) => (
-								<Col sm={6} key={index}>
-									<CollectionCard
-										title={data.title}
-										description={data.description}
-										imgUrl={data.imgUrl}
-										menuData={menu}
-										cardHandler={ROUTES.COLLECTION_DETAILS_SCREEN}
-									/>
-								</Col>
-							))}
-						</Row>
-					</div>
-				}
-			</div>
+  useEffect(() => {
+    fetchCollectionDetails();
+  }, []);
 
+  console.log('@@@@@', collectionDetails);
+  const toggleData = (
+    <div className="toggle-menu">
+      <a onClick={() => toggleCollectionModal()}>New Collection</a>
+    </div>
+  );
 
-			{/* Collection Modal here */}
-			<MasterCollectionModal
-				visible={isCollectionModal}
-				onCancel={collectionToggleModal}
-				buttonHandler={ROUTES.COLLECTION_DETAILS_SCREEN}
-			/>
+  return (
+    <PrimaryLayout>
+      <Spin spinning={loading}>
+        <div className="collection-page-style">
+          <h3 className="title3">My Collection</h3>
 
-			{/* Share Modal here */}
-			<ShareCollectionModal
-				visible={isShareModal}
-				onCancel={shareToggleModal}
-				doneHandler={shareToggleModal}
-				cancelHandler={shareToggleModal}
-			/>
+          {get(collectionDetails, 'subCollections', []).length === 0 ? (
+            <div className="state-center">
+              <EmptyState
+                imgUrl={folderGray}
+                title="Create your Collection"
+                description=" Your Collection can be the folder underwhich all the study material is kept"
+                buttonText="Add Collection"
+                buttonType="primary"
+                buttonHandler={() => toggleCollectionModal()}
+              />
+            </div>
+          ) : (
+            <div className="card-section">
+              <Row gutter={32}>
+                {map(
+                  get(collectionDetails, 'subCollections', []),
+                  (collection, index) => (
+                    <Col sm={6} key={index}>
+                      <CollectionCard
+                        setLoading={setLoading}
+                        id={get(collection, 'id')}
+                        title={get(collection, 'name')}
+                        description={'data.description'}
+                        imgUrl={get(
+                          find(collectionColors, [
+                            'value',
+                            get(collection, 'color'),
+                          ]),
+                          'image'
+                        )}
+                        cardHandler={replace(
+                          ROUTES.COLLECTION_DETAILS_SCREEN,
+                          ':id',
+                          get(collection, 'id')
+                        )}
+                        onEditCollection={() => {
+                          toggleCollectionModal(collection);
+                        }}
+                        onSuccess={fetchCollectionDetails}
+                      />
+                    </Col>
+                  )
+                )}
+              </Row>
+            </div>
+          )}
+        </div>
+      </Spin>
+      {/* Collection Modal here */}
+      <CreateCollectionModal
+        visible={get(collectionModal, 'visible')}
+        onCancel={() => toggleCollectionModal()}
+        onSuccess={onCreateSuccess}
+        edit={get(collectionModal, 'data') ? true : false}
+        initialValue={get(collectionModal, 'data')}
+        collection={rootCollection}
+      />
 
-			{/* Note Modal here */}
-			<NoteModalCard
-				visible={isNoteModal}
-				onCancel={noteToggleModal}
-				addHandler={noteToggleModal}
-				cancelHandler={noteToggleModal}
-				onBack={noteToggleModal}
-			/>
+      {/* Share Modal here */}
+      <ShareCollectionModal
+        visible={isShareModal}
+        onCancel={shareToggleModal}
+        doneHandler={shareToggleModal}
+        cancelHandler={shareToggleModal}
+      />
 
-			{/* Questions Modal */}
-			<QuestionModal
-				visible={isQuestionModal}
-				addHandler={questionToggleModal}
-				cancelHandler={questionToggleModal}
-				onBack={questionToggleModal}
-			/>
+      {/* Note Modal here */}
+      <NoteModalCard
+        visible={isNoteModal}
+        onCancel={noteToggleModal}
+        addHandler={noteToggleModal}
+        cancelHandler={noteToggleModal}
+        onBack={noteToggleModal}
+      />
 
-			<Popover
-				content={toggleData}
-				placement="topRight">
-				<Button className="button-add-circle" shape="circle" type='primary' icon={<PlusOutlined />} />
-			</Popover>
+      {/* Questions Modal */}
+      <QuestionModal
+        visible={isQuestionModal}
+        addHandler={questionToggleModal}
+        cancelHandler={questionToggleModal}
+        onBack={questionToggleModal}
+      />
 
-		</PrimaryLayout>
-	)
+      <Popover content={toggleData} placement="topRight">
+        <Button
+          className="button-add-circle"
+          shape="circle"
+          type="primary"
+          icon={<PlusOutlined />}
+        />
+      </Popover>
+    </PrimaryLayout>
+  );
 }
 
 export default CollectionScreen;

@@ -1,7 +1,8 @@
-import { Button, Form, Input, } from 'antd';
+import { Button, Form, Input,Spin } from 'antd';
 import get from 'lodash/get';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Navigate, useSearchParams } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { login } from '../../redux/actions/userActions';
 import { IAppState } from '../../redux/reducers/indexReducer';
 import ROUTES from '../../router';
@@ -16,7 +17,6 @@ import './styles.scss';
 interface LoginScreenProps {
 
 }
-
 /**
  * 
  * @param props: LoginScreenProps
@@ -25,29 +25,34 @@ interface LoginScreenProps {
 function LoginScreen(props: LoginScreenProps) {
 
 	const dispatch = useDispatch();
-	let [searchParams, setSearchParams] = useSearchParams();
-	let isLoggedIn = useSelector((state: IAppState) => get(state, 'userState.accessToken'));
+	
+	const [loading,setLoading]=useState(false)
+	let isLoggedIn = useSelector((state: IAppState) => get(state, 'userState.isLoggedIn'));
 
-	const onLogin = () => {
-		dispatch(login(987654321, '2932'));
+	const onLogin = (payload:any) => {
+		setLoading(true);
+		dispatch(login(payload)).then(()=>{
+			setLoading(false)
+		}).catch(()=>{
+			setLoading(false)
+		})
 	}
 
 	if (isLoggedIn) {
-		return <Navigate to={searchParams.get("redirect") || ROUTES.HOME_SCREEN} />;
+		return <Navigate to={ROUTES.HOME_SCREEN} />;
 	}
 
 	const onFinish = (values: any) => {
-		console.log('Success:', values);
+		
+		onLogin(values)
 	};
 
-	const onFinishFailed = (errorInfo: any) => {
-		console.log('Failed:', errorInfo);
-	};
-
+	const onFinishFailed = (errorInfo: any) => {};
 
 	return (
 		<div className="auth-page-style">
 			<AuthLayout>
+			<Spin spinning={loading}>
 				<div className="form-section">
 					<div className="content">
 						<div className="emoji-style">👋</div>
@@ -55,7 +60,7 @@ function LoginScreen(props: LoginScreenProps) {
 						<p className="description">Login to your account</p>
 					</div>
 
-					{/* <img src={logo} /> */}
+					
 					<Form
 						name="basic"
 						initialValues={{ remember: true }}
@@ -65,17 +70,23 @@ function LoginScreen(props: LoginScreenProps) {
 						layout='vertical'
 					>
 						<Form.Item
-							label="E-mail or phone number"
-							name="username"
-							rules={[{ required: true, message: 'Please input your username!' }]}
+							label="E-mail "
+							name="email"
+							rules={[{ required: true, message: 'Please input your email!' },{
+								type:'email',
+								message: 'Please input valid email format!' 
+							}]}
 						>
-							<Input placeholder='Type your e-mail or phone number' />
+							<Input placeholder='Type your e-mail ' />
 						</Form.Item>
 
 						<Form.Item
 							label="Password"
 							name="password"
-							rules={[{ required: true, message: 'Please input your password!' }]}
+							rules={[{ required: true, message: 'Please input your password!' },{
+								min:6,
+								message: 'Password is of minimum 6 characters'
+							}]}
 						>
 							<Input.Password placeholder='Type your password' />
 						</Form.Item>
@@ -87,7 +98,7 @@ function LoginScreen(props: LoginScreenProps) {
 						</Form.Item>
 
 						<Form.Item>
-							<Button onClick={onLogin} className='btn-danger' htmlType="submit">
+							<Button  className='btn-danger' htmlType="submit">
 								Login
 							</Button>
 						</Form.Item>
@@ -97,6 +108,7 @@ function LoginScreen(props: LoginScreenProps) {
 						</Form.Item>
 					</Form>
 				</div>
+				</Spin>
 			</AuthLayout>
 		</div>
 	)
