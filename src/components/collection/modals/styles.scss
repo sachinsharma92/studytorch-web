@@ -392,6 +392,18 @@
     }
   }
 
+  .input-lg-style {
+    color: $textColor-dark;
+    border: none;
+    font-size: 30px;
+    padding: 0;
+
+    &:focus, &:hover {
+      outline: none;
+      box-shadow: none;
+    }
+  }
+
   .ant-tabs-tab {
     justify-content: center;
   }
