@@ -1,9 +1,6 @@
 import { Spin } from 'antd';
-import get from 'lodash/get';
 import { lazy, Suspense, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import ChecklistScreen from './pages/checklist/checklist';
 import * as ROUTES from './router/routes';
 import LogoutScreen from './pages/auth/logoutScreen';
 
@@ -16,12 +13,6 @@ const HomeScreen = lazy(
 );
 const LoginScreen = lazy(
   () => import(/* webpackChunkName: "LoginScreen" */ './pages/auth/loginScreen')
-);
-const SharedWithMeScreen = lazy(
-  () =>
-    import(
-      /* webpackChunkName: "LoginScreen" */ './pages/sharedWithMe/sharedWithMeScreen'
-    )
 );
 const RegisterScreen = lazy(
   () =>
@@ -50,46 +41,61 @@ const CollectionDetailsScreen = lazy(
     )
 );
 const GroupsScreen = lazy(
-  () =>
-    import(/* webpackChunkName: "CollectionDetails" */ './pages/groups/groups')
+  () => import(/* webpackChunkName: "groups" */ './pages/groups/groups')
 );
 const GroupDetailScreen = lazy(
   () =>
     import(
-      /* webpackChunkName: "CollectionDetails" */ './pages/groups/groupsDetails'
+      /* webpackChunkName: "groupsDetails" */ './pages/groups/groupsDetails'
     )
 );
 const QuizScreen = lazy(
-  () => import(/* webpackChunkName: "CollectionDetails" */ './pages/quiz/quiz')
+  () => import(/* webpackChunkName: "quiz" */ './pages/quiz/quiz')
 );
 const PlannerScreen = lazy(
+  () => import(/* webpackChunkName: "planner" */ './pages/planner/planner')
+);
+const ChecklistScreen = lazy(
   () =>
-    import(
-      /* webpackChunkName: "CollectionDetails" */ './pages/planner/planner'
-    )
+    import(/* webpackChunkName: "checklist" */ './pages/checklist/checklist')
 );
 const ProfileScreen = lazy(
-  () =>
-    import(
-      /* webpackChunkName: "CollectionDetails" */ './pages/profile/profile'
-    )
+  () => import(/* webpackChunkName: "profile" */ './pages/profile/profile')
 );
 const NotificationScreen = lazy(
   () =>
     import(
-      /* webpackChunkName: "CollectionDetails" */ './pages/profile/notification'
+      /* webpackChunkName: "notification" */ './pages/profile/notification'
     )
 );
 const SecurityScreen = lazy(
-  () =>
-    import(
-      /* webpackChunkName: "CollectionDetails" */ './pages/profile/security'
-    )
+  () => import(/* webpackChunkName: "security" */ './pages/profile/security')
 );
 const AccountDeleteScreen = lazy(
   () =>
     import(
-      /* webpackChunkName: "CollectionDetails" */ './pages/profile/accountDelete'
+      /* webpackChunkName: "accountDelete" */ './pages/profile/accountDelete'
+    )
+);
+const SharedWithMeScreen = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "sharedWithMeScreen" */ './pages/sharedWithMe/sharedWithMeScreen'
+    )
+);
+const SharedWithMeDetailScreen = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "shareWithMeDetails" */ './pages/sharedWithMe/shareWithMeDetails'
+    )
+);
+const GroupMembersScreen = lazy(
+  () => import(/* webpackChunkName: "members" */ './pages/groups/members/')
+);
+const ScoreDetailScreen = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "scoreDetails" */ './pages/groups/scoreDetails/'
     )
 );
 
@@ -145,6 +151,18 @@ const AppRouter = () => {
             <Route
               path={ROUTES.ACCOUNT_DELETE_SCREEN}
               element={<AccountDeleteScreen />}
+            />
+            <Route
+              path={ROUTES.SHARED_DETAILS_SCREEN}
+              element={<SharedWithMeDetailScreen />}
+            />
+            <Route
+              path={ROUTES.GROUP_MEMBERS_SCREEN}
+              element={<GroupMembersScreen />}
+            />
+            <Route
+              path={ROUTES.GROUP_SCORE_DETAILS_SCREEN}
+              element={<ScoreDetailScreen />}
             />
           </Routes>
         </Router>

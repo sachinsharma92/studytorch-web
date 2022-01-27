@@ -9,6 +9,7 @@ import { Dropdown, Menu, message, Modal } from 'antd';
 import { DELETE_COLLECTION_SUCCESS } from '../../../constants/messages';
 import { deleteCollection } from '../../../redux/actions/collectionActions';
 import verticalDot from '../../../assets/images/icons/vertical-dot.svg';
+import FolderIconSVG from '../../../common/FolderIconSVG';
 
 // Styles
 import './styles.scss';
@@ -67,7 +68,13 @@ function CollectionCard(props: any) {
     <div className="collection-card-style">
       <Link to={props.cardHandler}>
         <a className="flex-style">
-          <img className="img-style" src={props.imgUrl} alt="" />
+          {/* <img className="img-style" src={props.imgUrl} alt="" /> */}
+          <div className="folder-icon">
+            <FolderIconSVG
+              withUserStyle={props.withUserStyle}
+              fillColor={props.fillColor}
+            />
+          </div>
           <div className="content-sec">
             <h4 className="title4">{props.title}</h4>
             <p className="description">{props.description}</p>

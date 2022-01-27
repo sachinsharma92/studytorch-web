@@ -28,6 +28,7 @@ import { useDispatch } from 'react-redux';
 import { fetchCollection } from '../../redux/actions/collectionActions';
 import { COLLECTION_SCREEN } from '../../router/routes';
 import { collectionColors } from '../../constants/collections';
+
 // Custom Component and Modal
 import ROUTES from '../../router';
 import EmptyState from '../../common/emptyState/emptyState';
@@ -42,16 +43,16 @@ import NoteModalCard from '../../components/collection/modals/noteModalCard';
 import QuestionModal from '../../components/collection/modals/questionModal';
 import QuestionAddedModal from '../../components/collection/modals/questionAddedModal';
 import FlashEditModal from '../../components/collection/modals/flashEditModal';
+import RevisionModeModal from '../../components/collection/modals/revisionModeModal';
+import CollectionCard from '../../components/collection/collectionCard/collectionCard';
 
 // Images
 import filter from '../../assets/images/icons/filter.svg';
 import folderGray from '../../assets/images/icons/folder-gray.svg';
-
-import CollectionCard from '../../components/collection/collectionCard/collectionCard';
-
 // Styles
 import './styles.scss';
-import RevisionModeModal from '../../components/collection/modals/revisionModeModal';
+import McqQuestionModal from '../../components/collection/modals/mcqQuestionModal';
+import ModalConfirmation from '../../common/modalConfirmation';
 
 const { TabPane } = Tabs;
 

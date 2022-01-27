@@ -101,7 +101,7 @@ function QuizScreen(props: any) {
 	const [isQuizResultModal, setIsQuizResultModal] = useState(false);
 	const quizResultToggleModal= () => {
 		setIsQuizResultModal(!isQuizResultModal);
-		setIsQuizSelectModal(!isQuizSelectModal);
+		setIsQuizSelectModal(false);
 	};
 
 
@@ -124,9 +124,9 @@ function QuizScreen(props: any) {
 				<div className="state-center">
 					<EmptyState
 						imgUrl={folderGray}
-						title="Create your Collection"
-						description=" Your Collection can be the folder underwhich all the study material is kept"
-						buttonText="Add Collection"
+						title="Create Quiz"
+						description=" Your Create can be the folder underwhich all the study material is kept"
+						buttonText="Create Quiz"
 						buttonType="primary"
 					/>
 				</div>
@@ -138,7 +138,7 @@ function QuizScreen(props: any) {
 								<div className="card-section">
 									<Row gutter={32}>
 										{quizViewData.map((data, index) => (
-											<Col sm={8} key={index}>
+											<Col xs={24} sm={8} key={index}>
 												<QuizCard
 													quizName={data.quizName}
 													collectionName={data.collectionName}
@@ -201,9 +201,9 @@ function QuizScreen(props: any) {
 			{/* Questions Modal */}
 			<QuizResultModal
 				visible={isQuizResultModal}
-				addHandler={quizResultToggleModal}
-				cancelHandler={quizResultToggleModal}
+				buttonHandler={quizResultToggleModal}
 				onBack={quizResultToggleModal}
+				onCancel={quizResultToggleModal}
 			/>
 
 		</PrimaryLayout>

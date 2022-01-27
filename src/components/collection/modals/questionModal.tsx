@@ -9,6 +9,7 @@ import {
   Checkbox,
   Row,
   Col,
+  Input,
 } from 'antd';
 import { DownloadOutlined, FileTextOutlined } from '@ant-design/icons';
 
@@ -69,10 +70,12 @@ function QuestionModal(props: any) {
             <img src={iconArrowLeft} /> Back
           </Button>
         </div>
+
         <h3 className="title3">Add Question</h3>
 
         <div className="main-content-section">
-          <h1 className="title1 fade-style">Question Title....</h1>
+          {/* <h1 className="title1 fade-style">Question Title....</h1> */}
+          <Input className="input-lg-style" placeholder="Question Title..." />
 
           <Tabs defaultActiveKey="1" className="tab-button-style">
             <TabPane tab="Text" key="1">

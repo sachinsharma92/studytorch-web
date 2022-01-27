@@ -6,6 +6,10 @@
 .modal-confirmation {
   .ant-modal {
     min-width: 640px;
+
+    @include mobile {
+      min-width: auto;
+    }
   }
 
   .title3 {
@@ -21,21 +25,26 @@
     margin: 25px 0;
   }
 
-  .theme-color {
-    color: $theme-primary;
-
-    span {
-      color: $text-dark;
-    }
-  }
-
   .confirmation-section {
+
+    .theme-color {
+      color: $theme-primary;
+  
+      span {
+        color: $text-dark;
+      }
+    }
 
     h2 {
       margin-bottom: 0;
       max-width: 90%;
-      font-weight: 700;
+      font-weight: 600;
       color: #3C3F54;
+      font-size: 24px;
+
+      @include mobile {
+        font-size: 18px;
+      }
     }
   }
 
@@ -76,6 +85,29 @@
 
       span {
         margin-top: 2px;
+      }
+    }
+  }
+
+
+  // Delete Modal Style
+  &.delete-modal-style {
+
+    .ant-modal-close {
+      display: none;
+    }
+
+    h2 {
+      max-width: 100%;
+      font-size: 25px;
+    }
+
+    .ant-modal {
+      min-width: 450px;
+      max-width: 450px;
+  
+      @include mobile {
+        max-width: auto;
       }
     }
   }

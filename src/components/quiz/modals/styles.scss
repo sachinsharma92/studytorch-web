@@ -6,6 +6,10 @@
 .quiz-modal-style {
   .ant-modal {
     min-width: 875px;
+
+    @include mobile {
+      min-width: auto;
+    }
   }
 
   .title3 {
@@ -146,6 +150,10 @@
 .quiz-result-style {
   .ant-modal {
     min-width: 518px;
+
+    @include mobile {
+      min-width: auto;
+    }
   }
 
   .ant-modal-body {
@@ -267,6 +275,10 @@
 
   .ant-modal {
     max-width: 480px;
+
+    @include mobile {
+      max-width: 95%;
+    }
   }
 
   .title3 {
@@ -291,6 +303,10 @@
 
   .content-body {
     padding: 20px;
+
+    @include mobile {
+      padding: 0;
+    }
   }
 
   .ant-form-item-control-input {
@@ -324,6 +340,10 @@
     display: flex;
     justify-content: flex-end;
 
+    @include mobile {
+      padding: 20px;
+    }
+
     .btn-cancel {
       background: none;
       outline: none;
@@ -341,4 +361,12 @@
       }
     }
   }
+}
+
+.text-status {
+  opacity: 0.5;
+  font-size: 16px;
+  font-weight: 500;
+  position: relative;
+  bottom: 2px;
 }

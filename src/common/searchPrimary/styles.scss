@@ -8,7 +8,8 @@
   height: 40px;
   padding: 0 10px;
 
-  .ant-input, .ant-btn {
+  .ant-input,
+  .ant-btn {
     border: none;
     background: none;
     outline: none;
@@ -29,6 +30,117 @@
 
     .ant-row {
       width: 100%;
+    }
+  }
+}
+
+// Search Modal Style
+.search-modal-style {
+  .ant-modal {
+    min-width: 640px;
+
+    @include mobile {
+      min-width: auto;
+    }
+  }
+
+  .search-primary,
+  .ant-input {
+    height: 50px;
+    font-size: 16px;
+  }
+
+  .small-folder-icon {
+    margin-right: 10px;
+  }
+
+  .ant-list-split .ant-list-header {
+    border: none;
+    padding-top: 0;
+    color: #718096;
+  }
+
+  .ant-list-split .ant-list-item {
+    border: none;
+    padding: 15px 10px;
+    border-radius: 5px;
+
+    &:hover {
+      background-color: rgba($gray-light, 0.4);
+    }
+  }
+
+  .ant-modal-close {
+    display: none;
+  }
+
+  .title3 {
+    font-size: 28px;
+  }
+
+  .ant-modal-content {
+    border-radius: 8px;
+  }
+
+  .input-section {
+    margin: 25px 0;
+  }
+
+  .theme-color {
+    color: $theme-primary;
+
+    span {
+      color: $text-dark;
+    }
+  }
+
+  .confirmation-section {
+    h2 {
+      margin-bottom: 0;
+      max-width: 90%;
+      font-weight: 700;
+      color: #3c3f54;
+    }
+  }
+
+  .delete-modal-section {
+    .description {
+      margin-top: 20px;
+      font-size: 18px;
+      color: #718096;
+    }
+
+    h2 {
+      margin-bottom: 0;
+      max-width: 90%;
+      font-weight: 700;
+      font-size: 24px;
+      color: #3c3f54;
+    }
+  }
+
+  .ant-modal-close {
+    top: 15px;
+    right: 10px;
+  }
+
+  .button-bottom-section {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin: 20px -20px -20px;
+    padding: 20px 20px 20px;
+    background: #fafafa;
+
+    .ant-btn {
+      padding: 0 20px;
+      margin-left: 10px;
+      font-weight: 700;
+      font-size: 16px;
+
+      span {
+        margin-top: 2px;
+      }
     }
   }
 }

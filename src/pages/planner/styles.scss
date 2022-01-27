@@ -114,4 +114,11 @@
       }
     }
   }
+
+ .rbc-calendar .rbc-toolbar-label {
+    @include mobile {
+      margin-top: 30px;
+      margin-bottom: 10px;
+    }
+}
 }

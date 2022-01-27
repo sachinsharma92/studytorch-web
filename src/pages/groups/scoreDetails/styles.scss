@@ -1,0 +1,53 @@
+// variables
+@import "../../../styles/variables/colors";
+@import "../../../styles/variables/mixins";
+
+.score-page-style {
+  height: calc(100vh - 64px);
+  overflow-x: scroll;
+  padding: 30px 30px 100px;
+
+  @include mobile {
+    padding: 20px 20px 100px;
+  }
+
+  .btn-close {
+    border: 1px solid $theme-dark;
+    font-size: 16px;
+    padding: 2px 0 0;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+  }
+
+  .name-section {
+    .ant-avatar {
+      background: #ebf2fa;
+      width: 32px;
+      height: 32px;
+      color: $black;
+      margin-right: 10px;
+    }
+    .name {
+      color: $theme-primary;
+    }
+  }
+
+  .title-top {
+
+    span {
+      color: $theme-primary;
+    }
+  }
+
+  .text-not-taken {
+    color: #F7936F;
+  }
+
+  .table-section {
+    margin-top: 30px;
+  }
+}

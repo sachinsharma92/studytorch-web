@@ -1,5 +1,192 @@
+// variables
+@import "../../styles/variables/colors";
+@import "../../styles/variables/mixins";
+
 .shared-page-style {
-    min-height: 100vh;
+    height: calc(100vh - 64px);
+    overflow-x: scroll;
     padding: 30px;
+
+    @include mobile {
+      padding: 20px;
+    }
 }
 
+.share-detail-page-style {
+    min-height: 100vh;
+    padding: 30px;
+
+    @include mobile {
+      padding: 20px;
+    }
+
+    .ant-tabs-content {
+      overflow-x: scroll;
+      height: calc(100vh - 277px);
+
+      @include mobile {
+      }
+    }
+  
+    .state-center {
+      min-height: calc(100vh - 125px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .mb--20 {
+        margin-bottom: 20px;
+        margin-top: 10px;
+    }
+
+    .btn-section-top {
+        display: flex;
+        align-items: center;
+    
+        .round-primary {
+          margin-right: 20px;
+          padding: 0 20px;
+          font-size: 16px;
+        }
+      
+
+      .btn-outline-primary {
+        height: 40px;
+        margin-left: 10px;
+        min-width: 140px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+    }
+  
+    .card-section {
+      margin-top: 30px;
+  
+      .collection-card-style {
+        margin-bottom: 32px;
+      }
+    }
+  
+    .tab-section {
+      margin-top: 20px;
+  
+      .ant-tabs-tab-btn {
+        font-size: 16px;
+        color: rgba($textColor-dark, 0.4);
+      }
+  
+      .ant-tabs-tab-active {
+        .ant-tabs-tab-btn {
+          color: rgba($theme-primary, 1);
+        }
+      }
+  
+      .ant-tabs-ink-bar {
+        background: $theme-primary;
+      }
+    }
+
+  
+    .inline-button-section {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+  
+      .button-custom {
+        margin-left: 10px;
+  
+        img {
+          width: 15px;
+          margin-right: 10px;
+        }
+      }
+    }
+
+    .shared-folder-collection-style {
+      padding: 0 30px 100px 20px;
+    }
+  }
+
+// shared-information-drawer
+.shared-information-drawer {
+
+    .ant-drawer-content-wrapper {
+        min-width: 420px;
+
+        @include mobile {
+          min-width: auto;
+        }
+    }
+
+    .ant-drawer-wrapper-body {
+        padding: 30px;
+    }
+
+    .ant-drawer-header {
+        padding: 16px 0;
+
+        @include mobile {
+          padding-top: 0;
+        }
+    }
+
+    .ant-drawer-title {
+        font-size: 28px;
+        font-weight: 600;
+
+        @include mobile {
+          font-size: 24px;
+        }
+    }
+
+    .ant-drawer-body {
+        padding: 24px 0;
+    }
+
+    .flex {
+        display: flex;
+        align-items: center;
+    }
+
+    .folder-icon {
+        margin-right: 20px;
+
+        svg {
+            width: 64px;
+            height: 64px;
+        }
+    }
+
+    .info-sec {
+        p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .title4 {
+            font-size: 20px;
+            font-weight: 500;
+            line-height: 1.2;
+        } 
+    }
+
+    .shared-details {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+
+        p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .title4 {
+            margin-top: 0px;
+            font-size: 20px;
+            font-weight: 500;
+            line-height: 1.2;
+        }
+    }
+}

@@ -18,7 +18,7 @@ function QuestionAddedModal(props: any) {
 				footer={false}
 				onCancel={props.onCancel}
 				wrapClassName="question-add-modal-style primary-modal-style"
-				maskStyle={{ background: '#787D9F' }}
+				maskStyle={{ background: 'rgba(30,39,94, 0.8)' }}
 				closable={false}
 			>
 				<div className="card-modal">

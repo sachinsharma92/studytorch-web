@@ -1,14 +1,16 @@
+// variables
+@import "../../styles/variables/colors";
+@import "../../styles/variables/mixins";
+
 .shared-folder-collection-style {
     margin-top: 20px;
+
     .time-divider {
-        font-family: Sofia Pro;
-        font-style: normal;
-        font-weight: normal;
         font-size: 16px;
-        line-height: 162.02%;
-        font-feature-settings: 'salt' on;
-        color: #718096;
-        margin: 24px 0 24px 0;
+        font-weight: 500;
+        line-height: 25.92px;
+        opacity: 0.7;
+        margin: 0 0 10px;
     }
 }
 

@@ -5,14 +5,8 @@ import get from 'lodash/get';
 import map from 'lodash/map';
 import find from 'lodash/find';
 import replace from 'lodash/replace';
-import {
-  PlusOutlined,
-  EditOutlined,
-  DeleteOutlined,
-  UserAddOutlined,
-  InfoCircleOutlined,
-} from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
+import { PlusOutlined } from '@ant-design/icons';
 import ROUTES from '../../router';
 import { collectionColors } from '../../constants/collections';
 import PrimaryLayout from '../../common/primaryLayout/primaryLayout';
@@ -20,15 +14,11 @@ import EmptyState from '../../common/emptyState/emptyState';
 import CollectionCard from '../../components/collection/collectionCard/collectionCard';
 import CreateCollectionModal from '../../components/collection/modals/createCollection';
 import { fetchCollection } from '../../redux/actions/collectionActions';
-
 // Images
 import folderGray from '../../assets/images/icons/folder-gray.svg';
 
 // Styles
 import './styles.scss';
-import ShareCollectionModal from '../../components/collection/modals/shareCollection';
-import NoteModalCard from '../../components/collection/modals/noteModalCard';
-import QuestionModal from '../../components/collection/modals/questionModal';
 
 function CollectionScreen(props: any) {
   const [collectionModal, setCollectionModal] = useState<any>({
@@ -111,7 +101,7 @@ function CollectionScreen(props: any) {
             </div>
           ) : (
             <div className="card-section">
-              <Row gutter={32}>
+              <Row gutter={{ xs: 0, sm: 32, md: 32, lg: 32 }}>
                 {map(
                   get(collectionDetails, 'subCollections', []),
                   (collection, index) => (
@@ -154,31 +144,6 @@ function CollectionScreen(props: any) {
         edit={get(collectionModal, 'data') ? true : false}
         initialValue={get(collectionModal, 'data')}
         collection={rootCollection}
-      />
-
-      {/* Share Modal here */}
-      <ShareCollectionModal
-        visible={isShareModal}
-        onCancel={shareToggleModal}
-        doneHandler={shareToggleModal}
-        cancelHandler={shareToggleModal}
-      />
-
-      {/* Note Modal here */}
-      <NoteModalCard
-        visible={isNoteModal}
-        onCancel={noteToggleModal}
-        addHandler={noteToggleModal}
-        cancelHandler={noteToggleModal}
-        onBack={noteToggleModal}
-      />
-
-      {/* Questions Modal */}
-      <QuestionModal
-        visible={isQuestionModal}
-        addHandler={questionToggleModal}
-        cancelHandler={questionToggleModal}
-        onBack={questionToggleModal}
       />
 
       <Popover content={toggleData} placement="topRight">

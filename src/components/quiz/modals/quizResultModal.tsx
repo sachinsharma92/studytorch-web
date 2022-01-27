@@ -1,5 +1,4 @@
-import { Button, Col, Modal, Progress, Radio, Row } from 'antd';
-import { ClockCircleOutlined, LeftOutlined } from '@ant-design/icons';
+import { Button, Col, Modal, Row } from 'antd';
 import goldMedal from "../../../assets/images/icons/gold-medal.svg";
 
 // Styles

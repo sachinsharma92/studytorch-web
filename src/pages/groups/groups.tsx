@@ -105,13 +105,13 @@ function GroupsScreen(props: any) {
 					<div className="card-section">
 						<Row gutter={32}>
 							{cardData.map((data, index) => (
-								<Col sm={8} key={index}>
+								<Col xs={24} sm={8} key={index}>
 									<GroupsCard
 										backgroundImgae={data.backgroundImgae}
 										title={data.title}
 										description={data.description}
 										menuData={menu}
-										cardHandler={ROUTES.COLLECTION_DETAILS_SCREEN}
+										cardHandler={ROUTES.GROUPS_DETAIL_SCREEN}
 										bgColor={data.cardBg}
 									/>
 								</Col>

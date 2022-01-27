@@ -1,49 +1,48 @@
-import { Col, Layout, Menu, Row, Dropdown, Avatar } from 'antd';
-import {useSelector} from 'react-redux'
+import React, { useEffect, useState } from 'react';
+import { Col, Layout, Menu, Row, Dropdown, Avatar, Drawer } from 'antd';
+import { useLocation } from 'react-router-dom';
+import SearchDataModal from '../searchPrimary/searchDataModal';
+import {
+  MenuUnfoldOutlined,
+  MenuFoldOutlined,
+  MenuOutlined,
+  CloseOutlined,
+} from '@ant-design/icons';
+import { useSelector } from 'react-redux';
 import get from 'lodash/get';
+import { Link } from 'react-router-dom';
+import ROUTES from '../../router';
 import LogoPrimary from '../logoPrimary/logoPrimary';
 import SearchPrimary from '../searchPrimary/searchPrimary';
 
-// Icons here
-import iconDashboard from "../../assets/images/icons/dashboard.svg"
-import iconCollections from "../../assets/images/icons/folder.svg"
-import iconShared from "../../assets/images/icons/user.svg"
-import iconGroups from "../../assets/images/icons/3user.svg"
-import iconPlanner from "../../assets/images/icons/calendar.svg"
-import iconChecklist from "../../assets/images/icons/checklist.svg"
-import iconQuiz from "../../assets/images/icons/help-circle.svg"
-
-
 // Styles
 import './styles.scss';
-import { Link, useLocation } from 'react-router-dom';
-import ROUTES from '../../router';
-import { useEffect, useState } from 'react';
+import MenuLinks from './menuLinks';
 
 const menu = (
   <Menu>
     <Menu.Item>
-      <a href="/profile">
-        Edit Profile
-      </a>
+      <a href="/profile">Edit Profile</a>
     </Menu.Item>
-  
+
     <Menu.Item danger>
-      <Link to={ROUTES.LOGOUT_SCREEN}>Logout</Link></Menu.Item>
+      <Link to={ROUTES.LOGOUT_SCREEN}>Logout</Link>
+    </Menu.Item>
   </Menu>
 );
 
 const { Header, Content, Sider } = Layout;
 
 export default function PrimaryLayout(props: any) {
+  const media = window.matchMedia(`(max-width: 767px)`);
   let location = useLocation();
-  const  user = useSelector((state) => get(state, 'userState.user'));
+  const user = useSelector((state) => get(state, 'userState.user'));
   const [current, setCurrent] = useState(
-    location.pathname === "/" || location.pathname === ""
-      ? "/dashboard"
-      : location.pathname,
+    location.pathname === '/' || location.pathname === ''
+      ? '/dashboard'
+      : location.pathname
   );
-  //or simply use const [current, setCurrent] = useState(location.pathname)        
+  //or simply use const [current, setCurrent] = useState(location.pathname)
 
   useEffect(() => {
     if (location) {
@@ -57,44 +56,106 @@ export default function PrimaryLayout(props: any) {
     setCurrent(e.key);
   }
 
+  const [isModalSearch, setIsModalSearch] = useState(false);
+  const modalSearchToggle = () => {
+    setIsModalSearch(!isModalSearch);
+  };
+
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  const collapseToggle = () => {
+    setIsCollapsed(!isCollapsed);
+  };
+
+  const [isDrawerMobile, setIsDrawerMobile] = useState(false);
+  const mobileShowDrawer = () => {
+    setIsDrawerMobile(!isDrawerMobile);
+  };
+
   return (
     <div className={`layout-primary ${props.className}`}>
       <Layout>
         <Layout>
-          <Sider width={259} className="sider-style">
-            <LogoPrimary logoStyle="logo-style" />
-
-            <Menu
-              mode="inline"
-              onClick={handleClick}
-              selectedKeys={[current]}
-              style={{ height: '100%', borderRight: 0 }}
+          {!media.matches ? (
+            <Sider
+              className="sider-style"
+              trigger={null}
+              collapsible
+              collapsed={isCollapsed}
             >
-              <Menu.Item icon={<img src={iconDashboard} alt=""/>} key={ROUTES.HOME_SCREEN}><Link to={ROUTES.HOME_SCREEN}>Dashboard</Link></Menu.Item>
-              <Menu.Item icon={<img src={iconCollections} alt=""/>} key={ROUTES.COLLECTION_SCREEN}><Link to={ROUTES.COLLECTION_SCREEN}>Collections</Link></Menu.Item>
-              <Menu.Item icon={<img src={iconShared} alt=""/>} key={ROUTES.SHARED_SCREEN}><Link to={ROUTES.SHARED_SCREEN}>Shared with me</Link></Menu.Item>
-              <Menu.Item icon={<img src={iconGroups} alt=""/>} key={ROUTES.GROUPS_SCREEN}><Link to={ROUTES.GROUPS_SCREEN}>Groups</Link></Menu.Item>
-              <Menu.Item icon={<img src={iconPlanner} alt=""/>} key={ROUTES.PLANNER_SCREEN}><Link to={ROUTES.PLANNER_SCREEN}>Planner</Link></Menu.Item>
-              <Menu.Item icon={<img src={iconChecklist} alt=""/>} key={ROUTES.CHECKLIST_SCREEN}><Link to={ROUTES.CHECKLIST_SCREEN}>Checklist</Link></Menu.Item>
-              <Menu.Item icon={<img src={iconQuiz} alt=""/>} key={ROUTES.QUIZ_SCREEN}><Link to={ROUTES.QUIZ_SCREEN}>Quiz</Link></Menu.Item>
-
-            </Menu>
-          </Sider>
+              <LogoPrimary
+                logoPrimary={!isCollapsed ? true : false}
+                logoStyle="logo-style"
+              />
+              <MenuLinks
+                mode="inline"
+                onClick={handleClick}
+                selectedKeys={[current]}
+              />
+            </Sider>
+          ) : (
+            <Drawer
+              className="drawer-sider-style"
+              placement="left"
+              visible={isDrawerMobile}
+            >
+              <div className="drawer-header-style">
+                <LogoPrimary logoPrimary logoStyle="logo-style" />
+                <button
+                  className="drawer-close-button"
+                  onClick={mobileShowDrawer}
+                >
+                  {' '}
+                  <CloseOutlined />
+                </button>
+              </div>
+              <MenuLinks
+                mode="inline"
+                onClick={handleClick}
+                selectedKeys={[current]}
+              />
+            </Drawer>
+          )}
           <Layout>
-
             {/* Top Header here */}
             <Header className="header">
               <Row align="middle">
-                <Col sm={8}>
+                <Col xs={4} md={8}>
+                  {!media.matches ? (
+                    <div>
+                      {React.createElement(
+                        isCollapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
+                        {
+                          className: 'trigger',
+                          onClick: collapseToggle,
+                        }
+                      )}
+                    </div>
+                  ) : (
+                    <div className="collapsed-btn" onClick={mobileShowDrawer}>
+                      <MenuOutlined />
+                    </div>
+                  )}
                 </Col>
-                <Col sm={10}>
-                  <SearchPrimary />
+                <Col xs={10} md={10}>
+                  <SearchPrimary onClick={modalSearchToggle} />
+                  <SearchDataModal
+                    visible={isModalSearch}
+                    handleCancel={modalSearchToggle}
+                    handleLeave={modalSearchToggle}
+                  />
                 </Col>
-                <Col sm={6}>
+                <Col xs={10} md={6}>
                   <div className="flex-right">
                     <Dropdown overlay={menu}>
-                      <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-                        <Avatar size={30} src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8ZmFjZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60" /> {get(user,'name')}
+                      <a
+                        className="ant-dropdown-link"
+                        onClick={(e) => e.preventDefault()}
+                      >
+                        <Avatar
+                          size={30}
+                          src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8ZmFjZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60"
+                        />{' '}
+                        {get(user, 'name')}
                       </a>
                     </Dropdown>
                   </div>
@@ -103,12 +164,10 @@ export default function PrimaryLayout(props: any) {
             </Header>
 
             {/* Main Content Container here */}
-            <Content className="site-layout">
-              {props.children}
-            </Content>
+            <Content className="site-layout">{props.children}</Content>
           </Layout>
         </Layout>
       </Layout>
     </div>
-  )
+  );
 }

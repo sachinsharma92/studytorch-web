@@ -15,6 +15,8 @@ export const COLLECTION_DETAILS_SCREEN = '/collection/details/:id';
 // Group Section
 export const GROUPS_SCREEN = '/groups';
 export const GROUPS_DETAIL_SCREEN = '/group/group-details';
+export const GROUP_MEMBERS_SCREEN = '/group/member';
+export const GROUP_SCORE_DETAILS_SCREEN = '/group/score-details';
 
 // Quiz Section
 export const QUIZ_SCREEN = '/quiz';
@@ -27,6 +29,7 @@ export const CHECKLIST_SCREEN = '/checklist';
 
 // Shared With Me
 export const SHARED_SCREEN = '/shared-with-me';
+export const SHARED_DETAILS_SCREEN = '/shared-with-me-details';
 
 // PROFILE
 export const PROFILE_SCREEN = '/profile';

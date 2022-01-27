@@ -50,8 +50,8 @@ function QuestionCard(props: any) {
 
 
 			<div className="button-section">
-				<Button className="btn-outline-primary circle" icon={<EditOutlined />} />
-				<Button className="btn-outline-primary circle" icon={<DeleteOutlined />} />
+				<Button className="btn-outline-primary circle" onClick={props.editHandler} icon={<EditOutlined />} />
+				<Button className="btn-outline-primary circle" onClick={props.deleteHandler} icon={<DeleteOutlined />} />
 			</div>
 		</div>
 	)
