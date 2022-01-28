@@ -257,6 +257,25 @@
     border-radius: 8px;
   }
 
+  .view-section {
+    border-top: 1px solid #EBF2FA;
+    margin: 20px -20px 0;
+    padding: 30px 20px;
+    height: 72vh;
+    overflow-x: scroll;
+
+    .title3 {
+      margin: 20px 0;
+    }
+
+    .description {
+      margin-top: 30px;
+      font-size: 16px;
+      color: #3C3F54;
+    }
+
+  }
+
   .top-button-section {
     display: flex;
     align-items: center;

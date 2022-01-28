@@ -11,6 +11,7 @@ export const ONBOARDING_SCREEN="/onboarding";
 // Collection Section
 export const COLLECTION_SCREEN="/collection";
 export const COLLECTION_DETAILS_SCREEN="/collection/details";
+export const NOTE_SCREEN="/collection/note";
 
 // Group Section
 export const GROUPS_SCREEN="/groups";

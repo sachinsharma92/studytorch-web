@@ -413,7 +413,7 @@ function CollectionDetails(props: any) {
 			<NoteModalCard
 				visible={isNoteModal}
 				onCancel={noteToggleModal}
-				addHandler={noteToggleModal}
+				buttonReadmore={noteToggleModal}
 				cancelHandler={noteToggleModal}
 				onBack={noteToggleModal}
 			/>
