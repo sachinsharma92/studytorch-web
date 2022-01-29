@@ -18,6 +18,15 @@ export interface SharedFolderCardProps {
 }
 
 function SharedFolderCard(props: SharedFolderCardProps) {
+
+  const viewHandler = ()=> {
+    console.log('check viewHandler handler');
+  }
+
+  const deleteHandler = ()=> {
+    console.log('check delete handler');
+  }
+
   return (
     <div className="shared-folder-card-style">
       <Card>
@@ -36,7 +45,7 @@ function SharedFolderCard(props: SharedFolderCardProps) {
             </div>
           </Link>
           <div className="top-card-layer-right">
-            <EllipsisMenu menuItems={[{ name: "View Details", iconName: "infoIcon", }, { name: "Remove from shared", iconName: "deleteIcon" }]} />
+            <EllipsisMenu menuItems={[{ name: "View Details", iconName: "infoIcon", onClick: viewHandler }, { name: "Remove from shared", iconName: "deleteIcon", onClick: deleteHandler }]} />
           </div>
         </div>
         <hr className="line" />
