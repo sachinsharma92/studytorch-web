@@ -30,8 +30,8 @@ function NotesCard(props: any) {
 			</Link>
 
 			<div className="button-section">
-				<Button className="btn-outline-primary circle" icon={<EditOutlined />} />
-				<Button className="btn-outline-primary">Read Note</Button>
+				<Button className="btn-outline-primary circle" onClick={props.editHandler} icon={<EditOutlined />} />
+				<Button className="btn-outline-primary" href="/collection/read-note">Read Note</Button>
 			</div>
 		</div>
 	)

@@ -28,7 +28,7 @@ const SharedWithMeScreen = lazy(() => import(/* webpackChunkName: "sharedWithMeS
 const SharedWithMeDetailScreen = lazy(() => import(/* webpackChunkName: "shareWithMeDetails" */ './pages/sharedWithMe/shareWithMeDetails'));
 const GroupMembersScreen = lazy(() => import(/* webpackChunkName: "members" */ './pages/groups/members/'));
 const ScoreDetailScreen = lazy(() => import(/* webpackChunkName: "scoreDetails" */ './pages/groups/scoreDetails/'));
-const NoteScreen = lazy(() => import(/* webpackChunkName: "scoreDetails" */ './pages/notes/notes'));
+const ReadNoteScreen = lazy(() => import(/* webpackChunkName: "scoreDetails" */ './pages/collection/readNote/readNote'));
 
 
 const AppRouter = () => {
@@ -62,7 +62,7 @@ const AppRouter = () => {
                         <Route path={ROUTES.SHARED_DETAILS_SCREEN} element={<SharedWithMeDetailScreen/>} />
                         <Route path={ROUTES.GROUP_MEMBERS_SCREEN} element={<GroupMembersScreen/>} />
                         <Route path={ROUTES.GROUP_SCORE_DETAILS_SCREEN} element={<ScoreDetailScreen/>} />
-                        <Route path={ROUTES.NOTE_SCREEN} element={<NoteScreen/>} />
+                        <Route path={ROUTES.READ_NOTE_SCREEN} element={<ReadNoteScreen/>} />
                         
 
                     </Routes>

@@ -1,0 +1,114 @@
+// variables
+@import "../../../styles/variables/colors";
+@import "../../../styles/variables/mixins";
+
+
+// Note Modal
+.read-note-style {
+
+  .title3 {
+    font-size: 28px;
+  }
+
+  .action-section {
+    border-bottom: 1px solid #EBF2FA;
+    padding: 20px 20px;
+  }
+
+  .view-section {
+    padding: 20px;
+    height: 72vh;
+    overflow-x: scroll;
+
+    .title3 {
+      margin: 20px 0;
+    }
+
+    .description {
+      margin-top: 20px;
+      font-size: 16px;
+      color: #3C3F54;
+    }
+
+  }
+
+  .top-button-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 30px;
+
+    .action-sec {
+      .ant-btn {
+        margin-right: 20px;
+      }
+    }
+
+    .ant-btn {
+      border: none;
+      box-shadow: none;
+      padding: 0;
+      margin-left: 20px;
+
+      &.btn-outline {
+        border: 1px solid #e4ecf7;
+        border-radius: 50px;
+        min-width: 80px;
+        margin-left: 0px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        span {
+          margin-top: 4px;
+        }
+      }
+    }
+  }
+
+  .tag-section {
+    display: flex;
+    align-items: center;
+    margin: 15px 0;
+  }
+
+  .tag-style {
+    background: #E4ECF7;
+    color: #505780;
+    border-radius: 100px;
+    height: 28px;
+    min-width: 80px;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 17px;
+    font-size: 13px;
+  }
+
+  .editor-section {
+    .public-DraftStyleDefault-block {
+      min-height: 400px;
+      max-height: 400px;
+      overflow-x: scroll;
+    }
+  }
+
+  .button-bottom-section {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    border-top: 1px solid $borderColor;
+    margin: 20px -20px 0;
+    padding: 20px 20px 0;
+
+    .ant-btn {
+      padding: 0 20px;
+      margin-left: 20px;
+
+      span {
+        margin-top: 2px;
+      }
+    }
+  }
+}

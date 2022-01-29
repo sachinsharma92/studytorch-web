@@ -49,7 +49,7 @@ function NoteModalCard(props: any) {
           <div className="top-button-section">
             <Button onClick={props.onBack} className="btn-outline"><img src={iconArrowLeft} /> Back</Button>
             <div className="action-sec">
-              <Button href="/collection/note">
+              <Button href="/collection/read-note">
                 <img src={iconFullscreen} />
               </Button>
 
@@ -100,7 +100,7 @@ function NoteModalCard(props: any) {
           <div className="top-button-section">
             <Button onClick={noteViewToggleModal} className="btn-outline"><img src={iconArrowLeft} /> Back</Button>
             <div className="action-sec">
-              <Button href="/collection/note">
+              <Button href="/collection/read-note">
                 <img src={iconFullscreen} />
               </Button>
 

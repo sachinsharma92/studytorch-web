@@ -20,22 +20,22 @@ import './styles.scss';
 const menu = (
 	<Menu>
 		<Menu.Item icon={<EditOutlined />}>
-			<a target="_blank" rel="noopener noreferrer" href="#">
+			<a>
 				Rename
 			</a>
 		</Menu.Item>
 		<Menu.Item icon={<DeleteOutlined />}>
-			<a target="_blank" rel="noopener noreferrer" href="#">
+			<a>
 				Delete
 			</a>
 		</Menu.Item>
 		<Menu.Item icon={<InfoCircleOutlined />}>
-			<a target="_blank" rel="noopener noreferrer" href="#">
+			<a>
 				Get Details
 			</a>
 		</Menu.Item>
 		<Menu.Item icon={<UserAddOutlined />}>
-			<a target="_blank" rel="noopener noreferrer" href="#">
+			<a>
 				Share
 			</a>
 		</Menu.Item>
@@ -77,7 +77,7 @@ const cardData = [
 		title: "Maths",
 		description: "20 Notes, 2 quizes",
 		folderColor: "#6C5ECF",
-		folderType:'folderUser',
+		folderType: 'folderUser',
 	},
 	{
 		title: "Maths",
@@ -110,7 +110,7 @@ function CollectionScreen(props: any) {
 
 	const toggleData = (
 		<div className="toggle-menu">
-					<a onClick={collectionToggleModal}>New Collection</a>
+			<a onClick={collectionToggleModal}>New Collection</a>
 			<a onClick={noteToggleModal}>Notes</a>
 			<a onClick={questionToggleModal}>Question</a>
 		</div>

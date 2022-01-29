@@ -1,9 +1,5 @@
-import { useState } from "react";
-import { Drawer } from 'antd';
 import PrimaryLayout from "../../common/primaryLayout/primaryLayout"
 import SharedWithMeCollection from "../../components/sharedWithMeCollection"
-import FolderIconSVG from "../../common/FolderIconSVG";
-import ModalConfirmation from "../../common/modalConfirmation";
 
 // Styles
 import './styles.scss';
@@ -125,15 +121,6 @@ function SharedWithMeScreen() {
     }
   ]
 
-  const [isSharedDrawer, setSharedDrawer] = useState(true);
-  const sharedToggleDrawer = () => {
-    setSharedDrawer(!isSharedDrawer);
-  };
-
-  const [isModalConfirmation, setIsModalConfirmation] = useState(true);
-  const modalConfirmationToggle = () => {
-    setIsModalConfirmation(!isModalConfirmation);
-  };
 
   return (
     <>
@@ -150,57 +137,6 @@ function SharedWithMeScreen() {
             ))
           }
         </div>
-
-        <ModalConfirmation
-          visible={isModalConfirmation}
-          handleCancel={modalConfirmationToggle}
-          handleLeave={modalConfirmationToggle}
-          cancelTitle="Cancel"
-          confirmTitle="Yes. Leave"
-        >
-          <div className="confirmation-section">
-            <h2>
-              Are you sure you want to leave the
-            </h2>
-            <h2 className="theme-color">
-              Maths Collection <span>?</span>
-            </h2>
-          </div>
-        </ModalConfirmation>
-
-
-        {/* Drawer Style here */}
-        <Drawer
-          title="Shared Information"
-          maskClosable={true}
-          closable={false}
-          className="shared-information-drawer"
-          placement="right"
-          onClose={sharedToggleDrawer}
-          visible={isSharedDrawer}
-        >
-          <div className="detail-section">
-            <div className="flex">
-              <div className="folder-icon">
-                <FolderIconSVG fillColor={"#6C5ECF"} />
-              </div>
-              <div className="info-sec">
-                <h4 className="title4">Maths</h4>
-                <p>20 Notes, 2 quizes</p>
-              </div>
-            </div>
-            <div className="shared-details">
-              <div className="name">
-                <p>Shared by </p>
-                <h4 className="title4">Ayush Parashar</h4>
-              </div>
-              <div className="date">
-                <p>Date</p>
-                <h4 className="title4">05/08/2021</h4>
-              </div>
-            </div>
-          </div>
-        </Drawer>
       </PrimaryLayout>
     </>
   )

@@ -307,6 +307,7 @@ function CollectionDetails(props: any) {
 												menuData={menu}
 												cardHandler="/"
 												tag={data.tag}
+												editHandler={noteToggleModal}
 											/>
 										</Col>
 									))}
