@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Col, Menu, Row, Popover, Spin } from 'antd';
+import { Button, Col, Row, Popover, Spin } from 'antd';
 import get from 'lodash/get';
 import map from 'lodash/map';
 import find from 'lodash/find';
@@ -109,6 +109,7 @@ function CollectionScreen(props: any) {
                       <CollectionCard
                         setLoading={setLoading}
                         id={get(collection, 'id')}
+                        color={get(collection, 'color')}
                         title={get(collection, 'name')}
                         description={'data.description'}
                         imgUrl={get(

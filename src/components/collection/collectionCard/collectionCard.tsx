@@ -4,6 +4,7 @@ import {
   DeleteOutlined,
   ExclamationCircleOutlined,
 } from '@ant-design/icons';
+import get from 'lodash/get';
 import { useDispatch } from 'react-redux';
 import { Dropdown, Menu, message, Modal } from 'antd';
 import { DELETE_COLLECTION_SUCCESS } from '../../../constants/messages';
@@ -17,7 +18,7 @@ import './styles.scss';
 const { confirm } = Modal;
 
 function CollectionCard(props: any) {
-  const { onEditCollection, setLoading, id, onSuccess } = props;
+  const { onEditCollection, setLoading, id, onSuccess, color } = props;
   const dispatch = useDispatch();
 
   const onClickDelete = () => {
@@ -70,10 +71,7 @@ function CollectionCard(props: any) {
         <a className="flex-style">
           {/* <img className="img-style" src={props.imgUrl} alt="" /> */}
           <div className="folder-icon">
-            <FolderIconSVG
-              withUserStyle={props.withUserStyle}
-              fillColor={props.fillColor}
-            />
+            <FolderIconSVG fillColor={color} withUserStyle={''} />
           </div>
           <div className="content-sec">
             <h4 className="title4">{props.title}</h4>

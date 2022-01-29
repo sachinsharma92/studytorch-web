@@ -5,23 +5,28 @@ import babyPinkFolder from '../assets/images/icons/baby-pink-folder.svg';
 
 export const collectionColors = [
   {
-    color: 'purple-color',
-    value: 'purple',
+    color: '#6C5ECF',
+    value: '#6C5ECF',
     image: folderPurple,
   },
   {
-    color: 'face-color',
-    value: 'face',
+    color: '#FCAB8E',
+    value: '#FCAB8E',
     image: babyPinkFolder,
   },
   {
-    color: 'coral-color',
-    value: 'coral',
+    color: '#6FBEF6',
+    value: '#6FBEF6',
     image: coralFolder,
   },
   {
-    color: 'sky-blue-color',
-    value: 'skyblue',
+    color: '#FF8B8B',
+    value: '#FF8B8B',
+    image: blueFolder,
+  },
+  {
+    color: '#503FC8',
+    value: '#503FC8',
     image: blueFolder,
   },
 ];

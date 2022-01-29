@@ -1,6 +1,6 @@
 // variables
-@import "../../../styles/variables/colors";
-@import "../../../styles/variables/mixins";
+@import '../../../styles/variables/colors';
+@import '../../../styles/variables/mixins';
 
 // collection-modal-style
 .collection-modal-style {
@@ -398,7 +398,8 @@
     font-size: 30px;
     padding: 0;
 
-    &:focus, &:hover {
+    &:focus,
+    &:hover {
       outline: none;
       box-shadow: none;
     }

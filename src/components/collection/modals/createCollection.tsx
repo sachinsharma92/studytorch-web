@@ -109,10 +109,8 @@ function CreateCollectionModal(props: any) {
                     return (
                       <Radio.Button
                         value={get(collectionColor, 'value')}
-                        className={`radio-button ${get(
-                          collectionColor,
-                          'color'
-                        )}`}
+                        className={`radio-button`}
+                        style={{ background: get(collectionColor, 'value') }}
                       />
                     );
                   })}

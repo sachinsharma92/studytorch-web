@@ -160,14 +160,18 @@ function CollectionDetails(props: any) {
     data: null,
   });
 
-  const [isQuestionModal, setIsQuestionModal] = useState(false);
   const [isShareModal, setIsShareModal] = useState(false);
 
   const [noteModal, setNoteModal] = useState({
     visible: false,
     data: null,
   });
-  const [isQuestionAddedModal, setIsQuestionAddedModal] = useState(false);
+
+  const [isQuestionAddedModal, setIsQuestionAddedModal] = useState({
+    visible: false,
+    edit: false,
+  });
+
   const [questionModal, setQuestionModal] = useState({
     visible: false,
     data: null,
@@ -193,21 +197,11 @@ function CollectionDetails(props: any) {
     });
   };
 
-  const questionToggleModal = () => {
-    setIsQuestionModal(!isQuestionModal);
-    setIsQuestionAddedModal(false);
-  };
-
   const toggleQuestionModal = (data = null) => {
     setQuestionModal({
       visible: !get(questionModal, 'visible'),
       data: data,
     });
-  };
-
-  const questionAddedTpggleModal = () => {
-    setIsQuestionAddedModal(!isQuestionAddedModal);
-    setIsQuestionModal(false);
   };
 
   const flashEditModalTpggleModal = () => {
@@ -261,6 +255,7 @@ function CollectionDetails(props: any) {
     toggleCollectionModal(null);
     fetchCollectionDetails();
   };
+
   return (
     <PrimaryLayout>
       <div className="collection-page-style">
@@ -304,16 +299,10 @@ function CollectionDetails(props: any) {
                           <Col sm={6} key={index}>
                             <CollectionCard
                               id={get(collection, 'id')}
+                              color={get(collection, 'color')}
                               title={get(collection, 'name')}
                               setLoading={setLoading}
                               description={'data.description'}
-                              imgUrl={get(
-                                find(collectionColors, [
-                                  'value',
-                                  get(collection, 'color'),
-                                ]),
-                                'image'
-                              )}
                               cardHandler={replace(
                                 ROUTES.COLLECTION_DETAILS_SCREEN,
                                 ':id',
@@ -371,29 +360,53 @@ function CollectionDetails(props: any) {
                 )}
               </TabPane>
               <TabPane tab="Question" key="3">
-                <div className="inline-button-section mt--20 mb--30">
-                  <ButtonCustom className="round-primary" title="Take a Quiz" />
-                  <ButtonCustom
-                    className="round-primary"
-                    icon={<img src={filter} alt="" />}
-                    title="Filter"
-                  />
-                </div>
-
-                <div className="card-section note-section">
-                  <Row gutter={32}>
-                    {questionCardData.map((data, index) => (
-                      <Col sm={12} key={index}>
-                        <QuestionCard
-                          questionTitle={data.questionTitle}
-                          tag={data.tag}
-                          menuData={menu}
-                          description={data.description}
-                        />
-                      </Col>
-                    ))}
-                  </Row>
-                </div>
+                {get(collectionDetails, 'questions', []).length > 0 && (
+                  <div className="inline-button-section mt--20 mb--30">
+                    <ButtonCustom
+                      className="round-primary"
+                      title="Take a Quiz"
+                    />
+                    <ButtonCustom
+                      className="round-primary"
+                      icon={<img src={filter} alt="" />}
+                      title="Filter"
+                    />
+                  </div>
+                )}
+                {get(collectionDetails, 'questions', []).length === 0 ? (
+                  <div className="state-center">
+                    <EmptyState
+                      imgUrl={folderGray}
+                      title="Create your Questions"
+                      description=" Quizzes will be depend on question your create here"
+                      buttonText="Add Questions"
+                      buttonType="primary"
+                      buttonHandler={() => toggleQuestionModal()}
+                    />
+                  </div>
+                ) : (
+                  <div className="card-section note-section">
+                    <Row gutter={32}>
+                      {map(
+                        get(collectionDetails, 'questions', []),
+                        (question, i) => {
+                          return (
+                            <Col sm={12} key={i}>
+                              <QuestionCard
+                                question={question}
+                                setLoading={setLoading}
+                                onSuccess={fetchCollectionDetails}
+                                onEditQuestion={() => {
+                                  toggleQuestionModal(question);
+                                }}
+                              />
+                            </Col>
+                          );
+                        }
+                      )}
+                    </Row>
+                  </div>
+                )}
               </TabPane>
               <TabPane tab="Flash Card" key="4">
                 <div className="inline-button-section mt--20">
@@ -479,18 +492,42 @@ function CollectionDetails(props: any) {
       />
 
       {/* Questions Modal */}
-      <QuestionModal
-        visible={isQuestionModal}
-        onSuccess={questionAddedTpggleModal}
-        cancelHandler={() => {
-          toggleQuestionModal();
-        }}
-      />
+      {get(questionModal, 'visible') && (
+        <QuestionModal
+          visible={get(questionModal, 'visible')}
+          edit={get(questionModal, 'data') ? true : false}
+          initialValue={get(questionModal, 'data')}
+          onSuccess={(edit = false) => {
+            toggleQuestionModal();
+            setIsQuestionAddedModal({
+              visible: true,
+              edit,
+            });
+          }}
+          collection={collectionDetails}
+          cancelHandler={() => {
+            toggleQuestionModal();
+          }}
+        />
+      )}
 
       <QuestionAddedModal
-        visible={isQuestionAddedModal}
-        buttonDoneHandler={questionAddedTpggleModal}
-        addButtonHandler={questionToggleModal}
+        visible={get(isQuestionAddedModal, 'visible')}
+        edit={get(isQuestionAddedModal, 'edit')}
+        buttonDoneHandler={() => {
+          setIsQuestionAddedModal({
+            visible: false,
+            edit: false,
+          });
+          fetchCollectionDetails();
+        }}
+        addButtonHandler={() => {
+          setIsQuestionAddedModal({
+            visible: false,
+            edit: false,
+          });
+          toggleQuestionModal();
+        }}
       />
 
       <Popover content={toggleData} placement="topRight">
