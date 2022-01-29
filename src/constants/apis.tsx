@@ -1,5 +1,5 @@
 ///########AUTH#############
-export const BASE_URL = 'http://localhost:3000';
+export const BASE_URL = 'http://13.236.91.89:3000';
 export const LOGIN = '/login';
 export const REGISTER = '/signup';
 export const FORGOT_PASSWORD = '/forgot-password';
