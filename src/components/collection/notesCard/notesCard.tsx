@@ -17,9 +17,9 @@ import './styles.scss';
 const { confirm } = Modal;
 
 function NotesCard(props: any) {
-  const { onEditNote, onSuccess, setLoading, id } = props;
+  const { onEditNote, onSuccess, setLoading, id, hideEditDelete } = props;
   const dispatch = useDispatch();
-
+  console.log('========>hideEditDelete', hideEditDelete);
   const onClickDelete = () => {
     setLoading(true);
     dispatch(deleteNote(id))
@@ -59,11 +59,13 @@ function NotesCard(props: any) {
 
   return (
     <div className="note-card-style">
-      <Dropdown overlayClassName="collection-dropdown" overlay={menu}>
-        <a className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
-          <img src={verticalDot} className="icon-style" />
-        </a>
-      </Dropdown>
+      {!hideEditDelete && (
+        <Dropdown overlayClassName="collection-dropdown" overlay={menu}>
+          <a className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
+            <img src={verticalDot} className="icon-style" />
+          </a>
+        </Dropdown>
+      )}
 
       <a className="flex-style">
         <div className="content-sec">
@@ -83,11 +85,13 @@ function NotesCard(props: any) {
       </a>
 
       <div className="button-section">
-        <Button
-          onClick={onEditNote}
-          className="btn-outline-primary circle"
-          icon={<EditOutlined />}
-        />
+        {!hideEditDelete && (
+          <Button
+            onClick={onEditNote}
+            className="btn-outline-primary circle"
+            icon={<EditOutlined />}
+          />
+        )}
         <Button className="btn-outline-primary">Read Note</Button>
       </div>
     </div>

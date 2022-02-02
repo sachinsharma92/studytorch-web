@@ -29,7 +29,7 @@ export const CHECKLIST_SCREEN = '/checklist';
 
 // Shared With Me
 export const SHARED_SCREEN = '/shared-with-me';
-export const SHARED_DETAILS_SCREEN = '/shared-with-me-details';
+export const SHARED_DETAILS_SCREEN = '/shared-with-me-details/:id';
 
 // PROFILE
 export const PROFILE_SCREEN = '/profile';

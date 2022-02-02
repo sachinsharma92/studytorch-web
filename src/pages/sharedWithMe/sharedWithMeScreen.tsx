@@ -1,209 +1,167 @@
-import { useState } from "react";
-import { Drawer } from 'antd';
-import PrimaryLayout from "../../common/primaryLayout/primaryLayout"
-import SharedWithMeCollection from "../../components/sharedWithMeCollection"
-import FolderIconSVG from "../../common/FolderIconSVG";
-import ModalConfirmation from "../../common/modalConfirmation";
+import { useEffect, useState } from 'react';
+import { Drawer, Spin } from 'antd';
+import { useDispatch } from 'react-redux';
+import filter from 'lodash/filter';
+import get from 'lodash/get';
+import map from 'lodash/map';
+import assign from 'lodash/assign';
+import moment from 'moment';
+import PrimaryLayout from '../../common/primaryLayout/primaryLayout';
+import SharedWithMeCollection from '../../components/sharedWithMeCollection';
+import FolderIconSVG from '../../common/FolderIconSVG';
+import ModalConfirmation from '../../common/modalConfirmation';
+import { fetchSharedCollections } from '../../redux/actions/collectionActions';
 
 // Styles
 import './styles.scss';
 
-function SharedWithMeScreen() {
-  const folderList = [
-    {
-      time: "Today",
-      folders: [
-        {
-          folderName: "Maths",
-          folderColor: "#6455CD",
-          notes: "20",
-          quizzes: "5",
-          sharedBy: "Aakash"
-        },
-        {
-          folderName: "Physics",
-          folderColor: "#FCAB8E",
-          notes: "0",
-          quizzes: "5",
-          sharedBy: "Aakash"
-        },
-        {
-          folderName: "Chem",
-          folderColor: "#FF8B8B",
-          notes: "20",
-          quizzes: "5",
-          sharedBy: "Aakash"
-        },
-        {
-          folderName: "Bio",
-          folderColor: "#6FBEF6",
-          notes: "20",
-          quizzes: "5",
-          sharedBy: "Aakash"
-        }
-      ]
-    },
-    {
-      time: "Yesterday",
-      folders: [
-        {
-          folderName: "English",
-          folderColor: "#6455CD",
-          notes: "20",
-          quizzes: "5",
-          sharedBy: "Sachin Sharma"
-        },
-        {
-          folderName: "SST",
-          folderColor: "#6FBEF6",
-          notes: "20",
-          quizzes: "5",
-          sharedBy: "Sachin Sharma"
-        },
-        {
-          folderName: "Bio",
-          folderColor: "#FF8B8B",
-          notes: "20",
-          quizzes: "5",
-          sharedBy: "Sachin Sharma"
-        },
-        {
-          folderName: "English",
-          folderColor: "#6455CD",
-          notes: "20",
-          quizzes: "5",
-          sharedBy: "Sachin Sharma"
-        },
-        {
-          folderName: "SST",
-          folderColor: "#6455CD",
-          notes: "20",
-          quizzes: "5",
-          sharedBy: "Sachin Sharma"
-        },
-      ]
-    },
-    {
-      time: "Last Week",
-      folders: [
-        {
-          folderName: "English",
-          folderColor: "#6455CD",
-          notes: "20",
-          quizzes: "5",
-          sharedBy: "Sukirti"
-        },
-        {
-          folderName: "SST",
-          folderColor: "#6FBEF6",
-          notes: "20",
-          quizzes: "5",
-          sharedBy: "Sukirti"
-        },
-        {
-          folderName: "Bio",
-          folderColor: "#FF8B8B",
-          notes: "20",
-          quizzes: "5",
-          sharedBy: "Sukirti"
-        },
-        {
-          folderName: "English",
-          folderColor: "#6455CD",
-          notes: "20",
-          quizzes: "5",
-          sharedBy: "Sukirti"
-        },
-        {
-          folderName: "SST",
-          folderColor: "#6455CD",
-          notes: "20",
-          quizzes: "5",
-          sharedBy: "Sukirti"
-        },
-      ]
-    }
-  ]
+const getSortedCollections = (collections: any): any => {
+  const today = filter(collections, (c) => get(c, 'share.isToday') === true);
+  const lastWeek = filter(
+    collections,
+    (c) => get(c, 'share.isLastWeek') === true
+  );
+  const old = filter(collections, (c) => get(c, 'share.isOld') === true);
+  const returnObj = [];
+  if (today.length > 0) {
+    returnObj.push({
+      time: 'Today',
+      folders: today,
+    });
+  }
+  if (lastWeek.length > 0) {
+    returnObj.push({
+      time: 'Last Week',
+      folders: lastWeek,
+    });
+  }
+  if (old.length > 0) {
+    returnObj.push({
+      time: 'Old',
+      folders: old,
+    });
+  }
+  return returnObj;
+};
 
-  const [isSharedDrawer, setSharedDrawer] = useState(true);
-  const sharedToggleDrawer = () => {
-    setSharedDrawer(!isSharedDrawer);
+function SharedWithMeScreen() {
+  const [sharedDrawer, setSharedDrawer] = useState({
+    visible: false,
+    data: null,
+  });
+  const [loading, setLoading] = useState(false);
+  const [sharedCollection, setSharedCollection] = useState([]);
+  const dispatch = useDispatch();
+
+  const getSharedCollections = () => {
+    setLoading(true);
+    dispatch(fetchSharedCollections())
+      .then((result: any) => {
+        setSharedCollection(getSortedCollections(get(result, 'data')));
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
   };
 
-  const [isModalConfirmation, setIsModalConfirmation] = useState(true);
+  useEffect(() => {
+    getSharedCollections();
+  }, []);
+
+  const toggleSharedDrawer = (data = null) => {
+    setSharedDrawer({
+      visible: !get(sharedDrawer, 'visible'),
+      data,
+    });
+  };
+
+  const [isModalConfirmation, setIsModalConfirmation] = useState(false);
   const modalConfirmationToggle = () => {
     setIsModalConfirmation(!isModalConfirmation);
   };
+  const onRemoveSharedCollection = (collection: any) => {};
 
+  const onViewDetails = (collection: any) => {
+    toggleSharedDrawer(collection);
+  };
+  console.log({ sharedDrawer });
   return (
     <>
       <PrimaryLayout>
-        <div className="shared-page-style">
-          <h3 className="title3">Shared with me</h3>
-          {
-            folderList.map((data, index) => (
+        <Spin spinning={loading}>
+          <div className="shared-page-style">
+            <h3 className="title3">Shared with me</h3>
+
+            {map(sharedCollection, (sc, index) => (
               <SharedWithMeCollection
                 key={index}
-                timeFilter={data.time}
-                folders={data.folders}
+                timeFilter={get(sc, 'time')}
+                folders={get(sc, 'folders', [])}
+                onViewDetails={onViewDetails}
+                onRemoveSharedCollection={onRemoveSharedCollection}
               />
-            ))
-          }
-        </div>
-
-        <ModalConfirmation
-          visible={isModalConfirmation}
-          handleCancel={modalConfirmationToggle}
-          handleLeave={modalConfirmationToggle}
-          cancelTitle="Cancel"
-          confirmTitle="Yes. Leave"
-        >
-          <div className="confirmation-section">
-            <h2>
-              Are you sure you want to leave the
-            </h2>
-            <h2 className="theme-color">
-              Maths Collection <span>?</span>
-            </h2>
+            ))}
           </div>
-        </ModalConfirmation>
 
+          <ModalConfirmation
+            visible={isModalConfirmation}
+            handleCancel={modalConfirmationToggle}
+            handleLeave={modalConfirmationToggle}
+            cancelTitle="Cancel"
+            confirmTitle="Yes. Leave"
+          >
+            <div className="confirmation-section">
+              <h2>Are you sure you want to leave the</h2>
+              <h2 className="theme-color">
+                Maths Collection <span>?</span>
+              </h2>
+            </div>
+          </ModalConfirmation>
 
-        {/* Drawer Style here */}
-        <Drawer
-          title="Shared Information"
-          maskClosable={true}
-          closable={false}
-          className="shared-information-drawer"
-          placement="right"
-          onClose={sharedToggleDrawer}
-          visible={isSharedDrawer}
-        >
-          <div className="detail-section">
-            <div className="flex">
-              <div className="folder-icon">
-                <FolderIconSVG fillColor={"#6C5ECF"} />
+          {/* Drawer Style here */}
+          <Drawer
+            title="Shared Information"
+            maskClosable={true}
+            closable={false}
+            className="shared-information-drawer"
+            placement="right"
+            onClose={() => toggleSharedDrawer()}
+            visible={get(sharedDrawer, 'visible')}
+          >
+            <div className="detail-section">
+              <div className="flex">
+                <div className="folder-icon">
+                  <FolderIconSVG fillColor={get(sharedDrawer, 'data.color')} />
+                </div>
+                <div className="info-sec">
+                  <h4 className="title4">{get(sharedDrawer, 'data.name')}</h4>
+                  <p>20 Notes, 2 quizes</p>
+                </div>
               </div>
-              <div className="info-sec">
-                <h4 className="title4">Maths</h4>
-                <p>20 Notes, 2 quizes</p>
+              <div className="shared-details">
+                <div className="name">
+                  <p>Shared by </p>
+                  <h4 className="title4">
+                    {get(sharedDrawer, 'data.collection_admin.name')}
+                  </h4>
+                </div>
+                <div className="date">
+                  <p>Date</p>
+                  <h4 className="title4">
+                    {moment(
+                      get(sharedDrawer, 'data.share.shared_at'),
+                      'YYYY-MM-DD HH:mm:ss'
+                    ).format('DD/MM/YYYY')}
+                  </h4>
+                </div>
               </div>
             </div>
-            <div className="shared-details">
-              <div className="name">
-                <p>Shared by </p>
-                <h4 className="title4">Ayush Parashar</h4>
-              </div>
-              <div className="date">
-                <p>Date</p>
-                <h4 className="title4">05/08/2021</h4>
-              </div>
-            </div>
-          </div>
-        </Drawer>
+          </Drawer>
+        </Spin>
       </PrimaryLayout>
     </>
-  )
+  );
 }
 
 export default SharedWithMeScreen;

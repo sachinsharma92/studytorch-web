@@ -35,9 +35,9 @@ export function reduce(
     case 'persist/REHYDRATE':
       const token = get(action.payload, 'userState.accessToken', null);
       if (token) {
-        axiosInstance.defaults.headers.common[
-          'authorization'
-        ] = `Bearer ${token}`;
+        axiosInstance.defaults.headers.common['authorization'] = token
+          ? `Bearer ${token}`
+          : '';
       }
       return state;
 

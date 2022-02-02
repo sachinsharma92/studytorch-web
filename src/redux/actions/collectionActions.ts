@@ -51,3 +51,29 @@ export const fetchCollection =
         throw error;
       });
   };
+
+export const fetchSharedCollections =
+  (): any =>
+  (dispatch: any, getState: any, { api }: any): any => {
+    return api
+      .get(`${APIS.SHARED_COLLECITONS}`)
+      .then((result: any) => {
+        return result;
+      })
+      .catch((error: any) => {
+        throw error;
+      });
+  };
+
+export const fetchSharedCollection =
+  (id: any): any =>
+  (dispatch: any, getState: any, { api }: any): any => {
+    return api
+      .get(`${APIS.SHARED_COLLECITONS}/${id}`)
+      .then((result: any) => {
+        return result;
+      })
+      .catch((error: any) => {
+        throw error;
+      });
+  };

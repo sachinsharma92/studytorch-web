@@ -20,7 +20,8 @@ import './styles.scss';
 const { confirm } = Modal;
 
 function QuestionCard(props: any) {
-  const { question, setLoading, onSuccess, onEditQuestion } = props;
+  const { question, setLoading, onSuccess, onEditQuestion, hideEditDelete } =
+    props;
   const answers = JSON.parse(get(question, 'answers'));
   const dispatch = useDispatch();
 
@@ -78,14 +79,16 @@ function QuestionCard(props: any) {
         </div>
 
         <div className="button-menu">
-          <Dropdown overlayClassName="collection-dropdown" overlay={menu}>
-            {/* <a
+          {!hideEditDelete && (
+            <Dropdown overlayClassName="collection-dropdown" overlay={menu}>
+              {/* <a
               className="ant-dropdown-link"
               onClick={(e) => e.preventDefault()}
             > */}
-            <img src={verticalDot} />
-            {/* </a> */}
-          </Dropdown>
+              <img src={verticalDot} />
+              {/* </a> */}
+            </Dropdown>
+          )}
         </div>
       </div>
 
@@ -112,18 +115,20 @@ function QuestionCard(props: any) {
         </div>
       )}
 
-      <div className="button-section">
-        <Button
-          className="btn-outline-primary circle"
-          onClick={onEditQuestion}
-          icon={<EditOutlined />}
-        />
-        <Button
-          className="btn-outline-primary circle"
-          onClick={onConfirmDelete}
-          icon={<DeleteOutlined />}
-        />
-      </div>
+      {!hideEditDelete && (
+        <div className="button-section">
+          <Button
+            className="btn-outline-primary circle"
+            onClick={onEditQuestion}
+            icon={<EditOutlined />}
+          />
+          <Button
+            className="btn-outline-primary circle"
+            onClick={onConfirmDelete}
+            icon={<DeleteOutlined />}
+          />
+        </div>
+      )}
     </div>
   );
 }

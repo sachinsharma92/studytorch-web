@@ -1,28 +1,23 @@
 import { Card } from 'antd';
 import ROUTES from '../../../router';
 import { Link } from 'react-router-dom';
-import image from "../../../assets/images/sharedWithMe/image.svg";
-import FolderIconSVG from "../../../common/FolderIconSVG"
-import EllipsisMenu from "../../ellipsisMenu"
+import image from '../../../assets/images/sharedWithMe/image.svg';
+import FolderIconSVG from '../../../common/FolderIconSVG';
+import EllipsisMenu from '../../ellipsisMenu';
+import replace from 'lodash/replace';
 
 import './styles.scss';
 
-export interface SharedFolderCardProps {
-  folderName: string,
-  folderColor: string,
-  notes: string,
-  quizzes: string,
-  sharedBy: string,
-  cardhandler?: any,
-  menuDotToggle?: any,
-}
-
-function SharedFolderCard(props: SharedFolderCardProps) {
+function SharedFolderCard(props: any) {
+  const { onViewDetails, onRemoveSharedCollection } = props;
   return (
     <div className="shared-folder-card-style">
       <Card>
         <div className="top-card-layer">
-          <Link className="top-card-layer-left" to={ROUTES.SHARED_DETAILS_SCREEN}>
+          <Link
+            className="top-card-layer-left"
+            to={replace(ROUTES.SHARED_DETAILS_SCREEN, ':id', props.id)}
+          >
             <div className="folder-icon">
               <FolderIconSVG withUserStyle fillColor={props.folderColor} />
             </div>
@@ -31,12 +26,27 @@ function SharedFolderCard(props: SharedFolderCardProps) {
                 <p>{props.folderName}</p>
               </div>
               <div className="collection-notes-quizzes">
-                <p>{props.notes} notes, {props.quizzes} quizzes</p>
+                <p>
+                  {props.notes} notes, {props.quizzes} quizzes
+                </p>
               </div>
             </div>
           </Link>
           <div className="top-card-layer-right">
-            <EllipsisMenu menuItems={[{ name: "View Details", iconName: "infoIcon", }, { name: "Remove from shared", iconName: "deleteIcon" }]} />
+            <EllipsisMenu
+              menuItems={[
+                {
+                  name: 'View Details',
+                  iconName: 'infoIcon',
+                  onClick: onViewDetails,
+                },
+                {
+                  name: 'Remove from shared',
+                  iconName: 'deleteIcon',
+                  onClick: onRemoveSharedCollection,
+                },
+              ]}
+            />
           </div>
         </div>
         <hr className="line" />
@@ -46,7 +56,7 @@ function SharedFolderCard(props: SharedFolderCardProps) {
         </div>
       </Card>
     </div>
-  )
+  );
 }
 
 export default SharedFolderCard;

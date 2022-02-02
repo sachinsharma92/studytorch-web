@@ -1,10 +1,10 @@
 import axios from 'axios';
 import { notification } from 'antd';
 import get from 'lodash/get';
-const API_BASE_URL = 'http://localhost:3000';
+import { BASE_URL } from '../constants/apis';
 
 const instance = axios.create({
-  baseURL: API_BASE_URL,
+  baseURL: BASE_URL,
   timeout: 30000,
   headers: {
     Accept: 'application/json',
@@ -42,8 +42,8 @@ instance.interceptors.response.use(
 
 export default instance;
 
-export function setAccessToken(axiosInstance: any, accessToken: string): void {
-  axiosInstance.defaults.headers.common[
-    'Authorization'
-  ] = `Bearer ${accessToken}`;
+export function setAccessToken(axiosInstance: any, accessToken: any): void {
+  axiosInstance.defaults.headers.common['Authorization'] = accessToken
+    ? `Bearer ${accessToken}`
+    : null;
 }

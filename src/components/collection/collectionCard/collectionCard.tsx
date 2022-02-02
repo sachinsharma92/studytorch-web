@@ -18,7 +18,8 @@ import './styles.scss';
 const { confirm } = Modal;
 
 function CollectionCard(props: any) {
-  const { onEditCollection, setLoading, id, onSuccess, color } = props;
+  const { onEditCollection, setLoading, id, onSuccess, color, withUserStyle } =
+    props;
   const dispatch = useDispatch();
 
   const onClickDelete = () => {
@@ -71,7 +72,10 @@ function CollectionCard(props: any) {
         <a className="flex-style">
           {/* <img className="img-style" src={props.imgUrl} alt="" /> */}
           <div className="folder-icon">
-            <FolderIconSVG fillColor={color} withUserStyle={''} />
+            <FolderIconSVG
+              fillColor={color}
+              withUserStyle={withUserStyle ? true : false}
+            />
           </div>
           <div className="content-sec">
             <h4 className="title4">{props.title}</h4>
