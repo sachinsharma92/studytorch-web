@@ -1,6 +1,6 @@
 // variables
-@import "../../../styles/variables/colors";
-@import "../../../styles/variables/mixins";
+@import '../../../styles/variables/colors';
+@import '../../../styles/variables/mixins';
 
 .question-style {
   display: flex;
@@ -129,7 +129,7 @@
 
       &:after {
         display: inline-block;
-        content: "✅";
+        content: '✅';
         margin-left: 10px;
       }
     }

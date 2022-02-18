@@ -1,17 +1,46 @@
-import { Editor } from "react-draft-wysiwyg";
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import { Button, Modal, Breadcrumb, Dropdown, Menu } from 'antd';
-import { DownloadOutlined, FileTextOutlined } from '@ant-design/icons';
+import { useEffect, useState } from 'react';
 
+import map from 'lodash/map';
+import { Editor } from 'react-draft-wysiwyg';
+import {
+  EditorState,
+  convertToRaw,
+  convertFromHTML,
+  ContentState,
+} from 'draft-js';
+import get from 'lodash/get';
+import { useDispatch } from 'react-redux';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import draftToHtml from 'draftjs-to-html';
+import {
+  Button,
+  Modal,
+  Breadcrumb,
+  Dropdown,
+  Menu,
+  Form,
+  Input,
+  Row,
+  Col,
+  Select,
+  notification,
+  message,
+  Spin,
+} from 'antd';
+import { DownloadOutlined, FileTextOutlined } from '@ant-design/icons';
+import { createNote, updateNote } from '../../../redux/actions/noteActions';
 // Images
-import iconFullscreen from "../../../assets/images/icons/fullscreen.svg";
-import iconMore from "../../../assets/images/icons/more-dircle.svg";
-import iconArrowLeft from "../../../assets/images/icons/caret-Left.svg";
+import iconFullscreen from '../../../assets/images/icons/fullscreen.svg';
+import iconMore from '../../../assets/images/icons/more-dircle.svg';
+import iconArrowLeft from '../../../assets/images/icons/caret-Left.svg';
 import ButtonCustom from '../../../common/buttons/buttonCustom';
+import {
+  CREATE_NOTE_SUCCESS,
+  UPDATE_NOTE_SUCCESS,
+} from '../../../constants/messages';
 
 // Styles
 import './styles.scss';
-import { useState } from "react";
 
 const menu = (
   <Menu>
@@ -27,7 +56,71 @@ const menu = (
     </Menu.Item>
   </Menu>
 );
+
 function NoteModalCard(props: any) {
+  const { collection, onSuccess, edit, onCancel, initialValue, visible } =
+    props;
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+
+  const [editorState, setEditorState] = useState<any>(
+    EditorState.createEmpty()
+  );
+
+  useEffect(() => {
+    if (visible && edit) {
+      const blocksFromHTML = convertFromHTML(get(initialValue, 'description'));
+
+      const contentState = ContentState.createFromBlockArray(
+        blocksFromHTML.contentBlocks,
+        blocksFromHTML.entityMap
+      );
+
+      setEditorState(EditorState.createWithContent(contentState));
+    }
+  }, [visible]);
+
+  const addNotes = (payload: any) => {
+    setLoading(true);
+    dispatch(createNote(payload))
+      .then(() => {
+        onSuccess();
+        message.success(CREATE_NOTE_SUCCESS);
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  };
+  const editNotes = (payload: any) => {
+    setLoading(true);
+    dispatch(updateNote(get(initialValue, 'id'), payload))
+      .then(() => {
+        onSuccess();
+        message.success(UPDATE_NOTE_SUCCESS);
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  };
+
+  const onFinish = (values: any) => {
+    if (edit) {
+      editNotes({
+        ...values,
+        description: draftToHtml(convertToRaw(editorState.getCurrentContent())),
+        parent_id: get(collection, 'id'),
+      });
+    } else {
+      addNotes({
+        ...values,
+        description: draftToHtml(convertToRaw(editorState.getCurrentContent())),
+        parent_id: get(collection, 'id'),
+      });
+    }
+  };
+  const onFinishFailed = () => {};
 
   const [isNoteViewModal, setNoteViewModal] = useState(false);
   const noteViewToggleModal = () => {
@@ -35,30 +128,38 @@ function NoteModalCard(props: any) {
   };
 
   return (
-    <>
-      <Modal
-        centered
-        visible={props.visible}
-        footer={false}
-        onCancel={props.onCancel}
-        wrapClassName="note-modal-style primary-modal-style"
-        maskStyle={{ background: 'rgba(30,38,94, 0.6)' }}
-      >
-
+    <Modal
+      centered
+      visible={visible}
+      destroyOnClose
+      footer={false}
+      onCancel={onCancel}
+      wrapClassName="note-modal-style primary-modal-style"
+      maskStyle={{ background: 'rgba(30,38,94, 0.6)' }}
+    >
+      <Spin spinning={loading}>
         <div className="card-modal">
           <div className="top-button-section">
-            <Button onClick={props.onBack} className="btn-outline"><img src={iconArrowLeft} /> Back</Button>
+            <Button onClick={onCancel} className="btn-outline">
+              <img src={iconArrowLeft} alt="" /> Back
+            </Button>
             <div className="action-sec">
-              <Button href="/collection/read-note">
-                <img src={iconFullscreen} />
+              <Button href={props.buttonHandler}>
+                <img src={iconFullscreen} alt="" />
               </Button>
 
-              <Dropdown overlayClassName="collection-dropdown" overlay={menu} placement="bottomRight">
-                <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
+              <Dropdown
+                overlayClassName="collection-dropdown"
+                overlay={menu}
+                placement="bottomRight"
+              >
+                <a
+                  className="ant-dropdown-link"
+                  onClick={(e) => e.preventDefault()}
+                >
                   <img src={iconMore} className="icon-style" />
                 </a>
               </Dropdown>
-
             </div>
           </div>
 
@@ -66,86 +167,89 @@ function NoteModalCard(props: any) {
             <Breadcrumb.Item>
               <a href="">Adding in Collections</a>
             </Breadcrumb.Item>
-            <Breadcrumb.Item>Chemistry</Breadcrumb.Item>
+            <Breadcrumb.Item>{get(collection, 'name')}</Breadcrumb.Item>
           </Breadcrumb>
 
-          <div className="editor-section">
-            <Editor
-              // editorState={editorState}
-              toolbarClassName="toolbarClassName"
-              wrapperClassName="wrapperClassName"
-              editorClassName="editorClassName"
-            // onEditorStateChange={this.onEditorStateChange}
-            />
-          </div>
+          <Form
+            name="basic"
+            initialValues={
+              edit
+                ? {
+                    title: get(initialValue, 'title'),
+                    tags: get(initialValue, 'tags'),
+                  }
+                : {}
+            }
+            onFinish={onFinish}
+            onFinishFailed={onFinishFailed}
+            autoComplete="off"
+            layout="vertical"
+          >
+            <Row gutter={16}>
+              <Col span={12}>
+                <div className="input-section">
+                  <div className="label">Heading </div>
+                  <Form.Item
+                    name="title"
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Please input note heading !',
+                      },
+                    ]}
+                  >
+                    <Input placeholder="Heading" />
+                  </Form.Item>
+                </div>
+              </Col>
+              <Col span={12}>
+                <div className="input-section">
+                  <div className="label">Tags</div>
+                  <Form.Item
+                    name="tags"
+                    rules={[]}
+                    extra="Press enter to add tags"
+                  >
+                    <Select
+                      mode="tags"
+                      size="large"
+                      placeholder="Please select"
+                      style={{ width: '100%' }}
+                    />
+                  </Form.Item>
+                </div>
+              </Col>
+              <div className="editor-section">
+                <Editor
+                  editorState={editorState}
+                  toolbarClassName="toolbarClassName"
+                  wrapperClassName="wrapperClassName"
+                  editorClassName="editorClassName"
+                  onEditorStateChange={(value) => {
+                    setEditorState(value);
+                  }}
+                />
+              </div>
 
-          <div className="button-bottom-section">
-            <ButtonCustom onClick={props.cancelHandler} className="round-sm-primary" title="Cancel" />
-            <ButtonCustom type='primary' onClick={noteViewToggleModal} title="Add Notes" />
-          </div>
+              <div className="button-bottom-section">
+                <ButtonCustom
+                  onClick={onCancel}
+                  className="round-sm-primary"
+                  title="Cancel"
+                />
+
+                <div className={`button-custom ${props.btnContainer}`}>
+                  <Button type="primary" htmlType="submit" title="Add Notes">
+                    {edit ? 'Update Note' : 'Add Notes'}
+                  </Button>
+                </div>
+              </div>
+            </Row>
+          </Form>
         </div>
-
-      </Modal>
-
-      <Modal
-        centered
-        visible={isNoteViewModal}
-        footer={false}
-        onCancel={noteViewToggleModal}
-        wrapClassName="note-modal-style primary-modal-style"
-        maskStyle={{ background: 'rgba(30,38,94, 0.6)' }}
-      >
-
-        <div className="card-modal">
-          <div className="top-button-section">
-            <Button onClick={noteViewToggleModal} className="btn-outline"><img src={iconArrowLeft} /> Back</Button>
-            <div className="action-sec">
-              <Button href="/collection/read-note">
-                <img src={iconFullscreen} />
-              </Button>
-
-              <Dropdown overlayClassName="collection-dropdown" overlay={menu} placement="bottomRight">
-                <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-                  <img src={iconMore} className="icon-style" />
-                </a>
-              </Dropdown>
-
-            </div>
-          </div>
-
-          <Breadcrumb>
-            <Breadcrumb.Item>
-              <a href="">Adding in Collections</a>
-            </Breadcrumb.Item>
-            <Breadcrumb.Item>Chemistry</Breadcrumb.Item>
-          </Breadcrumb>
-
-          <div className="view-section">
-            <h1 className="title1">Inorganic chemistry</h1>
-            <h3 className="title3">1.Review of Chemical Bonding</h3>
-            <h4 className="title4">1.1 Prelude to Chemical Bonding</h4>
-
-            <p className="description">
-              Inorganic chemistry is the study of the synthesis, reactions, structures and properties of compounds of the elements. Inorganic chemistry encompasses the compounds - both molecular and extended solids - of everything else in the periodic table, and overlaps with organic chemistry in the area of organometallic chemistry, in which metals are bonded to carbon-containing ligands and molecules. Inorganic chemistry is fundamental to many practical technologies including catalysis and materials (structural, electronic, magnetic etc.), energy conversion and storage, and electronics. Inorganic compounds are also found in biological systems where they are essential to life processes.
-            </p>
-
-            <p className="description">
-              Inorganic chemistry is the study of the synthesis, reactions, structures and properties of compounds of the elements. Inorganic chemistry encompasses the compounds - both molecular and extended solids - of everything else in the periodic table, and overlaps with organic chemistry in the area of organometallic chemistry, in which metals are bonded to carbon-containing ligands and molecules. Inorganic chemistry is fundamental to many practical technologies including catalysis and materials (structural, electronic, magnetic etc.), energy conversion and storage, and electronics. Inorganic compounds are also found in biological systems where they are essential to life processes.
-            </p>
-
-            <p className="description">
-              Inorganic chemistry is the study of the synthesis, reactions, structures and properties of compounds of the elements. Inorganic chemistry encompasses the compounds - both molecular and extended solids - of everything else in the periodic table, and overlaps with organic chemistry in the area of organometallic chemistry, in which metals are bonded to carbon-containing ligands and molecules. Inorganic chemistry is fundamental to many practical technologies including catalysis and materials (structural, electronic, magnetic etc.), energy conversion and storage, and electronics. Inorganic compounds are also found in biological systems where they are essential to life processes.
-            </p>
-
-            <p className="description">
-              Inorganic chemistry is the study of the synthesis, reactions, structures and properties of compounds of the elements. Inorganic chemistry encompasses the compounds - both molecular and extended solids - of everything else in the periodic table, and overlaps with organic chemistry in the area of organometallic chemistry, in which metals are bonded to carbon-containing ligands and molecules. Inorganic chemistry is fundamental to many practical technologies including catalysis and materials (structural, electronic, magnetic etc.), energy conversion and storage, and electronics. Inorganic compounds are also found in biological systems where they are essential to life processes.
-            </p>
-          </div>
-        </div>
-      </Modal>
-
-    </>
-  )
+      </Spin>
+    </Modal>
+  );
 }
 
 export default NoteModalCard;

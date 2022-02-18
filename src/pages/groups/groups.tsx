@@ -1,138 +1,182 @@
-import { useState } from 'react';
-import { Col, Menu, Row, } from 'antd';
-import { PlusOutlined, EditOutlined, DeleteOutlined, UserAddOutlined, InfoCircleOutlined } from '@ant-design/icons';
+import { useEffect, useState } from 'react';
+import { Col, Row, Spin, Modal, message } from 'antd';
+import { PlusOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
+import { useDispatch } from 'react-redux';
+import map from 'lodash/map';
+import get from 'lodash/get';
 import ROUTES from '../../router';
 import PrimaryLayout from '../../common/primaryLayout/primaryLayout';
 import EmptyState from '../../common/emptyState/emptyState';
 import GroupsCard from '../../components/groups/groupsCard/groupsCard';
 import ButtonCustom from '../../common/buttons/buttonCustom';
 import GroupCreateModal from '../../components/groups/modals/groupCreateModal';
+import {
+  getUserGroups,
+  deleteGroup,
+  leaveGroup,
+} from '../../redux/actions/groupActions';
+import {
+  DELETE_GROUP_SUCCESS,
+  LEAVE_GROUP_SUCCESS,
+} from '../../constants/messages';
 
 // Images
-import folderGray from "../../assets/images/icons/folder-gray.svg";
-import curveImgae from "../../assets/images/curve-lines.svg";
+import folderGray from '../../assets/images/icons/folder-gray.svg';
 
 // Styles
 import './styles.scss';
 
-
-const menu = (
-	<Menu>
-		<Menu.Item icon={<EditOutlined />}>
-			<a target="_blank" rel="noopener noreferrer" href="#">
-				Rename
-			</a>
-		</Menu.Item>
-		<Menu.Item icon={<DeleteOutlined />}>
-			<a target="_blank" rel="noopener noreferrer" href="#">
-				Delete
-			</a>
-		</Menu.Item>
-		<Menu.Item icon={<InfoCircleOutlined />}>
-			<a target="_blank" rel="noopener noreferrer" href="#">
-				Get Details
-			</a>
-		</Menu.Item>
-		<Menu.Item icon={<UserAddOutlined />}>
-			<a target="_blank" rel="noopener noreferrer" href="#">
-				Share
-			</a>
-		</Menu.Item>
-	</Menu>
-);
-
-const cardData = [
-	{
-		title: "Group Name",
-		description: "Created by Mudita . 7 members",
-		backgroundImgae: curveImgae,
-		cardBg: '#FFEDE3',
-	},
-	{
-		title: "Group Name",
-		description: "Created by Mudita . 7 members",
-		backgroundImgae: curveImgae,
-		cardBg: '#E3F8FF',
-	},
-	{
-		title: "Group Name",
-		description: "Created by Mudita . 7 members",
-		backgroundImgae: curveImgae,
-		cardBg: '#FFE3E1',
-	},
-	{
-		title: "Group Name",
-		description: "Created by Mudita . 7 members",
-		backgroundImgae: curveImgae,
-		cardBg: '#EFF2FF',
-	},
-	{
-		title: "Group Name",
-		description: "Created by Mudita . 7 members",
-		backgroundImgae: curveImgae,
-		cardBg: '#FFEDE3',
-	},
-	{
-		title: "Group Name",
-		description: "Created by Mudita . 7 members",
-		backgroundImgae: curveImgae,
-		cardBg: '#E3F8FF',
-	},
-]
+const { confirm } = Modal;
 
 function GroupsScreen(props: any) {
+  const dispatch = useDispatch();
 
-	const [isGroupCreateModal, setIsGroupCreateModal] = useState(false);
-	const groupToggleModal = () => {
-		setIsGroupCreateModal(!isGroupCreateModal);
-	};
+  const [groupModal, setGroupModal] = useState<any>({
+    visible: false,
+    data: null,
+  });
 
-	return (
-		<PrimaryLayout>
-			<div className="group-page-style">
-				<h3 className="title3">Groups</h3>
+  const [groups, setGroups] = useState([]);
 
-				{props.collectionData ? <div className="state-center">
-					<EmptyState
-						imgUrl={folderGray}
-						title="Create your Collection"
-						description=" Your Collection can be the folder underwhich all the study material is kept"
-						buttonText="Add Collection"
-						buttonType="primary"
-					/>
-				</div>
-					:
-					<div className="card-section">
-						<Row gutter={32}>
-							{cardData.map((data, index) => (
-								<Col xs={24} sm={8} key={index}>
-									<GroupsCard
-										backgroundImgae={data.backgroundImgae}
-										title={data.title}
-										description={data.description}
-										menuData={menu}
-										cardHandler={ROUTES.GROUPS_DETAIL_SCREEN}
-										bgColor={data.cardBg}
-									/>
-								</Col>
-							))}
-						</Row>
-					</div>
-				}
-			</div>
+  const [loading, setLoading] = useState(false);
 
+  const toggleGroupModal = (data = null) => {
+    setGroupModal({
+      data,
+      visible: !get(groupModal, 'visible'),
+    });
+  };
 
-			{/* Collection Modal here */}
-			<GroupCreateModal
-				visible={isGroupCreateModal}
-				onCancel={groupToggleModal}
-				buttonHandler={ROUTES.GROUPS_DETAIL_SCREEN}
-			/>
+  const getGroups = () => {
+    setLoading(true);
+    dispatch(getUserGroups())
+      .then((result: any) => {
+        setLoading(false);
+        setGroups(result);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  };
 
-			<ButtonCustom onClick={groupToggleModal} icon={<PlusOutlined />} title="Create Group" type="primary" btnContainer="group-btn-add" />
+  const onCreateSuccess = () => {
+    toggleGroupModal(null);
+    getGroups();
+  };
 
-		</PrimaryLayout>
-	)
+  const onClickDelete = (id: any) => {
+    setLoading(true);
+    dispatch(deleteGroup(id))
+      .then(() => {
+        message.success(DELETE_GROUP_SUCCESS);
+        getGroups();
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  };
+
+  const onLeaveGroup = (id: any) => {
+    setLoading(true);
+    dispatch(leaveGroup(id))
+      .then(() => {
+        message.success(LEAVE_GROUP_SUCCESS);
+        getGroups();
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  };
+
+  const onConfirmDelete = (id: any) => {
+    confirm({
+      title: 'Do you Want to delete this Group?',
+      icon: <ExclamationCircleOutlined />,
+
+      onOk() {
+        onClickDelete(id);
+      },
+      onCancel() {
+        console.log('Cancel');
+      },
+    });
+  };
+
+  const onConfirmLeave = (id: any) => {
+    confirm({
+      title: 'Do you Want to leave this Group?',
+      icon: <ExclamationCircleOutlined />,
+
+      onOk() {
+        onLeaveGroup(id);
+      },
+      onCancel() {
+        console.log('Cancel');
+      },
+    });
+  };
+
+  useEffect(() => {
+    getGroups();
+  }, []);
+
+  return (
+    <PrimaryLayout>
+      <Spin spinning={loading}>
+        <div className="group-page-style">
+          <h3 className="title3">Groups</h3>
+
+          {props.collectionData ? (
+            <div className="state-center">
+              <EmptyState
+                imgUrl={folderGray}
+                title="Create your Collection"
+                description=" Your Collection can be the folder underwhich all the study material is kept"
+                buttonText="Add Collection"
+                buttonType="primary"
+              />
+            </div>
+          ) : (
+            <div className="card-section">
+              <Row gutter={32}>
+                {map(groups, (group, index) => (
+                  <Col xs={24} sm={8} key={index}>
+                    <GroupsCard
+                      group={group}
+                      onEditGroup={toggleGroupModal}
+                      onDelete={onConfirmDelete}
+                      onLeaveGroup={onConfirmLeave}
+                    />
+                  </Col>
+                ))}
+              </Row>
+            </div>
+          )}
+        </div>
+
+        {/* Group Modal here */}
+        <GroupCreateModal
+          visible={get(groupModal, 'visible')}
+          onCancel={() => toggleGroupModal()}
+          onSuccess={onCreateSuccess}
+          edit={get(groupModal, 'data') ? true : false}
+          initialValue={get(groupModal, 'data')}
+        />
+
+        <ButtonCustom
+          onClick={() => {
+            toggleGroupModal();
+          }}
+          icon={<PlusOutlined />}
+          title="Create Group"
+          type="primary"
+          btnContainer="group-btn-add"
+        />
+      </Spin>
+    </PrimaryLayout>
+  );
 }
 
 export default GroupsScreen;
