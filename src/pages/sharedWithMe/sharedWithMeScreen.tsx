@@ -9,7 +9,9 @@ import map from 'lodash/map';
 import moment from 'moment';
 import FolderIconSVG from '../../common/FolderIconSVG';
 import ModalConfirmation from '../../common/modalConfirmation';
+import EmptyState from '../../common/emptyState/emptyState';
 import { fetchSharedCollections } from '../../redux/actions/collectionActions';
+import folderGray from '../../assets/images/icons/folder-gray.svg';
 
 // Styles
 import './styles.scss';
@@ -98,6 +100,17 @@ function SharedWithMeScreen() {
           <div className="shared-page-style">
             <h3 className="title3">Shared with me</h3>
 
+            {sharedCollection.length === 0 && (
+              <div className="state-center">
+                <EmptyState
+                  imgUrl={folderGray}
+                  title=""
+                  description=" No Collection is shared with you  "
+                  buttonType="primary"
+                  // buttonHandler={() => toggleNoteModal()}
+                />
+              </div>
+            )}
             {map(sharedCollection, (sc, index) => (
               <SharedWithMeCollection
                 key={index}
