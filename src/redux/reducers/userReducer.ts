@@ -1,35 +1,57 @@
-import * as UserActions from '../actions/userActions';
-
-
-export interface IUser {
-  id: number;
-  name: string;
-  phone?: string;
-  email?: string;
-}
+import {
+  USER_LOGGED_OUT,
+  USER_LOGGED_IN,
+  OFF_ONBOARDING,
+} from '../../constants/actions';
+import get from 'lodash/get';
+import axiosInstance from '../../remote/axios';
 
 export interface IUserState {
-  id?: number;
-  accessToken?: string;
-  user?: IUser;
+  accessToken?: any;
+  user?: any;
+  isLoggedIn: boolean;
+  showOnBoarding: boolean;
 }
 
 function initializeState(): IUserState {
-  return {};
+  return {
+    accessToken: null,
+    isLoggedIn: false,
+    user: null,
+    showOnBoarding: false,
+  };
 }
 
 export function reduce(
   state: IUserState = initializeState(),
-  action: any,
+  action: any
 ): IUserState {
   switch (action.type) {
+    case USER_LOGGED_IN:
+      return {
+        ...state,
+        accessToken: get(action, 'payload.token'),
+        user: get(action, 'payload'),
+        isLoggedIn: true,
+        showOnBoarding: get(action, 'payload.showOnBoarding', false),
+      };
 
-    case UserActions.USER_LOGGED_IN:
-      const { id, accessToken, user } = action.payload;
-      return { id: id, accessToken: accessToken, user };
-
-    case UserActions.USER_LOG_OUT:
+    case OFF_ONBOARDING:
+      return {
+        ...state,
+        showOnBoarding: false,
+      };
+    case USER_LOGGED_OUT:
       return initializeState();
+
+    case 'persist/REHYDRATE':
+      const token = get(action.payload, 'userState.accessToken', null);
+      if (token) {
+        axiosInstance.defaults.headers.common['authorization'] = token
+          ? `Bearer ${token}`
+          : '';
+      }
+      return state;
 
     default:
       return state;

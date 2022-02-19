@@ -1,6 +1,6 @@
 // variables
-@import "../../../styles/variables/colors";
-@import "../../../styles/variables/mixins";
+@import '../../../styles/variables/colors';
+@import '../../../styles/variables/mixins';
 
 // collection-modal-style
 .group-modal-style {
@@ -93,7 +93,7 @@
   }
 
   .btn-add {
-    flex-grow: 2;
+    flex-grow: 1;
     margin-left: 10px;
     height: 45px;
     font-size: 16px;
@@ -118,6 +118,8 @@
   }
 
   .input-section {
+    flex: 5;
+    padding-right: 10px;
     border-radius: 6px !important;
     background-color: $borderColor;
 

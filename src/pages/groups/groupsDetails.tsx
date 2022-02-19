@@ -1,14 +1,41 @@
-import { useState } from 'react';
-import { Button, Col, Menu, Row, Popover, Tabs, Select, PageHeader, Dropdown, Avatar, Pagination, Drawer } from 'antd';
-import { PlusOutlined, EditOutlined, DeleteOutlined, LoginOutlined, CheckSquareOutlined } from '@ant-design/icons';
-
+import { useEffect, useState } from 'react';
+import {
+  Button,
+  Col,
+  Menu,
+  Row,
+  Popover,
+  Tabs,
+  Select,
+  PageHeader,
+  Dropdown,
+  Avatar,
+  Pagination,
+  Drawer,
+  Spin,
+  Tooltip,
+} from 'antd';
+import get from 'lodash/get';
+import map from 'lodash/map';
+import {
+  PlusOutlined,
+  EditOutlined,
+  DeleteOutlined,
+  CheckSquareOutlined,
+} from '@ant-design/icons';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 // Custom Component and Modal
-import ROUTES from '../../router';
+import {
+  GROUP_SCORE_DETAILS_SCREEN,
+  GROUPS_DETAIL_SCREEN,
+} from '../../router/routes';
+import EmptyState from '../../common/emptyState/emptyState';
 import PrimaryLayout from '../../common/primaryLayout/primaryLayout';
 import NotesCard from '../../components/collection/notesCard/notesCard';
 import FlashCard from '../../components/collection/flashCard/flashCard';
 import ShareCollectionModal from '../../components/collection/modals/shareCollection';
-import MasterCollectionModal from '../../components/collection/modals/masterCollection';
+import CreateCollectionModal from '../../components/collection/modals/createCollection';
 import ButtonCustom from '../../common/buttons/buttonCustom';
 import QuestionCard from '../../components/collection/questionCard/questionCard';
 import NoteModalCard from '../../components/collection/modals/noteModalCard';
@@ -17,19 +44,21 @@ import QuestionAddedModal from '../../components/collection/modals/questionAdded
 import FlashEditModal from '../../components/collection/modals/flashEditModal';
 import CollectionCard from '../../components/collection/collectionCard/collectionCard';
 import RevisionModeModal from '../../components/collection/modals/revisionModeModal';
-import GroupMemberModal from '../../components/groups/modals/groupMemberModal';
-import ModalConfirmation from '../../common/modalConfirmation';
+import JoinedDropDown from '../../components/groups/joinedDropDown';
+import GroupBanner from '../../components/groups/groupBanner/groupBanner';
+import GroupMembers from '../../components/groups/groupMembers';
 import QuizCard from '../../components/quiz/quizCard';
-
+import {
+  fetchGroupCollectionDetails,
+  fetchGroupDetails,
+} from '../../redux/actions/groupActions';
+import { getNameAvatar, replaceMultiple } from '../../utilities/helpers';
+import { avatarColors } from '../../constants/groups';
 // Images
-import filter from "../../assets/images/icons/filter.svg";
-import Users3 from "../../assets/images/icons/3-user.svg";
-import User from "../../assets/images/icons/user.svg";
-import verticalDot from "../../assets/images/icons/vertical-dot.svg";
-import arrowDown from "../../assets/images/icons/arrow-down.svg";
-import heroBackground from "../../assets/images/banner-group.png";
+import filter from '../../assets/images/icons/filter.svg';
+import verticalDot from '../../assets/images/icons/vertical-dot.svg';
 
-
+import folderGray from '../../assets/images/icons/folder-gray.svg';
 
 // Styles
 import './styles.scss';
@@ -39,714 +68,715 @@ import ReportDetailCard from '../../components/groups/drawerCards/reportDetailCa
 
 const { TabPane } = Tabs;
 
-const { Option } = Select;
-
 const menu = (
-	<Menu>
-		<Menu.Item icon={<EditOutlined />}>
-			<a target="_blank" rel="noopener noreferrer" href="#">
-				Edit
-			</a>
-		</Menu.Item>
-		<Menu.Item icon={<DeleteOutlined />}>
-			<a target="_blank" rel="noopener noreferrer" href="#">
-				Delete
-			</a>
-		</Menu.Item>
-	</Menu>
+  <Menu>
+    <Menu.Item icon={<EditOutlined />}>
+      <a target="_blank" rel="noopener noreferrer" href="#">
+        Edit
+      </a>
+    </Menu.Item>
+    <Menu.Item icon={<DeleteOutlined />}>
+      <a target="_blank" rel="noopener noreferrer" href="#">
+        Delete
+      </a>
+    </Menu.Item>
+  </Menu>
 );
 
-const cardData = [
-	{
-		title: "Maths",
-		description: "20 Notes, 2 quizes",
-		folderColor: "#6C5ECF",
-	},
-	{
-		title: "Maths",
-		description: "20 Notes, 2 quizes",
-		folderColor: "#FCAB8E",
-	},
-	{
-		title: "Maths",
-		description: "20 Notes, 2 quizes",
-		folderColor: "#6FBEF6",
-	},
-	{
-		title: "Maths",
-		description: "20 Notes, 2 quizes",
-		folderColor: "#FF8B8B",
-	},
-	{
-		title: "Maths",
-		description: "20 Notes, 2 quizes",
-		folderColor: "#503FC8",
-	},
-	{
-		title: "Maths",
-		description: "20 Notes, 2 quizes",
-		folderColor: "#FCAB8E",
-	},
-	{
-		title: "Maths",
-		description: "20 Notes, 2 quizes",
-		folderColor: "#6C5ECF",
-		folderType: 'folderUser',
-	},
-	{
-		title: "Maths",
-		description: "20 Notes, 2 quizes",
-		folderColor: "#6C5ECF",
-	},
-]
-
-const noteCardData = [
-	{
-		title: "Headline label",
-		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Adipiscing  elit fringilla vitae...",
-		tag: 'Tag 1',
-	},
-	{
-		title: "Headline label",
-		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Adipiscing  elit fringilla vitae...",
-		tag: 'Tag 1',
-	},
-	{
-		title: "Headline label",
-		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Adipiscing  elit fringilla vitae...",
-		tag: 'Tag 1',
-	},
-	{
-		title: "Headline label",
-		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Adipiscing  elit fringilla vitae...",
-		tag: 'Tag 1',
-	},
-	{
-		title: "Headline label",
-		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Adipiscing  elit fringilla vitae...",
-		tag: 'Tag 1',
-	},
-	{
-		title: "Headline label",
-		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Adipiscing  elit fringilla vitae...",
-		tag: 'Tag 1',
-	},
-	{
-		title: "Headline label",
-		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Adipiscing  elit fringilla vitae...",
-		tag: 'Tag 1',
-	},
-	{
-		title: "Headline label",
-		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Adipiscing  elit fringilla vitae...",
-		tag: 'Tag 1',
-	},
-]
-
 const flashCardData = [
-	{
-		title: "Headline label",
-		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Adipiscing  elit fringilla vitae...",
-		tag: 'Tag 1',
-	},
-	{
-		title: "Headline label",
-		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Adipiscing  elit fringilla vitae...",
-		tag: 'Tag 1',
-	},
-	{
-		title: "Headline label",
-		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Adipiscing  elit fringilla vitae...",
-		tag: 'Tag 1',
-	},
-	{
-		title: "Headline label",
-		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Adipiscing  elit fringilla vitae...",
-		tag: 'Tag 1',
-	},
-	{
-		title: "Headline label",
-		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Adipiscing  elit fringilla vitae...",
-		tag: 'Tag 1',
-	},
-	{
-		title: "Headline label",
-		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Adipiscing  elit fringilla vitae...",
-		tag: 'Tag 1',
-	},
-	{
-		title: "Headline label",
-		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Adipiscing  elit fringilla vitae...",
-		tag: 'Tag 1',
-	},
-	{
-		title: "Headline label",
-		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Adipiscing  elit fringilla vitae...",
-		tag: 'Tag 1',
-	},
-]
-
-const questionCardData = [
-	{
-		tag: 'Objective  MCQ',
-		questionTitle: "Question title goes here .............................",
-	},
-	{
-		tag: 'Objective',
-		questionTitle: "Question title goes here .............................",
-		description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis ac dignissim urna risus  dolor'
-	},
-]
-
-const routes = [
-	{
-		path: 'index',
-		breadcrumbName: 'Group',
-	},
-	{
-		path: 'first',
-		breadcrumbName: 'Maths Group',
-	},
+  {
+    title: 'Headline label',
+    description:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Adipiscing  elit fringilla vitae...',
+    tag: 'Tag 1',
+  },
+  {
+    title: 'Headline label',
+    description:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Adipiscing  elit fringilla vitae...',
+    tag: 'Tag 1',
+  },
 ];
 
 const quizViewData = [
-	{
-		quizName: 'QUIZ NAME',
-		collectionName: 'Collection name',
-		date: '22nd Sep 2021',
-		marks: '70%',
-	},
-	{
-		quizName: 'QUIZ NAME',
-		collectionName: 'Collection name',
-		date: '22nd Sep 2021',
-		marks: '70%',
-	},
-	{
-		quizName: 'QUIZ NAME',
-		collectionName: 'Collection name',
-		date: '22nd Sep 2021',
-		marks: '80%',
-	},
-	{
-		quizName: 'QUIZ NAME',
-		collectionName: 'Collection name',
-		date: '22nd Sep 2021',
-		marks: '90%',
-	},
-]
-
+  {
+    quizName: 'QUIZ NAME',
+    collectionName: 'Collection name',
+    date: '22nd Sep 2021',
+    marks: '70%',
+  },
+  {
+    quizName: 'QUIZ NAME',
+    collectionName: 'Collection name',
+    date: '22nd Sep 2021',
+    marks: '70%',
+  },
+  {
+    quizName: 'QUIZ NAME',
+    collectionName: 'Collection name',
+    date: '22nd Sep 2021',
+    marks: '80%',
+  },
+  {
+    quizName: 'QUIZ NAME',
+    collectionName: 'Collection name',
+    date: '22nd Sep 2021',
+    marks: '90%',
+  },
+];
 
 function GroupDetailScreen(props: any) {
+  const [isCollectionModal, setIsCollectionModal] = useState(false);
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  const [collectionDetails, setCollectionDetails] = useState(false);
+  const [groupDetails, setGroupDetails] = useState(false);
+  const { id, gid } = useParams();
+  console.log(groupDetails);
+  //////////new start ///////////
+  const [collectionModal, setCollectionModal] = useState<any>({
+    visible: false,
+    data: null,
+  });
 
-	const [isCollectionModal, setIsCollectionModal] = useState(false);
-	const collectionToggleModal = () => {
-		setIsCollectionModal(!isCollectionModal);
-	};
+  const [noteModal, setNoteModal] = useState({
+    visible: false,
+    data: null,
+  });
 
-	const [isShareModal, setIsShareModal] = useState(false);
-	const shareToggleModal = () => {
-		setIsShareModal(!isShareModal);
-	};
+  const [questionModal, setQuestionModal] = useState({
+    visible: false,
+    data: null,
+  });
 
-	const [isNoteModal, setIsNoteModal] = useState(false);
-	const noteToggleModal = () => {
-		setIsNoteModal(!isNoteModal);
-	};
+  const [isQuestionAddedModal, setIsQuestionAddedModal] = useState({
+    visible: false,
+    edit: false,
+  });
+  //////////new ENd ///////////
 
-	const [isQuestionModal, setIsQuestionModal] = useState(false);
-	const questionToggleModal = () => {
-		setIsQuestionModal(!isQuestionModal);
-		setIsQuestionAddedModal(false);
-	};
+  const [isShareModal, setIsShareModal] = useState(false);
+  const shareToggleModal = () => {
+    setIsShareModal(!isShareModal);
+  };
 
-	const [isQuestionAddedModal, setIsQuestionAddedModal] = useState(false);
-	const questionAddedTpggleModal = () => {
-		setIsQuestionAddedModal(!isQuestionAddedModal);
-		setIsQuestionModal(false);
-	};
+  const [isFlashEditModal, setIsFlashEditModal] = useState(false);
+  const flashEditModalTpggleModal = () => {
+    setIsFlashEditModal(!isFlashEditModal);
+  };
 
-	const [isFlashEditModal, setIsFlashEditModal] = useState(false);
-	const flashEditModalTpggleModal = () => {
-		setIsFlashEditModal(!isFlashEditModal);
-	};
+  const [isRevisionModeModal, setIsRevisionModeModal] = useState(false);
+  const revisionModeToggle = () => {
+    setIsRevisionModeModal(!isRevisionModeModal);
+  };
 
-	const [isRevisionModeModal, setIsRevisionModeModal] = useState(false);
-	const revisionModeToggle = () => {
-		setIsRevisionModeModal(!isRevisionModeModal);
-	};
+  const [isCreateQuizModal, setIsCreateQuizModal] = useState(false);
+  const createQuizToggleModal = () => {
+    setIsCreateQuizModal(!isCreateQuizModal);
+  };
 
-	const [isGroupMemberModal, setIsGroupMemberModal] = useState(false);
-	const groupMemberModalToggle = () => {
-		setIsGroupMemberModal(!isGroupMemberModal);
-	};
-
-	const [isModalConfirmation, setIsModalConfirmation] = useState(false);
-	const modalConfirmationToggle = () => {
-		setIsModalConfirmation(!isModalConfirmation);
-	};
-
-	const [isModalDelete, setIsModalDelete] = useState(false);
-	const modalDeleteToggle = () => {
-		setIsModalDelete(!isModalDelete);
-	};
-
-
-	const [isCreateQuizModal, setIsCreateQuizModal] = useState(false);
-	const createQuizToggleModal = () => {
-		setIsCreateQuizModal(!isCreateQuizModal);
-	};
-
-
-	// Drawer Function
-	const [isInfoDrawer, setInfoDrawer] = useState(true);
+  // Drawer Function
+  const [isInfoDrawer, setInfoDrawer] = useState(false);
   const infoDrawerToggle = () => {
     setInfoDrawer(!isInfoDrawer);
   };
 
-	const toggleData = (
-		<div className="toggle-menu">
-			<a onClick={collectionToggleModal}>New Collection</a>
-			<a onClick={noteToggleModal}>Notes</a>
-			<a onClick={questionToggleModal}>Question</a>
-		</div>
-	);
+  const toggleData = (
+    <div className="toggle-menu">
+      <a
+        onClick={() => {
+          toggleCollectionModal();
+        }}
+      >
+        New Collection
+      </a>
+      <a onClick={() => toggleNoteModal()}>Notes</a>
+      <a onClick={() => toggleQuestionModal()}>Question</a>
+    </div>
+  );
 
-	return (
-		<PrimaryLayout>
-			<div className="group-page-style detail-page-style">
+  const getGroupCollectionDetails = () => {
+    setLoading(true);
+    dispatch(fetchGroupCollectionDetails(id))
+      .then((result: any) => {
+        setCollectionDetails(result);
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  };
 
-				<div className="hero-section" style={{ backgroundImage: `url(${heroBackground})` }}>
-					<Button icon={<EditOutlined />} shape="round" size="middle" >
-						edit
-					</Button>
-				</div>
+  const getGroupDetails = () => {
+    setLoading(true);
+    dispatch(fetchGroupDetails(gid))
+      .then((result: any) => {
+        setGroupDetails(result);
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  };
+  //////////new start ///////////
+  const toggleCollectionModal = (data = null) => {
+    setCollectionModal({
+      visible: !get(collectionModal, 'visible'),
+      data: data,
+    });
+  };
 
-				<PageHeader
-					className="site-page-header header-back"
-					onBack={() => null}
-					title="Maths"
-					breadcrumb={{ routes }}
-					extra={[
-						<div className="btn-section-top">
-							<Dropdown placement="bottomRight" overlayClassName="collection-dropdown" overlay={
-								<Menu>
-									<Menu.Item icon={<DeleteOutlined />}>
-										<a onClick={modalDeleteToggle}>
-											Delete Group
-										</a>
-									</Menu.Item>
-									<Menu.Item icon={<LoginOutlined />}>
-										<a onClick={modalConfirmationToggle}>
-											Leave Group
-										</a>
-									</Menu.Item>
-								</Menu>
-							}>
-								<a className="ant-dropdown-link btn-outline-primary" onClick={e => e.preventDefault()}>
-									<img src={Users3} className="icon-style" />
-									<span>	Joined</span>
-									<img src={arrowDown} className="icon-style" />
-								</a>
-							</Dropdown>
+  const toggleNoteModal = (data = null) => {
+    setNoteModal({
+      visible: !get(noteModal, 'visible'),
+      data: data,
+    });
+  };
 
-							<Button icon={<img src={User} className="img-white img-user" />} onClick={groupMemberModalToggle} shape="round" type="primary" size="large">
-								Members
-							</Button>
+  const toggleQuestionModal = (data = null) => {
+    setQuestionModal({
+      visible: !get(questionModal, 'visible'),
+      data: data,
+    });
+  };
 
-							<Dropdown overlayClassName="collection-dropdown" overlay={
-								<Menu>
-									<Menu.Item icon={<EditOutlined />}>
-										<a href="#">
-											Edit Group
-										</a>
-									</Menu.Item>
-									<Menu.Item icon={<EditOutlined />}>
-										<a href="#">
-											Show Cover
-										</a>
-									</Menu.Item>
-								</Menu>
-							}>
-								<a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-									<img src={verticalDot} className="icon-style" />
-								</a>
-							</Dropdown>
-						</div>
-					]}
-				/>
+  const onCollecitonSuccess = () => {
+    toggleCollectionModal(null);
+    getGroupCollectionDetails();
+  };
 
-				<div className="avatar-group">
-					<Avatar.Group maxCount={5}>
-						<Avatar src="https://media.istockphoto.com/photos/happy-hispanic-latin-gen-z-teen-girl-blogger-smiling-face-waving-hand-picture-id1225782570?b=1&k=20&m=1225782570&s=170667a&w=0&h=5ozC3Yy_DB95ShpzQEcUlon_mk0M6rHFP4qmMdJVSqA=" />
-						<Avatar src="https://media.istockphoto.com/photos/happy-indian-woman-look-at-webcam-doing-job-interview-videochat-picture-id1198252585?b=1&k=20&m=1198252585&s=170667a&w=0&h=uaxDBZ35kKZfdgqZPql1mAeuLsAEHqjS3bM0Z6w8pJM=" />
-						<Avatar src="https://media.istockphoto.com/photos/young-indian-woman-online-teacher-counselor-remote-tutor-or-job-at-picture-id1262282990?b=1&k=20&m=1262282990&s=170667a&w=0&h=WVxE2fsI6DfuL2TMrFQYsEUKVF-HbIJwOiv3BunD5h4=" />
-						<Avatar src="https://media.istockphoto.com/photos/modern-woman-working-from-home-picture-id623295134?b=1&k=20&m=623295134&s=170667a&w=0&h=hgfKDsBKSrxC1sbFNDyV3ctMy1ocUYQKqq1Z-PbhCo4=" />
-						<Avatar src="https://media.istockphoto.com/photos/smiling-attractive-young-lady-looking-talking-to-camera-at-home-picture-id1189198083?b=1&k=20&m=1189198083&s=170667a&w=0&h=UqbTLIDgMnE7glkhwibe2nzsZAloTZr_IakuzEDVTRE=" />
-						<Avatar src="https://media.istockphoto.com/photos/africanamerican-man-talking-on-web-camera-video-call-headshot-picture-id918365128?b=1&k=20&m=918365128&s=170667a&w=0&h=jkB_KrGWA-mehC8upJXU5TMOhlrkSqAms8Sw34-2p4k=" />
-						<Avatar src="https://media.istockphoto.com/photos/modern-woman-working-from-home-picture-id623295134?b=1&k=20&m=623295134&s=170667a&w=0&h=hgfKDsBKSrxC1sbFNDyV3ctMy1ocUYQKqq1Z-PbhCo4=" />
-					</Avatar.Group>
-				</div>
+  const onNotesSuccess = () => {
+    toggleNoteModal();
+    getGroupCollectionDetails();
+  };
+  //////////new END ///////////
 
-				<div className="tab-section">
-					<Tabs defaultActiveKey="1">
-						<TabPane tab="Collection" key="1">
-							<div className="card-section">
-								<Row gutter={32}>
-									{cardData.map((data, index) => (
-										<Col xs={24} sm={6} key={index}>
-											<CollectionCard
-												title={data.title}
-												description={data.description}
-												fillColor={data.folderColor}
-												withUserStyle={data.folderType === 'folderUser' && true}
-												menuData={menu}
-												cardHandler="/group/member"
-											/>
-										</Col>
-									))}
-								</Row>
-							</div>
-						</TabPane>
-						<TabPane tab="Notes" key="2">
-							<div className="card-section note-section">
-								<Row gutter={32}>
-									{noteCardData.map((data, index) => (
-										<Col sm={8} key={index}>
-											<NotesCard
-												title={data.title}
-												description={data.description}
-												menuData={menu}
-												cardHandler="/"
-												tag={data.tag}
-											/>
-										</Col>
-									))}
-								</Row>
-							</div>
-						</TabPane>
-						<TabPane tab="Question" key="3">
+  useEffect(() => {
+    getGroupCollectionDetails();
+    getGroupDetails();
+  }, [id]);
 
-							<div className="inline-button-section mt--20 mb--30">
-								<ButtonCustom className="round-primary" title="Take a Quiz" />
-								<ButtonCustom className="round-primary" icon={<img src={filter} alt="" />} title="Filter" />
-							</div>
+  return (
+    <PrimaryLayout>
+      <div className="group-page-style detail-page-style">
+        <GroupBanner
+          setLoading={setLoading}
+          groupDetails={groupDetails}
+          onSuccessUpload={getGroupDetails}
+        />
 
-							<div className="card-section note-section">
-								<Row gutter={32}>
-									{questionCardData.map((data, index) => (
-										<Col sm={12} key={index}>
-											<QuestionCard
-												questionTitle={data.questionTitle}
-												tag={data.tag}
-												menuData={menu}
-												description={data.description}
-											/>
-										</Col>
-									))}
-								</Row>
-							</div>
+        <PageHeader
+          className="site-page-header header-back"
+          onBack={() => navigate(-1)}
+          title={get(collectionDetails, 'name')}
+          breadcrumb={{
+            routes: [
+              {
+                path: 'index',
+                breadcrumbName: 'Group',
+              },
+              {
+                path: 'first',
+                breadcrumbName: get(groupDetails, 'name'),
+              },
+            ],
+          }}
+          extra={[
+            <div className="btn-section-top">
+              <JoinedDropDown
+                groupDetails={groupDetails}
+                setLoading={setLoading}
+              />
+              {get(groupDetails, 'is_group_admin') && (
+                <GroupMembers
+                  groupDetails={groupDetails}
+                  refreshGroupDetails={getGroupDetails}
+                />
+              )}
 
-						</TabPane>
-						<TabPane tab="Flash Card" key="4">
-							<div className="inline-button-section mt--20">
-								<ButtonCustom className="round-primary" onClick={revisionModeToggle} title="Revision Mode" />
-							</div>
-							<RevisionModeModal
-								visible={isRevisionModeModal}
-								closeHandler={revisionModeToggle}
-							/>
-							<div className="card-section note-section">
-								<Row gutter={32}>
-									{flashCardData.map((data, index) => (
-										<Col sm={8} key={index}>
-											<FlashCard
-												title={data.title}
-												description={data.description}
-												menuData={
-													<Menu>
-														<Menu.Item icon={<EditOutlined />}>
-															<a onClick={flashEditModalTpggleModal}>
-																Edit
-															</a>
-														</Menu.Item>
-														<Menu.Item icon={<DeleteOutlined />}>
-															<a target="_blank" rel="noopener noreferrer" href="#">
-																Delete
-															</a>
-														</Menu.Item>
-													</Menu>
-												}
-											/>
-										</Col>
-									))}
-								</Row>
+              <Dropdown
+                overlayClassName="collection-dropdown"
+                overlay={
+                  <Menu>
+                    <Menu.Item icon={<EditOutlined />}>
+                      <a href="#">Edit Group</a>
+                    </Menu.Item>
+                    <Menu.Item icon={<EditOutlined />}>
+                      <a href="#">Show Cover</a>
+                    </Menu.Item>
+                  </Menu>
+                }
+              >
+                <a
+                  className="ant-dropdown-link"
+                  onClick={(e) => e.preventDefault()}
+                >
+                  <img src={verticalDot} className="icon-style" />
+                </a>
+              </Dropdown>
+            </div>,
+          ]}
+        />
+        <Spin spinning={loading}>
+          <div className="avatar-group">
+            <Avatar.Group maxCount={5}>
+              {map(get(groupDetails, 'group_members', []), (member, i: any) => {
+                if (get(member, 'image')) {
+                  return (
+                    <Tooltip title={get(member, 'username')}>
+                      <Avatar src={get(member, 'image_url')} />
+                    </Tooltip>
+                  );
+                }
+                return (
+                  <Tooltip title={get(member, 'username')}>
+                    {getNameAvatar(
+                      get(member, 'name'),
+                      30,
+                      avatarColors[i % 4]
+                    )}
+                  </Tooltip>
+                );
+              })}
+            </Avatar.Group>
+          </div>
 
-								<FlashEditModal
-									visible={isFlashEditModal}
-									btnAddHandler={flashEditModalTpggleModal}
-									cancelHandler={flashEditModalTpggleModal}
-									backHandler={flashEditModalTpggleModal}
-								/>
+          <div className="tab-section">
+            <Tabs defaultActiveKey="1">
+              <TabPane tab="Collection" key="1">
+                {get(collectionDetails, 'subCollections', []).length === 0 ? (
+                  <div className="state-center">
+                    <EmptyState
+                      imgUrl={folderGray}
+                      title="Create your Collection"
+                      description=" Your Collection can be the folder underwhich all the study material is kept"
+                      buttonText="Add Collection"
+                      buttonType="primary"
+                      buttonHandler={() => toggleCollectionModal()}
+                    />
+                  </div>
+                ) : (
+                  <div className="card-section">
+                    <Row gutter={32}>
+                      {map(
+                        get(collectionDetails, 'subCollections', []),
+                        (collection, index) => (
+                          <Col sm={6} key={index}>
+                            <CollectionCard
+                              id={get(collection, 'id')}
+                              hideEditDelete={
+                                !get(groupDetails, 'is_group_admin')
+                              }
+                              parentCollection={collectionDetails}
+                              color={get(collection, 'color')}
+                              title={get(collection, 'name')}
+                              setLoading={setLoading}
+                              description={`${get(
+                                collection,
+                                'note_count'
+                              )} Notes, ${get(
+                                collection,
+                                'question_count'
+                              )} Quesitions`}
+                              cardHandler={replaceMultiple(
+                                GROUPS_DETAIL_SCREEN,
+                                {
+                                  ':id': get(collection, 'id'),
+                                  ':gid': gid,
+                                }
+                              )}
+                              onEditCollection={() => {
+                                toggleCollectionModal(collection);
+                              }}
+                              onSuccess={getGroupCollectionDetails}
+                            />
+                          </Col>
+                        )
+                      )}
+                    </Row>
+                  </div>
+                )}
+              </TabPane>
+              <TabPane tab="Notes" key="2">
+                {get(collectionDetails, 'notes', []).length === 0 ? (
+                  <div className="state-center">
+                    <EmptyState
+                      imgUrl={folderGray}
+                      title="Create your Notes"
+                      description=" Your Notes contains content of your study material "
+                      buttonText="Add Notes"
+                      buttonType="primary"
+                      buttonHandler={() => toggleNoteModal()}
+                    />
+                  </div>
+                ) : (
+                  <div className="card-section note-section">
+                    <Row gutter={32}>
+                      {map(
+                        get(collectionDetails, 'notes', []),
+                        (note, index) => (
+                          <Col sm={8} key={index}>
+                            <NotesCard
+                              title={get(note, 'title')}
+                              hideEditDelete={
+                                !get(groupDetails, 'is_group_admin')
+                              }
+                              collection={collectionDetails}
+                              id={get(note, 'id')}
+                              setLoading={setLoading}
+                              description={get(note, 'description')}
+                              menuData={menu}
+                              cardHandler="/"
+                              tags={get(note, 'tags')}
+                              onEditNote={() => {
+                                toggleNoteModal(note);
+                              }}
+                              onSuccess={getGroupCollectionDetails}
+                            />
+                          </Col>
+                        )
+                      )}
+                    </Row>
+                  </div>
+                )}
+              </TabPane>
+              <TabPane tab="Question" key="3">
+                <div className="inline-button-section mt--20 mb--30">
+                  <ButtonCustom className="round-primary" title="Take a Quiz" />
+                  <ButtonCustom
+                    className="round-primary"
+                    icon={<img src={filter} alt="" />}
+                    title="Filter"
+                  />
+                </div>
+                {get(collectionDetails, 'questions', []).length === 0 ? (
+                  <div className="state-center">
+                    <EmptyState
+                      imgUrl={folderGray}
+                      title="Create your Questions"
+                      description=" Quizzes will be depend on question your create here"
+                      buttonText="Add Questions"
+                      buttonType="primary"
+                      buttonHandler={() => toggleQuestionModal()}
+                    />
+                  </div>
+                ) : (
+                  <div className="card-section note-section">
+                    <Row gutter={32}>
+                      {map(
+                        get(collectionDetails, 'questions', []),
+                        (question, i) => {
+                          return (
+                            <Col sm={12} key={i}>
+                              <QuestionCard
+                                hideEditDelete={
+                                  !get(groupDetails, 'is_group_admin')
+                                }
+                                question={question}
+                                collection={collectionDetails}
+                                setLoading={setLoading}
+                                onSuccess={getGroupCollectionDetails}
+                                onEditQuestion={() => {
+                                  toggleQuestionModal(question);
+                                }}
+                              />
+                            </Col>
+                          );
+                        }
+                      )}
+                    </Row>
+                  </div>
+                )}
+              </TabPane>
+              <TabPane tab="Flash Card" key="4">
+                <div className="inline-button-section mt--20">
+                  <ButtonCustom
+                    className="round-primary"
+                    onClick={revisionModeToggle}
+                    title="Revision Mode"
+                  />
+                </div>
+                <RevisionModeModal
+                  visible={isRevisionModeModal}
+                  closeHandler={revisionModeToggle}
+                />
+                <div className="card-section note-section">
+                  <Row gutter={32}>
+                    {flashCardData.map((data, index) => (
+                      <Col sm={8} key={index}>
+                        <FlashCard
+                          title={data.title}
+                          description={data.description}
+                          menuData={
+                            <Menu>
+                              <Menu.Item icon={<EditOutlined />}>
+                                <a onClick={flashEditModalTpggleModal}>Edit</a>
+                              </Menu.Item>
+                              <Menu.Item icon={<DeleteOutlined />}>
+                                <a
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  href="#"
+                                >
+                                  Delete
+                                </a>
+                              </Menu.Item>
+                            </Menu>
+                          }
+                        />
+                      </Col>
+                    ))}
+                  </Row>
 
-							</div>
-						</TabPane>
+                  <FlashEditModal
+                    visible={isFlashEditModal}
+                    btnAddHandler={flashEditModalTpggleModal}
+                    cancelHandler={flashEditModalTpggleModal}
+                    backHandler={flashEditModalTpggleModal}
+                  />
+                </div>
+              </TabPane>
 
-						<TabPane tab="Quiz" key="5">
+              <TabPane tab="Quiz" key="5">
+                <div className="card-section note-section">
+                  <div className="tab-section inner-tab-style">
+                    <Tabs defaultActiveKey="1">
+                      <TabPane tab="Active Quizes (3)" key="1">
+                        <div className="inline-button-section">
+                          <ButtonCustom
+                            className="round-primary"
+                            title="Create Quiz"
+                            onClick={createQuizToggleModal}
+                          />
+                        </div>
+                        <div className="card-section">
+                          <Row gutter={32}>
+                            {quizViewData.map((data, index) => (
+                              <Col xs={24} sm={8} key={index}>
+                                <QuizCard
+                                  quizName={data.quizName}
+                                  collectionName={data.collectionName}
+                                  date={data.date}
+                                  quizComplete={false}
+                                  menuData={
+                                    <Menu>
+                                      <Menu.Item icon={<DeleteOutlined />}>
+                                        <a href="#">Edit</a>
+                                      </Menu.Item>
+                                      <Menu.Item icon={<CheckSquareOutlined />}>
+                                        <a href="#">Mark as Completed</a>
+                                      </Menu.Item>
+                                    </Menu>
+                                  }
+                                />
+                              </Col>
+                            ))}
+                          </Row>
+                          <div className="pagination-section">
+                            <Pagination defaultCurrent={1} total={50} />
+                          </div>
+                        </div>
+                      </TabPane>
 
-							<div className="card-section note-section">
-								<div className="tab-section inner-tab-style">
-									<Tabs defaultActiveKey="1">
-										<TabPane tab="Active Quizes (3)" key="1">
-											<div className='inline-button-section'>
-												<ButtonCustom className="round-primary" title="Create Quiz" onClick={createQuizToggleModal} />
-											</div>
-											<div className="card-section">
-												<Row gutter={32}>
-													{quizViewData.map((data, index) => (
-														<Col xs={24} sm={8} key={index}>
-															<QuizCard
-																quizName={data.quizName}
-																collectionName={data.collectionName}
-																date={data.date}
-																quizComplete={false}
-																menuData={
-																	<Menu>
-																		<Menu.Item icon={<DeleteOutlined />}>
-																			<a href="#">
-																				Edit
-																			</a>
-																		</Menu.Item>
-																		<Menu.Item icon={<CheckSquareOutlined />}>
-																			<a href="#">
-																				Mark as Completed
-																			</a>
-																		</Menu.Item>
-																	</Menu>
-																}
-															/>
-														</Col>
-													))}
-												</Row>
-												<div className="pagination-section">
-													<Pagination defaultCurrent={1} total={50} />
-												</div>
-											</div>
-										</TabPane>
+                      <TabPane tab="Completed Quizes (2)" key="2">
+                        <div className="inline-button-section">
+                          <ButtonCustom
+                            className="round-primary"
+                            title="Create Quiz"
+                            onClick={createQuizToggleModal}
+                          />
+                        </div>
+                        <div className="card-section">
+                          <Row gutter={32}>
+                            {quizViewData.map((data, index) => (
+                              <Col sm={8} key={index}>
+                                <QuizCard
+                                  quizName={data.quizName}
+                                  collectionName={data.collectionName}
+                                  date={data.date}
+                                  quizComplete={true}
+                                />
+                              </Col>
+                            ))}
+                          </Row>
+                          <div className="pagination-section">
+                            <Pagination defaultCurrent={1} total={50} />
+                          </div>
+                        </div>
+                      </TabPane>
+                    </Tabs>
+                  </div>
+                </div>
+              </TabPane>
 
-										<TabPane tab="Completed Quizes (2)" key="2">
-											<div className='inline-button-section'>
-												<ButtonCustom className="round-primary" title="Create Quiz" onClick={createQuizToggleModal} />
-											</div>
-											<div className="card-section">
-												<Row gutter={32}>
-													{quizViewData.map((data, index) => (
-														<Col sm={8} key={index}>
-															<QuizCard
-																quizName={data.quizName}
-																collectionName={data.collectionName}
-																date={data.date}
-																quizComplete={true}
-															/>
-														</Col>
-													))}
-												</Row>
-												<div className="pagination-section">
-													<Pagination defaultCurrent={1} total={50} />
-												</div>
-											</div>
-										</TabPane>
-									</Tabs>
-								</div>
-							</div>
-						</TabPane>
+              <TabPane tab="Reports" key="6">
+                <Row gutter={24}>
+                  <Col xs={12} sm={6}>
+                    <div className="card-outline">
+                      <div className="gray-box" />
+                      <div className="flex">
+                        <h3 className="title-md">24</h3>
+                        <p className="description">Group Members</p>
+                      </div>
+                    </div>
+                  </Col>
+                  <Col xs={12} sm={6}>
+                    <div className="card-outline">
+                      <div className="gray-box" />
+                      <div className="flex">
+                        <h3 className="title-md">12</h3>
+                        <p className="description">Total Collections</p>
+                      </div>
+                    </div>
+                  </Col>
 
+                  <Col xs={12} sm={6}>
+                    <div className="card-outline">
+                      <div className="gray-box" />
+                      <div className="flex">
+                        <h3 className="title-md">10</h3>
+                        <p className="description">Total Quizes</p>
+                      </div>
+                    </div>
+                  </Col>
 
-						<TabPane tab="Reports" key="6">
-							<Row gutter={24}>
-								<Col xs={12} sm={6}>
-									<div className="card-outline">
-										<div className="gray-box" />
-										<div className='flex'>
-											<h3 className="title-md">
-												24
-											</h3>
-											<p className="description">
-												Group Members
-											</p>
-										</div>
-									</div>
-								</Col>
-								<Col xs={12} sm={6}>
-									<div className="card-outline">
-										<div className="gray-box" />
-										<div className='flex'>
-											<h3 className="title-md">
-												12
-											</h3>
-											<p className="description">
-												Total Collections
-											</p>
-										</div>
-									</div>
-								</Col>
+                  <Col xs={12} sm={6}>
+                    <div className="card-outline">
+                      <div className="gray-box" />
+                      <div className="flex">
+                        <h3 className="title-md">12.5 Hrs</h3>
+                        <p className="description">Group Studied</p>
+                      </div>
+                    </div>
+                  </Col>
+                </Row>
+                <div className="card-section report-section">
+                  <h3 className="title3">Quiz Reports</h3>
+                  <Row gutter={32}>
+                    {quizViewData.map((data, index) => (
+                      <Col sm={8} key={index}>
+                        <QuizReportCard
+                          quizName={data.quizName}
+                          collectionName={data.collectionName}
+                          date={data.date}
+                          quizComplete={false}
+                          marks={data.marks}
+                          btnAddHandler={GROUP_SCORE_DETAILS_SCREEN}
+                        />
+                      </Col>
+                    ))}
+                  </Row>
+                </div>
+              </TabPane>
+            </Tabs>
+          </div>
+        </Spin>
+      </div>
 
-								<Col xs={12} sm={6}>
-									<div className="card-outline">
-										<div className="gray-box" />
-										<div className='flex'>
-											<h3 className="title-md">
-												10
-											</h3>
-											<p className="description">
-												Total Quizes
-											</p>
-										</div>
-									</div>
-								</Col>
+      {/* Collection Modal here */}
+      <CreateCollectionModal
+        visible={get(collectionModal, 'visible')}
+        onCancel={() => toggleCollectionModal()}
+        onSuccess={onCollecitonSuccess}
+        edit={get(collectionModal, 'data') ? true : false}
+        initialValue={get(collectionModal, 'data')}
+        collection={collectionDetails}
+      />
 
-								<Col xs={12} sm={6}>
-									<div className="card-outline">
-										<div className="gray-box" />
-										<div className='flex'>
-											<h3 className="title-md">
-												12.5 Hrs
-											</h3>
-											<p className="description">
-												Group Studied
-											</p>
-										</div>
-									</div>
-								</Col>
-							</Row>
-							<div className="card-section report-section">
-								<h3 className='title3'>Quiz Reports</h3>
-								<Row gutter={32}>
-									{quizViewData.map((data, index) => (
-										<Col sm={8} key={index}>
-											<QuizReportCard
-												quizName={data.quizName}
-												collectionName={data.collectionName}
-												date={data.date}
-												quizComplete={false}
-												marks={data.marks}
-												btnAddHandler={ROUTES.GROUP_SCORE_DETAILS_SCREEN}
-											/>
-										</Col>
-									))}
-								</Row>
-							</div>
-						</TabPane>
-					</Tabs>
-				</div>
-			</div>
+      {/* Share Modal here */}
+      <ShareCollectionModal
+        visible={isShareModal}
+        onCancel={shareToggleModal}
+        doneHandler={shareToggleModal}
+        cancelHandler={shareToggleModal}
+      />
 
+      {/* Note Modal here */}
+      {get(noteModal, 'visible') && (
+        <NoteModalCard
+          visible={get(noteModal, 'visible')}
+          collection={collectionDetails}
+          onCancel={() => {
+            toggleNoteModal();
+          }}
+          edit={get(noteModal, 'data') ? true : false}
+          initialValue={get(noteModal, 'data')}
+          onSuccess={onNotesSuccess}
+        />
+      )}
 
-			{/* Collection Modal here */}
-			<MasterCollectionModal
-				visible={isCollectionModal}
-				onCancel={collectionToggleModal}
-				buttonHandler={ROUTES.COLLECTION_DETAILS_SCREEN}
-			/>
+      {/* Questions Modal */}
+      {get(questionModal, 'visible') && (
+        <QuestionModal
+          visible={get(questionModal, 'visible')}
+          edit={get(questionModal, 'data') ? true : false}
+          initialValue={get(questionModal, 'data')}
+          onSuccess={(edit = false) => {
+            toggleQuestionModal();
+            setIsQuestionAddedModal({
+              visible: true,
+              edit,
+            });
+          }}
+          collection={collectionDetails}
+          cancelHandler={() => {
+            toggleQuestionModal();
+          }}
+        />
+      )}
 
-			{/* Share Modal here */}
-			<ShareCollectionModal
-				visible={isShareModal}
-				onCancel={shareToggleModal}
-				doneHandler={shareToggleModal}
-				cancelHandler={shareToggleModal}
-			/>
+      <QuestionAddedModal
+        visible={get(isQuestionAddedModal, 'visible')}
+        edit={get(isQuestionAddedModal, 'edit')}
+        buttonDoneHandler={() => {
+          setIsQuestionAddedModal({
+            visible: false,
+            edit: false,
+          });
+          getGroupCollectionDetails();
+        }}
+        addButtonHandler={() => {
+          setIsQuestionAddedModal({
+            visible: false,
+            edit: false,
+          });
+          toggleQuestionModal();
+        }}
+      />
 
-			{/* Note Modal here */}
-			<NoteModalCard
-				visible={isNoteModal}
-				onCancel={noteToggleModal}
-				addHandler={noteToggleModal}
-				cancelHandler={noteToggleModal}
-				onBack={noteToggleModal}
-			/>
+      {/* Share Modal here */}
 
-			{/* Questions Modal */}
-			<QuestionModal
-				visible={isQuestionModal}
-				btnSubmitHandler={questionAddedTpggleModal}
-				cancelHandler={questionToggleModal}
-				onBack={questionToggleModal}
-			/>
+      {/* Questions Modal */}
+      <CreateQuizModal
+        visible={isCreateQuizModal}
+        createHandler={createQuizToggleModal}
+        cancelHandler={createQuizToggleModal}
+        onCancel={createQuizToggleModal}
+      />
 
-			<QuestionAddedModal
-				visible={isQuestionAddedModal}
-				buttonDoneHandler={questionAddedTpggleModal}
-				addButtonHandler={questionToggleModal}
-			/>
+      {get(groupDetails, 'is_group_admin') && (
+        <Popover content={toggleData} placement="topRight">
+          <Button
+            className="button-add-circle"
+            shape="circle"
+            type="primary"
+            icon={<PlusOutlined />}
+          />
+        </Popover>
+      )}
 
-			{/* Share Modal here */}
-			<GroupMemberModal
-				visible={isGroupMemberModal}
-				onCancel={groupMemberModalToggle}
-				cancelHandler={groupMemberModalToggle}
-				memberList
-			/>
-
-			<ModalConfirmation
-				visible={isModalConfirmation}
-				handleCancel={modalConfirmationToggle}
-				handleLeave={modalConfirmationToggle}
-				cancelTitle="Cancel"
-				confirmTitle="Yes. Leave"
-			>
-				<div className="confirmation-section">
-					<h2>
-						Are you sure you want to leave the
-					</h2>
-					<h2 className="theme-color">
-						Maths Group <span>?</span>
-					</h2>
-				</div>
-			</ModalConfirmation>
-
-			<ModalConfirmation
-				visible={isModalDelete}
-				handleCancel={modalDeleteToggle}
-				handleLeave={modalDeleteToggle}
-				wrapClassName="delete-modal-style"
-				cancelTitle="Cancel"
-				confirmTitle="Yes. Delete"
-			>
-				<div className="confirmation-section">
-					<h2>
-						Are you sure you want to delete this Group!
-					</h2>
-				</div>
-			</ModalConfirmation>
-
-			{/* Questions Modal */}
-			<CreateQuizModal
-				visible={isCreateQuizModal}
-				createHandler={createQuizToggleModal}
-				cancelHandler={createQuizToggleModal}
-				onCancel={createQuizToggleModal}
-			/>
-
-			<Popover
-				content={toggleData}
-				placement="topRight">
-				<Button className="button-add-circle" shape="circle" type='primary' icon={<PlusOutlined />} />
-			</Popover>
-
-			<Drawer
+      <Drawer
         width={450}
-				closable={false}
-				onClose={infoDrawerToggle}
-				maskClosable={true}
+        closable={false}
+        onClose={infoDrawerToggle}
+        maskClosable={true}
         visible={isInfoDrawer}
       >
-        <ReportDetailCard/>
+        <ReportDetailCard />
       </Drawer>
-
-		</PrimaryLayout>
-	)
+    </PrimaryLayout>
+  );
 }
 
-export default GroupDetailScreen
-	;
+export default GroupDetailScreen;
