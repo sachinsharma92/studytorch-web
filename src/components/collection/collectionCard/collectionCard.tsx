@@ -26,6 +26,7 @@ function CollectionCard(props: any) {
     color,
     withUserStyle,
     parentCollection,
+    hideEditDelete,
   } = props;
   const dispatch = useDispatch();
 
@@ -83,11 +84,13 @@ function CollectionCard(props: any) {
         </a>
       </Link>
 
-      <Dropdown overlayClassName="collection-dropdown" overlay={menu}>
-        <a className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
-          <img src={verticalDot} className="icon-style" />
-        </a>
-      </Dropdown>
+      {!hideEditDelete && (
+        <Dropdown overlayClassName="collection-dropdown" overlay={menu}>
+          <a className="ant-dropdown-link" onClick={(e) => e.preventDefault()}>
+            <img src={verticalDot} className="icon-style" />
+          </a>
+        </Dropdown>
+      )}
     </div>
   );
 }

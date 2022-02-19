@@ -31,11 +31,8 @@ import {
   createQuestion,
   updateQuestion,
 } from '../../../redux/actions/questionActions';
-import {
-  DownloadOutlined,
-  FileTextOutlined,
-  PlusOutlined,
-} from '@ant-design/icons';
+import QuestionImageUpload from '../../../components/questionImageUpload';
+import { DownloadOutlined, FileTextOutlined } from '@ant-design/icons';
 import {
   CREATE_QUESTION_SUCCESS,
   UPDATE_QUESTION_SUCCESS,
@@ -71,33 +68,16 @@ const menu = (
 function QuestionModal(props: any) {
   const { onSuccess, edit, initialValue, collection } = props;
   const [loading, setLoading] = useState(false);
+
   const isMCQType =
     edit && get(initialValue, 'type.value') !== 0 ? true : false;
   const [type, setType] = useState(edit ? get(initialValue, 'type.value') : 0);
   const dispatch = useDispatch();
   const [activeTabKey, setActiveTabKey] = useState(isMCQType ? '2' : '1');
-  const [fileList, setFileList] = useState<any[]>(
-    edit
-      ? map(get(initialValue, 'questionMedia', []), (qm) => {
-          return {
-            uid: get(qm, 'uuid'),
-            name: get(qm, 'name'),
-            status: 'done',
-            url: get(qm, 'url'),
-            linked: true,
-          };
-        })
-      : []
-  );
 
   const [images, setImages] = useState<any[]>(
-    edit ? map(get(initialValue, 'questionMedia', []), 'uuid') : []
+    edit ? get(initialValue, 'images', []) : []
   );
-
-  const [imagePreview, setImagePreview] = useState<any>({
-    previewImage: null,
-    previewVisible: false,
-  });
 
   const getOptionAnswerIndex = () => {
     const ans = get(initialValue, 'answers', '');
@@ -131,7 +111,7 @@ function QuestionModal(props: any) {
       note_id: get(values, 'note_id'),
       title: get(values, 'title'),
       type,
-      images,
+      images: map(images, 'key'),
     });
 
     switch (type) {
@@ -245,80 +225,6 @@ function QuestionModal(props: any) {
     }
 
     return returnObj;
-  };
-
-  const clearImage = (fileUuid: any) => {
-    remove(images, (uuid) => {
-      return fileUuid === uuid;
-    });
-
-    remove(fileList, (Obj) => {
-      return fileUuid === Obj.uid;
-    });
-
-    setFileList([...fileList]);
-    setImages([...images]);
-  };
-
-  const onUnlinkMedia = (mediaUuid: any) => {
-    setLoading(true);
-    dispatch(unlinkMedia(mediaUuid))
-      .then(() => {
-        clearImage(mediaUuid);
-        setLoading(false);
-      })
-      .catch(() => {
-        setLoading(false);
-      });
-  };
-
-  const deleteImage = (fileObj: any) => {
-    const linked = get(fileObj, 'file.linked');
-    const fileUuid = get(fileObj, 'file.uid');
-
-    if (linked) {
-      onUnlinkMedia(fileUuid);
-    } else {
-      clearImage(fileUuid);
-    }
-  };
-
-  const onImageUpload = async (fileObj: any) => {
-    if (get(fileObj, 'file.status') === 'removed') {
-      confirm({
-        title: 'Do you Want to delete this Image?',
-        onOk: () => {
-          deleteImage(fileObj);
-        },
-        onCancel() {},
-      });
-    } else {
-      setLoading(true);
-      try {
-        let result = await dispatch(uploadImage(fileObj, 2));
-        setLoading(false);
-        setFileList([
-          ...fileList,
-          {
-            uid: get(result, 'id'),
-            name: 'image.png',
-            status: 'done',
-            url: get(result, 'url'),
-            linked: false,
-          },
-        ]);
-        setImages([...images, get(result, 'id')]);
-      } catch (e) {
-        setLoading(false);
-      }
-    }
-  };
-
-  const handleImagePreview = (file: any) => {
-    setImagePreview({
-      previewImage: file.url,
-      previewVisible: true,
-    });
   };
 
   return (
@@ -497,17 +403,12 @@ function QuestionModal(props: any) {
                 <Col xl={2} />
                 <Col xl={10}>
                   <Form.Item label="Images">
-                    <Upload
-                      listType="picture-card"
-                      fileList={fileList}
-                      onPreview={handleImagePreview}
-                      onChange={onImageUpload}
-                    >
-                      <div>
-                        <PlusOutlined />
-                        <div className="ant-upload-text">Upload</div>
-                      </div>
-                    </Upload>
+                    <QuestionImageUpload
+                      setLoading={setLoading}
+                      images={images}
+                      edit={edit}
+                      setImages={setImages}
+                    />
                   </Form.Item>
                 </Col>
               </Row>
@@ -528,22 +429,6 @@ function QuestionModal(props: any) {
           </Form>
         </div>
       </Spin>
-      <Modal
-        visible={get(imagePreview, 'previewVisible')}
-        footer={null}
-        onCancel={() => {
-          setImagePreview({
-            previewVisible: false,
-            previewImage: null,
-          });
-        }}
-      >
-        <img
-          alt="example"
-          style={{ width: '100%' }}
-          src={get(imagePreview, 'previewImage')}
-        />
-      </Modal>
     </Modal>
   );
 }

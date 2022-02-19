@@ -158,7 +158,7 @@ export default function PrimaryLayout(props: any) {
                           size={30}
                           src={
                             get(user, 'image')
-                              ? get(user, 'image')
+                              ? get(user, 'image_url')
                               : defaultIcon
                           }
                         />

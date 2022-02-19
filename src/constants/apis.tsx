@@ -1,5 +1,4 @@
 ///########AUTH#############
-export const BASE_URL = 'https://api.studytorch.com/api/v1';
 export const LOGIN = '/login';
 export const REGISTER = '/signup';
 export const PROFILE = '/profile';
@@ -21,8 +20,9 @@ export const QUESTION = 'questions';
 export const GROUPS = 'groups';
 export const LEAVE_GROUP = 'groups/:id/leave-group';
 export const USERS_FOR_GROUP = 'groups/:id/users';
+export const ADD_MEMBER_TO_GROUP = 'groups/:id/add-members';
 
 ///########MEDIA#############
 export const UPLOAD_IMAGE = '/media';
-export const IMAGE_UPLOAD = `${BASE_URL}/media`;
+export const IMAGE_UPLOAD = `${process.env.REACT_APP_API_HOST}/media`;
 export const UNLINK_NOTE_MEDIA = '/media/:mediaUuid';

@@ -1,10 +1,9 @@
 import axios from 'axios';
 import { notification } from 'antd';
 import get from 'lodash/get';
-import { BASE_URL } from '../constants/apis';
 
 const instance = axios.create({
-  baseURL: BASE_URL,
+  baseURL: process.env.REACT_APP_API_HOST,
   timeout: 30000,
   headers: {
     Accept: 'application/json',

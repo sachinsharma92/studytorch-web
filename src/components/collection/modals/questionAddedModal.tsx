@@ -9,7 +9,7 @@ import './styles.scss';
 
 function QuestionAddedModal(props: any) {
   const { edit } = props;
-  console.log({ edit });
+
   return (
     <>
       <Modal

@@ -306,11 +306,18 @@ function ShareWithMeDetails(props: any) {
                           <Col sm={6} key={index}>
                             <CollectionCard
                               id={get(collection, 'id')}
+                              hideEditDelete={!canEditCollection}
                               color={get(collection, 'color')}
                               title={get(collection, 'name')}
                               setLoading={setLoading}
                               withUserStyle
-                              description={'data.description'}
+                              description={`${get(
+                                collection,
+                                'note_count'
+                              )} Notes, ${get(
+                                collection,
+                                'question_count'
+                              )} Quesitions`}
                               parentCollection={collectionDetails}
                               cardHandler={replace(
                                 ROUTES.SHARED_DETAILS_SCREEN,

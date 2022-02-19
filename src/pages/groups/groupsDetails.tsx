@@ -289,7 +289,10 @@ function GroupDetailScreen(props: any) {
                 setLoading={setLoading}
               />
               {get(groupDetails, 'is_group_admin') && (
-                <GroupMembers groupDetails={groupDetails} />
+                <GroupMembers
+                  groupDetails={groupDetails}
+                  refreshGroupDetails={getGroupDetails}
+                />
               )}
 
               <Dropdown
@@ -362,6 +365,9 @@ function GroupDetailScreen(props: any) {
                           <Col sm={6} key={index}>
                             <CollectionCard
                               id={get(collection, 'id')}
+                              hideEditDelete={
+                                !get(groupDetails, 'is_group_admin')
+                              }
                               parentCollection={collectionDetails}
                               color={get(collection, 'color')}
                               title={get(collection, 'name')}
@@ -413,6 +419,9 @@ function GroupDetailScreen(props: any) {
                           <Col sm={8} key={index}>
                             <NotesCard
                               title={get(note, 'title')}
+                              hideEditDelete={
+                                !get(groupDetails, 'is_group_admin')
+                              }
                               collection={collectionDetails}
                               id={get(note, 'id')}
                               setLoading={setLoading}
@@ -461,6 +470,9 @@ function GroupDetailScreen(props: any) {
                           return (
                             <Col sm={12} key={i}>
                               <QuestionCard
+                                hideEditDelete={
+                                  !get(groupDetails, 'is_group_admin')
+                                }
                                 question={question}
                                 collection={collectionDetails}
                                 setLoading={setLoading}

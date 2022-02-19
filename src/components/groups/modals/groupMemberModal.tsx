@@ -3,10 +3,9 @@ import {
   Button,
   List,
   Modal,
-  Input,
+  message,
   Select,
-  Dropdown,
-  Menu,
+  Popconfirm,
   Row,
   Col,
   Typography,
@@ -16,47 +15,43 @@ import { useDispatch, useSelector } from 'react-redux';
 import get from 'lodash/get';
 import debounce from 'lodash/debounce';
 import upperCase from 'lodash/upperCase';
-import { getUserForGroup } from '../../../redux/actions/groupActions';
+import {
+  getUserForGroup,
+  addMemberToGroup,
+} from '../../../redux/actions/groupActions';
+import { getNameAvatar } from '../../../utilities/helpers';
+import { avatarColors } from '../../../constants/groups';
+import { GROUP_MEMBER_UPDATED_SUCCESS } from '../../../constants/messages';
 
 // Styles
 import './styles.scss';
 import { useState, useEffect, useCallback } from 'react';
-import { map } from 'lodash';
+import { map, remove } from 'lodash';
 const limit = 10;
 const { Text } = Typography;
-
-const menu = (
-  <Menu>
-    <Menu.Item>
-      <a href="">Admin</a>
-    </Menu.Item>
-    <Menu.Item>
-      <a href="">Member</a>
-    </Menu.Item>
-  </Menu>
-);
 
 const { Option } = Select;
 
 function GroupMemberModal(props: any) {
-  const { groupDetails } = props;
+  const { groupDetails, refreshGroupDetails } = props;
   const dispatch = useDispatch();
   const [users, setUsers] = useState([]);
+  const [selectedUser, setSelecteduser] = useState(undefined);
   const [loading, setLoading] = useState(false);
   const user = useSelector((state) => get(state, 'userState.user'));
 
   const getUsersForGroup = (id: any, query: any) => {
     setLoading(true);
     dispatch(getUserForGroup(id, query))
-      .then((result: any) => {
-        setUsers(result);
+      .then((result: []) => {
+        setUsers([...result]);
         setLoading(false);
       })
       .catch(() => {
         setLoading(false);
       });
   };
-  console.log('@@@@@@users', users);
+
   useEffect(() => {
     getUsersForGroup(get(groupDetails, 'id'), { limit: 10 });
   }, []);
@@ -65,7 +60,32 @@ function GroupMemberModal(props: any) {
     getUsersForGroup(get(groupDetails, 'id'), { limit: 10, query: value });
   };
 
+  const onAddMember = (userIdArr: any = []) => {
+    setLoading(true);
+    dispatch(
+      addMemberToGroup(get(groupDetails, 'id'), {
+        user_uuid: userIdArr,
+      })
+    )
+      .then(() => {
+        setLoading(false);
+        message.success(GROUP_MEMBER_UPDATED_SUCCESS);
+        setSelecteduser(undefined);
+        refreshGroupDetails();
+        getUsersForGroup(get(groupDetails, 'id'), { limit: 10 });
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  };
+
   const debouncedChangeHandler = useCallback(debounce(onSearch, 500), []);
+
+  const onRemoveMember = (index: Number) => {
+    const membersId = map(get(groupDetails, 'group_members', []), 'id');
+    remove(membersId, (id, i) => i === index);
+    onAddMember(membersId);
+  };
 
   return (
     <>
@@ -82,7 +102,7 @@ function GroupMemberModal(props: any) {
         <div className="card-modal">
           <div className="modal-body-sec">
             <div className="header-section">
-              <h3 className="title3">Group Members</h3>
+              <h3 className="title3">Group Members {users.length}</h3>
             </div>
 
             <div className="flex-section">
@@ -91,6 +111,8 @@ function GroupMemberModal(props: any) {
                   placeholder="E-mail/Username"
                   style={{ width: '100%' }}
                   loading={loading}
+                  value={selectedUser}
+                  onChange={(value: any) => setSelecteduser(value)}
                   showSearch
                   onSearch={debouncedChangeHandler}
                 >
@@ -101,15 +123,32 @@ function GroupMemberModal(props: any) {
                       label={get(user, 'name')}
                     >
                       <Space>
-                        {get(user, 'name')}
-                        {get(user, 'email')}
+                        {get(user, 'image') ? (
+                          <Avatar src={get(user, 'image_url')} />
+                        ) : (
+                          getNameAvatar(
+                            get(user, 'name'),
+                            30,
+                            avatarColors[i % 4]
+                          )
+                        )}
+                        <Space>
+                          <Text>{get(user, 'username')}</Text>
+                          <Text code>{get(user, 'email')}</Text>
+                        </Space>
+                        {/* {get(user, 'email')} */}
                       </Space>
                     </Option>
                   ))}
                 </Select>
               </div>
               <Button
-                onClick={props.addButtonHandler}
+                onClick={() =>
+                  onAddMember([
+                    selectedUser,
+                    ...map(get(groupDetails, 'group_members', []), 'id'),
+                  ])
+                }
                 className="btn-add"
                 type="primary"
               >
@@ -130,7 +169,7 @@ function GroupMemberModal(props: any) {
                 className="demo-loadmore-list"
                 itemLayout="horizontal"
                 dataSource={get(groupDetails, 'group_members', [])}
-                renderItem={(item: any) => (
+                renderItem={(item: any, index: Number) => (
                   <List.Item
                     actions={[
                       <Text code>
@@ -138,7 +177,22 @@ function GroupMemberModal(props: any) {
                           ? 'Admin'
                           : 'Member'}
                       </Text>,
-                      <a className="list-close-button">x</a>,
+                      // <a className="list-close-button">x</a>,
+                      get(user, 'id') !== get(item, 'id') && (
+                        <Popconfirm
+                          title="Are you sure to remove this member from  group?"
+                          onConfirm={() => {
+                            onRemoveMember(index);
+                          }}
+                          onCancel={() => {}}
+                          okText="Yes"
+                          cancelText="No"
+                        >
+                          <Button type="link" className="list-close-button">
+                            x
+                          </Button>
+                        </Popconfirm>
+                      ),
                     ]}
                   >
                     <List.Item.Meta

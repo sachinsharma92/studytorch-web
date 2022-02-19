@@ -99,13 +99,6 @@ export const fetchGroupDetails =
 export const getUserForGroup =
   (id: any, query: any = {}): any =>
   (dispatch: any, getState: any, { api }: any): any => {
-    console.log(
-      id,
-      '####',
-      replaceMultiple(APIS.USERS_FOR_GROUP, {
-        ':id': id,
-      })
-    );
     const url = getUrl(
       replaceMultiple(APIS.USERS_FOR_GROUP, {
         ':id': id,
@@ -114,6 +107,24 @@ export const getUserForGroup =
     );
     return api
       .get(url)
+      .then((result: any) => {
+        return result;
+      })
+      .catch((error: any) => {
+        throw error;
+      });
+  };
+
+export const addMemberToGroup =
+  (id: any, payload: any): any =>
+  (dispatch: any, getState: any, { api }: any): any => {
+    return api
+      .put(
+        replaceMultiple(APIS.ADD_MEMBER_TO_GROUP, {
+          ':id': id,
+        }),
+        payload
+      )
       .then((result: any) => {
         return result;
       })

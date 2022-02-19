@@ -4,7 +4,7 @@ import GroupMemberModal from '../modals/groupMemberModal';
 import User from '../../../assets/images/icons/user.svg';
 
 const GroupMembers = (props: any) => {
-  const { groupDetails } = props;
+  const { groupDetails, refreshGroupDetails } = props;
   const [groupMemberModal, setGroupMemberModal] = useState(false);
   const toggleGroupMemberModal = () => {
     setGroupMemberModal(!groupMemberModal);
@@ -27,6 +27,7 @@ const GroupMembers = (props: any) => {
           onCancel={toggleGroupMemberModal}
           cancelHandler={toggleGroupMemberModal}
           memberList
+          refreshGroupDetails={refreshGroupDetails}
         />
       )}
     </>

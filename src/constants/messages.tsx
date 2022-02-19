@@ -21,3 +21,4 @@ export const CREATE_GROUP_SUCCESS = 'Group Created Successfully';
 export const UPDATE_GROUP_SUCCESS = 'Group Updated Successfully';
 export const DELETE_GROUP_SUCCESS = 'Group deleted Successfully';
 export const LEAVE_GROUP_SUCCESS = 'Group leaved Successfully';
+export const GROUP_MEMBER_UPDATED_SUCCESS = 'Group member updated Successfully';

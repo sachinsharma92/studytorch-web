@@ -7,7 +7,7 @@ export const uploadImage = (file: any, type: any) => () => {
 
   bodyFormData.append('file', file.file.originFileObj);
   bodyFormData.append('type', type);
-  let url = `${APIS.BASE_URL}${APIS.UPLOAD_IMAGE}`;
+  let url = `${APIS.IMAGE_UPLOAD}${APIS.UPLOAD_IMAGE}`;
 
   return axios({
     method: 'post',
