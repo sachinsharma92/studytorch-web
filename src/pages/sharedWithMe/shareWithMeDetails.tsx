@@ -10,6 +10,7 @@ import {
   Avatar,
   Button,
   Dropdown,
+  Spin,
 } from 'antd';
 import { useDispatch } from 'react-redux';
 import {
@@ -29,12 +30,12 @@ import CreateCollectionModal from '../../components/collection/modals/createColl
 import CollectionCard from '../../components/collection/collectionCard/collectionCard';
 
 import ROUTES from '../../router';
-import { SHARED_SCREEN } from '../../router/routes';
+
 import PrimaryLayout from '../../common/primaryLayout/primaryLayout';
 import NotesCard from '../../components/collection/notesCard/notesCard';
 import FlashCard from '../../components/collection/flashCard/flashCard';
 import ShareCollectionModal from '../../components/collection/modals/shareCollection';
-import MasterCollectionModal from '../../components/collection/modals/masterCollection';
+
 import ButtonCustom from '../../common/buttons/buttonCustom';
 import QuestionCard from '../../components/collection/questionCard/questionCard';
 import NoteModalCard from '../../components/collection/modals/noteModalCard';
@@ -135,8 +136,6 @@ function ShareWithMeDetails(props: any) {
   const dispatch = useDispatch();
   const { id } = useParams();
 
-  const [isCollectionModal, setIsCollectionModal] = useState(false);
-
   const [isShareModal, setIsShareModal] = useState(false);
 
   const shareToggleModal = () => {
@@ -234,98 +233,161 @@ function ShareWithMeDetails(props: any) {
   return (
     <PrimaryLayout>
       <div className="share-detail-page-style">
-        <PageHeader
-          className="site-page-header header-back"
-          onBack={() => navigate(-1)}
-          title={get(collectionDetails, 'name')}
-          breadcrumb={{ routes }}
-          extra={[
-            <div className="btn-section-top">
-              <div className="user-flex-icon">
-                <Avatar shape="circle" size="small" icon={<UserOutlined />} />
-                Shared by {get(collectionDetails, 'collection_admin.name')}
-              </div>
-              <Dropdown
-                placement="bottomRight"
-                overlayClassName="collection-dropdown"
-                overlay={
-                  <Menu>
-                    <Menu.Item icon={<DeleteOutlined />}>
-                      <a target="_blank" rel="noopener noreferrer" href="#">
-                        Delete Group
-                      </a>
-                    </Menu.Item>
-                    <Menu.Item icon={<LoginOutlined />}>
-                      <a>Leave Group</a>
-                    </Menu.Item>
-                  </Menu>
-                }
-              >
-                <a
-                  className="ant-dropdown-link btn-outline-primary"
-                  onClick={(e) => e.preventDefault()}
+        <Spin spinning={loading}>
+          <PageHeader
+            className="site-page-header header-back"
+            onBack={() => navigate(-1)}
+            title={get(collectionDetails, 'name')}
+            breadcrumb={{ routes }}
+            extra={[
+              <div className="btn-section-top">
+                <div className="user-flex-icon">
+                  {get(collectionDetails, 'shared_by_user.image') ? (
+                    <Avatar
+                      shape="circle"
+                      size="small"
+                      src={get(collectionDetails, 'shared_by_user.image_url')}
+                    />
+                  ) : (
+                    <Avatar
+                      shape="circle"
+                      size="small"
+                      icon={<UserOutlined />}
+                    />
+                  )}
+                  Shared by {get(collectionDetails, 'shared_by_user.name')}
+                </div>
+                <Dropdown
+                  placement="bottomRight"
+                  overlayClassName="collection-dropdown"
+                  overlay={
+                    <Menu>
+                      <Menu.Item icon={<DeleteOutlined />}>
+                        <a target="_blank" rel="noopener noreferrer" href="#">
+                          Delete Group
+                        </a>
+                      </Menu.Item>
+                      <Menu.Item icon={<LoginOutlined />}>
+                        <a>Leave Group</a>
+                      </Menu.Item>
+                    </Menu>
+                  }
                 >
-                  <img src={Users3} className="icon-style" />
-                  Joined
-                  <img src={arrowDown} className="icon-style" />
-                </a>
-              </Dropdown>
-            </div>,
-          ]}
-        />
+                  <a
+                    className="ant-dropdown-link btn-outline-primary"
+                    onClick={(e) => e.preventDefault()}
+                  >
+                    <img src={Users3} className="icon-style" />
+                    Joined
+                    <img src={arrowDown} className="icon-style" />
+                  </a>
+                </Dropdown>
+              </div>,
+            ]}
+          />
 
-        <div className="tab-section">
-          <Tabs>
-            {canAccessSubCollection && (
-              <TabPane tab="Collection" key="1">
-                {get(collectionDetails, 'subCollections', []).length === 0 ? (
+          <div className="tab-section">
+            <Tabs>
+              {canAccessSubCollection && (
+                <TabPane tab="Collection" key="1">
+                  {get(collectionDetails, 'subCollections', []).length === 0 ? (
+                    <div className="state-center">
+                      <EmptyState
+                        imgUrl={folderGray}
+                        title={
+                          get(permissions, 'canEditCollection')
+                            ? 'Create your Collection'
+                            : 'No Sub collection present in this colleciton'
+                        }
+                        description=" Your Collection can be the folder underwhich all the study material is kept"
+                        buttonText={
+                          get(permissions, 'canEditCollection')
+                            ? 'Add Collection'
+                            : null
+                        }
+                        buttonType="primary"
+                        buttonHandler={() => toggleCollectionModal()}
+                      />
+                    </div>
+                  ) : (
+                    <div className="card-section">
+                      <Row gutter={32}>
+                        {map(
+                          get(collectionDetails, 'subCollections', []),
+                          (collection, index) => (
+                            <Col sm={6} key={index}>
+                              <CollectionCard
+                                id={get(collection, 'id')}
+                                hideEditDelete={!canEditCollection}
+                                color={get(collection, 'color')}
+                                title={get(collection, 'name')}
+                                setLoading={setLoading}
+                                withUserStyle
+                                description={`${get(
+                                  collection,
+                                  'note_count'
+                                )} Notes, ${get(
+                                  collection,
+                                  'question_count'
+                                )} Quesitions`}
+                                parentCollection={collectionDetails}
+                                cardHandler={replace(
+                                  ROUTES.SHARED_DETAILS_SCREEN,
+                                  ':id',
+                                  get(collection, 'id')
+                                )}
+                                onEditCollection={() => {
+                                  toggleCollectionModal(collection);
+                                }}
+                                onSuccess={fetchSharedCollectionDetails}
+                              />
+                            </Col>
+                          )
+                        )}
+                      </Row>
+                    </div>
+                  )}
+                </TabPane>
+              )}
+              <TabPane tab="Notes" key="2">
+                {get(collectionDetails, 'notes', []).length === 0 ? (
                   <div className="state-center">
                     <EmptyState
                       imgUrl={folderGray}
                       title={
                         get(permissions, 'canEditCollection')
-                          ? 'Create your Collection'
-                          : 'No Sub collection present in this colleciton'
+                          ? 'Create your Notes'
+                          : 'No Notes present in this collection'
                       }
-                      description=" Your Collection can be the folder underwhich all the study material is kept"
+                      description=" Your Notes contains content of your study material "
                       buttonText={
                         get(permissions, 'canEditCollection')
-                          ? 'Add Collection'
+                          ? 'Add Notes'
                           : null
                       }
                       buttonType="primary"
-                      buttonHandler={() => toggleCollectionModal()}
+                      buttonHandler={() => toggleNoteModal()}
                     />
                   </div>
                 ) : (
-                  <div className="card-section">
+                  <div className="card-section note-section">
                     <Row gutter={32}>
                       {map(
-                        get(collectionDetails, 'subCollections', []),
-                        (collection, index) => (
-                          <Col sm={6} key={index}>
-                            <CollectionCard
-                              id={get(collection, 'id')}
-                              hideEditDelete={!canEditCollection}
-                              color={get(collection, 'color')}
-                              title={get(collection, 'name')}
+                        get(collectionDetails, 'notes', []),
+                        (note, index) => (
+                          <Col sm={8} key={index}>
+                            <NotesCard
+                              title={get(note, 'title')}
+                              id={get(note, 'id')}
                               setLoading={setLoading}
-                              withUserStyle
-                              description={`${get(
-                                collection,
-                                'note_count'
-                              )} Notes, ${get(
-                                collection,
-                                'question_count'
-                              )} Quesitions`}
-                              parentCollection={collectionDetails}
-                              cardHandler={replace(
-                                ROUTES.SHARED_DETAILS_SCREEN,
-                                ':id',
-                                get(collection, 'id')
-                              )}
-                              onEditCollection={() => {
-                                toggleCollectionModal(collection);
+                              description={get(note, 'description')}
+                              menuData={menu}
+                              hideEditDelete={!canEditCollection}
+                              cardHandler="/"
+                              collection={collectionDetails}
+                              tags={get(note, 'tags')}
+                              onEditNote={() => {
+                                toggleNoteModal(note);
                               }}
                               onSuccess={fetchSharedCollectionDetails}
                             />
@@ -336,158 +398,117 @@ function ShareWithMeDetails(props: any) {
                   </div>
                 )}
               </TabPane>
-            )}
-            <TabPane tab="Notes" key="2">
-              {get(collectionDetails, 'notes', []).length === 0 ? (
-                <div className="state-center">
-                  <EmptyState
-                    imgUrl={folderGray}
-                    title={
-                      get(permissions, 'canEditCollection')
-                        ? 'Create your Notes'
-                        : 'No Notes present in this collection'
-                    }
-                    description=" Your Notes contains content of your study material "
-                    buttonText={
-                      get(permissions, 'canEditCollection') ? 'Add Notes' : null
-                    }
-                    buttonType="primary"
-                    buttonHandler={() => toggleNoteModal()}
+              <TabPane tab="Question" key="3">
+                {get(collectionDetails, 'questions', []).length > 0 && (
+                  <div className="inline-button-section mt--20 mb--30">
+                    <ButtonCustom
+                      className="round-primary"
+                      title="Take a Quiz"
+                    />
+                    <ButtonCustom
+                      className="round-primary"
+                      icon={<img src={filter} alt="" />}
+                      title="Filter"
+                    />
+                  </div>
+                )}
+
+                {get(collectionDetails, 'questions', []).length === 0 ? (
+                  <div className="state-center">
+                    <EmptyState
+                      imgUrl={folderGray}
+                      title={
+                        get(permissions, 'canEditCollection')
+                          ? 'Create your Questions'
+                          : 'No Question Present in this collection'
+                      }
+                      description=" Quizzes will be depend on question your create here"
+                      buttonText={
+                        get(permissions, 'canEditCollection')
+                          ? 'Add Questions'
+                          : null
+                      }
+                      buttonType="primary"
+                      buttonHandler={() => toggleQuestionModal()}
+                    />
+                  </div>
+                ) : (
+                  <div className="card-section note-section">
+                    <Row gutter={32}>
+                      {map(
+                        get(collectionDetails, 'questions', []),
+                        (question, i) => {
+                          return (
+                            <Col sm={12} key={i}>
+                              <QuestionCard
+                                question={question}
+                                collection={collectionDetails}
+                                hideEditDelete={!canEditCollection}
+                                setLoading={setLoading}
+                                onSuccess={fetchSharedCollectionDetails}
+                                onEditQuestion={() => {
+                                  toggleQuestionModal(question);
+                                }}
+                              />
+                            </Col>
+                          );
+                        }
+                      )}
+                    </Row>
+                  </div>
+                )}
+              </TabPane>
+              <TabPane tab="Flash Card" key="4">
+                <div className="inline-button-section mb--20">
+                  <ButtonCustom
+                    className="round-primary"
+                    onClick={revisionModeToggle}
+                    title="Revision Mode"
                   />
                 </div>
-              ) : (
+                <RevisionModeModal
+                  visible={isRevisionModeModal}
+                  closeHandler={revisionModeToggle}
+                />
                 <div className="card-section note-section">
                   <Row gutter={32}>
-                    {map(get(collectionDetails, 'notes', []), (note, index) => (
+                    {flashCardData.map((data, index) => (
                       <Col sm={8} key={index}>
-                        <NotesCard
-                          title={get(note, 'title')}
-                          id={get(note, 'id')}
-                          setLoading={setLoading}
-                          description={get(note, 'description')}
-                          menuData={menu}
-                          hideEditDelete={!canEditCollection}
-                          cardHandler="/"
-                          collection={collectionDetails}
-                          tags={get(note, 'tags')}
-                          onEditNote={() => {
-                            toggleNoteModal(note);
-                          }}
-                          onSuccess={fetchSharedCollectionDetails}
+                        <FlashCard
+                          title={data.title}
+                          description={data.description}
+                          menuData={
+                            <Menu>
+                              <Menu.Item icon={<EditOutlined />}>
+                                <a onClick={flashEditModalTpggleModal}>Edit</a>
+                              </Menu.Item>
+                              <Menu.Item icon={<DeleteOutlined />}>
+                                <a
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  href="#"
+                                >
+                                  Delete
+                                </a>
+                              </Menu.Item>
+                            </Menu>
+                          }
                         />
                       </Col>
                     ))}
                   </Row>
-                </div>
-              )}
-            </TabPane>
-            <TabPane tab="Question" key="3">
-              {get(collectionDetails, 'questions', []).length > 0 && (
-                <div className="inline-button-section mt--20 mb--30">
-                  <ButtonCustom className="round-primary" title="Take a Quiz" />
-                  <ButtonCustom
-                    className="round-primary"
-                    icon={<img src={filter} alt="" />}
-                    title="Filter"
+
+                  <FlashEditModal
+                    visible={isFlashEditModal}
+                    btnAddHandler={flashEditModalTpggleModal}
+                    cancelHandler={flashEditModalTpggleModal}
+                    backHandler={flashEditModalTpggleModal}
                   />
                 </div>
-              )}
-
-              {get(collectionDetails, 'questions', []).length === 0 ? (
-                <div className="state-center">
-                  <EmptyState
-                    imgUrl={folderGray}
-                    title={
-                      get(permissions, 'canEditCollection')
-                        ? 'Create your Questions'
-                        : 'No Question Present in this collection'
-                    }
-                    description=" Quizzes will be depend on question your create here"
-                    buttonText={
-                      get(permissions, 'canEditCollection')
-                        ? 'Add Questions'
-                        : null
-                    }
-                    buttonType="primary"
-                    buttonHandler={() => toggleQuestionModal()}
-                  />
-                </div>
-              ) : (
-                <div className="card-section note-section">
-                  <Row gutter={32}>
-                    {map(
-                      get(collectionDetails, 'questions', []),
-                      (question, i) => {
-                        return (
-                          <Col sm={12} key={i}>
-                            <QuestionCard
-                              question={question}
-                              collection={collectionDetails}
-                              hideEditDelete={!canEditCollection}
-                              setLoading={setLoading}
-                              onSuccess={fetchSharedCollectionDetails}
-                              onEditQuestion={() => {
-                                toggleQuestionModal(question);
-                              }}
-                            />
-                          </Col>
-                        );
-                      }
-                    )}
-                  </Row>
-                </div>
-              )}
-            </TabPane>
-            <TabPane tab="Flash Card" key="4">
-              <div className="inline-button-section mb--20">
-                <ButtonCustom
-                  className="round-primary"
-                  onClick={revisionModeToggle}
-                  title="Revision Mode"
-                />
-              </div>
-              <RevisionModeModal
-                visible={isRevisionModeModal}
-                closeHandler={revisionModeToggle}
-              />
-              <div className="card-section note-section">
-                <Row gutter={32}>
-                  {flashCardData.map((data, index) => (
-                    <Col sm={8} key={index}>
-                      <FlashCard
-                        title={data.title}
-                        description={data.description}
-                        menuData={
-                          <Menu>
-                            <Menu.Item icon={<EditOutlined />}>
-                              <a onClick={flashEditModalTpggleModal}>Edit</a>
-                            </Menu.Item>
-                            <Menu.Item icon={<DeleteOutlined />}>
-                              <a
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                href="#"
-                              >
-                                Delete
-                              </a>
-                            </Menu.Item>
-                          </Menu>
-                        }
-                      />
-                    </Col>
-                  ))}
-                </Row>
-
-                <FlashEditModal
-                  visible={isFlashEditModal}
-                  btnAddHandler={flashEditModalTpggleModal}
-                  cancelHandler={flashEditModalTpggleModal}
-                  backHandler={flashEditModalTpggleModal}
-                />
-              </div>
-            </TabPane>
-          </Tabs>
-        </div>
+              </TabPane>
+            </Tabs>
+          </div>
+        </Spin>
       </div>
 
       {/* Collection Modal here */}

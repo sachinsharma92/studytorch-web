@@ -108,7 +108,6 @@ const ReadNoteScreen = lazy(
 
 const AppRouter = () => {
   const [isLoading, setIsLoading] = useState(false);
-  console.log('process', process.env);
 
   return (
     <Spin spinning={isLoading}>

@@ -22,3 +22,10 @@ export const UPDATE_GROUP_SUCCESS = 'Group Updated Successfully';
 export const DELETE_GROUP_SUCCESS = 'Group deleted Successfully';
 export const LEAVE_GROUP_SUCCESS = 'Group leaved Successfully';
 export const GROUP_MEMBER_UPDATED_SUCCESS = 'Group member updated Successfully';
+
+export const CREATE_CHECKLIST_SUCCESS = 'Checklist Created Successfully';
+export const UPDATE_CHECKLIST_SUCCESS = 'Checklist Updated Successfully';
+export const DELETE_CHECKLIST_SUCCESS = 'Checklist deleted Successfully';
+export const CREATE_CHECKLIST_TASK_SUCCESS =
+  'Task added to checklist successfully';
+export const UPDATE_CHECKLIST_TASK_SUCCESS = 'Task updated  successfully';

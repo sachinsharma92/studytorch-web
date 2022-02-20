@@ -26,3 +26,8 @@ export const ADD_MEMBER_TO_GROUP = 'groups/:id/add-members';
 export const UPLOAD_IMAGE = '/media';
 export const IMAGE_UPLOAD = `${process.env.REACT_APP_API_HOST}/media`;
 export const UNLINK_NOTE_MEDIA = '/media/:mediaUuid';
+
+///########CHECKLIST#############
+export const CHECKLIST = '/checklists';
+export const CHECKLIST_TASK = '/checklists/:id/tasks';
+export const ARCHIVE_CHECKLIST_TASK = '/checklists/:id/archive-task';

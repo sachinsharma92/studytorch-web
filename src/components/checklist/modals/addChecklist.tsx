@@ -1,14 +1,58 @@
-import { Button, Modal, Radio, Select, Form, Input, DatePicker, Row, Col, TimePicker } from 'antd';
-import moment from 'moment';
+import { Button, Modal, Form, Input, Spin, message } from 'antd';
+import { useDispatch } from 'react-redux';
+import get from 'lodash/get';
+
+import {
+  createChecklist,
+  updateChecklist,
+} from '../../../redux/actions/checklistActions';
+import {
+  CREATE_CHECKLIST_SUCCESS,
+  UPDATE_CHECKLIST_SUCCESS,
+} from '../../../constants/messages';
 
 // Styles
 import './styles.scss';
-
-const { Option } = Select;
+import { useState } from 'react';
 
 function AddChecklist(props: any) {
+  const { edit, initialValues, onSuccess } = props;
+
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
+
+  const addChecklist = (payload: any) => {
+    setLoading(true);
+    dispatch(createChecklist(payload))
+      .then(() => {
+        setLoading(false);
+        message.success(CREATE_CHECKLIST_SUCCESS);
+        onSuccess();
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  };
+
+  const editChecklist = (payload: any) => {
+    setLoading(true);
+    dispatch(updateChecklist(get(initialValues, 'id'), payload))
+      .then(() => {
+        setLoading(false);
+        message.success(UPDATE_CHECKLIST_SUCCESS);
+        onSuccess();
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  };
+
   const onFinish = (values: any) => {
-    console.log('Success:', values);
+    if (edit) {
+      editChecklist(values);
+    } else {
+      addChecklist(values);
+    }
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -24,37 +68,46 @@ function AddChecklist(props: any) {
       wrapClassName="planner-modal-style primary-modal-style"
       maskStyle={{ background: 'rgba(30,39,94, 0.6)' }}
     >
+      <Spin spinning={loading}>
+        <div className="card-modal">
+          <Form
+            name="basic"
+            layout="vertical"
+            initialValues={edit ? initialValues : {}}
+            onFinish={onFinish}
+            onFinishFailed={onFinishFailed}
+            autoComplete="off"
+          >
+            <div className="content-body">
+              <div className="header">
+                <h3 className="title3">
+                  {edit ? 'Edit' : 'Create'} Study Checklist
+                </h3>
+              </div>
 
-      <div className="card-modal">
+              <div className="question-section">
+                <Form.Item
+                  label="Enter name"
+                  name="title"
+                  rules={[
+                    { required: true, message: 'Name field is required!' },
+                  ]}
+                >
+                  <Input placeholder="List name" />
+                </Form.Item>
+              </div>
+            </div>
 
-        <div className="content-body">
-          <div className="header">
-            <h3 className="title3">Create a Study Checklist</h3>
-          </div>
-
-          <div className="question-section">
-            <Form
-              name="basic"
-              layout="vertical"
-              initialValues={{ remember: true }}
-              onFinish={onFinish}
-              onFinishFailed={onFinishFailed}
-              autoComplete="off"
-            >
-              <Form.Item  label="Enter name" name="title" rules={[{ required: true }]}>
-                <Input placeholder='List name' />
-              </Form.Item>
-            </Form>
-          </div>
+            <div className="button-section">
+              <Button block type="primary" htmlType="submit">
+                Save
+              </Button>
+            </div>
+          </Form>
         </div>
-
-        <div className="button-section">
-          <Button block type="primary" onClick={props.addHandler}>Save</Button>
-        </div>
-      </div>
-
+      </Spin>
     </Modal>
-  )
+  );
 }
 
 export default AddChecklist;

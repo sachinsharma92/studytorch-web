@@ -466,12 +466,14 @@ function CollectionDetails(props: any) {
       />
 
       {/* Share Modal here */}
-      <ShareCollectionModal
-        visible={isShareModal}
-        onCancel={shareToggleModal}
-        doneHandler={shareToggleModal}
-        cancelHandler={shareToggleModal}
-      />
+      {isShareModal && (
+        <ShareCollectionModal
+          visible={isShareModal}
+          onCancel={shareToggleModal}
+          doneHandler={shareToggleModal}
+          cancelHandler={shareToggleModal}
+        />
+      )}
 
       {/* Note Modal here */}
       {get(noteModal, 'visible') && (
