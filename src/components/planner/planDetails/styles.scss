@@ -1,0 +1,29 @@
+// variables
+@import '../../../styles/variables/colors';
+@import '../../../styles/variables/mixins';
+
+.report-detail-style {
+  padding: 20px;
+
+  .user-head {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #ebf2fa;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+
+    .title3 {
+      margin-left: 15px;
+    }
+  }
+  .info-section {
+    .title4 {
+      font-size: 15px;
+      text-transform: uppercase;
+    }
+
+    .description {
+      font-size: 15px;
+    }
+  }
+}

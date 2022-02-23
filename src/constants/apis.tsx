@@ -8,7 +8,9 @@ export const VERIFY_FORGOT_PASSWORD = '/verify-code';
 
 ///########COLLECTIONS#############
 export const COLLECITONS = 'collections';
+export const USERS_FOR_COLLECTION = 'collections/:id/users';
 export const SHARED_COLLECITONS = 'share-collections';
+export const SHARED_USERS = 'collections/:id/shared-users';
 
 ///########NOTES#############
 export const NOTES = 'notes';
@@ -31,3 +33,6 @@ export const UNLINK_NOTE_MEDIA = '/media/:mediaUuid';
 export const CHECKLIST = '/checklists';
 export const CHECKLIST_TASK = '/checklists/:id/tasks';
 export const ARCHIVE_CHECKLIST_TASK = '/checklists/:id/archive-task';
+
+///########USER CALENDAR#############
+export const USER_CALENDAR = '/user-calendars';

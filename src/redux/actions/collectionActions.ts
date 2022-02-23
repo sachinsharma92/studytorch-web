@@ -1,4 +1,5 @@
 import * as APIS from '../../constants/apis';
+import { getUrl, replaceMultiple } from '../../utilities/helpers';
 
 export const createCollection =
   (payload: any): any =>
@@ -70,6 +71,42 @@ export const fetchSharedCollection =
   (dispatch: any, getState: any, { api }: any): any => {
     return api
       .get(`${APIS.SHARED_COLLECITONS}/${id}`)
+      .then((result: any) => {
+        return result;
+      })
+      .catch((error: any) => {
+        throw error;
+      });
+  };
+
+export const fetchUserForCollection =
+  (id: any, query: any = {}): any =>
+  (dispatch: any, getState: any, { api }: any): any => {
+    const url = getUrl(
+      replaceMultiple(APIS.USERS_FOR_COLLECTION, {
+        ':id': id,
+      }),
+      query
+    );
+    return api
+      .get(url)
+      .then((result: any) => {
+        return result;
+      })
+      .catch((error: any) => {
+        throw error;
+      });
+  };
+
+export const fetchCollectionSharedUsers =
+  (id: any): any =>
+  (dispatch: any, getState: any, { api }: any): any => {
+    return api
+      .get(
+        replaceMultiple(APIS.SHARED_USERS, {
+          ':id': id,
+        })
+      )
       .then((result: any) => {
         return result;
       })

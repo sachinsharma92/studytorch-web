@@ -29,3 +29,7 @@ export const DELETE_CHECKLIST_SUCCESS = 'Checklist deleted Successfully';
 export const CREATE_CHECKLIST_TASK_SUCCESS =
   'Task added to checklist successfully';
 export const UPDATE_CHECKLIST_TASK_SUCCESS = 'Task updated  successfully';
+
+export const CREATE_CALENDAR_PLAN_SUCCESS = 'Plan Created Successfully';
+export const UPDATE_CALENDAR_PLAN_SUCCESS = 'Plan Updated Successfully';
+export const DELETE_CALENDAR_PLAN_SUCCESS = 'Plan deleted Successfully';

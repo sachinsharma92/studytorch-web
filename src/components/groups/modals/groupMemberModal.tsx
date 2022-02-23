@@ -27,7 +27,7 @@ import { GROUP_MEMBER_UPDATED_SUCCESS } from '../../../constants/messages';
 import './styles.scss';
 import { useState, useEffect, useCallback } from 'react';
 import { map, remove } from 'lodash';
-const limit = 10;
+
 const { Text } = Typography;
 
 const { Option } = Select;

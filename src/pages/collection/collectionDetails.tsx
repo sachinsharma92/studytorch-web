@@ -469,6 +469,7 @@ function CollectionDetails(props: any) {
       {isShareModal && (
         <ShareCollectionModal
           visible={isShareModal}
+          collection={collectionDetails}
           onCancel={shareToggleModal}
           doneHandler={shareToggleModal}
           cancelHandler={shareToggleModal}
