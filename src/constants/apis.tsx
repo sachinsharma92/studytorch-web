@@ -11,6 +11,9 @@ export const COLLECITONS = 'collections';
 export const USERS_FOR_COLLECTION = 'collections/:id/users';
 export const SHARED_COLLECITONS = 'share-collections';
 export const SHARED_USERS = 'collections/:id/shared-users';
+export const SHARED_COLLECTION = 'share-collections';
+export const REMOVE_USER_SHARED_COLLECTION =
+  'share-collections/:uuid/remove/:user_uuid';
 
 ///########NOTES#############
 export const NOTES = 'notes';
@@ -36,3 +39,10 @@ export const ARCHIVE_CHECKLIST_TASK = '/checklists/:id/archive-task';
 
 ///########USER CALENDAR#############
 export const USER_CALENDAR = '/user-calendars';
+
+///########QUIZZES#############
+export const USER_QUIZZES = '/users/quizzes';
+export const GROUP_QUIZZES = '/users/group/:id/quizzes';
+export const CREATE_USER_COLLECTION_QUIZZES = '/quizzes';
+export const CREATE_SHARED_COLLECTION_QUIZZES = '/shared-collections/quizzes';
+export const CREATE_GROUP_COLLECTION_QUIZZES = '/groups/:id/quizzes';

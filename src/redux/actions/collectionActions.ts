@@ -114,3 +114,46 @@ export const fetchCollectionSharedUsers =
         throw error;
       });
   };
+
+export const shareCollection =
+  (payload: any): any =>
+  (dispatch: any, getState: any, { api }: any): any => {
+    return api
+      .post(APIS.SHARED_COLLECTION, payload)
+      .then((result: any) => {
+        return result;
+      })
+      .catch((error: any) => {
+        throw error;
+      });
+  };
+
+export const removeFromShareCollection =
+  (id: any, user_id: any): any =>
+  (dispatch: any, getState: any, { api }: any): any => {
+    const url = replaceMultiple(APIS.REMOVE_USER_SHARED_COLLECTION, {
+      ':uuid': id,
+      ':user_uuid': user_id,
+    });
+    return api
+      .delete(url)
+      .then((result: any) => {
+        return result;
+      })
+      .catch((error: any) => {
+        throw error;
+      });
+  };
+
+export const leaveShareCollection =
+  (id: any): any =>
+  (dispatch: any, getState: any, { api }: any): any => {
+    return api
+      .delete(`${APIS.SHARED_COLLECITONS}/${id}`)
+      .then((result: any) => {
+        return result;
+      })
+      .catch((error: any) => {
+        throw error;
+      });
+  };

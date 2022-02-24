@@ -1,12 +1,17 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button, Col, Menu, Row, Tabs, PageHeader, Pagination } from 'antd';
-import { EditOutlined, DeleteOutlined, UserAddOutlined, InfoCircleOutlined, } from '@ant-design/icons';
+import map from 'lodash/map';
+import get from 'lodash/get';
+import { useDispatch } from 'react-redux';
 import PrimaryLayout from '../../common/primaryLayout/primaryLayout';
 import EmptyState from '../../common/emptyState/emptyState';
-import QuizCard from '../../components/quiz/quizCard';
 
+import ActiveQuizTab from '../../components/quiz/activeQuizTab';
+import CompleteQuizTab from '../../components/quiz/completeQuizTab';
+import QuizCard from '../../components/quiz/quizCard';
+import { fetchUserQuizzes } from '../../redux/actions/quizActions';
 // Images
-import folderGray from "../../assets/images/icons/folder-gray.svg";
+import folderGray from '../../assets/images/icons/folder-gray.svg';
 
 // Styles
 import './styles.scss';
@@ -14,200 +19,148 @@ import CreateQuizModal from '../../components/quiz/modals/createQuizModal';
 import QuizResultModal from '../../components/quiz/modals/quizResultModal';
 import QuizSelectModal from '../../components/quiz/modals/quizSelectModal';
 
-
 const { TabPane } = Tabs;
 
-
-const menu = (
-	<Menu>
-		<Menu.Item icon={<EditOutlined />}>
-			<a target="_blank" rel="noopener noreferrer" href="#">
-				Rename
-			</a>
-		</Menu.Item>
-		<Menu.Item icon={<DeleteOutlined />}>
-			<a target="_blank" rel="noopener noreferrer" href="#">
-				Delete
-			</a>
-		</Menu.Item>
-		<Menu.Item icon={<InfoCircleOutlined />}>
-			<a target="_blank" rel="noopener noreferrer" href="#">
-				Get Details
-			</a>
-		</Menu.Item>
-		<Menu.Item icon={<UserAddOutlined />}>
-			<a target="_blank" rel="noopener noreferrer" href="#">
-				Share
-			</a>
-		</Menu.Item>
-	</Menu>
-);
-
-const quizViewData = [
-	{
-		quizName: 'QUIZ NAME',
-		collectionName: 'Collection name',
-		date: '22nd Sep 2021'
-	},
-	{
-		quizName: 'QUIZ NAME',
-		collectionName: 'Collection name',
-		date: '22nd Sep 2021'
-	},
-	{
-		quizName: 'QUIZ NAME',
-		collectionName: 'Collection name',
-		date: '22nd Sep 2021'
-	},
-	{
-		quizName: 'QUIZ NAME',
-		collectionName: 'Collection name',
-		date: '22nd Sep 2021'
-	},
-	{
-		quizName: 'QUIZ NAME',
-		collectionName: 'Collection name',
-		date: '22nd Sep 2021'
-	},
-	{
-		quizName: 'QUIZ NAME',
-		collectionName: 'Collection name',
-		date: '22nd Sep 2021'
-	},
-	{
-		quizName: 'QUIZ NAME',
-		collectionName: 'Collection name',
-		date: '22nd Sep 2021'
-	},
-	{
-		quizName: 'QUIZ NAME',
-		collectionName: 'Collection name',
-		date: '22nd Sep 2021'
-	},
-]
-
 function QuizScreen(props: any) {
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
+  const [isCreateQuizModal, setIsCreateQuizModal] = useState(false);
+  const [activeQuizzes, setActiveQuiz] = useState({
+    data: [],
+    pagination: null,
+  });
 
-	const [isCreateQuizModal, setIsCreateQuizModal] = useState(false);
-	const createQuizToggleModal= () => {
-		setIsCreateQuizModal(!isCreateQuizModal);
-	};
+  const [completeQuizzes, setCompleteQuiz] = useState({
+    data: [],
+    pagination: null,
+  });
+  const createQuizToggleModal = () => {
+    setIsCreateQuizModal(!isCreateQuizModal);
+  };
 
-	const [isQuizSelectModal, setIsQuizSelectModal] = useState(false);
-	const quizSelectToggleModal= () => {
-		setIsQuizSelectModal(!isQuizSelectModal);
-	};
+  const [isQuizSelectModal, setIsQuizSelectModal] = useState(false);
+  const quizSelectToggleModal = () => {
+    setIsQuizSelectModal(!isQuizSelectModal);
+  };
 
-	const [isQuizResultModal, setIsQuizResultModal] = useState(false);
-	const quizResultToggleModal= () => {
-		setIsQuizResultModal(!isQuizResultModal);
-		setIsQuizSelectModal(false);
-	};
+  const [isQuizResultModal, setIsQuizResultModal] = useState(false);
+  const quizResultToggleModal = () => {
+    setIsQuizResultModal(!isQuizResultModal);
+    setIsQuizSelectModal(false);
+  };
 
+  const getQuizzes = (page = 1, status = 0) => {
+    setLoading(true);
+    dispatch(
+      fetchUserQuizzes({
+        page,
+        status,
+      })
+    )
+      .then((result: any) => {
+        setLoading(false);
 
+        if (status === 0) {
+          setActiveQuiz({
+            data: get(result, 'data'),
+            pagination: get(result, 'meta.pagination'),
+          });
+        } else {
+          setCompleteQuiz({
+            data: get(result, 'data'),
+            pagination: get(result, 'meta.pagination'),
+          });
+        }
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  };
 
-	return (
-		<PrimaryLayout>
-			<div className="quiz-page-style">
+  useEffect(() => {
+    getQuizzes(1, 0);
+    getQuizzes(1, 1);
+  }, []);
 
-				<PageHeader
-					className="site-page-header header-back"
-					title="Quiz"
-					extra={[
-						<Button onClick={createQuizToggleModal} shape="round" size="large" type="primary">
-							Create Quiz
-						</Button>
-					]}
-				/>
+  console.log('======>', activeQuizzes, completeQuizzes);
 
-				{props.collectionData ?
-				<div className="state-center">
-					<EmptyState
-						imgUrl={folderGray}
-						title="Create Quiz"
-						description=" Your Create can be the folder underwhich all the study material is kept"
-						buttonText="Create Quiz"
-						buttonType="primary"
-					/>
-				</div>
-					:
+  return (
+    <PrimaryLayout>
+      <div className="quiz-page-style">
+        <PageHeader
+          className="site-page-header header-back"
+          title="Quiz"
+          extra={[
+            <Button
+              onClick={createQuizToggleModal}
+              shape="round"
+              size="large"
+              type="primary"
+            >
+              Create Quiz
+            </Button>,
+          ]}
+        />
 
-					<div className="tab-section">
-						<Tabs defaultActiveKey="1">
-							<TabPane tab="Active Quizes (3)" key="1">
-								<div className="card-section">
-									<Row gutter={32}>
-										{quizViewData.map((data, index) => (
-											<Col xs={24} sm={8} key={index}>
-												<QuizCard
-													quizName={data.quizName}
-													collectionName={data.collectionName}
-													date={data.date}
-													quizComplete={false}
-													onClick={quizSelectToggleModal}
-												/>
-											</Col>
-										))}
-									</Row>
-									<div className="pagination-section">
-										<Pagination defaultCurrent={1} total={50} />
-									</div>
-								</div>
-							</TabPane>
+        {props.collectionData ? (
+          <div className="state-center">
+            <EmptyState
+              imgUrl={folderGray}
+              title="Create Quiz"
+              description=" Your Create can be the folder underwhich all the study material is kept"
+              buttonText="Create Quiz"
+              buttonType="primary"
+            />
+          </div>
+        ) : (
+          <div className="tab-section">
+            <Tabs defaultActiveKey="1">
+              <TabPane
+                tab={`Active Quizes (${get(activeQuizzes, 'data', []).length})`}
+                key="1"
+              >
+                <ActiveQuizTab quizzes={activeQuizzes} />
+              </TabPane>
 
-							<TabPane tab="Completed Quizes (2)" key="2">
-								<div className="card-section">
-									<Row gutter={32}>
-										{quizViewData.map((data, index) => (
-											<Col sm={8} key={index}>
-												<QuizCard
-													quizName={data.quizName}
-													collectionName={data.collectionName}
-													date={data.date}
-													quizComplete={true}
-												/>
-											</Col>
-										))}
-									</Row>
-									<div className="pagination-section">
-										<Pagination defaultCurrent={1} total={50} />
-									</div>
-								</div>
-							</TabPane>
-						</Tabs>
-					</div>
-				}
+              <TabPane
+                tab={`Completed Quizes (${
+                  get(completeQuizzes, 'data', []).length
+                })`}
+                key="2"
+              >
+                <CompleteQuizTab quizzes={completeQuizzes} />
+              </TabPane>
+            </Tabs>
+          </div>
+        )}
+      </div>
 
-			</div>
+      {/* Questions Modal */}
+      <CreateQuizModal
+        visible={isCreateQuizModal}
+        createHandler={createQuizToggleModal}
+        cancelHandler={createQuizToggleModal}
+        onCancel={createQuizToggleModal}
+      />
 
-			
-			{/* Questions Modal */}
-			<CreateQuizModal
-				visible={isCreateQuizModal}
-				createHandler={createQuizToggleModal}
-				cancelHandler={createQuizToggleModal}
-				onCancel={createQuizToggleModal}
-			/>
+      {/* Questions Modal */}
+      <QuizSelectModal
+        visible={isQuizSelectModal}
+        saveHandler={quizSelectToggleModal}
+        previusHandler={quizSelectToggleModal}
+        onCancel={quizSelectToggleModal}
+        submitHandler={quizResultToggleModal}
+      />
 
-			{/* Questions Modal */}
-			<QuizSelectModal
-				visible={isQuizSelectModal}
-				saveHandler={quizSelectToggleModal}
-				previusHandler={quizSelectToggleModal}
-				onCancel={quizSelectToggleModal}
-				submitHandler={quizResultToggleModal}
-			/>
-
-			{/* Questions Modal */}
-			<QuizResultModal
-				visible={isQuizResultModal}
-				buttonHandler={quizResultToggleModal}
-				onBack={quizResultToggleModal}
-				onCancel={quizResultToggleModal}
-			/>
-
-		</PrimaryLayout>
-	)
+      {/* Questions Modal */}
+      <QuizResultModal
+        visible={isQuizResultModal}
+        buttonHandler={quizResultToggleModal}
+        onBack={quizResultToggleModal}
+        onCancel={quizResultToggleModal}
+      />
+    </PrimaryLayout>
+  );
 }
 
 export default QuizScreen;

@@ -684,14 +684,6 @@ function GroupDetailScreen(props: any) {
         collection={collectionDetails}
       />
 
-      {/* Share Modal here */}
-      <ShareCollectionModal
-        visible={isShareModal}
-        onCancel={shareToggleModal}
-        doneHandler={shareToggleModal}
-        cancelHandler={shareToggleModal}
-      />
-
       {/* Note Modal here */}
       {get(noteModal, 'visible') && (
         <NoteModalCard

@@ -21,7 +21,9 @@ function SharedWithMeCollection(props: any) {
               quizzes={get(folder, 'collection.question_count')}
               sharedBy={get(folder, 'shared_by.name')}
               onViewDetails={() => onViewDetails(folder)}
-              onRemoveSharedCollection={() => onRemoveSharedCollection(folder)}
+              onRemoveSharedCollection={() =>
+                onRemoveSharedCollection(get(folder, 'collection.id'))
+              }
             />
           </Col>
         ))}

@@ -1,6 +1,11 @@
 export const CREATE_COLLECTION_SUCCESS = 'Collection Created Successfully';
 export const UPDATE_COLLECTION_SUCCESS = 'Collection Updated Successfully';
 export const DELETE_COLLECTION_SUCCESS = 'Collection Deleted Successfully';
+export const SHARE_COLLECTION_SUCCESS =
+  'Collection shared successfully to user';
+export const REMOVE_SHARE_COLLECTION_SUCCESS =
+  'User removed successfully from collection';
+export const COLLECTION_LEAVE_SUCCESS = 'Collection leave successfully';
 
 export const CREATE_NOTE_SUCCESS = 'Note Created Successfully';
 export const UPDATE_NOTE_SUCCESS = 'Note Updated Successfully';

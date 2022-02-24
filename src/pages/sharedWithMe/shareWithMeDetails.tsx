@@ -11,6 +11,8 @@ import {
   Button,
   Dropdown,
   Spin,
+  Modal,
+  message,
 } from 'antd';
 import { useDispatch } from 'react-redux';
 import {
@@ -24,11 +26,12 @@ import get from 'lodash/get';
 import map from 'lodash/map';
 import replace from 'lodash/replace';
 import { useNavigate, useParams } from 'react-router-dom';
-
+import { ExclamationCircleOutlined, ShareAltOutlined } from '@ant-design/icons';
 // Custom Component and Modal
 import CreateCollectionModal from '../../components/collection/modals/createCollection';
 import CollectionCard from '../../components/collection/collectionCard/collectionCard';
-
+import { COLLECTION_LEAVE_SUCCESS } from '../../constants/messages';
+import { SHARED_SCREEN } from '../../router/routes';
 import ROUTES from '../../router';
 
 import PrimaryLayout from '../../common/primaryLayout/primaryLayout';
@@ -43,7 +46,10 @@ import QuestionModal from '../../components/collection/modals/questionModal';
 import RevisionModeModal from '../../components/collection/modals/revisionModeModal';
 import QuestionAddedModal from '../../components/collection/modals/questionAddedModal';
 import FlashEditModal from '../../components/collection/modals/flashEditModal';
-import { fetchSharedCollection } from '../../redux/actions/collectionActions';
+import {
+  fetchSharedCollection,
+  leaveShareCollection,
+} from '../../redux/actions/collectionActions';
 import EmptyState from '../../common/emptyState/emptyState';
 // Images
 import filter from '../../assets/images/icons/filter.svg';
@@ -55,6 +61,7 @@ import folderGray from '../../assets/images/icons/folder-gray.svg';
 import './styles.scss';
 import SharedWithMeCollection from '../../components/sharedWithMeCollection';
 
+const { confirm } = Modal;
 const { TabPane } = Tabs;
 
 const menu = (
@@ -195,6 +202,33 @@ function ShareWithMeDetails(props: any) {
       });
   };
 
+  const onRemoveSharedCollection = (collectionId: any) => {
+    setLoading(true);
+    dispatch(leaveShareCollection(collectionId))
+      .then((result: any) => {
+        message.success(COLLECTION_LEAVE_SUCCESS);
+        navigate(SHARED_SCREEN, {
+          replace: true,
+        });
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  };
+
+  const onConfirmDelete = (collectionId: any) => {
+    confirm({
+      title: 'Are you sure,You want to leave this collection?',
+      icon: <ExclamationCircleOutlined />,
+
+      onOk() {
+        onRemoveSharedCollection(collectionId);
+      },
+      onCancel() {},
+    });
+  };
+
   useEffect(() => {
     fetchSharedCollectionDetails();
   }, [id]);
@@ -262,13 +296,13 @@ function ShareWithMeDetails(props: any) {
                   overlayClassName="collection-dropdown"
                   overlay={
                     <Menu>
-                      <Menu.Item icon={<DeleteOutlined />}>
-                        <a target="_blank" rel="noopener noreferrer" href="#">
-                          Delete Group
-                        </a>
-                      </Menu.Item>
-                      <Menu.Item icon={<LoginOutlined />}>
-                        <a>Leave Group</a>
+                      <Menu.Item
+                        icon={<LoginOutlined />}
+                        onClick={() =>
+                          onConfirmDelete(get(collectionDetails, 'id'))
+                        }
+                      >
+                        Leave Group
                       </Menu.Item>
                     </Menu>
                   }
@@ -282,6 +316,18 @@ function ShareWithMeDetails(props: any) {
                     <img src={arrowDown} className="icon-style" />
                   </a>
                 </Dropdown>
+                {canEditCollection && (
+                  <Button
+                    style={{ marginLeft: 20 }}
+                    icon={<ShareAltOutlined />}
+                    onClick={shareToggleModal}
+                    shape="round"
+                    type="primary"
+                    key="1"
+                  >
+                    Share
+                  </Button>
+                )}
               </div>,
             ]}
           />
@@ -522,12 +568,15 @@ function ShareWithMeDetails(props: any) {
       />
 
       {/* Share Modal here */}
-      <ShareCollectionModal
-        visible={isShareModal}
-        onCancel={shareToggleModal}
-        doneHandler={shareToggleModal}
-        cancelHandler={shareToggleModal}
-      />
+      {isShareModal && (
+        <ShareCollectionModal
+          collection={collectionDetails}
+          visible={isShareModal}
+          onCancel={shareToggleModal}
+          doneHandler={shareToggleModal}
+          cancelHandler={shareToggleModal}
+        />
+      )}
 
       {/* Note Modal here */}
       <NoteModalCard

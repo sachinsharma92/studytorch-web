@@ -1,7 +1,8 @@
 import PrimaryLayout from '../../common/primaryLayout/primaryLayout';
 import SharedWithMeCollection from '../../components/sharedWithMeCollection';
 import { useEffect, useState } from 'react';
-import { Drawer, Spin } from 'antd';
+import { Drawer, message, Spin, Modal } from 'antd';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { useDispatch } from 'react-redux';
 import filter from 'lodash/filter';
 import get from 'lodash/get';
@@ -10,11 +11,15 @@ import moment from 'moment';
 import FolderIconSVG from '../../common/FolderIconSVG';
 import ModalConfirmation from '../../common/modalConfirmation';
 import EmptyState from '../../common/emptyState/emptyState';
-import { fetchSharedCollections } from '../../redux/actions/collectionActions';
+import {
+  fetchSharedCollections,
+  leaveShareCollection,
+} from '../../redux/actions/collectionActions';
+import { COLLECTION_LEAVE_SUCCESS } from '../../constants/messages';
 import folderGray from '../../assets/images/icons/folder-gray.svg';
-
-// Styles
 import './styles.scss';
+
+const { confirm } = Modal;
 
 const getSortedCollections = (collections: any): any => {
   const today = filter(
@@ -87,7 +92,31 @@ function SharedWithMeScreen() {
   const modalConfirmationToggle = () => {
     setIsModalConfirmation(!isModalConfirmation);
   };
-  const onRemoveSharedCollection = (collection: any) => {};
+
+  const onRemoveSharedCollection = (collectionId: any) => {
+    setLoading(true);
+    dispatch(leaveShareCollection(collectionId))
+      .then((result: any) => {
+        message.success(COLLECTION_LEAVE_SUCCESS);
+        getSharedCollections();
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  };
+
+  const onConfirmDelete = (collectionId: any) => {
+    confirm({
+      title: 'Are you sure,You want to leave this collection?',
+      icon: <ExclamationCircleOutlined />,
+
+      onOk() {
+        onRemoveSharedCollection(collectionId);
+      },
+      onCancel() {},
+    });
+  };
 
   const onViewDetails = (collection: any) => {
     toggleSharedDrawer(collection);
@@ -117,7 +146,7 @@ function SharedWithMeScreen() {
                 timeFilter={get(sc, 'time')}
                 folders={get(sc, 'folders', [])}
                 onViewDetails={onViewDetails}
-                onRemoveSharedCollection={onRemoveSharedCollection}
+                onRemoveSharedCollection={onConfirmDelete}
               />
             ))}
           </div>
