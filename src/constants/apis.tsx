@@ -46,3 +46,5 @@ export const GROUP_QUIZZES = '/users/group/:id/quizzes';
 export const CREATE_USER_COLLECTION_QUIZZES = '/quizzes';
 export const CREATE_SHARED_COLLECTION_QUIZZES = '/shared-collections/quizzes';
 export const CREATE_GROUP_COLLECTION_QUIZZES = '/groups/:id/quizzes';
+export const QUIZZ_DETAILS = '/quizzes';
+export const SUBMIT_QUIZZ = 'quizzes/:id/submit';

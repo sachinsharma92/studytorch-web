@@ -6,23 +6,16 @@ import {
   Row,
   Popover,
   Tabs,
-  Select,
   PageHeader,
   Dropdown,
   Avatar,
-  Pagination,
   Drawer,
   Spin,
   Tooltip,
 } from 'antd';
 import get from 'lodash/get';
 import map from 'lodash/map';
-import {
-  PlusOutlined,
-  EditOutlined,
-  DeleteOutlined,
-  CheckSquareOutlined,
-} from '@ant-design/icons';
+import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 // Custom Component and Modal
@@ -48,6 +41,7 @@ import JoinedDropDown from '../../components/groups/joinedDropDown';
 import GroupBanner from '../../components/groups/groupBanner/groupBanner';
 import GroupMembers from '../../components/groups/groupMembers';
 import QuizCard from '../../components/quiz/quizCard';
+import GroupQuizTab from '../../components/groups/groupQuizTab/groupQuizTab';
 import {
   fetchGroupCollectionDetails,
   fetchGroupDetails,
@@ -133,7 +127,7 @@ function GroupDetailScreen(props: any) {
   const [collectionDetails, setCollectionDetails] = useState(false);
   const [groupDetails, setGroupDetails] = useState(false);
   const { id, gid } = useParams();
-  console.log(groupDetails);
+
   //////////new start ///////////
   const [collectionModal, setCollectionModal] = useState<any>({
     visible: false,
@@ -539,75 +533,7 @@ function GroupDetailScreen(props: any) {
               </TabPane>
 
               <TabPane tab="Quiz" key="5">
-                <div className="card-section note-section">
-                  <div className="tab-section inner-tab-style">
-                    <Tabs defaultActiveKey="1">
-                      <TabPane tab="Active Quizes (3)" key="1">
-                        <div className="inline-button-section">
-                          <ButtonCustom
-                            className="round-primary"
-                            title="Create Quiz"
-                            onClick={createQuizToggleModal}
-                          />
-                        </div>
-                        <div className="card-section">
-                          <Row gutter={32}>
-                            {quizViewData.map((data, index) => (
-                              <Col xs={24} sm={8} key={index}>
-                                <QuizCard
-                                  quizName={data.quizName}
-                                  collectionName={data.collectionName}
-                                  date={data.date}
-                                  quizComplete={false}
-                                  menuData={
-                                    <Menu>
-                                      <Menu.Item icon={<DeleteOutlined />}>
-                                        <a href="#">Edit</a>
-                                      </Menu.Item>
-                                      <Menu.Item icon={<CheckSquareOutlined />}>
-                                        <a href="#">Mark as Completed</a>
-                                      </Menu.Item>
-                                    </Menu>
-                                  }
-                                />
-                              </Col>
-                            ))}
-                          </Row>
-                          <div className="pagination-section">
-                            <Pagination defaultCurrent={1} total={50} />
-                          </div>
-                        </div>
-                      </TabPane>
-
-                      <TabPane tab="Completed Quizes (2)" key="2">
-                        <div className="inline-button-section">
-                          <ButtonCustom
-                            className="round-primary"
-                            title="Create Quiz"
-                            onClick={createQuizToggleModal}
-                          />
-                        </div>
-                        <div className="card-section">
-                          <Row gutter={32}>
-                            {quizViewData.map((data, index) => (
-                              <Col sm={8} key={index}>
-                                <QuizCard
-                                  quizName={data.quizName}
-                                  collectionName={data.collectionName}
-                                  date={data.date}
-                                  quizComplete={true}
-                                />
-                              </Col>
-                            ))}
-                          </Row>
-                          <div className="pagination-section">
-                            <Pagination defaultCurrent={1} total={50} />
-                          </div>
-                        </div>
-                      </TabPane>
-                    </Tabs>
-                  </div>
-                </div>
+                <GroupQuizTab group={groupDetails} />
               </TabPane>
 
               <TabPane tab="Reports" key="6">

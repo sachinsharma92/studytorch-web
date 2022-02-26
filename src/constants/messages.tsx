@@ -38,3 +38,8 @@ export const UPDATE_CHECKLIST_TASK_SUCCESS = 'Task updated  successfully';
 export const CREATE_CALENDAR_PLAN_SUCCESS = 'Plan Created Successfully';
 export const UPDATE_CALENDAR_PLAN_SUCCESS = 'Plan Updated Successfully';
 export const DELETE_CALENDAR_PLAN_SUCCESS = 'Plan deleted Successfully';
+
+export const CREATE_QUIZ_SUCCESS = 'Quiz Created Successfully';
+export const UPDATE_QUIZ_SUCCESS = 'Quiz Updated Successfully';
+export const DELETE_QUIZ_SUCCESS = 'Quiz deleted Successfully';
+export const SUBMIT_QUIZ_SUCCESS = 'Quiz Submitted Successfully';

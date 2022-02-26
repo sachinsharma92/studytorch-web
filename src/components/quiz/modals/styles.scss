@@ -1,6 +1,6 @@
 // variables
-@import "../../../styles/variables/colors";
-@import "../../../styles/variables/mixins";
+@import '../../../styles/variables/colors';
+@import '../../../styles/variables/mixins';
 
 // collection-modal-style
 .quiz-modal-style {
@@ -113,13 +113,14 @@
       padding: 0;
     }
 
-    .ant-progress-success-bg, .ant-progress-bg {
-      background-color:#50ABED;
+    .ant-progress-success-bg,
+    .ant-progress-bg {
+      background-color: #50abed;
       border-radius: 0;
     }
 
     .ant-progress-inner {
-      background: rgba(#50ABED, 0.2);
+      background: rgba(#50abed, 0.2);
     }
   }
 
@@ -191,7 +192,7 @@
     font-weight: 800;
 
     span {
-      color: #50ABED;
+      color: #50abed;
     }
   }
 
@@ -227,7 +228,7 @@
   }
 
   .bg-light-blue {
-    background: #F7FAFC;
+    background: #f7fafc;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -266,7 +267,6 @@
     }
   }
 }
-
 
 .create-modal-style {
   display: flex;
@@ -310,7 +310,6 @@
   }
 
   .ant-form-item-control-input {
-
     .description {
       margin-bottom: 5px;
     }
@@ -331,9 +330,9 @@
       align-items: center;
     }
   }
-  
+
   .button-section {
-    background: #F7F7F9;
+    background: #f7f7f9;
     padding: 20px 40px;
     margin: -20px;
     margin-top: 30px;

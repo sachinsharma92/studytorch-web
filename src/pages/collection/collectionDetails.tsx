@@ -20,9 +20,9 @@ import get from 'lodash/get';
 import map from 'lodash/map';
 
 import replace from 'lodash/replace';
-import { useParams, Navigate, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-
+import { QUIZ_SCREEN } from '../../router/routes';
 import { fetchCollection } from '../../redux/actions/collectionActions';
 
 // Custom Component and Modal
@@ -41,6 +41,7 @@ import QuestionAddedModal from '../../components/collection/modals/questionAdded
 import FlashEditModal from '../../components/collection/modals/flashEditModal';
 import RevisionModeModal from '../../components/collection/modals/revisionModeModal';
 import CollectionCard from '../../components/collection/collectionCard/collectionCard';
+import CreateQuizModal from '../../components/quiz/modals/createQuizModal';
 
 // Images
 import filter from '../../assets/images/icons/filter.svg';
@@ -166,7 +167,7 @@ function CollectionDetails(props: any) {
   });
   const [isFlashEditModal, setIsFlashEditModal] = useState(false);
   const [isRevisionModeModal, setIsRevisionModeModal] = useState(false);
-
+  const [isCreateQuizModal, setIsCreateQuizModal] = useState(false);
   const toggleCollectionModal = (data = null) => {
     setCollectionModal({
       visible: !get(collectionModal, 'visible'),
@@ -238,6 +239,10 @@ function CollectionDetails(props: any) {
   const onCollecitonSuccess = () => {
     toggleCollectionModal(null);
     fetchCollectionDetails();
+  };
+
+  const createQuizToggleModal = () => {
+    setIsCreateQuizModal(!isCreateQuizModal);
   };
 
   return (
@@ -357,6 +362,7 @@ function CollectionDetails(props: any) {
                   <div className="inline-button-section mt--20 mb--30">
                     <ButtonCustom
                       className="round-primary"
+                      onClick={createQuizToggleModal}
                       title="Take a Quiz"
                     />
                     <ButtonCustom
@@ -527,6 +533,19 @@ function CollectionDetails(props: any) {
           });
           toggleQuestionModal();
         }}
+      />
+
+      <CreateQuizModal
+        visible={isCreateQuizModal}
+        collections={[collectionDetails]}
+        type="individual"
+        onSuccess={(quiz: any) => {
+          createQuizToggleModal();
+          navigate(`${QUIZ_SCREEN}?uuid=${get(quiz, 'id')}`, {
+            replace: true,
+          });
+        }}
+        onCancel={createQuizToggleModal}
       />
 
       <ModalConfirmation

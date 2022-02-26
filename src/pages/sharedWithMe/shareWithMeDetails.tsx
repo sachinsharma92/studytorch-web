@@ -46,6 +46,7 @@ import QuestionModal from '../../components/collection/modals/questionModal';
 import RevisionModeModal from '../../components/collection/modals/revisionModeModal';
 import QuestionAddedModal from '../../components/collection/modals/questionAddedModal';
 import FlashEditModal from '../../components/collection/modals/flashEditModal';
+import CreateQuizModal from '../../components/quiz/modals/createQuizModal';
 import {
   fetchSharedCollection,
   leaveShareCollection,
@@ -59,7 +60,6 @@ import folderGray from '../../assets/images/icons/folder-gray.svg';
 
 // Styles
 import './styles.scss';
-import SharedWithMeCollection from '../../components/sharedWithMeCollection';
 
 const { confirm } = Modal;
 const { TabPane } = Tabs;
@@ -118,6 +118,7 @@ function ShareWithMeDetails(props: any) {
     hasAccessToSubcollection: false,
     canEditCollection: false,
   });
+  const [isCreateQuizModal, setIsCreateQuizModal] = useState(false);
 
   const [collectionModal, setCollectionModal] = useState<any>({
     visible: false,
@@ -154,6 +155,10 @@ function ShareWithMeDetails(props: any) {
       visible: !get(collectionModal, 'visible'),
       data: data,
     });
+  };
+
+  const createQuizToggleModal = () => {
+    setIsCreateQuizModal(!isCreateQuizModal);
   };
 
   const toggleNoteModal = (data = null) => {
@@ -450,6 +455,7 @@ function ShareWithMeDetails(props: any) {
                     <ButtonCustom
                       className="round-primary"
                       title="Take a Quiz"
+                      onClick={createQuizToggleModal}
                     />
                     <ButtonCustom
                       className="round-primary"
@@ -588,6 +594,24 @@ function ShareWithMeDetails(props: any) {
         edit={get(noteModal, 'data') ? true : false}
         initialValue={get(noteModal, 'data')}
         onSuccess={onNotesSuccess}
+      />
+
+      <CreateQuizModal
+        visible={isCreateQuizModal}
+        collections={[collectionDetails]}
+        type="shared"
+        noDisableSubFolder={!canAccessSubCollection}
+        initialValue={{
+          collection: get(collectionDetails, 'id'),
+          sub_folder_included: canAccessSubCollection ? true : false,
+        }}
+        onSuccess={(quiz: any) => {
+          createQuizToggleModal();
+          navigate(`${ROUTES.QUIZ_SCREEN}?uuid=${get(quiz, 'id')}`, {
+            replace: true,
+          });
+        }}
+        onCancel={createQuizToggleModal}
       />
 
       {/* Questions Modal */}

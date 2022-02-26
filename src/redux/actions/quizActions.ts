@@ -1,5 +1,5 @@
 import * as APIS from '../../constants/apis';
-import { getUrl } from '../../utilities/helpers';
+import { getUrl, replaceMultiple } from '../../utilities/helpers';
 
 export const createIndividualQuiz =
   (payload: any): any =>
@@ -54,7 +54,7 @@ export const fetchUserQuizzes =
   };
 
 export const fetchUserGroupQuizzes =
-  (query: any = {}): any =>
+  (id: any, query: any = {}): any =>
   (dispatch: any, getState: any, { api }: any): any => {
     return api
       .get(getUrl(APIS.GROUP_QUIZZES, query))
@@ -66,15 +66,33 @@ export const fetchUserGroupQuizzes =
       });
   };
 
-// export const fetchQuizDetails =
-//   (payload: any): any =>
-//   (dispatch: any, getState: any, { api }: any): any => {
-//     return api
-//       .post(APIS.QUESTION, payload)
-//       .then((result: any) => {
-//         return result;
-//       })
-//       .catch((error: any) => {
-//         throw error;
-//       });
-//   };
+export const fetchQuizDetails =
+  (id: any): any =>
+  (dispatch: any, getState: any, { api }: any): any => {
+    return api
+      .get(`${APIS.QUIZZ_DETAILS}/${id}`)
+      .then((result: any) => {
+        return result;
+      })
+      .catch((error: any) => {
+        throw error;
+      });
+  };
+
+export const submitQuiz =
+  (id: any, payload: any): any =>
+  (dispatch: any, getState: any, { api }: any): any => {
+    return api
+      .post(
+        replaceMultiple(APIS.SUBMIT_QUIZZ, {
+          ':id': id,
+        }),
+        payload
+      )
+      .then((result: any) => {
+        return result;
+      })
+      .catch((error: any) => {
+        throw error;
+      });
+  };

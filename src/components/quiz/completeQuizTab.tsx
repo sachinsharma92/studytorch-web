@@ -4,7 +4,7 @@ import get from 'lodash/get';
 import QuizCard from './quizCard';
 
 const CompleteQuizTab = (props: any) => {
-  const { quizzes } = props;
+  const { quizzes, onClickPagination } = props;
   return (
     <div className="card-section">
       <Row gutter={32}>
@@ -17,7 +17,11 @@ const CompleteQuizTab = (props: any) => {
       <div className="pagination-section">
         <Pagination
           current={get(quizzes, 'pagination.current_page')}
-          total={get(quizzes, 'pagination.total_pages')}
+          total={get(quizzes, 'pagination.total')}
+          pageSize={get(quizzes, 'pagination.per_page')}
+          onChange={(page) => {
+            onClickPagination(page);
+          }}
         />
       </div>
     </div>

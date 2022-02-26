@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import { Button, Col, Menu, Row, Tabs, PageHeader, Pagination } from 'antd';
+import { Button, Col, Menu, Row, Tabs, PageHeader, Spin } from 'antd';
 import map from 'lodash/map';
 import get from 'lodash/get';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import PrimaryLayout from '../../common/primaryLayout/primaryLayout';
 import EmptyState from '../../common/emptyState/emptyState';
 
@@ -10,6 +10,7 @@ import ActiveQuizTab from '../../components/quiz/activeQuizTab';
 import CompleteQuizTab from '../../components/quiz/completeQuizTab';
 import QuizCard from '../../components/quiz/quizCard';
 import { fetchUserQuizzes } from '../../redux/actions/quizActions';
+import { fetchCollection } from '../../redux/actions/collectionActions';
 // Images
 import folderGray from '../../assets/images/icons/folder-gray.svg';
 
@@ -25,6 +26,23 @@ function QuizScreen(props: any) {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [isCreateQuizModal, setIsCreateQuizModal] = useState(false);
+  const [collectionDetails, setCollectionDetails] = useState(null);
+  const rootCollection = useSelector((state) =>
+    get(state, 'userState.user.rootCollection')
+  );
+
+  const fetchCollectionDetails = () => {
+    setLoading(true);
+    dispatch(fetchCollection(get(rootCollection, 'id')))
+      .then((result: any) => {
+        setCollectionDetails(result);
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  };
+
   const [activeQuizzes, setActiveQuiz] = useState({
     data: [],
     pagination: null,
@@ -34,19 +52,26 @@ function QuizScreen(props: any) {
     data: [],
     pagination: null,
   });
+
   const createQuizToggleModal = () => {
     setIsCreateQuizModal(!isCreateQuizModal);
   };
 
-  const [isQuizSelectModal, setIsQuizSelectModal] = useState(false);
-  const quizSelectToggleModal = () => {
-    setIsQuizSelectModal(!isQuizSelectModal);
+  const [isQuizSelectModal, setIsQuizSelectModal] = useState({
+    visible: false,
+    data: null,
+  });
+  const quizSelectToggleModal = (data = null) => {
+    setIsQuizSelectModal({
+      visible: !get(isQuizSelectModal, 'visible'),
+      data,
+    });
   };
 
   const [isQuizResultModal, setIsQuizResultModal] = useState(false);
   const quizResultToggleModal = () => {
     setIsQuizResultModal(!isQuizResultModal);
-    setIsQuizSelectModal(false);
+    quizSelectToggleModal(null);
   };
 
   const getQuizzes = (page = 1, status = 0) => {
@@ -55,6 +80,7 @@ function QuizScreen(props: any) {
       fetchUserQuizzes({
         page,
         status,
+        limit: 9,
       })
     )
       .then((result: any) => {
@@ -77,49 +103,63 @@ function QuizScreen(props: any) {
       });
   };
 
-  useEffect(() => {
+  const refreshQuizData = () => {
     getQuizzes(1, 0);
     getQuizzes(1, 1);
-  }, []);
+  };
 
-  console.log('======>', activeQuizzes, completeQuizzes);
+  useEffect(() => {
+    refreshQuizData();
+    fetchCollectionDetails();
+  }, []);
 
   return (
     <PrimaryLayout>
       <div className="quiz-page-style">
-        <PageHeader
-          className="site-page-header header-back"
-          title="Quiz"
-          extra={[
-            <Button
-              onClick={createQuizToggleModal}
-              shape="round"
-              size="large"
-              type="primary"
-            >
-              Create Quiz
-            </Button>,
-          ]}
-        />
+        <Spin spinning={loading}>
+          <PageHeader
+            className="site-page-header header-back"
+            title="Quiz"
+            extra={[
+              <Button
+                onClick={createQuizToggleModal}
+                shape="round"
+                size="large"
+                type="primary"
+              >
+                Create Quiz
+              </Button>,
+            ]}
+          />
 
-        {props.collectionData ? (
-          <div className="state-center">
-            <EmptyState
-              imgUrl={folderGray}
-              title="Create Quiz"
-              description=" Your Create can be the folder underwhich all the study material is kept"
-              buttonText="Create Quiz"
-              buttonType="primary"
-            />
-          </div>
-        ) : (
           <div className="tab-section">
             <Tabs defaultActiveKey="1">
               <TabPane
                 tab={`Active Quizes (${get(activeQuizzes, 'data', []).length})`}
                 key="1"
               >
-                <ActiveQuizTab quizzes={activeQuizzes} />
+                {get(activeQuizzes, 'data', []).length > 0 && (
+                  <ActiveQuizTab
+                    quizzes={activeQuizzes}
+                    onClickTakeQuiz={quizSelectToggleModal}
+                    onClickPagination={(page: any) => {
+                      getQuizzes(page, 0);
+                    }}
+                  />
+                )}
+
+                {get(activeQuizzes, 'data', []).length === 0 && (
+                  <div className="state-center">
+                    <EmptyState
+                      imgUrl={folderGray}
+                      buttonHandler={createQuizToggleModal}
+                      title="Create Quiz"
+                      description=" Your Create can be the folder under which all the study material is kept"
+                      buttonText="Create Quiz"
+                      buttonType="primary"
+                    />
+                  </div>
+                )}
               </TabPane>
 
               <TabPane
@@ -128,29 +168,60 @@ function QuizScreen(props: any) {
                 })`}
                 key="2"
               >
-                <CompleteQuizTab quizzes={completeQuizzes} />
+                {get(completeQuizzes, 'data', []).length > 0 && (
+                  <CompleteQuizTab
+                    quizzes={completeQuizzes}
+                    onClickPagination={(page: any) => {
+                      getQuizzes(page, 1);
+                    }}
+                  />
+                )}
+
+                {get(completeQuizzes, 'data', []).length === 0 && (
+                  <div className="state-center">
+                    <EmptyState
+                      imgUrl={folderGray}
+                      buttonHandler={createQuizToggleModal}
+                      title="Create Quiz"
+                      description=" Your Create can be the folder under which all the study material is kept"
+                      buttonText="Create Quiz"
+                      buttonType="primary"
+                    />
+                  </div>
+                )}
               </TabPane>
             </Tabs>
           </div>
-        )}
+        </Spin>
       </div>
 
       {/* Questions Modal */}
       <CreateQuizModal
         visible={isCreateQuizModal}
-        createHandler={createQuizToggleModal}
-        cancelHandler={createQuizToggleModal}
+        collections={get(collectionDetails, 'subCollections', [])}
+        type="individual"
+        onSuccess={() => {
+          createQuizToggleModal();
+          refreshQuizData();
+        }}
         onCancel={createQuizToggleModal}
       />
 
       {/* Questions Modal */}
-      <QuizSelectModal
-        visible={isQuizSelectModal}
-        saveHandler={quizSelectToggleModal}
-        previusHandler={quizSelectToggleModal}
-        onCancel={quizSelectToggleModal}
-        submitHandler={quizResultToggleModal}
-      />
+      {get(isQuizSelectModal, 'visible') && (
+        <QuizSelectModal
+          visible={get(isQuizSelectModal, 'visible')}
+          saveHandler={quizSelectToggleModal}
+          previusHandler={quizSelectToggleModal}
+          onCancel={quizSelectToggleModal}
+          quiz={get(isQuizSelectModal, 'data')}
+          submitHandler={quizResultToggleModal}
+          onSuccessSubmit={() => {
+            quizSelectToggleModal();
+            refreshQuizData();
+          }}
+        />
+      )}
 
       {/* Questions Modal */}
       <QuizResultModal

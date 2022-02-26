@@ -8,6 +8,7 @@ import './styles.scss';
 
 function QuizCard(props: any) {
   const { quiz } = props;
+  console.log('====>quiz', quiz);
   const isQuizCompleted = get(quiz, 'status.value') === 0 ? false : true;
   return (
     <div
@@ -53,7 +54,9 @@ function QuizCard(props: any) {
             <Progress percent={30} />
           </div>
         ) : (
-          <div className="scrore-sec">Score : 2</div>
+          <div className="scrore-sec">
+            Score : {get(quiz, 'correct_answer')}
+          </div>
         )}
 
         {!isQuizCompleted ? (
