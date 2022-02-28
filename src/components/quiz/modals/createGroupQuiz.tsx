@@ -6,104 +6,110 @@ import {
   Form,
   Table,
   Avatar,
-  Checkbox,
+  Space,
+  message,
+  Input,
+  InputNumber,
+  Spin,
+  notification,
 } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
+import { useDispatch } from 'react-redux';
+import get from 'lodash/get';
+import map from 'lodash/map';
+import assign from 'lodash/assign';
+import { getNameAvatar } from '../../../utilities/helpers';
+import { avatarColors } from '../../../constants/groups';
+import { createGroupCollectionQuiz } from '../../../redux/actions/quizActions';
 
 // Styles
 import './styles.scss';
 import { useState } from 'react';
+import { CREATE_QUIZ_SUCCESS } from '../../../constants/messages';
 
 const { Option } = Select;
 
 const columns = [
   {
-    title: 'Name (5 Members)',
+    title: 'Name',
     dataIndex: 'name',
     key: 'name',
-  },
-  {
-    title: 'Action',
-    dataIndex: 'action',
-    key: 'action',
-  },
-];
+    render: (name: any, record: any, index: any) => {
+      return (
+        <div className="info-sec">
+          <Space>
+            {get(record, 'image') ? (
+              <Avatar src={get(record, 'image_url')} />
+            ) : (
+              getNameAvatar(get(record, 'name'), 30, avatarColors[index % 4])
+            )}
 
-const data = [
-  {
-    key: '1',
-    name: (
-      <div className="info-sec">
-        <Avatar src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8dXNlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60" />{' '}
-        Aakash (Admin)
-      </div>
-    ),
-    action: <Checkbox>Selected</Checkbox>,
-  },
-  {
-    key: '2',
-    name: (
-      <div className="info-sec">
-        <Avatar src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTJ8fHVzZXJ8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60" />{' '}
-        Aayush
-      </div>
-    ),
-    action: <Checkbox>Unselected</Checkbox>,
-  },
-  {
-    key: '3',
-    name: (
-      <div className="info-sec">
-        <Avatar src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTN8fHVzZXJ8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60" />{' '}
-        Sachin
-      </div>
-    ),
-    action: <Checkbox>Unselected</Checkbox>,
-  },
-  {
-    key: '4',
-    name: (
-      <div className="info-sec">
-        <Avatar src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8dXNlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60" />{' '}
-        Aakash (Admin)
-      </div>
-    ),
-    action: <Checkbox>Selected</Checkbox>,
-  },
-  {
-    key: '5',
-    name: (
-      <div className="info-sec">
-        <Avatar src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTJ8fHVzZXJ8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60" />{' '}
-        Aayush
-      </div>
-    ),
-    action: <Checkbox>Unselected</Checkbox>,
-  },
-  {
-    key: '6',
-    name: (
-      <div className="info-sec">
-        <Avatar src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTN8fHVzZXJ8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60" />{' '}
-        Sachin
-      </div>
-    ),
-    action: <Checkbox>Unselected</Checkbox>,
+            {name}
+          </Space>
+        </div>
+      );
+    },
   },
 ];
 
 function CreateGroupQuizModal(props: any) {
+  const { collections, members, onSuccess, noDisableSubFolder, group } = props;
+  const [loading, setLoading] = useState(false);
+  const [quizPayload, setQuizPayload] = useState(null);
+  const [selectMembers, setSelectedMembers] = useState<any>([]);
+  const dispatch = useDispatch();
+  const [step, setStep] = useState(0);
+  const stepToggle = () => {
+    setStep(step + 1);
+  };
+
+  const addGroupQuiz = (payload: any) => {
+    setLoading(true);
+    dispatch(createGroupCollectionQuiz(get(group, 'id'), payload))
+      .then((result: any) => {
+        message.success(CREATE_QUIZ_SUCCESS);
+        onSuccess(result);
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  };
+
   const onFinish = (values: any) => {
-    console.log('Success:', values);
+    setQuizPayload(values);
+    stepToggle();
+  };
+
+  const onFinalSubmit = () => {
+    const payload = {};
+    if (selectMembers.length === 0) {
+      notification.error({
+        message: 'Member selection required',
+        description: 'Please select atleast one member',
+      });
+      return;
+    }
+    console.log(payload);
+    assign(payload, quizPayload);
+    assign(payload, { members: selectMembers });
+
+    addGroupQuiz(payload);
   };
 
   const onFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo);
   };
 
-  const [step1, setStep1] = useState(0);
-  const stepToggle = () => {
-    setStep1(step1 - 1);
+  const rowSelection = {
+    onChange: (selectedRowKeys: React.Key[], selectedRows: any[]) => {
+      console.log(
+        `selectedRowKeys: ${selectedRowKeys}`,
+        'selectedRows: ',
+        selectedRows
+      );
+      setSelectedMembers([...map(selectedRows, 'id')]);
+    },
+    selectedRowKeys: selectMembers,
   };
 
   return (
@@ -116,86 +122,131 @@ function CreateGroupQuizModal(props: any) {
         wrapClassName="create-modal-style primary-modal-style"
         maskStyle={{ background: 'rgba(30,39,94, 0.6)' }}
       >
-        <div className="card-modal">
-          <div className="content-body">
-            <div className="header">
-              <h3 className="title3">
-                Create Quiz <span className="text-status">(1/2)</span>
-              </h3>
+        <Spin spinning={loading}>
+          {step === 0 ? (
+            <div className="card-modal">
+              <Form
+                name="basic"
+                layout="vertical"
+                initialValues={{ remember: true }}
+                onFinish={onFinish}
+                onFinishFailed={onFinishFailed}
+                autoComplete="off"
+              >
+                <div className="content-body">
+                  <div className="header">
+                    <h3 className="title3">
+                      Create Quiz <span className="text-status">(1/2)</span>
+                    </h3>
+                  </div>
+
+                  <div className="question-section">
+                    <Form.Item
+                      name="name"
+                      label="Quiz Name"
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Quiz name is required !',
+                        },
+                      ]}
+                    >
+                      <Input placeholder="Quiz Name" />
+                    </Form.Item>
+                    <Form.Item
+                      name="collection_uuid"
+                      label="Collection"
+                      rules={[
+                        {
+                          required: true,
+                          message: ' Collection field is required !',
+                        },
+                      ]}
+                    >
+                      <Select placeholder="Select collection" allowClear>
+                        {map(collections, (collection) => {
+                          return (
+                            <Option value={get(collection, 'id')}>
+                              {get(collection, 'name')}
+                            </Option>
+                          );
+                        })}
+                      </Select>
+                    </Form.Item>
+                    <Form.Item
+                      name="no_of_question"
+                      label="No. of Questions"
+                      rules={[
+                        {
+                          required: true,
+                          message: ' Number of question field is required !',
+                        },
+                      ]}
+                    >
+                      <InputNumber
+                        min={2}
+                        placeholder="Select No. of Questions"
+                        style={{ width: '50%' }}
+                      />
+                    </Form.Item>
+                    <Form.Item
+                      name="sub_folder_included"
+                      label="Include sub questions"
+                    >
+                      <Radio.Group disabled={noDisableSubFolder}>
+                        <Radio value={true}>Yes</Radio>
+                        <Radio value={false}>No</Radio>
+                      </Radio.Group>
+                    </Form.Item>
+                  </div>
+                </div>
+
+                <div className="button-section">
+                  <Button className="btn-cancel" onClick={props.cancelHandler}>
+                    Cancel
+                  </Button>
+
+                  <Button type="primary" htmlType="submit">
+                    {' '}
+                    Next
+                  </Button>
+                </div>
+              </Form>
             </div>
-
-            {!step1 ? (
-              <div className="question-section">
-                <Form
-                  name="basic"
-                  layout="vertical"
-                  initialValues={{ remember: true }}
-                  onFinish={onFinish}
-                  onFinishFailed={onFinishFailed}
-                  autoComplete="off"
-                >
-                  <Form.Item
-                    name="collection"
-                    label="Collection"
-                    rules={[{ required: true }]}
-                  >
-                    <Select placeholder="Select collection" allowClear>
-                      <Option value="maths">Maths</Option>
-                      <Option value="hindi">Hindi</Option>
-                      <Option value="other">other</Option>
-                    </Select>
-                  </Form.Item>
-
-                  <Form.Item
-                    name="no-questions"
-                    label="No. of Questions"
-                    rules={[{ required: true }]}
-                  >
-                    <Select placeholder="Select No. of Questions" allowClear>
-                      <Option value="four">Four</Option>
-                      <Option value="five">Five</Option>
-                      <Option value="six">Six</Option>
-                    </Select>
-                  </Form.Item>
-
-                  <Form.Item name="radio-group">
-                    <p className="description">Include sub questions</p>
-                    <Radio.Group>
-                      <Radio value="a">Yes</Radio>
-                      <Radio value="b">No</Radio>
-                    </Radio.Group>
-                  </Form.Item>
-                </Form>
+          ) : (
+            <div className="card-modal">
+              <div className="content-body">
+                <div className="header">
+                  <h3 className="title3">
+                    Create Quiz <span className="text-status">(1/2)</span>
+                  </h3>
+                </div>
+                <div className="table-layout-style">
+                  <Table
+                    pagination={false}
+                    rowKey="id"
+                    rowSelection={{
+                      ...rowSelection,
+                    }}
+                    scroll={{ y: 240 }}
+                    columns={columns}
+                    dataSource={members}
+                  />
+                </div>
               </div>
-            ) : (
-              <div className="table-layout-style">
-                <Table
-                  pagination={false}
-                  scroll={{ y: 240 }}
-                  columns={columns}
-                  dataSource={data}
-                />
-              </div>
-            )}
-          </div>
+              <div className="button-section">
+                <Button className="btn-cancel" onClick={props.cancelHandler}>
+                  Cancel
+                </Button>
 
-          <div className="button-section">
-            <Button className="btn-cancel" onClick={props.cancelHandler}>
-              Cancel
-            </Button>
-            {!step1 ? (
-              <Button type="primary" onClick={stepToggle}>
-                {' '}
-                Next
-              </Button>
-            ) : (
-              <Button type="primary" onClick={props.createHandler}>
-                {' '}
-                Create Quiz
-              </Button>
-            )}
-          </div>
-        </div>
+                <Button type="primary" onClick={onFinalSubmit}>
+                  {' '}
+                  Create Quiz
+                </Button>
+              </div>
+            </div>
+          )}
+        </Spin>
       </Modal>
     </>
   );

@@ -113,7 +113,7 @@ function QuizSelectModal(props: any) {
       .then(() => {
         setLoading(false);
         message.success(SUBMIT_QUIZ_SUCCESS);
-        onSuccessSubmit();
+        onSuccessSubmit(quizDetails);
       })
       .catch(() => {
         setLoading(false);

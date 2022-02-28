@@ -26,6 +26,8 @@ export const GROUPS = 'groups';
 export const LEAVE_GROUP = 'groups/:id/leave-group';
 export const USERS_FOR_GROUP = 'groups/:id/users';
 export const ADD_MEMBER_TO_GROUP = 'groups/:id/add-members';
+export const GROUP_REPORT = 'groups/:id/reports';
+export const GROUP_QUIZ_DETAILS = 'groups/:gid/quizzes/:id';
 
 ///########MEDIA#############
 export const UPLOAD_IMAGE = '/media';

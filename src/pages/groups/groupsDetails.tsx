@@ -27,7 +27,6 @@ import EmptyState from '../../common/emptyState/emptyState';
 import PrimaryLayout from '../../common/primaryLayout/primaryLayout';
 import NotesCard from '../../components/collection/notesCard/notesCard';
 import FlashCard from '../../components/collection/flashCard/flashCard';
-import ShareCollectionModal from '../../components/collection/modals/shareCollection';
 import CreateCollectionModal from '../../components/collection/modals/createCollection';
 import ButtonCustom from '../../common/buttons/buttonCustom';
 import QuestionCard from '../../components/collection/questionCard/questionCard';
@@ -42,6 +41,7 @@ import GroupBanner from '../../components/groups/groupBanner/groupBanner';
 import GroupMembers from '../../components/groups/groupMembers';
 import QuizCard from '../../components/quiz/quizCard';
 import GroupQuizTab from '../../components/groups/groupQuizTab/groupQuizTab';
+import GroupReportTab from '../../components/groups/groupReportTab';
 import {
   fetchGroupCollectionDetails,
   fetchGroupDetails,
@@ -57,7 +57,7 @@ import folderGray from '../../assets/images/icons/folder-gray.svg';
 // Styles
 import './styles.scss';
 import CreateQuizModal from '../../components/quiz/modals/createQuizModal';
-import QuizReportCard from '../../components/quiz/quizReportCard';
+
 import ReportDetailCard from '../../components/groups/drawerCards/reportDetailCard';
 
 const { TabPane } = Tabs;
@@ -125,7 +125,7 @@ function GroupDetailScreen(props: any) {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const [collectionDetails, setCollectionDetails] = useState(false);
-  const [groupDetails, setGroupDetails] = useState(false);
+  const [groupDetails, setGroupDetails] = useState(null);
   const { id, gid } = useParams();
 
   //////////new start ///////////
@@ -272,7 +272,7 @@ function GroupDetailScreen(props: any) {
               },
               {
                 path: 'first',
-                breadcrumbName: get(groupDetails, 'name'),
+                breadcrumbName: get(groupDetails, 'name', ''),
               },
             ],
           }}
@@ -337,7 +337,7 @@ function GroupDetailScreen(props: any) {
           </div>
 
           <div className="tab-section">
-            <Tabs defaultActiveKey="1">
+            <Tabs defaultActiveKey="1" destroyInactiveTabPane>
               <TabPane tab="Collection" key="1">
                 {get(collectionDetails, 'subCollections', []).length === 0 ? (
                   <div className="state-center">
@@ -533,68 +533,17 @@ function GroupDetailScreen(props: any) {
               </TabPane>
 
               <TabPane tab="Quiz" key="5">
-                <GroupQuizTab group={groupDetails} />
+                <GroupQuizTab
+                  group={groupDetails}
+                  collectionDetails={collectionDetails}
+                />
               </TabPane>
 
-              <TabPane tab="Reports" key="6">
-                <Row gutter={24}>
-                  <Col xs={12} sm={6}>
-                    <div className="card-outline">
-                      <div className="gray-box" />
-                      <div className="flex">
-                        <h3 className="title-md">24</h3>
-                        <p className="description">Group Members</p>
-                      </div>
-                    </div>
-                  </Col>
-                  <Col xs={12} sm={6}>
-                    <div className="card-outline">
-                      <div className="gray-box" />
-                      <div className="flex">
-                        <h3 className="title-md">12</h3>
-                        <p className="description">Total Collections</p>
-                      </div>
-                    </div>
-                  </Col>
-
-                  <Col xs={12} sm={6}>
-                    <div className="card-outline">
-                      <div className="gray-box" />
-                      <div className="flex">
-                        <h3 className="title-md">10</h3>
-                        <p className="description">Total Quizes</p>
-                      </div>
-                    </div>
-                  </Col>
-
-                  <Col xs={12} sm={6}>
-                    <div className="card-outline">
-                      <div className="gray-box" />
-                      <div className="flex">
-                        <h3 className="title-md">12.5 Hrs</h3>
-                        <p className="description">Group Studied</p>
-                      </div>
-                    </div>
-                  </Col>
-                </Row>
-                <div className="card-section report-section">
-                  <h3 className="title3">Quiz Reports</h3>
-                  <Row gutter={32}>
-                    {quizViewData.map((data, index) => (
-                      <Col sm={8} key={index}>
-                        <QuizReportCard
-                          quizName={data.quizName}
-                          collectionName={data.collectionName}
-                          date={data.date}
-                          quizComplete={false}
-                          marks={data.marks}
-                          btnAddHandler={GROUP_SCORE_DETAILS_SCREEN}
-                        />
-                      </Col>
-                    ))}
-                  </Row>
-                </div>
-              </TabPane>
+              {get(groupDetails, 'is_group_admin') && (
+                <TabPane tab="Reports" key="6">
+                  <GroupReportTab group={groupDetails} />
+                </TabPane>
+              )}
             </Tabs>
           </div>
         </Spin>

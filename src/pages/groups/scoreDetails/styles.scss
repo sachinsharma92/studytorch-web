@@ -1,6 +1,6 @@
 // variables
-@import "../../../styles/variables/colors";
-@import "../../../styles/variables/mixins";
+@import '../../../styles/variables/colors';
+@import '../../../styles/variables/mixins';
 
 .score-page-style {
   height: calc(100vh - 64px);
@@ -25,10 +25,9 @@
 
   .name-section {
     .ant-avatar {
-      background: #ebf2fa;
       width: 32px;
       height: 32px;
-      color: $black;
+
       margin-right: 10px;
     }
     .name {
@@ -37,14 +36,13 @@
   }
 
   .title-top {
-
     span {
       color: $theme-primary;
     }
   }
 
   .text-not-taken {
-    color: #F7936F;
+    color: #f7936f;
   }
 
   .table-section {

@@ -17,7 +17,7 @@ export const COLLECTION_DETAILS_SCREEN = '/collection/details/:id';
 export const GROUPS_SCREEN = '/groups';
 export const GROUPS_DETAIL_SCREEN = '/group/:gid/collection/:id';
 export const GROUP_MEMBERS_SCREEN = '/group/member';
-export const GROUP_SCORE_DETAILS_SCREEN = '/group/score-details';
+export const GROUP_SCORE_DETAILS_SCREEN = '/group/:gid/quiz/:id';
 
 // Quiz Section
 export const QUIZ_SCREEN = '/quiz';

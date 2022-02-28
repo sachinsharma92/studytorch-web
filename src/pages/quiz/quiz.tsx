@@ -68,11 +68,10 @@ function QuizScreen(props: any) {
     });
   };
 
-  const [isQuizResultModal, setIsQuizResultModal] = useState(false);
-  const quizResultToggleModal = () => {
-    setIsQuizResultModal(!isQuizResultModal);
-    quizSelectToggleModal(null);
-  };
+  const [isQuizResultModal, setIsQuizResultModal] = useState({
+    visible: false,
+    data: null,
+  });
 
   const getQuizzes = (page = 1, status = 0) => {
     setLoading(true);
@@ -211,25 +210,24 @@ function QuizScreen(props: any) {
       {get(isQuizSelectModal, 'visible') && (
         <QuizSelectModal
           visible={get(isQuizSelectModal, 'visible')}
-          saveHandler={quizSelectToggleModal}
-          previusHandler={quizSelectToggleModal}
           onCancel={quizSelectToggleModal}
           quiz={get(isQuizSelectModal, 'data')}
-          submitHandler={quizResultToggleModal}
-          onSuccessSubmit={() => {
+          onSuccessSubmit={(quiz: any) => {
             quizSelectToggleModal();
+            setIsQuizResultModal({ visible: true, data: quiz });
             refreshQuizData();
           }}
         />
       )}
 
       {/* Questions Modal */}
-      <QuizResultModal
-        visible={isQuizResultModal}
-        buttonHandler={quizResultToggleModal}
-        onBack={quizResultToggleModal}
-        onCancel={quizResultToggleModal}
-      />
+      {get(isQuizResultModal, 'visible') && (
+        <QuizResultModal
+          visible={get(isQuizResultModal, 'visible')}
+          quiz={get(isQuizResultModal, 'data')}
+          onCancel={() => setIsQuizResultModal({ visible: false, data: null })}
+        />
+      )}
     </PrimaryLayout>
   );
 }

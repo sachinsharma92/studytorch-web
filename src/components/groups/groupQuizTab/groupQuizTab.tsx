@@ -2,20 +2,29 @@ import { Tabs, Row, Spin } from 'antd';
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import get from 'lodash/get';
+import EmptyState from '../../../common/emptyState/emptyState';
 import ButtonCustom from '../../../common/buttons/buttonCustom';
+import noDataImage from '../../../assets/images/study-not-data.svg';
 import ActiveQuizTab from '../../quiz/activeQuizTab';
 import CompleteQuizTab from '../../quiz/completeQuizTab';
 import { fetchUserGroupQuizzes } from '../../../redux/actions/quizActions';
+import QuizSelectModal from '../../quiz/modals/quizSelectModal';
+import QuizResultModal from '../../quiz/modals/quizResultModal';
+import CreateGroupQuiz from '../../quiz/modals/createGroupQuiz';
 
 const { TabPane } = Tabs;
 
 const GroupQuizTab = (props: any) => {
-  const { group } = props;
+  const { group, collectionDetails } = props;
   const [isQuizSelectModal, setIsQuizSelectModal] = useState({
     visible: false,
     data: null,
   });
   const [isCreateQuizModal, setIsCreateQuizModal] = useState(false);
+  const [isQuizResultModal, setIsQuizResultModal] = useState({
+    visible: false,
+    data: null,
+  });
 
   const createQuizToggleModal = () => {
     setIsCreateQuizModal(!isCreateQuizModal);
@@ -81,13 +90,18 @@ const GroupQuizTab = (props: any) => {
       <Spin spinning={loading}>
         <div className="tab-section inner-tab-style">
           <Tabs defaultActiveKey="1">
-            <TabPane tab="Active Quizes (3)" key="1">
+            <TabPane
+              tab={`Active Quizes (${get(activeQuizzes, 'data', []).length})`}
+              key="1"
+            >
               <div className="inline-button-section">
-                <ButtonCustom
-                  className="round-primary"
-                  title="Create Quiz"
-                  onClick={createQuizToggleModal}
-                />
+                {get(group, 'is_group_admin') && (
+                  <ButtonCustom
+                    className="round-primary"
+                    title="Create Quiz"
+                    onClick={createQuizToggleModal}
+                  />
+                )}
               </div>
               {get(activeQuizzes, 'data', []).length > 0 && (
                 <ActiveQuizTab
@@ -98,15 +112,31 @@ const GroupQuizTab = (props: any) => {
                   }}
                 />
               )}
+
+              {get(activeQuizzes, 'data', []).length === 0 && (
+                <EmptyState
+                  imgUrl={noDataImage}
+                  buttonHandler={createQuizToggleModal}
+                  title="No Active Quiz for this group"
+                  imgStyle="empty-image"
+                />
+              )}
             </TabPane>
 
-            <TabPane tab="Completed Quizes (2)" key="2">
+            <TabPane
+              tab={`Completed Quizes (${
+                get(completeQuizzes, 'data', []).length
+              })`}
+              key="2"
+            >
               <div className="inline-button-section">
-                <ButtonCustom
-                  className="round-primary"
-                  title="Create Quiz"
-                  onClick={createQuizToggleModal}
-                />
+                {get(group, 'is_group_admin') && (
+                  <ButtonCustom
+                    className="round-primary"
+                    title="Create Quiz"
+                    onClick={createQuizToggleModal}
+                  />
+                )}
               </div>
 
               {get(completeQuizzes, 'data', []).length > 0 && (
@@ -117,10 +147,57 @@ const GroupQuizTab = (props: any) => {
                   }}
                 />
               )}
+
+              {get(completeQuizzes, 'data', []).length === 0 && (
+                <EmptyState
+                  imgUrl={noDataImage}
+                  buttonHandler={createQuizToggleModal}
+                  title="No Completed Quiz for this group"
+                  imgStyle="empty-image"
+                />
+              )}
             </TabPane>
           </Tabs>
         </div>
       </Spin>
+
+      {isCreateQuizModal && (
+        <CreateGroupQuiz
+          visible={isCreateQuizModal}
+          collections={[collectionDetails]}
+          group={group}
+          members={get(group, 'group_members', [])}
+          type="individual"
+          onSuccess={() => {
+            createQuizToggleModal();
+            refreshQuizData();
+          }}
+          onCancel={createQuizToggleModal}
+        />
+      )}
+
+      {get(isQuizSelectModal, 'visible') && (
+        <QuizSelectModal
+          visible={get(isQuizSelectModal, 'visible')}
+          saveHandler={quizSelectToggleModal}
+          previusHandler={quizSelectToggleModal}
+          onCancel={quizSelectToggleModal}
+          quiz={get(isQuizSelectModal, 'data')}
+          onSuccessSubmit={(quiz: any) => {
+            quizSelectToggleModal();
+            setIsQuizResultModal({ visible: true, data: quiz });
+            refreshQuizData();
+          }}
+        />
+      )}
+
+      {get(isQuizResultModal, 'visible') && (
+        <QuizResultModal
+          visible={get(isQuizResultModal, 'visible')}
+          quiz={get(isQuizResultModal, 'data')}
+          onCancel={() => setIsQuizResultModal({ visible: false, data: null })}
+        />
+      )}
     </div>
   );
 };

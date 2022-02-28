@@ -115,6 +115,44 @@ export const getUserForGroup =
       });
   };
 
+export const fetchGroupReport =
+  (id: any, query: any = {}): any =>
+  (dispatch: any, getState: any, { api }: any): any => {
+    const url = getUrl(
+      replaceMultiple(APIS.GROUP_REPORT, {
+        ':id': id,
+      }),
+      query
+    );
+    return api
+      .get(url)
+      .then((result: any) => {
+        return result;
+      })
+      .catch((error: any) => {
+        throw error;
+      });
+  };
+
+export const fetchGroupQuizDetails =
+  (gid: any, id: any = {}): any =>
+  (dispatch: any, getState: any, { api }: any): any => {
+    const url = getUrl(
+      replaceMultiple(APIS.GROUP_QUIZ_DETAILS, {
+        ':id': id,
+        ':gid': gid,
+      })
+    );
+    return api
+      .get(url)
+      .then((result: any) => {
+        return result;
+      })
+      .catch((error: any) => {
+        throw error;
+      });
+  };
+
 export const addMemberToGroup =
   (id: any, payload: any): any =>
   (dispatch: any, getState: any, { api }: any): any => {

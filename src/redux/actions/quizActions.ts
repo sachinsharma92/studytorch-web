@@ -28,10 +28,15 @@ export const createsharedCollectionQuiz =
   };
 
 export const createGroupCollectionQuiz =
-  (payload: any): any =>
+  (id: any, payload: any): any =>
   (dispatch: any, getState: any, { api }: any): any => {
     return api
-      .post(APIS.CREATE_GROUP_COLLECTION_QUIZZES, payload)
+      .post(
+        replaceMultiple(APIS.CREATE_GROUP_COLLECTION_QUIZZES, {
+          ':id': id,
+        }),
+        payload
+      )
       .then((result: any) => {
         return result;
       })
@@ -57,7 +62,7 @@ export const fetchUserGroupQuizzes =
   (id: any, query: any = {}): any =>
   (dispatch: any, getState: any, { api }: any): any => {
     return api
-      .get(getUrl(APIS.GROUP_QUIZZES, query))
+      .get(getUrl(replaceMultiple(APIS.GROUP_QUIZZES, { ':id': id }), query))
       .then((result: any) => {
         return result;
       })
