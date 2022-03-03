@@ -3,6 +3,7 @@ import { lazy, Suspense, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import * as ROUTES from './router/routes';
 import LogoutScreen from './pages/auth/logoutScreen';
+import TestScreen from './pages/test';
 
 /**
  * Screens
@@ -114,6 +115,7 @@ const AppRouter = () => {
       <Suspense fallback={<Spin spinning={true} />}>
         <Router>
           <Routes>
+            <Route path={'/test'} element={<TestScreen />} />
             <Route path={ROUTES.HOME_SCREEN} element={<HomeScreen />} />
             <Route path={ROUTES.LOGIN_SCREEN} element={<LoginScreen />} />
             <Route path={'/'} element={<LoginScreen />} />
