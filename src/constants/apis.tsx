@@ -6,6 +6,11 @@ export const FORGOT_PASSWORD = '/forgot-password';
 export const CHANGE_PASSWORD = '/change-password';
 export const VERIFY_FORGOT_PASSWORD = '/verify-code';
 
+///########DASHBOARD#############
+export const DASHBOARD_METRICES = '/dashboard/metrics';
+export const DASHBOARD_PATTERN = '/dashboard/study-pattern';
+export const DASHBOARD_COLLECTION = '/dashboard/collections';
+
 ///########COLLECTIONS#############
 export const COLLECITONS = 'collections';
 export const USERS_FOR_COLLECTION = 'collections/:id/users';

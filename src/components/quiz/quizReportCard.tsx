@@ -8,7 +8,7 @@ import './styles.scss';
 
 function QuizReportCard(props: any) {
   const { quiz, group } = props;
-
+  console.log({ quiz, group });
   return (
     <div
       className="quiz-view-card-style"
@@ -29,7 +29,7 @@ function QuizReportCard(props: any) {
             type="circle"
             strokeWidth={10}
             strokeColor={'#66CB9F'}
-            percent={70}
+            percent={get(quiz, 'attendance')}
             width={100}
             // format={percent => `${percent}% ${'Attendance'}`}
             format={(percent) => (
@@ -43,7 +43,10 @@ function QuizReportCard(props: any) {
       </div>
       <div className="card-style center">
         <div className="marks-style">
-          Avg Marks: <span>{get(quiz, 'avg_marks')}</span>
+          Avg Marks:{' '}
+          <span>
+            {get(quiz, 'avg_marks')}/{get(quiz, 'total_question')}
+          </span>
         </div>
 
         <ButtonCustom

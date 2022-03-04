@@ -3,7 +3,9 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import map from 'lodash/map';
 import get from 'lodash/get';
+import moment from 'moment';
 import QuizReportCard from '../../quiz/quizReportCard';
+import { getTimeText } from '../../../utilities/helpers';
 import { fetchGroupReport } from '../../../redux/actions/groupActions';
 
 const GroupReportTab = (props: any) => {
@@ -27,7 +29,7 @@ const GroupReportTab = (props: any) => {
   useEffect(() => {
     getGroupReport(1);
   }, []);
-  console.log('@@@@@@@@report', report);
+
   return (
     <Spin spinning={loading}>
       <Row gutter={24}>
@@ -64,7 +66,9 @@ const GroupReportTab = (props: any) => {
           <div className="card-outline">
             <div className="gray-box" />
             <div className="flex">
-              <h3 className="title-md">12.5 Hrs</h3>
+              <h3 className="title-md">
+                {getTimeText(get(group, 'studied_time'))}
+              </h3>
               <p className="description">Group Studied</p>
             </div>
           </div>

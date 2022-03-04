@@ -7,7 +7,9 @@ import './styles.scss';
 export default function EmptyState(props: any) {
   return (
     <div className={`empty-state-primary ${props.logoStyle}`}>
-      {props.imgUrl && <img src={props.imgUrl} className={props.imgStyle} />}
+      {props.imgUrl && (
+        <img src={props.imgUrl} alt="" className={props.imgStyle} />
+      )}
       {props.title && <h4 className="title4">{props.title}</h4>}
       {props.description && <p className="description">{props.description}</p>}
       {props.buttonText && (

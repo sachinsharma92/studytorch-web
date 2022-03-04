@@ -74,7 +74,7 @@ const GetQuestion = (props: any) => {
 };
 
 function QuizSelectModal(props: any) {
-  const { quiz, onSuccessSubmit } = props;
+  const { quiz, onSuccessSubmit, onCancel } = props;
   const dispatch = useDispatch();
   const [quizDetails, setQuizDetails] = useState(null);
   const [questions, setQuestions] = useState<any>([]);
@@ -97,6 +97,8 @@ function QuizSelectModal(props: any) {
         setLoading(false);
       });
   };
+  console.log('======>quizDetails', questions);
+
   useEffect(() => {
     getQuestionDetails(get(quiz, 'id'));
   }, []);
@@ -156,12 +158,17 @@ function QuizSelectModal(props: any) {
     });
   };
 
+  const onModalCancel = () => {
+    console.log('======>on leave modal', questions);
+    onCancel();
+  };
+
   return (
     <Modal
       centered
       visible={props.visible}
       footer={false}
-      onCancel={props.onCancel}
+      onCancel={onModalCancel}
       wrapClassName="quiz-modal-style primary-modal-style"
       maskStyle={{ background: 'rgba(30,39,94, 0.6)' }}
     >

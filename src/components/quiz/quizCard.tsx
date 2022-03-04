@@ -8,7 +8,7 @@ import './styles.scss';
 
 function QuizCard(props: any) {
   const { quiz } = props;
-  console.log('====>quiz', quiz);
+
   const isQuizCompleted = get(quiz, 'status.value') === 0 ? false : true;
   return (
     <div
