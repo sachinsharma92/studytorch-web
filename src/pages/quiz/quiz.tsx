@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Button, Col, Menu, Row, Tabs, PageHeader, Spin } from 'antd';
-import map from 'lodash/map';
+import { Button, Tabs, PageHeader, Spin } from 'antd';
 import get from 'lodash/get';
 import { useDispatch, useSelector } from 'react-redux';
 import PrimaryLayout from '../../common/primaryLayout/primaryLayout';
@@ -8,7 +7,7 @@ import EmptyState from '../../common/emptyState/emptyState';
 
 import ActiveQuizTab from '../../components/quiz/activeQuizTab';
 import CompleteQuizTab from '../../components/quiz/completeQuizTab';
-import QuizCard from '../../components/quiz/quizCard';
+
 import { fetchUserQuizzes } from '../../redux/actions/quizActions';
 import { fetchCollection } from '../../redux/actions/collectionActions';
 // Images
@@ -18,6 +17,7 @@ import folderGray from '../../assets/images/icons/folder-gray.svg';
 import './styles.scss';
 import CreateQuizModal from '../../components/quiz/modals/createQuizModal';
 import QuizResultModal from '../../components/quiz/modals/quizResultModal';
+import CheckSolutionModal from '../../components/quiz/modals/checkSolutionModal';
 import QuizSelectModal from '../../components/quiz/modals/quizSelectModal';
 
 const { TabPane } = Tabs;
@@ -61,6 +61,12 @@ function QuizScreen(props: any) {
     visible: false,
     data: null,
   });
+
+  const [checkSolutionModal, setCheckSolutionModal] = useState({
+    visible: false,
+    data: null,
+  });
+
   const quizSelectToggleModal = (data = null) => {
     setIsQuizSelectModal({
       visible: !get(isQuizSelectModal, 'visible'),
@@ -107,11 +113,18 @@ function QuizScreen(props: any) {
     getQuizzes(1, 1);
   };
 
+  const toggleCheckSolution = (data = null) => {
+    setCheckSolutionModal({
+      visible: !get(checkSolutionModal, 'visible'),
+      data,
+    });
+  };
+
   useEffect(() => {
     refreshQuizData();
     fetchCollectionDetails();
   }, []);
-
+  console.log({ checkSolutionModal });
   return (
     <PrimaryLayout>
       <div className="quiz-page-style">
@@ -173,6 +186,7 @@ function QuizScreen(props: any) {
                     onClickPagination={(page: any) => {
                       getQuizzes(page, 1);
                     }}
+                    toggleCheckSolution={toggleCheckSolution}
                   />
                 )}
 
@@ -210,12 +224,23 @@ function QuizScreen(props: any) {
       {get(isQuizSelectModal, 'visible') && (
         <QuizSelectModal
           visible={get(isQuizSelectModal, 'visible')}
+          refreshQuizData={() => refreshQuizData()}
           onCancel={quizSelectToggleModal}
           quiz={get(isQuizSelectModal, 'data')}
           onSuccessSubmit={(quiz: any) => {
             quizSelectToggleModal();
             setIsQuizResultModal({ visible: true, data: quiz });
             refreshQuizData();
+          }}
+        />
+      )}
+
+      {get(checkSolutionModal, 'visible') && (
+        <CheckSolutionModal
+          visible={get(checkSolutionModal, 'visible')}
+          quiz={get(checkSolutionModal, 'data')}
+          onCancel={() => {
+            toggleCheckSolution();
           }}
         />
       )}

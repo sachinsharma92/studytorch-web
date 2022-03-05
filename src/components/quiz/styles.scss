@@ -1,6 +1,6 @@
 // variables
-@import "../../styles/variables/colors";
-@import "../../styles/variables/mixins";
+@import '../../styles/variables/colors';
+@import '../../styles/variables/mixins';
 
 .quiz-view-card-style {
   margin-bottom: 32px;
@@ -26,7 +26,6 @@
     }
   }
 
-
   .tag-section {
     .tag-green {
       background: rgba($theme-success, 0.1);
@@ -48,7 +47,7 @@
   }
 
   .tag-section {
-    .tag-blue{
+    .tag-blue {
       background: rgba($theme-blue, 0.1);
       color: $theme-blue;
       border-color: $theme-blue;
@@ -105,7 +104,7 @@
 
     span {
       color: $theme-green;
-      margin-left:5px;
+      margin-left: 5px;
     }
   }
 

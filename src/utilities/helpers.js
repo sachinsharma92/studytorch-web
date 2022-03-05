@@ -44,12 +44,17 @@ export const getTimeText = (time = 0) => {
   var durationValue = moment.duration(time, 'seconds');
   var hours = Math.floor(durationValue.asHours());
   var mins = Math.floor(durationValue.asMinutes()) - hours * 60;
+  var sec =
+    Math.floor(durationValue.asSeconds()) - (hours * 60 * 60 + mins * 60);
 
+  let text = '';
   if (time < 60) {
-    return `${time} Sec`;
+    text = `${time} Sec`;
   } else if (time < 3600) {
-    return `${mins} Min`;
+    text = `${mins} Min ${sec ? sec + ' Sec' : ''}`;
   } else {
-    return `${hours}:${mins} Hrs`;
+    text = `${hours}:${mins} ${sec ? ':' + sec : ''} Hrs`;
   }
+
+  return text;
 };

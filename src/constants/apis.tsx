@@ -55,3 +55,4 @@ export const CREATE_SHARED_COLLECTION_QUIZZES = '/shared-collections/quizzes';
 export const CREATE_GROUP_COLLECTION_QUIZZES = '/groups/:id/quizzes';
 export const QUIZZ_DETAILS = '/quizzes';
 export const SUBMIT_QUIZZ = 'quizzes/:id/submit';
+export const SUBMIT_QUIZZ_ANSWER = 'quizzes/:id/submit-answer';

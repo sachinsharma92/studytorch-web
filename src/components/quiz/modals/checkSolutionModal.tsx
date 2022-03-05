@@ -1,6 +1,7 @@
 import {
   Button,
   Col,
+  Divider,
   Modal,
   Progress,
   Radio,
@@ -8,28 +9,23 @@ import {
   Row,
   Input,
   Image,
-  Descriptions,
-  message,
+  Space,
 } from 'antd';
-import { useEffect, useState, useRef } from 'react';
-import { useSelector } from 'react-redux';
-import useWebSocket from 'react-use-websocket';
+import { useEffect, useState } from 'react';
+import {
+  ClockCircleOutlined,
+  CheckCircleTwoTone,
+  CloseCircleTwoTone,
+} from '@ant-design/icons';
 import get from 'lodash/get';
 import map from 'lodash/map';
-import QuizTime from '../quizTime';
-import { LeftOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
-import {
-  fetchQuizDetails,
-  submitQuiz,
-  submitQuizAnswer,
-} from '../../../redux/actions/quizActions';
-import { SUBMIT_QUIZ_SUCCESS } from '../../../constants/messages';
-
+import isEqual from 'lodash/isEqual';
+import { LeftOutlined } from '@ant-design/icons';
+import { fetchQuizDetails } from '../../../redux/actions/quizActions';
+import { getTimeText } from '../../../utilities/helpers';
 // Styles
 import './styles.scss';
 import { useDispatch } from 'react-redux';
-
-const { confirm } = Modal;
 
 const GetQuestion = (props: any) => {
   const { question, onSubmitAnswer } = props;
@@ -41,6 +37,7 @@ const GetQuestion = (props: any) => {
       ))}
       {get(question, 'type.value') === 0 && (
         <Input.TextArea
+          disabled
           rows={4}
           onChange={(e) => {
             onSubmitAnswer(e.target.value ? [e.target.value] : []);
@@ -52,10 +49,8 @@ const GetQuestion = (props: any) => {
       {(get(question, 'type.value') === 1 ||
         get(question, 'type.value') === 2) && (
         <Radio.Group
+          disabled
           value={get(question, 'submitted_answer.0')}
-          onChange={(e) => {
-            onSubmitAnswer([e.target.value]);
-          }}
           buttonStyle="solid"
         >
           <Row gutter={24} className="question-row">
@@ -69,19 +64,38 @@ const GetQuestion = (props: any) => {
           </Row>
         </Radio.Group>
       )}
+      {isEqual(
+        get(question, 'answers', []),
+        get(question, 'submitted_answer')
+      ) ? (
+        <div className="answer-sec correct">
+          <Space>
+            <CheckCircleTwoTone
+              className="question-icon"
+              twoToneColor="#52c41a"
+            />
+            Correct
+          </Space>
+        </div>
+      ) : (
+        <div className="answer-sec wrong">
+          <Space>
+            <CloseCircleTwoTone className="question-icon" twoToneColor="red" />
+            Wrong
+          </Space>
+        </div>
+      )}
     </div>
   );
 };
 
-function QuizSelectModal(props: any) {
-  const { quiz, onSuccessSubmit, onCancel, refreshQuizData } = props;
+function CheckSolutionModal(props: any) {
+  const { quiz, onCancel } = props;
   const dispatch = useDispatch();
   const [quizDetails, setQuizDetails] = useState(null);
   const [questions, setQuestions] = useState<any>([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [loading, setLoading] = useState(false);
-  const time = useRef(0);
-  const token = useSelector((state) => get(state, 'userState.accessToken'));
 
   const getQuestionDetails = (id: any) => {
     setLoading(true);
@@ -109,112 +123,7 @@ function QuizSelectModal(props: any) {
     getQuestionDetails(get(quiz, 'id'));
   }, []);
 
-  const onSubmitAnswer = (answer: any, index: any) => {
-    questions[index]['submitted_answer'] = answer;
-    setQuestions([...questions]);
-  };
-
-  const onSubmitQuiz = (payload: any) => {
-    setLoading(true);
-
-    dispatch(
-      submitQuiz(get(quizDetails, 'id'), {
-        time: get(time, 'current'),
-        ...payload,
-      })
-    )
-      .then(() => {
-        setLoading(false);
-        message.success(SUBMIT_QUIZ_SUCCESS);
-        onSuccessSubmit(quizDetails);
-      })
-      .catch(() => {
-        setLoading(false);
-      });
-  };
-
-  const { sendMessage } = useWebSocket(`${process.env.REACT_APP_WSS_HOST}`, {
-    shouldReconnect: () => true,
-    protocols: token,
-    retryOnError: true,
-  });
-
-  const sendEvent = (t: any) => {
-    if (quizDetails) {
-      sendMessage(
-        JSON.stringify({
-          type: 'quiz',
-          uuid: get(quizDetails, 'id'),
-          time: t,
-        })
-      );
-    }
-  };
-
-  const onConifrmSubmitQuiz = () => {
-    let attempted = 0;
-    const payload = {
-      responses: map(questions, (q) => {
-        if (get(q, 'submitted_answer.0')) {
-          attempted += 1;
-        }
-        return {
-          uuid: get(q, 'id'),
-          answer: get(q, 'submitted_answer'),
-        };
-      }),
-    };
-
-    confirm({
-      title: 'Are you sure, You want to submit this quiz?',
-      content: (
-        <Descriptions title="Questions" bordered column={1}>
-          <Descriptions.Item label="Total">
-            {questions.length}
-          </Descriptions.Item>
-          <Descriptions.Item label="Attempted">{attempted}</Descriptions.Item>
-          <Descriptions.Item label="Non Attempted">
-            {questions.length - attempted}
-          </Descriptions.Item>
-        </Descriptions>
-      ),
-      icon: <ExclamationCircleOutlined />,
-
-      onOk() {
-        onSubmitQuiz(payload);
-      },
-      onCancel() {},
-    });
-  };
-
-  const updateQuizAnswer = () => {
-    const responses: any[] = [];
-
-    map(questions, (q) => {
-      if (get(q, 'submitted_answer', []).length > 0) {
-        responses.push({
-          uuid: get(q, 'id'),
-          answer: get(q, 'submitted_answer'),
-        });
-      }
-    });
-
-    dispatch(submitQuizAnswer(get(quizDetails, 'id'), { responses }))
-      .then(() => {
-        refreshQuizData();
-      })
-      .catch(() => {});
-  };
-
   const onModalCancel = () => {
-    updateQuizAnswer();
-    const timeDiff =
-      time.current -
-      (get(quizDetails, 'totalLogTime')
-        ? parseInt(get(quizDetails, 'totalLogTime', '0'))
-        : 0);
-
-    sendEvent(timeDiff % 30);
     onCancel();
   };
 
@@ -230,23 +139,27 @@ function QuizSelectModal(props: any) {
     >
       <Spin spinning={loading}>
         <div className="card-modal">
-          <h3 className="title3">{get(quiz, 'name')}</h3>
-
+          <Space split={<Divider type="vertical" />} size="large">
+            <h3 className="title3">{get(quiz, 'name')}</h3>
+            <div className="scrore-sec">
+              Score : {get(quiz, 'correct_answer')}
+            </div>
+          </Space>
           <div className="time-status-section">
-            {quizDetails && (
-              <QuizTime
-                time={time}
-                sendEvent={sendEvent}
-                quizDetails={quizDetails}
-              />
-            )}
+            <span className="theme-color">
+              <ClockCircleOutlined />{' '}
+              {getTimeText(
+                get(quizDetails, 'total_time')
+                  ? get(quizDetails, 'total_time')
+                  : 0
+              )}
+            </span>
             <span className="space-style">|</span>{' '}
             <span>{`Question ${currentQuestion + 1} / ${get(
               quizDetails,
               'total_question'
             )}`}</span>
           </div>
-
           <div className="progress-style">
             <Progress
               percent={
@@ -258,14 +171,7 @@ function QuizSelectModal(props: any) {
               }
             />
           </div>
-
-          <GetQuestion
-            question={get(questions, currentQuestion)}
-            onSubmitAnswer={(answer: any) => {
-              onSubmitAnswer(answer, currentQuestion);
-            }}
-          />
-
+          <GetQuestion question={get(questions, currentQuestion)} />
           <div className="button-section">
             <Button
               type="primary"
@@ -287,14 +193,14 @@ function QuizSelectModal(props: any) {
                   currentQuestion + 1 ===
                   get(quizDetails, 'total_question')
                 ) {
-                  onConifrmSubmitQuiz();
+                  onCancel();
                 } else {
                   setCurrentQuestion(currentQuestion + 1);
                 }
               }}
             >
               {currentQuestion + 1 === get(quizDetails, 'total_question')
-                ? 'Submit Quiz'
+                ? 'Close'
                 : 'Next Question'}
             </Button>
           </div>
@@ -304,4 +210,4 @@ function QuizSelectModal(props: any) {
   );
 }
 
-export default QuizSelectModal;
+export default CheckSolutionModal;

@@ -1,4 +1,4 @@
-import { Tabs, Row, Spin } from 'antd';
+import { Tabs, Spin } from 'antd';
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import get from 'lodash/get';
@@ -15,7 +15,7 @@ import CreateGroupQuiz from '../../quiz/modals/createGroupQuiz';
 const { TabPane } = Tabs;
 
 const GroupQuizTab = (props: any) => {
-  const { group, collectionDetails } = props;
+  const { group, collectionDetails, toggleCheckSolution } = props;
   const [isQuizSelectModal, setIsQuizSelectModal] = useState({
     visible: false,
     data: null,
@@ -141,6 +141,7 @@ const GroupQuizTab = (props: any) => {
 
               {get(completeQuizzes, 'data', []).length > 0 && (
                 <CompleteQuizTab
+                  toggleCheckSolution={toggleCheckSolution}
                   quizzes={completeQuizzes}
                   onClickPagination={(page: any) => {
                     getGroupQuizzes(page, 1);
@@ -183,6 +184,7 @@ const GroupQuizTab = (props: any) => {
           previusHandler={quizSelectToggleModal}
           onCancel={quizSelectToggleModal}
           quiz={get(isQuizSelectModal, 'data')}
+          refreshQuizData={() => refreshQuizData()}
           onSuccessSubmit={(quiz: any) => {
             quizSelectToggleModal();
             setIsQuizResultModal({ visible: true, data: quiz });

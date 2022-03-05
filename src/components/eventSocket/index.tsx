@@ -1,13 +1,22 @@
 import useWebSocket from 'react-use-websocket';
-import { Button } from 'antd';
+import { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import get from 'lodash/get';
+import { useStopwatch } from 'react-timer-hook';
+
+function usePrevious(value: any) {
+  const ref = useRef();
+  useEffect(() => {
+    ref.current = value;
+  }, [value]);
+  return ref.current;
+}
 
 const EventsSocket = (props: any) => {
   const {
-    type,
-    id,
-    url,
+    type = null,
+    uuid = null,
+    time = 10,
     onEvent = () => {},
     onConnect = () => {},
     onDisconnect = () => {},
@@ -15,9 +24,24 @@ const EventsSocket = (props: any) => {
   } = props;
 
   const token = useSelector((state) => get(state, 'userState.accessToken'));
-  console.log({ token });
+  const { seconds, reset } = useStopwatch({ autoStart: true });
+  const prevUuid = usePrevious(uuid);
+
   const shouldSocketReconnect = () => {
     return true;
+  };
+
+  const sendEvent = (uuid: any, t: any) => {
+    if (uuid) {
+      sendMessage(
+        JSON.stringify({
+          type,
+          uuid,
+          time: t,
+        })
+      );
+      reset();
+    }
   };
 
   const onMessage = (message: any) => {
@@ -28,36 +52,30 @@ const EventsSocket = (props: any) => {
     }
   };
 
-  const { sendMessage, lastMessage, readyState, getWebSocket } = useWebSocket(
-    'ws://localhost:4000',
-    {
-      onOpen: onConnect,
-      onClose: onDisconnect,
-      onError,
-      onMessage,
-      shouldReconnect: shouldSocketReconnect,
-      protocols: token,
-      retryOnError: true,
-      // queryParams: getParams(),
+  useEffect(() => {
+    if (uuid) {
+      sendEvent(prevUuid, seconds);
     }
-  );
+  }, [uuid]);
 
-  return (
-    <Button
-      onClick={() => {
-        sendMessage(
-          JSON.stringify({
-            type: 'quiz',
-            time: 30,
-            uuid: 'e3c58cc2-f915-4e91-8751-bbe7c515db4e',
-          }),
-          true
-        );
-      }}
-    >
-      Send Message
-    </Button>
-  );
+  const { sendMessage } = useWebSocket(`${process.env.REACT_APP_WSS_HOST}`, {
+    onOpen: onConnect,
+    onClose: onDisconnect,
+    onError,
+    onMessage,
+    shouldReconnect: shouldSocketReconnect,
+    protocols: token,
+    retryOnError: true,
+    // queryParams: getParams(),
+  });
+
+  useEffect(() => {
+    if (seconds === time) {
+      sendEvent(uuid, time);
+    }
+  }, [seconds]);
+
+  return <></>;
 };
 
 export default EventsSocket;

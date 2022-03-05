@@ -24,6 +24,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { QUIZ_SCREEN } from '../../router/routes';
 import { fetchCollection } from '../../redux/actions/collectionActions';
+import EventsSocket from '../../components/eventSocket';
 
 // Custom Component and Modal
 import ROUTES from '../../router';
@@ -138,7 +139,7 @@ function CollectionDetails(props: any) {
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
-  const [collectionDetails, setCollectionDetails] = useState(false);
+  const [collectionDetails, setCollectionDetails] = useState(null);
   const [collectionModal, setCollectionModal] = useState<any>({
     visible: false,
     data: null,
@@ -460,7 +461,13 @@ function CollectionDetails(props: any) {
           </div>
         </Spin>
       </div>
-
+      {get(collectionDetails, 'id') && (
+        <EventsSocket
+          time={30}
+          type="collection"
+          uuid={get(collectionDetails, 'id')}
+        />
+      )}
       {/* Collection Modal here */}
       <CreateCollectionModal
         visible={get(collectionModal, 'visible')}

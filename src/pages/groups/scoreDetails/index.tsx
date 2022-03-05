@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
 import get from 'lodash/get';
-import moment from 'moment';
+
 import { PageHeader, Table, Spin, Avatar } from 'antd';
 import { getNameAvatar } from '../../../utilities/helpers';
 import { avatarColors } from '../../../constants/groups';
-
+import { getTimeText } from '../../../utilities/helpers';
 import PrimaryLayout from '../../../common/primaryLayout/primaryLayout';
 
 import { fetchGroupQuizDetails } from '../../../redux/actions/groupActions';
@@ -42,11 +42,10 @@ const columns = [
   },
   {
     title: 'Time',
-
     key: 'time',
     render: (record: any, index: any) =>
       get(record, 'status.value') === 1 ? (
-        '20:00'
+        getTimeText(get(record, 'total_time'))
       ) : (
         <div className="text-not-taken">Not Taken</div>
       ),
@@ -55,79 +54,7 @@ const columns = [
     title: 'Taken on',
     key: 'takenOn',
     render: (record: any, index: any) =>
-      get(record, 'status.value') === 1
-        ? moment(get(record, 'updated_at'), 'YYYY-MM-DD HH:mm:ss').format(
-            'DD / MM/ YYYY'
-          )
-        : '--',
-  },
-];
-
-const data = [
-  {
-    key: '1',
-    rank: '1',
-    member: (
-      <div className="name-section">
-        <Avatar>GS</Avatar>
-        <span className="name">Gwen Stefancy</span>
-      </div>
-    ),
-    score: '5000',
-    time: '20:00',
-    takenOn: '08 / 11 / 2021',
-  },
-  {
-    key: '2',
-    rank: '2',
-    member: (
-      <div className="name-section">
-        <Avatar>GS</Avatar>
-        <span className="name">Gwen Stefancy</span>
-      </div>
-    ),
-    score: '5000',
-    time: '20:00',
-    takenOn: '08 / 11 / 2021',
-  },
-  {
-    key: '3',
-    rank: '3',
-    member: (
-      <div className="name-section">
-        <Avatar>GS</Avatar>
-        <span className="name">Gwen Stefancy</span>
-      </div>
-    ),
-    score: 'Nil',
-    time: '20:00',
-    takenOn: '08 / 11 / 2021',
-  },
-  {
-    key: '4',
-    rank: '#',
-    member: (
-      <div className="name-section">
-        <Avatar>GS</Avatar>
-        <span className="name">Gwen Stefancy</span>
-      </div>
-    ),
-    score: '5000',
-    time: <div className="text-not-taken">Not Taken</div>,
-    takenOn: '08 / 11 / 2021',
-  },
-  {
-    key: '5',
-    rank: '#',
-    member: (
-      <div className="name-section">
-        <Avatar>GS</Avatar>
-        <span className="name">Gwen Stefancy</span>
-      </div>
-    ),
-    score: '5000',
-    time: <div className="text-not-taken">Not Taken</div>,
-    takenOn: 'Nil',
+      get(record, 'status.value') === 1 ? get(record, 'date_formatted') : '--',
   },
 ];
 

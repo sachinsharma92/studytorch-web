@@ -101,3 +101,21 @@ export const submitQuiz =
         throw error;
       });
   };
+
+export const submitQuizAnswer =
+  (id: any, payload: any): any =>
+  (dispatch: any, getState: any, { api }: any): any => {
+    return api
+      .post(
+        replaceMultiple(APIS.SUBMIT_QUIZZ_ANSWER, {
+          ':id': id,
+        }),
+        payload
+      )
+      .then((result: any) => {
+        return result;
+      })
+      .catch((error: any) => {
+        throw error;
+      });
+  };

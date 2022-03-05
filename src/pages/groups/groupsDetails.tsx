@@ -5,6 +5,7 @@ import {
   Menu,
   Row,
   Popover,
+  Modal,
   Tabs,
   PageHeader,
   Dropdown,
@@ -19,10 +20,7 @@ import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 // Custom Component and Modal
-import {
-  GROUP_SCORE_DETAILS_SCREEN,
-  GROUPS_DETAIL_SCREEN,
-} from '../../router/routes';
+import { GROUPS_DETAIL_SCREEN } from '../../router/routes';
 import EmptyState from '../../common/emptyState/emptyState';
 import PrimaryLayout from '../../common/primaryLayout/primaryLayout';
 import NotesCard from '../../components/collection/notesCard/notesCard';
@@ -39,7 +37,7 @@ import RevisionModeModal from '../../components/collection/modals/revisionModeMo
 import JoinedDropDown from '../../components/groups/joinedDropDown';
 import GroupBanner from '../../components/groups/groupBanner/groupBanner';
 import GroupMembers from '../../components/groups/groupMembers';
-import QuizCard from '../../components/quiz/quizCard';
+import GroupCreateModal from '../../components/groups/modals/groupCreateModal';
 import GroupQuizTab from '../../components/groups/groupQuizTab/groupQuizTab';
 import GroupReportTab from '../../components/groups/groupReportTab';
 import {
@@ -50,6 +48,7 @@ import { getNameAvatar, replaceMultiple } from '../../utilities/helpers';
 import { avatarColors } from '../../constants/groups';
 // Images
 import filter from '../../assets/images/icons/filter.svg';
+import heroBackground from '../../assets/images/banner-group.png';
 import verticalDot from '../../assets/images/icons/vertical-dot.svg';
 
 import folderGray from '../../assets/images/icons/folder-gray.svg';
@@ -57,23 +56,15 @@ import folderGray from '../../assets/images/icons/folder-gray.svg';
 // Styles
 import './styles.scss';
 import CreateQuizModal from '../../components/quiz/modals/createQuizModal';
-
+import CheckSolutionModal from '../../components/quiz/modals/checkSolutionModal';
 import ReportDetailCard from '../../components/groups/drawerCards/reportDetailCard';
 
 const { TabPane } = Tabs;
 
 const menu = (
   <Menu>
-    <Menu.Item icon={<EditOutlined />}>
-      <a target="_blank" rel="noopener noreferrer" href="#">
-        Edit
-      </a>
-    </Menu.Item>
-    <Menu.Item icon={<DeleteOutlined />}>
-      <a target="_blank" rel="noopener noreferrer" href="#">
-        Delete
-      </a>
-    </Menu.Item>
+    <Menu.Item icon={<EditOutlined />}>Edit</Menu.Item>
+    <Menu.Item icon={<DeleteOutlined />}>Delete</Menu.Item>
   </Menu>
 );
 
@@ -92,36 +83,13 @@ const flashCardData = [
   },
 ];
 
-const quizViewData = [
-  {
-    quizName: 'QUIZ NAME',
-    collectionName: 'Collection name',
-    date: '22nd Sep 2021',
-    marks: '70%',
-  },
-  {
-    quizName: 'QUIZ NAME',
-    collectionName: 'Collection name',
-    date: '22nd Sep 2021',
-    marks: '70%',
-  },
-  {
-    quizName: 'QUIZ NAME',
-    collectionName: 'Collection name',
-    date: '22nd Sep 2021',
-    marks: '80%',
-  },
-  {
-    quizName: 'QUIZ NAME',
-    collectionName: 'Collection name',
-    date: '22nd Sep 2021',
-    marks: '90%',
-  },
-];
-
 function GroupDetailScreen(props: any) {
-  const [isCollectionModal, setIsCollectionModal] = useState(false);
   const navigate = useNavigate();
+  const [imagePreview, setImagePreview] = useState<any>({
+    previewImage: null,
+    previewVisible: false,
+  });
+
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const [collectionDetails, setCollectionDetails] = useState(false);
@@ -129,6 +97,18 @@ function GroupDetailScreen(props: any) {
   const { id, gid } = useParams();
 
   //////////new start ///////////
+  const [groupModal, setGroupModal] = useState<any>({
+    visible: false,
+    data: null,
+  });
+
+  const toggleGroupModal = (data = null) => {
+    setGroupModal({
+      data,
+      visible: !get(groupModal, 'visible'),
+    });
+  };
+
   const [collectionModal, setCollectionModal] = useState<any>({
     visible: false,
     data: null,
@@ -150,10 +130,10 @@ function GroupDetailScreen(props: any) {
   });
   //////////new ENd ///////////
 
-  const [isShareModal, setIsShareModal] = useState(false);
-  const shareToggleModal = () => {
-    setIsShareModal(!isShareModal);
-  };
+  const [checkSolutionModal, setCheckSolutionModal] = useState({
+    visible: false,
+    data: null,
+  });
 
   const [isFlashEditModal, setIsFlashEditModal] = useState(false);
   const flashEditModalTpggleModal = () => {
@@ -251,6 +231,15 @@ function GroupDetailScreen(props: any) {
     getGroupDetails();
   }, [id]);
 
+  const toggleCheckSolution = (data = null) => {
+    setCheckSolutionModal({
+      visible: !get(checkSolutionModal, 'visible'),
+      data,
+    });
+  };
+
+  console.log({ groupDetails });
+
   return (
     <PrimaryLayout>
       <div className="group-page-style detail-page-style">
@@ -293,21 +282,31 @@ function GroupDetailScreen(props: any) {
                 overlayClassName="collection-dropdown"
                 overlay={
                   <Menu>
-                    <Menu.Item icon={<EditOutlined />}>
-                      <a href="#">Edit Group</a>
+                    <Menu.Item
+                      onClick={() => {
+                        toggleGroupModal(groupDetails);
+                      }}
+                      icon={<EditOutlined />}
+                    >
+                      Edit Group
                     </Menu.Item>
-                    <Menu.Item icon={<EditOutlined />}>
-                      <a href="#">Show Cover</a>
+                    <Menu.Item
+                      onClick={() => {
+                        setImagePreview({
+                          previewImage: get(groupDetails, 'banner_image')
+                            ? get(groupDetails, 'banner_image_url')
+                            : heroBackground,
+                          previewVisible: true,
+                        });
+                      }}
+                      icon={<EditOutlined />}
+                    >
+                      Show Cover
                     </Menu.Item>
                   </Menu>
                 }
               >
-                <a
-                  className="ant-dropdown-link"
-                  onClick={(e) => e.preventDefault()}
-                >
-                  <img src={verticalDot} className="icon-style" />
-                </a>
+                <img alt="" src={verticalDot} className="icon-style" />
               </Dropdown>
             </div>,
           ]}
@@ -535,6 +534,7 @@ function GroupDetailScreen(props: any) {
               <TabPane tab="Quiz" key="5">
                 <GroupQuizTab
                   group={groupDetails}
+                  toggleCheckSolution={toggleCheckSolution}
                   collectionDetails={collectionDetails}
                 />
               </TabPane>
@@ -557,6 +557,17 @@ function GroupDetailScreen(props: any) {
         edit={get(collectionModal, 'data') ? true : false}
         initialValue={get(collectionModal, 'data')}
         collection={collectionDetails}
+      />
+      {/* GroupCreateModal Modal here */}
+      <GroupCreateModal
+        visible={get(groupModal, 'visible')}
+        onCancel={() => toggleGroupModal()}
+        onSuccess={() => {
+          toggleGroupModal();
+          getGroupDetails();
+        }}
+        edit={get(groupModal, 'data') ? true : false}
+        initialValue={get(groupModal, 'data')}
       />
 
       {/* Note Modal here */}
@@ -612,6 +623,16 @@ function GroupDetailScreen(props: any) {
         }}
       />
 
+      {get(checkSolutionModal, 'visible') && (
+        <CheckSolutionModal
+          visible={get(checkSolutionModal, 'visible')}
+          quiz={get(checkSolutionModal, 'data')}
+          onCancel={() => {
+            toggleCheckSolution();
+          }}
+        />
+      )}
+
       {/* Share Modal here */}
 
       {/* Questions Modal */}
@@ -621,7 +642,22 @@ function GroupDetailScreen(props: any) {
         cancelHandler={createQuizToggleModal}
         onCancel={createQuizToggleModal}
       />
-
+      <Modal
+        visible={get(imagePreview, 'previewVisible')}
+        footer={null}
+        onCancel={() => {
+          setImagePreview({
+            previewVisible: false,
+            previewImage: null,
+          });
+        }}
+      >
+        <img
+          alt="example"
+          style={{ width: '100%' }}
+          src={get(imagePreview, 'previewImage')}
+        />
+      </Modal>
       {get(groupDetails, 'is_group_admin') && (
         <Popover content={toggleData} placement="topRight">
           <Button

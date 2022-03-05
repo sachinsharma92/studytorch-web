@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import map from 'lodash/map';
 import get from 'lodash/get';
-import moment from 'moment';
 import QuizReportCard from '../../quiz/quizReportCard';
 import { getTimeText } from '../../../utilities/helpers';
 import { fetchGroupReport } from '../../../redux/actions/groupActions';
@@ -37,7 +36,9 @@ const GroupReportTab = (props: any) => {
           <div className="card-outline">
             <div className="gray-box" />
             <div className="flex">
-              <h3 className="title-md">{get(group, 'members', []).length}</h3>
+              <h3 className="title-md">
+                {get(group, 'group_members', []).length}
+              </h3>
               <p className="description">Group Members</p>
             </div>
           </div>

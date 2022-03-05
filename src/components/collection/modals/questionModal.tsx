@@ -52,16 +52,8 @@ const { TabPane } = Tabs;
 
 const menu = (
   <Menu>
-    <Menu.Item icon={<DownloadOutlined />}>
-      <a target="_blank" rel="noopener noreferrer" href="#">
-        Donwload PDF
-      </a>
-    </Menu.Item>
-    <Menu.Item icon={<FileTextOutlined />}>
-      <a target="_blank" rel="noopener noreferrer" href="#">
-        Print
-      </a>
-    </Menu.Item>
+    <Menu.Item icon={<DownloadOutlined />}>Donwload PDF</Menu.Item>
+    <Menu.Item icon={<FileTextOutlined />}>Print</Menu.Item>
   </Menu>
 );
 
@@ -241,7 +233,7 @@ function QuestionModal(props: any) {
         <div className="card-modal">
           <div className="top-button-section">
             <Button onClick={props.cancelHandler} className="btn-outline">
-              <img src={iconArrowLeft} /> Back
+              <img src={iconArrowLeft} alt="" /> Back
             </Button>
           </div>
 

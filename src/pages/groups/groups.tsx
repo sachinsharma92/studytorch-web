@@ -4,7 +4,6 @@ import { PlusOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import { useDispatch } from 'react-redux';
 import map from 'lodash/map';
 import get from 'lodash/get';
-import ROUTES from '../../router';
 import PrimaryLayout from '../../common/primaryLayout/primaryLayout';
 import EmptyState from '../../common/emptyState/emptyState';
 import GroupsCard from '../../components/groups/groupsCard/groupsCard';

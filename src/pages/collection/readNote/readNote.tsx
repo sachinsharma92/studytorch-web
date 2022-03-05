@@ -5,6 +5,7 @@ import get from 'lodash/get';
 import map from 'lodash/map';
 import { Button, Breadcrumb, Tag, Spin } from 'antd';
 import { fetchNoteDetails } from '../../../redux/actions/noteActions';
+import EventsSocket from '../../../components/eventSocket';
 import PrimaryLayout from '../../../common/primaryLayout/primaryLayout';
 import iconArrowLeft from '../../../assets/images/icons/caret-Left.svg';
 
@@ -39,6 +40,9 @@ function ReadNoteScreen(props: any) {
   return (
     <PrimaryLayout>
       <Spin spinning={loading}>
+        {get(note, 'id') && (
+          <EventsSocket time={30} type="note" uuid={get(note, 'id')} />
+        )}
         <div className="read-note-style">
           <div className="action-section">
             <div className="top-button-section">

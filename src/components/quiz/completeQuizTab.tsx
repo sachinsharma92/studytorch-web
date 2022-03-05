@@ -4,13 +4,18 @@ import get from 'lodash/get';
 import QuizCard from './quizCard';
 
 const CompleteQuizTab = (props: any) => {
-  const { quizzes, onClickPagination } = props;
+  const { quizzes, onClickPagination, toggleCheckSolution } = props;
   return (
     <div className="card-section">
       <Row gutter={32}>
         {map(get(quizzes, 'data', []), (quiz, index) => (
           <Col sm={8} key={index}>
-            <QuizCard quiz={quiz} onClick={() => {}} />
+            <QuizCard
+              quiz={quiz}
+              onClick={() => {
+                toggleCheckSolution(quiz);
+              }}
+            />
           </Col>
         ))}
       </Row>

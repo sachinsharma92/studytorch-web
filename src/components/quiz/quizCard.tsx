@@ -34,12 +34,7 @@ function QuizCard(props: any) {
                   overlayClassName="collection-dropdown"
                   overlay={props.menuData}
                 >
-                  <a
-                    className="ant-dropdown-link"
-                    onClick={(e) => e.preventDefault()}
-                  >
-                    <img src={verticalDot} className="icon-style" />
-                  </a>
+                  <img src={verticalDot} className="icon-style" alt="" />
                 </Dropdown>
               )}
             </div>
@@ -51,7 +46,7 @@ function QuizCard(props: any) {
       <div className="card-style">
         {!isQuizCompleted ? (
           <div className="prgress-primary-section">
-            <Progress percent={30} />
+            <Progress percent={get(quiz, 'progress')} />
           </div>
         ) : (
           <div className="scrore-sec">

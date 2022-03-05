@@ -3,6 +3,45 @@
 @import '../../../styles/variables/mixins';
 
 // collection-modal-style
+.scrore-sec {
+  background: rgba($theme-blue, 0.1);
+  color: $theme-blue;
+  border-color: $theme-blue;
+  height: 40px;
+  min-width: 95px;
+  border-radius: 50px;
+  font-weight: 500;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.answer-sec {
+  height: 40px;
+  margin-top: 20px;
+  min-width: 55px;
+  border-radius: 10px;
+  font-weight: 500;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .question-icon {
+    font-size: 20px;
+  }
+}
+.correct {
+  background: rgba(green, 0.1);
+  color: green;
+  border-color: green;
+}
+
+.wrong {
+  background: rgba(red, 0.1);
+  color: red;
+  border-color: red;
+}
+
 .quiz-modal-style {
   .ant-modal {
     min-width: 875px;
