@@ -33,11 +33,18 @@
     color: #425466;
   }
 
-  .gray-box {
+  .image-box {
     width: 64px;
     height: 64px;
     border-radius: 8px;
     margin-bottom: 19px;
+
+    img {
+      width: 100%;
+    }
+  }
+
+  .gray-box {
     background: #f7fafc;
   }
 

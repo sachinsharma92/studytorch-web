@@ -95,7 +95,7 @@ function GroupCreateModal(props: any) {
               </Form.Item>
             </div>
 
-            <div className="folder-color-section">
+            <div className="folder-color-section radio-tick-container">
               <div className="label">Select Color</div>
               <Form.Item
                 name="color"
@@ -106,7 +106,7 @@ function GroupCreateModal(props: any) {
                     <Radio.Button
                       key={index}
                       value={c}
-                      className={`radio-button`}
+                      className={`radio-tick-style`}
                       style={{ background: c }}
                     />
                   ))}

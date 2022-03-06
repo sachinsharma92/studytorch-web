@@ -9,11 +9,24 @@
 	align-items: center;
 	justify-content: center;
 
+	@include mobile {
+		padding: 20px;
+	}
+
 	.card {
 		background-color: $white;
-		width: 420px;
+		width: 95vw;
 		min-height: 570px;
 		border-radius: 16px;
+		overflow: hidden;
+
+		@include mobile {
+			width: auto;
+		}
+
+		img {
+			width: 100%;
+		}
 	}
 
 	.body-content {
