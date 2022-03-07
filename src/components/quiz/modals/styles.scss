@@ -16,6 +16,7 @@
   align-items: center;
   justify-content: center;
 }
+
 .answer-sec {
   height: 40px;
   margin-top: 20px;
@@ -26,10 +27,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
+
   .question-icon {
     font-size: 20px;
   }
 }
+
 .correct {
   background: rgba(green, 0.1);
   color: green;
@@ -99,7 +102,7 @@
         content: '';
       }
 
-      span + span {
+      span+span {
         position: relative;
         top: 2px;
       }
@@ -120,6 +123,45 @@
 
     .question-row {
       width: 100%;
+    }
+
+    .select-checkbox-style {
+      width: 100%;
+
+      .ant-checkbox-wrapper {
+        border: 1px solid #d9d9d9;
+        border-radius: 4px;
+        padding: 15px;
+        width: 100%;
+        color: $textColor-dark;
+      }
+
+      .ant-checkbox-wrapper-checked {
+        background: $theme-success;
+        border-color: $theme-success !important;
+        border-radius: 4px;
+        color: $white;
+      }
+
+      .ant-checkbox-inner {
+        width: 18px;
+        height: 18px;
+      }
+
+      .ant-checkbox-checked .ant-checkbox-inner {
+        background: $white;
+        border-color: $white;
+        display: flex;
+        align-items: center;
+      }
+      .ant-checkbox-checked .ant-checkbox-inner::after {
+        border-color: $theme-success;
+      }
+
+      .ant-checkbox-checked::after {
+        border-color: $white;
+      }
+
     }
   }
 

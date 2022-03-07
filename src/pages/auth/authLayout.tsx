@@ -17,7 +17,7 @@ function AuthLayout(props: RegisterScreenProps) {
   return (
     <div className="auth-page-style">
       <Row>
-        <Col span={10}>
+        <Col xs={24} md={10}>
           <div className="left-section">
             <img src={logo} className='logo-img' />
             <div className="content">
@@ -28,7 +28,7 @@ function AuthLayout(props: RegisterScreenProps) {
             <img src={illustration} className='illustration-img' />
           </div>
         </Col>
-        <Col span={14}>
+        <Col xs={24} md={14}>
           <div className="right-section">
             {props.children}
           </div>

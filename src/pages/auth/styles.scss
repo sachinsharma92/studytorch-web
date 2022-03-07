@@ -3,86 +3,118 @@
 @import "../../styles/variables/mixins";
 
 .auth-page-style {
-	height: 100vh;
-	overflow: hidden;
-	position: fixed;
-	width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
 
-	.left-section {
-		background-color: $theme-primary;
-		min-height: 100vh;
-		padding: 50px;
-		position: relative;
+  @include mobile {
+    height: auto;
+  }
 
-		.logo-img {
-			margin-bottom: 80px;
-		}
+  .left-section {
+    background-color: $theme-primary;
+    min-height: 100vh;
+    padding: 50px;
+    position: relative;
 
-		.title1 {
-			color: $white;
-			max-width: 70%;
-			margin-bottom: 30px;
-		}
+    @include mobile {
+      min-height: auto;
+			padding: 20px;
+			padding-bottom: 150px;
+    }
 
-		.description {
-			color: $white;
-			max-width: 80%;
-			font-size: 16px;
-		}
+    .logo-img {
+      margin-bottom: 80px;
 
-		.illustration-img {
-			position: absolute;
-			bottom: -129px;
-			right: -90px;
-		}
-	}
-
-	.ant-input-affix-wrapper {
-		padding: 0 10px;
-	}
-
-	.right-section {
-		padding: 50px;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		overflow: scroll;
-		min-height: 100vh;
-
-		.form-section {
-			max-width: 500px;
-			padding-right: 5%;
-		}
-
-		.title1 {
-			margin-bottom: 10px;
-		}
-
-		.description {
-			font-size: 16px;
-
-			a {
-				color: $theme-primary;
+			@include mobile {
+				margin-bottom: 20px;
 			}
+	
+    }
+
+    .title1 {
+      color: $white;
+      max-width: 70%;
+      margin-bottom: 30px;
+
+			@include mobile {
+	      max-width: 100%;
+			}
+    }
+
+    .description {
+      color: $white;
+      max-width: 80%;
+      font-size: 16px;
+    }
+
+    .illustration-img {
+      position: absolute;
+      bottom: -129px;
+      right: -90px;
+
+      @include mobile {
+				position: absolute;
+				bottom: -80px;
+				width: 270px;
+				right: 0;
+      }
+    }
+  }
+
+  .ant-input-affix-wrapper {
+    padding: 0 10px;
+  }
+
+  .right-section {
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: scroll;
+    min-height: 100vh;
+
+		@include mobile {
+			padding: 20px;
+			padding-top: 110px;
+			min-height: auto;
 		}
 
-		.emoji-style {
-			font-size: 40px;
-			margin-bottom: 30px;
-		}
+    .form-section {
+      max-width: 500px;
+      padding-right: 5%;
+    }
 
-		.content {
-			margin-bottom: 30px;
-		}
+    .title1 {
+      margin-bottom: 10px;
+    }
 
-		.btn-danger {
-			width: 100%;
-		}
-	}
+    .description {
+      font-size: 16px;
 
-	.checkbox-style {
-		max-width: 100%;
-		margin: 44px 0 24px;
-	}
+      a {
+        color: $theme-primary;
+      }
+    }
+
+    .emoji-style {
+      font-size: 40px;
+      margin-bottom: 30px;
+    }
+
+    .content {
+      margin-bottom: 30px;
+    }
+
+    .btn-danger {
+      width: 100%;
+    }
+  }
+
+  .checkbox-style {
+    max-width: 100%;
+    margin: 44px 0 24px;
+  }
 }

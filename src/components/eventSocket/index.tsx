@@ -57,7 +57,7 @@ const EventsSocket = (props: any) => {
       sendEvent(prevUuid, seconds);
     }
   }, [uuid]);
-
+  console.log('@@@', process.env.REACT_APP_WSS_HOST);
   const { sendMessage } = useWebSocket(`${process.env.REACT_APP_WSS_HOST}`, {
     onOpen: onConnect,
     onClose: onDisconnect,

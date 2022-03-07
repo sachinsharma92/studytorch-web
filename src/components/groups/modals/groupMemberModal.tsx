@@ -22,6 +22,7 @@ import {
 import { getNameAvatar } from '../../../utilities/helpers';
 import { avatarColors } from '../../../constants/groups';
 import { GROUP_MEMBER_UPDATED_SUCCESS } from '../../../constants/messages';
+import { DeleteOutlined} from '@ant-design/icons';
 
 // Styles
 import './styles.scss';
@@ -188,9 +189,7 @@ function GroupMemberModal(props: any) {
                           okText="Yes"
                           cancelText="No"
                         >
-                          <Button type="link" className="list-close-button">
-                            x
-                          </Button>
+                          <Button type="link" icon={<DeleteOutlined/>}/>
                         </Popconfirm>
                       ),
                     ]}

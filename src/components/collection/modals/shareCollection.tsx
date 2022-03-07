@@ -32,6 +32,7 @@ import {
 // Images
 import setting from '../../../assets/images/icons/setting.svg';
 import arrowLeft from '../../../assets/images/icons/arrow-left.svg';
+import { DeleteOutlined} from '@ant-design/icons';
 
 // Styles
 import './styles.scss';
@@ -229,9 +230,7 @@ function ShareCollectionModal(props: any) {
                         okText="Yes"
                         cancelText="No"
                       >
-                        <Button type="link" className="list-close-button">
-                          x
-                        </Button>
+                        <Button type="link" icon={<DeleteOutlined/>}/>
                       </Popconfirm>,
                     ]}
                   >

@@ -65,7 +65,7 @@ function CreateCollectionModal(props: any) {
       onCancel={get(props, 'onCancel')}
       destroyOnClose
       wrapClassName="collection-modal-style primary-modal-style"
-      maskStyle={{ background: '#787D9F' }}
+      maskStyle={{ background: 'rgba(30,39,94, 0.8)' }}
     >
       <Spin spinning={loading}>
         <Form
@@ -99,7 +99,7 @@ function CreateCollectionModal(props: any) {
               </Form.Item>
             </div>
 
-            <div className="folder-color-section">
+            <div className="folder-color-section radio-tick-container">
               <div className="label">Select Color</div>
               <Form.Item
                 name="color"
@@ -111,7 +111,7 @@ function CreateCollectionModal(props: any) {
                       <Radio.Button
                         key={index}
                         value={get(collectionColor, 'value')}
-                        className={`radio-button`}
+                        className={`radio-tick-style`}
                         style={{ background: get(collectionColor, 'value') }}
                       />
                     );

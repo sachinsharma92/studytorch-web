@@ -134,12 +134,20 @@
       margin: 0;
     }
 
-    .gray-box {
+    .image-box {
       width: 64px;
       height: 64px;
       border-radius: 8px;
-      background: #f7fafc;
       margin-right: 20px;
+      display: flex;
+
+      img {
+        width: 100%;
+      }
+    }
+
+    .gray-box {
+      background: #f7fafc;
     }
 
     .flex {
@@ -158,7 +166,7 @@
         display: none;
       }
     }
-    
+
     .ant-tabs-nav-list {
       background-color: #F7FAFC;
       border-radius: 50px;
@@ -169,7 +177,7 @@
       display: none;
     }
 
-    .ant-tabs-tab  {
+    .ant-tabs-tab {
       padding: 12px 20px;
       border-radius: 50px;
       margin: 0;

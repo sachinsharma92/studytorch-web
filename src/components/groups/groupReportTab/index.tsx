@@ -6,6 +6,10 @@ import get from 'lodash/get';
 import QuizReportCard from '../../quiz/quizReportCard';
 import { getTimeText } from '../../../utilities/helpers';
 import { fetchGroupReport } from '../../../redux/actions/groupActions';
+import memberIcon from "../../../assets/images/dashboard/members.svg";
+import collectionIcon from "../../../assets/images/dashboard/collection.svg";
+import quizIcon from "../../../assets/images/dashboard/quiz.svg";
+import groupStudiesIcon from "../../../assets/images/dashboard/group-studies.svg";
 
 const GroupReportTab = (props: any) => {
   const { group } = props;
@@ -34,7 +38,9 @@ const GroupReportTab = (props: any) => {
       <Row gutter={24}>
         <Col xs={12} sm={6}>
           <div className="card-outline">
-            <div className="gray-box" />
+            <div className="image-box">
+              <img src={memberIcon} className="icon" alt='' />
+            </div>
             <div className="flex">
               <h3 className="title-md">
                 {get(group, 'group_members', []).length}
@@ -45,7 +51,9 @@ const GroupReportTab = (props: any) => {
         </Col>
         <Col xs={12} sm={6}>
           <div className="card-outline">
-            <div className="gray-box" />
+            <div className="image-box">
+              <img src={collectionIcon} className="icon" alt='' />
+            </div>
             <div className="flex">
               <h3 className="title-md">{get(report, 'total_collection')}</h3>
               <p className="description">Total Collections</p>
@@ -55,7 +63,9 @@ const GroupReportTab = (props: any) => {
 
         <Col xs={12} sm={6}>
           <div className="card-outline">
-            <div className="gray-box" />
+            <div className="image-box">
+              <img src={quizIcon} className="icon" alt='' />
+            </div>
             <div className="flex">
               <h3 className="title-md">{get(report, 'total_quizzes')}</h3>
               <p className="description">Total Quizes</p>
@@ -65,7 +75,9 @@ const GroupReportTab = (props: any) => {
 
         <Col xs={12} sm={6}>
           <div className="card-outline">
-            <div className="gray-box" />
+            <div className="image-box">
+              <img src={groupStudiesIcon} className="icon" alt='' />
+            </div>
             <div className="flex">
               <h3 className="title-md">
                 {getTimeText(get(group, 'studied_time'))}
