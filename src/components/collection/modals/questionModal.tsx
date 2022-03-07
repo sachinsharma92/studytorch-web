@@ -16,14 +16,13 @@ import {
   Space,
   message,
   notification,
-  Upload,
 } from 'antd';
 import { useDispatch } from 'react-redux';
 import get from 'lodash/get';
 import map from 'lodash/map';
 import last from 'lodash/last';
 import pullAt from 'lodash/pullAt';
-import remove from 'lodash/remove';
+
 import indexOf from 'lodash/indexOf';
 import assign from 'lodash/assign';
 import includes from 'lodash/includes';

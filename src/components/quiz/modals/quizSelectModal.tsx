@@ -10,13 +10,14 @@ import {
   Image,
   Descriptions,
   message,
-  Checkbox
+  Checkbox,
 } from 'antd';
 import { useEffect, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import useWebSocket from 'react-use-websocket';
 import get from 'lodash/get';
 import map from 'lodash/map';
+import last from 'lodash/last';
 import QuizTime from '../quizTime';
 import { LeftOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import {
@@ -32,16 +33,9 @@ import { useDispatch } from 'react-redux';
 
 const { confirm } = Modal;
 
-
-
 const GetQuestion = (props: any) => {
   const { question, onSubmitAnswer } = props;
 
-  // Dummy Data
-  const plainOptions = ['Apple', 'Pear', 'Orange'];
-  function onChange(checkedValues: any) {
-    console.log('checked = ', checkedValues);
-  }
   return (
     <div className="question-section">
       <h4 className="title4">{get(question, 'title')}</h4>
@@ -60,43 +54,30 @@ const GetQuestion = (props: any) => {
       )}
       {(get(question, 'type.value') === 1 ||
         get(question, 'type.value') === 2) && (
-          <Radio.Group
-            value={get(question, 'submitted_answer.0')}
-            onChange={(e) => {
-              onSubmitAnswer([e.target.value]);
-            }}
-            buttonStyle="solid"
-          >
-            <Row gutter={24} className="question-row">
-              {map(get(question, 'options'), (option) => {
-                return (
-                  <Col sm={12}>
-                    <Radio.Button value={option}>{option}</Radio.Button>
-                  </Col>
-                );
-              })}
-            </Row>
-          </Radio.Group>
-        )}
-
+        <Checkbox.Group
+          value={get(question, 'submitted_answer', [])}
+          className="select-checkbox-style"
+          onChange={(values) => {
+            if (get(question, 'type.value') === 1) {
+              onSubmitAnswer([last(values)]);
+            } else {
+              onSubmitAnswer(values);
+            }
+          }}
+        >
+          <Row gutter={[20, 20]}>
+            {map(get(question, 'options'), (option) => {
+              return (
+                <Col span={12}>
+                  <Checkbox value={option}>{option}</Checkbox>
+                </Col>
+              );
+            })}
+          </Row>
+        </Checkbox.Group>
+      )}
 
       {/* Dummy Add */}
-      <Checkbox.Group className='select-checkbox-style' onChange={onChange}>
-        <Row gutter={[20, 20]}>
-          <Col span={12}>
-            <Checkbox value="A">A</Checkbox>
-          </Col>
-          <Col span={12}>
-            <Checkbox value="B">B</Checkbox>
-          </Col>
-          <Col span={12}>
-            <Checkbox value="C">C</Checkbox>
-          </Col>
-          <Col span={12}>
-            <Checkbox value="D">D</Checkbox>
-          </Col>
-        </Row>
-      </Checkbox.Group>
     </div>
   );
 };
@@ -211,7 +192,7 @@ function QuizSelectModal(props: any) {
       onOk() {
         onSubmitQuiz(payload);
       },
-      onCancel() { },
+      onCancel() {},
     });
   };
 
@@ -231,7 +212,7 @@ function QuizSelectModal(props: any) {
       .then(() => {
         refreshQuizData();
       })
-      .catch(() => { });
+      .catch(() => {});
   };
 
   const onModalCancel = () => {
@@ -245,7 +226,7 @@ function QuizSelectModal(props: any) {
     sendEvent(timeDiff % 30);
     onCancel();
   };
-
+  console.log('=====>question', questions);
   return (
     <Modal
       centered
@@ -280,8 +261,8 @@ function QuizSelectModal(props: any) {
               percent={
                 get(quizDetails, 'total_question', 0) > 0
                   ? ((currentQuestion + 1) /
-                    get(quizDetails, 'total_question', 0)) *
-                  100
+                      get(quizDetails, 'total_question', 0)) *
+                    100
                   : 0
               }
             />

@@ -10,6 +10,7 @@ import {
   Input,
   Image,
   Space,
+  Checkbox,
 } from 'antd';
 import { useEffect, useState } from 'react';
 import {
@@ -48,21 +49,21 @@ const GetQuestion = (props: any) => {
       )}
       {(get(question, 'type.value') === 1 ||
         get(question, 'type.value') === 2) && (
-        <Radio.Group
+        <Checkbox.Group
+          value={get(question, 'submitted_answer', [])}
+          className="select-checkbox-style"
           disabled
-          value={get(question, 'submitted_answer.0')}
-          buttonStyle="solid"
         >
-          <Row gutter={24} className="question-row">
+          <Row gutter={[20, 20]}>
             {map(get(question, 'options'), (option) => {
               return (
-                <Col sm={12}>
-                  <Radio.Button value={option}>{option}</Radio.Button>
+                <Col span={12}>
+                  <Checkbox value={option}>{option}</Checkbox>
                 </Col>
               );
             })}
           </Row>
-        </Radio.Group>
+        </Checkbox.Group>
       )}
       {isEqual(
         get(question, 'answers', []),

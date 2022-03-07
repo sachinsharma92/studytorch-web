@@ -33,6 +33,7 @@ import CollectionCard from '../../components/collection/collectionCard/collectio
 import { COLLECTION_LEAVE_SUCCESS } from '../../constants/messages';
 import { SHARED_SCREEN } from '../../router/routes';
 import ROUTES from '../../router';
+import EventsSocket from '../../components/eventSocket';
 
 import PrimaryLayout from '../../common/primaryLayout/primaryLayout';
 import NotesCard from '../../components/collection/notesCard/notesCard';
@@ -562,6 +563,14 @@ function ShareWithMeDetails(props: any) {
           </div>
         </Spin>
       </div>
+
+      {get(collectionDetails, 'id') && (
+        <EventsSocket
+          time={30}
+          type="collection"
+          uuid={get(collectionDetails, 'id')}
+        />
+      )}
 
       {/* Collection Modal here */}
       <CreateCollectionModal
