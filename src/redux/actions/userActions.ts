@@ -119,3 +119,16 @@ export const changePassword =
         throw error;
       });
   };
+
+export const deleteUser =
+  (): any =>
+  (dispatch: any, getState: any, { api }: any): any => {
+    return api
+      .delete(APIS.DELETE_USER)
+      .then((result: any) => {
+        return result;
+      })
+      .catch((error: any) => {
+        throw error;
+      });
+  };

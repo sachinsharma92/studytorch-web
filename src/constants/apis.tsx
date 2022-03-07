@@ -5,6 +5,7 @@ export const PROFILE = '/profile';
 export const FORGOT_PASSWORD = '/forgot-password';
 export const CHANGE_PASSWORD = '/change-password';
 export const VERIFY_FORGOT_PASSWORD = '/verify-code';
+export const DELETE_USER = '/users';
 
 ///########DASHBOARD#############
 export const DASHBOARD_METRICES = '/dashboard/metrics';
