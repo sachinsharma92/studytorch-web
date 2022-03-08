@@ -1,82 +1,143 @@
 import { useState } from 'react';
-import { Button, Modal, Menu, Tabs, Radio, Select, Checkbox, Row, Col } from 'antd';
-import { DownloadOutlined, FileTextOutlined } from '@ant-design/icons';
-
+import { Button, Modal, Form, Spin, Divider, Input, message } from 'antd';
+import { useDispatch } from 'react-redux';
+import get from 'lodash/get';
 // Images
-import iconArrowLeft from "../../../assets/images/icons/caret-Left.svg";
+import iconArrowLeft from '../../../assets/images/icons/caret-Left.svg';
 import ButtonCustom from '../../../common/buttons/buttonCustom';
-
+import {
+  createFlashCard,
+  updateFlashCard,
+} from '../../../redux/actions/flashCardActions';
 // Styles
 import './styles.scss';
+import {
+  CREATE_FLASHCARD_SUCCESS,
+  UPDATE_FLASHCARD_SUCCESS,
+} from '../../../constants/messages';
 
-const { Option } = Select;
-
-function handleChange(value: any) {
-  console.log(`selected ${value}`);
-}
-
-const { TabPane } = Tabs;
-
-
-const menu = (
-  <Menu>
-    <Menu.Item icon={<DownloadOutlined />}>
-      <a target="_blank" rel="noopener noreferrer" href="#">
-        Donwload PDF
-      </a>
-    </Menu.Item>
-    <Menu.Item icon={<FileTextOutlined />}>
-      <a target="_blank" rel="noopener noreferrer" href="#">
-        Print
-      </a>
-    </Menu.Item>
-  </Menu>
-);
 function FlashEditModal(props: any) {
+  const { onSuccess, edit, initialValue, collection } = props;
 
-  const [value, setValue] = useState(1);
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
 
-  const onChange = (e: any) => {
-    console.log('radio checked', e.target.value);
-    setValue(e.target.value);
+  const addFlashCard = (payload: any) => {
+    setLoading(true);
+    dispatch(createFlashCard(payload))
+      .then(() => {
+        setLoading(false);
+        message.success(CREATE_FLASHCARD_SUCCESS);
+        onSuccess(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
   };
 
-  function onCheckChange(checkedValues: any) {
-    console.log('checked = ', checkedValues);
-  }
+  const editFlashCard = (payload: any) => {
+    setLoading(true);
+    dispatch(updateFlashCard(get(initialValue, 'id'), payload))
+      .then(() => {
+        setLoading(false);
+        message.success(UPDATE_FLASHCARD_SUCCESS);
+        onSuccess(true);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  };
 
+  const onFinish = (values: number[]) => {
+    const payload = { ...values, parent_id: get(collection, 'id') };
+
+    if (edit) {
+      editFlashCard(payload);
+    } else {
+      addFlashCard(payload);
+    }
+  };
+
+  const onFinishFailed = () => {};
   return (
     <Modal
       centered
+      destroyOnClose
       visible={props.visible}
       footer={false}
       onCancel={props.onCancel}
       wrapClassName="flash-edit-modal primary-modal-style"
       maskStyle={{ background: 'rgba(30,38,94, 0.6)' }}
     >
+      <Spin spinning={loading}>
+        <div className="card-modal">
+          <div className="top-button-section">
+            <Button onClick={props.backHandler} className="btn-outline">
+              <img src={iconArrowLeft} alt="" /> Back
+            </Button>
+          </div>
+          <h3 className="title3">{edit ? 'Edit' : 'Add'} Flash Card</h3>
+          <Form
+            name="basic"
+            initialValues={edit ? initialValue : {}}
+            onFinish={onFinish}
+            onFinishFailed={onFinishFailed}
+            autoComplete="off"
+            layout="vertical"
+          >
+            <div className="main-content-section">
+              <h2 className="title2">
+                <Form.Item
+                  name="title"
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Please input Title !',
+                    },
+                  ]}
+                >
+                  <Input
+                    className="input-lg-style"
+                    placeholder="Flashcard Title..."
+                  />
+                </Form.Item>
+              </h2>
+              <Divider />
+              <p className="description">
+                <Form.Item
+                  name="description"
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Please input description !',
+                    },
+                  ]}
+                >
+                  <Input.TextArea
+                    rows={10}
+                    placeholder="Flashcard Description..."
+                  />
+                </Form.Item>
+              </p>
+            </div>
 
-      <div className="card-modal">
-        <div className="top-button-section">
-          <Button onClick={props.backHandler} className="btn-outline"><img src={iconArrowLeft} /> Back</Button>
+            <div className="button-bottom-section">
+              <ButtonCustom
+                onClick={props.cancelHandler}
+                className="round-sm-primary"
+                title="Cancel"
+              />
+              <div className={`button-custom`}>
+                <Button type="primary" htmlType="submit">
+                  {edit ? 'Update' : 'Add'} Card
+                </Button>
+              </div>
+            </div>
+          </Form>
         </div>
-        <h3 className="title3">Edit Flash Card</h3>
-
-        <div className="main-content-section">
-          <h2 className="title2">Inorganic chemistry</h2>
-          <p className="description">
-            Inorganic chemistry is the study of the synthesis, reactions, structures and properties of compounds of the elements. Inorganic chemistry encompasses the compounds - both molecular and extended solids - of everything else in the periodic table, and overlaps with organic chemistry in the area of organometallic chemistry, in which metals are bonded to carbon-containing ligands and molecules. Inorganic chemistry is fundamental to many practical technologies including catalysis and materials (structural, electronic, magnetic etc.), energy conversion and storage, and electronics. Inorganic compounds are also found in biological systems where they are essential to life processes.
-          </p>
-        </div>
-
-
-        <div className="button-bottom-section">
-          <ButtonCustom onClick={props.cancelHandler} className="round-sm-primary" title="Cancel" />
-          <ButtonCustom type='primary' onClick={props.btnAddHandler} title="Add card" />
-        </div>
-      </div>
-
+      </Spin>
     </Modal>
-  )
+  );
 }
 
 export default FlashEditModal;

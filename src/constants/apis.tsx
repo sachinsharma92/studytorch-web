@@ -27,6 +27,9 @@ export const NOTES = 'notes';
 ///########NOTES#############
 export const QUESTION = 'questions';
 
+///########FLASH CARD#############
+export const FLASH_CARD = 'flash-card';
+
 ///########GROUPS#############
 export const GROUPS = 'groups';
 export const LEAVE_GROUP = 'groups/:id/leave-group';

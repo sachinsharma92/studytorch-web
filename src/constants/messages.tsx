@@ -15,6 +15,10 @@ export const CREATE_QUESTION_SUCCESS = 'Question Created Successfully';
 export const UPDATE_QUESTION_SUCCESS = 'Question Updated Successfully';
 export const DELETE_QUESTION_SUCCESS = 'Question deleted Successfully';
 
+export const CREATE_FLASHCARD_SUCCESS = 'Flash card Created Successfully';
+export const UPDATE_FLASHCARD_SUCCESS = 'Flash card Updated Successfully';
+export const DELETE_FLASHCARD_SUCCESS = 'Flash card deleted Successfully';
+
 export const VERIFICATION_CODE_SENT_SUCCESS =
   'Verification Code sent successfully';
 

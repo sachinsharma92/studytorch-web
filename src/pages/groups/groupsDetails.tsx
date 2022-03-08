@@ -135,9 +135,15 @@ function GroupDetailScreen(props: any) {
     data: null,
   });
 
-  const [isFlashEditModal, setIsFlashEditModal] = useState(false);
-  const flashEditModalTpggleModal = () => {
-    setIsFlashEditModal(!isFlashEditModal);
+  const [flashModal, setFlashModal] = useState({
+    visible: false,
+    data: null,
+  });
+  const toggleFlashModal = (data = null) => {
+    setFlashModal({
+      visible: !get(flashModal, 'visible'),
+      data: data,
+    });
   };
 
   const [isRevisionModeModal, setIsRevisionModeModal] = useState(false);
@@ -483,51 +489,53 @@ function GroupDetailScreen(props: any) {
                 )}
               </TabPane>
               <TabPane tab="Flash Card" key="4">
-                <div className="inline-button-section mt--20">
-                  <ButtonCustom
-                    className="round-primary"
-                    onClick={revisionModeToggle}
-                    title="Revision Mode"
-                  />
-                </div>
+                {get(collectionDetails, 'flashCards', []).length > 0 && (
+                  <div className="inline-button-section mt--20">
+                    <ButtonCustom
+                      className="round-primary"
+                      onClick={revisionModeToggle}
+                      title="Revision Mode"
+                    />
+                  </div>
+                )}
                 <RevisionModeModal
                   visible={isRevisionModeModal}
                   closeHandler={revisionModeToggle}
+                  flashCards={get(collectionDetails, 'flashCards', [])}
                 />
+                {get(collectionDetails, 'flashCards', []).length === 0 && (
+                  <div className="state-center">
+                    <EmptyState
+                      imgUrl={folderGray}
+                      title="Create your flash card"
+                      buttonText="Add Flash card"
+                      buttonType="primary"
+                      buttonHandler={() => toggleFlashModal()}
+                    />
+                  </div>
+                )}
                 <div className="card-section note-section">
                   <Row gutter={32}>
-                    {flashCardData.map((data, index) => (
-                      <Col sm={8} key={index}>
-                        <FlashCard
-                          title={data.title}
-                          description={data.description}
-                          menuData={
-                            <Menu>
-                              <Menu.Item icon={<EditOutlined />}>
-                                <a onClick={flashEditModalTpggleModal}>Edit</a>
-                              </Menu.Item>
-                              <Menu.Item icon={<DeleteOutlined />}>
-                                <a
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  href="#"
-                                >
-                                  Delete
-                                </a>
-                              </Menu.Item>
-                            </Menu>
-                          }
-                        />
-                      </Col>
-                    ))}
+                    {map(
+                      get(collectionDetails, 'flashCards', []),
+                      (flashCard, index) => (
+                        <Col sm={8} key={index}>
+                          <FlashCard
+                            flashCard={flashCard}
+                            hideEditDelete={
+                              !get(groupDetails, 'is_group_admin')
+                            }
+                            setLoading={setLoading}
+                            collection={collectionDetails}
+                            onSuccess={getGroupCollectionDetails}
+                            onEditFlashCard={(data: any) => {
+                              toggleFlashModal(data);
+                            }}
+                          />
+                        </Col>
+                      )
+                    )}
                   </Row>
-
-                  <FlashEditModal
-                    visible={isFlashEditModal}
-                    btnAddHandler={flashEditModalTpggleModal}
-                    cancelHandler={flashEditModalTpggleModal}
-                    backHandler={flashEditModalTpggleModal}
-                  />
                 </div>
               </TabPane>
 
@@ -629,6 +637,22 @@ function GroupDetailScreen(props: any) {
           quiz={get(checkSolutionModal, 'data')}
           onCancel={() => {
             toggleCheckSolution();
+          }}
+        />
+      )}
+
+      {get(flashModal, 'visible') && (
+        <FlashEditModal
+          visible={get(flashModal, 'visible')}
+          initialValue={get(flashModal, 'data')}
+          edit={get(flashModal, 'data') ? true : false}
+          btnAddHandler={toggleFlashModal}
+          cancelHandler={toggleFlashModal}
+          backHandler={toggleFlashModal}
+          collection={collectionDetails}
+          onSuccess={() => {
+            toggleFlashModal();
+            getGroupCollectionDetails();
           }}
         />
       )}

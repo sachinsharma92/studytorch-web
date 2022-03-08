@@ -4,7 +4,6 @@ import {
   Modal,
   Spin,
   Divider,
-  Menu,
   Tabs,
   Radio,
   Select,
@@ -31,12 +30,12 @@ import {
   updateQuestion,
 } from '../../../redux/actions/questionActions';
 import QuestionImageUpload from '../../../components/questionImageUpload';
-import { DownloadOutlined, FileTextOutlined } from '@ant-design/icons';
+
 import {
   CREATE_QUESTION_SUCCESS,
   UPDATE_QUESTION_SUCCESS,
 } from '../../../constants/messages';
-import { uploadImage, unlinkMedia } from '../../../redux/actions/mediaAction';
+
 // Images
 import iconArrowLeft from '../../../assets/images/icons/caret-Left.svg';
 import ButtonCustom from '../../../common/buttons/buttonCustom';
@@ -46,15 +45,8 @@ import { optionAlphabet } from '../../../constants/questions';
 import './styles.scss';
 
 const { Option } = Select;
-const { confirm } = Modal;
-const { TabPane } = Tabs;
 
-const menu = (
-  <Menu>
-    <Menu.Item icon={<DownloadOutlined />}>Donwload PDF</Menu.Item>
-    <Menu.Item icon={<FileTextOutlined />}>Print</Menu.Item>
-  </Menu>
-);
+const { TabPane } = Tabs;
 
 function QuestionModal(props: any) {
   const { onSuccess, edit, initialValue, collection } = props;

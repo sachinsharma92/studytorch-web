@@ -91,27 +91,6 @@ const routes = [
   },
 ];
 
-const flashCardData = [
-  {
-    title: 'Headline label',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Adipiscing  elit fringilla vitae...',
-    tag: 'Tag 1',
-  },
-  {
-    title: 'Headline label',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Adipiscing  elit fringilla vitae...',
-    tag: 'Tag 1',
-  },
-  {
-    title: 'Headline label',
-    description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Adipiscing  elit fringilla vitae...',
-    tag: 'Tag 1',
-  },
-];
-
 function ShareWithMeDetails(props: any) {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -176,10 +155,16 @@ function ShareWithMeDetails(props: any) {
     });
   };
 
-  const [isFlashEditModal, setIsFlashEditModal] = useState(false);
+  const [flashModal, setFlashModal] = useState({
+    visible: false,
+    data: null,
+  });
 
-  const flashEditModalTpggleModal = () => {
-    setIsFlashEditModal(!isFlashEditModal);
+  const toggleFlashModal = (data = null) => {
+    setFlashModal({
+      visible: !get(flashModal, 'visible'),
+      data: data,
+    });
   };
   const [isRevisionModeModal, setIsRevisionModeModal] = useState(false);
   const revisionModeToggle = () => {
@@ -250,6 +235,7 @@ function ShareWithMeDetails(props: any) {
       </a>
       <a onClick={() => toggleNoteModal()}>Notes</a>
       <a onClick={() => toggleQuestionModal()}>Question</a>
+      <a onClick={() => toggleFlashModal()}>Flash Card</a>
     </div>
   );
 
@@ -512,51 +498,51 @@ function ShareWithMeDetails(props: any) {
                 )}
               </TabPane>
               <TabPane tab="Flash Card" key="4">
-                <div className="inline-button-section mb--20">
-                  <ButtonCustom
-                    className="round-primary"
-                    onClick={revisionModeToggle}
-                    title="Revision Mode"
-                  />
-                </div>
+                {get(collectionDetails, 'flashCards', []).length > 0 && (
+                  <div className="inline-button-section mb--20">
+                    <ButtonCustom
+                      className="round-primary"
+                      onClick={revisionModeToggle}
+                      title="Revision Mode"
+                    />
+                  </div>
+                )}
                 <RevisionModeModal
                   visible={isRevisionModeModal}
                   closeHandler={revisionModeToggle}
+                  flashCards={get(collectionDetails, 'flashCards', [])}
                 />
+                {get(collectionDetails, 'flashCards', []).length === 0 && (
+                  <div className="state-center">
+                    <EmptyState
+                      imgUrl={folderGray}
+                      title="Create your flash card"
+                      buttonText="Add Flash card"
+                      buttonType="primary"
+                      buttonHandler={() => toggleFlashModal()}
+                    />
+                  </div>
+                )}
                 <div className="card-section note-section">
                   <Row gutter={32}>
-                    {flashCardData.map((data, index) => (
-                      <Col sm={8} key={index}>
-                        <FlashCard
-                          title={data.title}
-                          description={data.description}
-                          menuData={
-                            <Menu>
-                              <Menu.Item icon={<EditOutlined />}>
-                                <a onClick={flashEditModalTpggleModal}>Edit</a>
-                              </Menu.Item>
-                              <Menu.Item icon={<DeleteOutlined />}>
-                                <a
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  href="#"
-                                >
-                                  Delete
-                                </a>
-                              </Menu.Item>
-                            </Menu>
-                          }
-                        />
-                      </Col>
-                    ))}
+                    {map(
+                      get(collectionDetails, 'flashCards', []),
+                      (flashCard, index) => (
+                        <Col sm={8} key={index}>
+                          <FlashCard
+                            flashCard={flashCard}
+                            setLoading={setLoading}
+                            collection={collectionDetails}
+                            hideEditDelete={!canEditCollection}
+                            onSuccess={fetchSharedCollectionDetails}
+                            onEditFlashCard={(data: any) => {
+                              toggleFlashModal(data);
+                            }}
+                          />
+                        </Col>
+                      )
+                    )}
                   </Row>
-
-                  <FlashEditModal
-                    visible={isFlashEditModal}
-                    btnAddHandler={flashEditModalTpggleModal}
-                    cancelHandler={flashEditModalTpggleModal}
-                    backHandler={flashEditModalTpggleModal}
-                  />
                 </div>
               </TabPane>
             </Tabs>
@@ -661,6 +647,22 @@ function ShareWithMeDetails(props: any) {
           toggleQuestionModal();
         }}
       />
+
+      {get(flashModal, 'visible') && (
+        <FlashEditModal
+          visible={get(flashModal, 'visible')}
+          initialValue={get(flashModal, 'data')}
+          edit={get(flashModal, 'data') ? true : false}
+          btnAddHandler={toggleFlashModal}
+          cancelHandler={toggleFlashModal}
+          backHandler={toggleFlashModal}
+          collection={collectionDetails}
+          onSuccess={() => {
+            toggleFlashModal();
+            fetchSharedCollectionDetails();
+          }}
+        />
+      )}
       {canEditCollection && (
         <Popover content={toggleData} placement="topRight">
           <Button
