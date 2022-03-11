@@ -107,6 +107,26 @@ export const updateUserProfile =
       });
   };
 
+export const updateUserNotification =
+  (payload: any): any =>
+  (dispatch: any, getState: any, { api }: any): any => {
+    return api
+      .post(APIS.USER_NOTIFICATION, payload)
+      .then((user: any) => {
+        api.defaults.headers.common['authorization'] = `Bearer ${get(
+          user,
+          'token'
+        )}`;
+        dispatch({
+          type: USER_LOGGED_IN,
+          payload: user,
+        });
+      })
+      .catch((error: any) => {
+        throw error;
+      });
+  };
+
 export const changePassword =
   (payload: any): any =>
   (dispatch: any, getState: any, { api }: any): any => {

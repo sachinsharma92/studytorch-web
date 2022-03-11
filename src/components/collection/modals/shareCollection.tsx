@@ -11,6 +11,7 @@ import {
   Input,
   message,
   Popconfirm,
+  Tag,
 } from 'antd';
 import { useState, useEffect, useCallback } from 'react';
 import get from 'lodash/get';
@@ -24,6 +25,7 @@ import {
   fetchCollectionSharedUsers,
   shareCollection,
   removeFromShareCollection,
+  fetchInvitedCollectionMember,
 } from '../../../redux/actions/collectionActions';
 import {
   SHARE_COLLECTION_SUCCESS,
@@ -32,7 +34,7 @@ import {
 // Images
 import setting from '../../../assets/images/icons/setting.svg';
 import arrowLeft from '../../../assets/images/icons/arrow-left.svg';
-import { DeleteOutlined} from '@ant-design/icons';
+import { DeleteOutlined } from '@ant-design/icons';
 
 // Styles
 import './styles.scss';
@@ -48,6 +50,7 @@ function ShareCollectionModal(props: any) {
   const [loading, setLoading] = useState(false);
   const [users, setUsers] = useState([]);
   const [sharedUsers, setSharedUsers] = useState([]);
+  const [invitedUsers, setInvitedUsers] = useState([]);
   const [selectedUser, setSelecteduser] = useState({
     user: undefined,
     edit_persmission: 0,
@@ -82,9 +85,22 @@ function ShareCollectionModal(props: any) {
       });
   };
 
+  const getInvitedMembers = (id: any) => {
+    setLoading(true);
+    dispatch(fetchInvitedCollectionMember(id))
+      .then((result: []) => {
+        setInvitedUsers([...result]);
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  };
+
   useEffect(() => {
     getUsersForCollection(get(collection, 'id'), { limit: 10 });
     getSharedUser(get(collection, 'id'));
+    getInvitedMembers(get(collection, 'id'));
   }, []);
 
   const onSearch = (value: any) => {
@@ -106,6 +122,7 @@ function ShareCollectionModal(props: any) {
       .then((result: []) => {
         getUsersForCollection(get(collection, 'id'), { limit: 10 });
         getSharedUser(get(collection, 'id'));
+        getInvitedMembers(get(collection, 'id'));
         message.success(SHARE_COLLECTION_SUCCESS);
         setSelecteduser({
           user: undefined,
@@ -125,6 +142,7 @@ function ShareCollectionModal(props: any) {
       .then(() => {
         getUsersForCollection(get(collection, 'id'), { limit: 10 });
         getSharedUser(get(collection, 'id'));
+        getInvitedMembers(get(collection, 'id'));
         message.success(REMOVE_SHARE_COLLECTION_SUCCESS);
         setLoading(false);
       })
@@ -210,29 +228,33 @@ function ShareCollectionModal(props: any) {
               <List
                 className="demo-loadmore-list"
                 itemLayout="horizontal"
-                dataSource={sharedUsers}
+                dataSource={[...sharedUsers, ...invitedUsers]}
                 renderItem={(user, i) => (
                   <List.Item
-                    actions={[
-                      <Space direction="vertical">
-                        <Button type="link" className="list-edit-button">
-                          {get(user, 'share_collection.edit_persmission')
-                            ? 'Editor'
-                            : 'Viewer'}
-                        </Button>
-                      </Space>,
-                      <Popconfirm
-                        title="Are you sure to remove this member from  Collection?"
-                        onConfirm={() => {
-                          onRemoveUser(get(user, 'id'));
-                        }}
-                        onCancel={() => {}}
-                        okText="Yes"
-                        cancelText="No"
-                      >
-                        <Button type="link" icon={<DeleteOutlined/>}/>
-                      </Popconfirm>,
-                    ]}
+                    actions={
+                      !get(user, 'invited')
+                        ? [
+                            <Space direction="vertical">
+                              <Button type="link" className="list-edit-button">
+                                {get(user, 'share_collection.edit_persmission')
+                                  ? 'Editor'
+                                  : 'Viewer'}
+                              </Button>
+                            </Space>,
+                            <Popconfirm
+                              title="Are you sure to remove this member from  Collection?"
+                              onConfirm={() => {
+                                onRemoveUser(get(user, 'id'));
+                              }}
+                              onCancel={() => {}}
+                              okText="Yes"
+                              cancelText="No"
+                            >
+                              <Button type="link" icon={<DeleteOutlined />} />
+                            </Popconfirm>,
+                          ]
+                        : [<Tag color="red">Invited</Tag>]
+                    }
                   >
                     <List.Item.Meta
                       avatar={

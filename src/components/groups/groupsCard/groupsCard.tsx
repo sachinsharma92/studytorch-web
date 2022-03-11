@@ -1,11 +1,10 @@
 import { Dropdown, Avatar, Tooltip, Menu } from 'antd';
 import get from 'lodash/get';
 import map from 'lodash/map';
-import replace from 'lodash/replace';
+
 import {
   EditOutlined,
   DeleteOutlined,
-  UserAddOutlined,
   InfoCircleOutlined,
 } from '@ant-design/icons';
 import verticalDot from '../../../assets/images/icons/vertical-dot.svg';

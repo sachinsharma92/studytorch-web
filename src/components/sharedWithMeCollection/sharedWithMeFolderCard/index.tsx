@@ -1,17 +1,20 @@
-import { Card, Drawer } from 'antd';
+import { Card, Drawer, Avatar } from 'antd';
+import get from 'lodash/get';
 import ROUTES from '../../../router';
 import { Link } from 'react-router-dom';
-import image from '../../../assets/images/sharedWithMe/image.svg';
+
 import FolderIconSVG from '../../../common/FolderIconSVG';
 import EllipsisMenu from '../../ellipsisMenu';
 import replace from 'lodash/replace';
+import { getNameAvatar } from '../../../utilities/helpers';
+import { avatarColors } from '../../../constants/groups';
 
 import './styles.scss';
 import ModalConfirmation from '../../../common/modalConfirmation';
 import { useState } from 'react';
 
 function SharedFolderCard(props: any) {
-  const { onViewDetails, onRemoveSharedCollection } = props;
+  const { onViewDetails, onRemoveSharedCollection, index } = props;
   const [isSharedDrawer, setSharedDrawer] = useState(false);
   const [isModalConfirmation, setIsModalConfirmation] = useState(false);
   const modalConfirmationToggle = () => {
@@ -62,8 +65,16 @@ function SharedFolderCard(props: any) {
         </div>
         <hr className="line" />
         <div className="bottom-card-layer">
-          <img src={image} />
-          <p>Shared by {props.sharedBy}</p>
+          {get(props, 'sharedBy.image') ? (
+            <Avatar src={get(props, 'sharedBy.image_url')} />
+          ) : (
+            getNameAvatar(
+              get(props, 'sharedBy.name'),
+              20,
+              avatarColors[index % 4]
+            )
+          )}
+          <p>Shared by {get(props, 'sharedBy.name')}</p>
         </div>
       </Card>
 

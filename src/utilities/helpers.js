@@ -12,7 +12,7 @@ export const truncateText = (input, length) => {
 };
 
 export const getNameAvatar = (name, size = 30, color = '#f56a00') => (
-  <Avatar style={{ backgroundColor: color }}>
+  <Avatar size={size} style={{ backgroundColor: color }}>
     {upperCase(get(name, '0'))}
   </Avatar>
 );

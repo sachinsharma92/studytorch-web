@@ -157,3 +157,48 @@ export const leaveShareCollection =
         throw error;
       });
   };
+
+export const fetchInvitedCollectionMember =
+  (id: any): any =>
+  (dispatch: any, getState: any, { api }: any): any => {
+    return api
+      .get(
+        `${replaceMultiple(APIS.GET_COLLECTION_INVITED_MEMBER, {
+          ':parent_id': id,
+        })}`
+      )
+      .then((result: any) => {
+        return result;
+      })
+      .catch((error: any) => {
+        throw error;
+      });
+  };
+
+export const verifyCollectionLink =
+  (uuid: any): any =>
+  (dispatch: any, getState: any, { api }: any): any => {
+    const url = `share-collections/verify-link/${uuid}`;
+    return api
+      .get(url)
+      .then((result: any) => {
+        return result;
+      })
+      .catch((error: any) => {
+        throw error;
+      });
+  };
+
+export const onAcceptCollectionLink =
+  (uuid: any): any =>
+  (dispatch: any, getState: any, { api }: any): any => {
+    const url = `share-collections/accept-link/${uuid}`;
+    return api
+      .post(url)
+      .then((result: any) => {
+        return result;
+      })
+      .catch((error: any) => {
+        throw error;
+      });
+  };

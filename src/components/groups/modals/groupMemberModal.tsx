@@ -10,6 +10,7 @@ import {
   Col,
   Typography,
   Space,
+  Tag,
 } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import get from 'lodash/get';
@@ -18,16 +19,21 @@ import upperCase from 'lodash/upperCase';
 import {
   getUserForGroup,
   addMemberToGroup,
+  removeMemberToGroup,
+  fetchInvitedGroupMember,
 } from '../../../redux/actions/groupActions';
 import { getNameAvatar } from '../../../utilities/helpers';
 import { avatarColors } from '../../../constants/groups';
-import { GROUP_MEMBER_UPDATED_SUCCESS } from '../../../constants/messages';
-import { DeleteOutlined} from '@ant-design/icons';
+import {
+  GROUP_MEMBER_UPDATED_SUCCESS,
+  GROUP_MEMBER_REMOVED_SUCCESS,
+} from '../../../constants/messages';
+import { DeleteOutlined } from '@ant-design/icons';
 
 // Styles
 import './styles.scss';
 import { useState, useEffect, useCallback } from 'react';
-import { map, remove } from 'lodash';
+import { map } from 'lodash';
 
 const { Text } = Typography;
 
@@ -37,6 +43,7 @@ function GroupMemberModal(props: any) {
   const { groupDetails, refreshGroupDetails } = props;
   const dispatch = useDispatch();
   const [users, setUsers] = useState([]);
+  const [invitedMembers, setInvitedMembers] = useState([]);
   const [selectedUser, setSelecteduser] = useState(undefined);
   const [loading, setLoading] = useState(false);
   const user = useSelector((state) => get(state, 'userState.user'));
@@ -53,8 +60,21 @@ function GroupMemberModal(props: any) {
       });
   };
 
+  const getInvitedGroupMember = () => {
+    setLoading(true);
+    dispatch(fetchInvitedGroupMember(get(groupDetails, 'id')))
+      .then((result: any) => {
+        setInvitedMembers(result);
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  };
+
   useEffect(() => {
     getUsersForGroup(get(groupDetails, 'id'), { limit: 10 });
+    getInvitedGroupMember();
   }, []);
 
   const onSearch = (value: any) => {
@@ -73,6 +93,7 @@ function GroupMemberModal(props: any) {
         message.success(GROUP_MEMBER_UPDATED_SUCCESS);
         setSelecteduser(undefined);
         refreshGroupDetails();
+        getInvitedGroupMember();
         getUsersForGroup(get(groupDetails, 'id'), { limit: 10 });
       })
       .catch(() => {
@@ -84,8 +105,20 @@ function GroupMemberModal(props: any) {
 
   const onRemoveMember = (index: Number) => {
     const membersId = map(get(groupDetails, 'group_members', []), 'id');
-    remove(membersId, (id, i) => i === index);
-    onAddMember(membersId);
+    setLoading(true);
+    dispatch(
+      removeMemberToGroup(get(groupDetails, 'id'), get(membersId, `${index}`))
+    )
+      .then(() => {
+        setLoading(false);
+        message.success(GROUP_MEMBER_REMOVED_SUCCESS);
+        setSelecteduser(undefined);
+        refreshGroupDetails();
+        getUsersForGroup(get(groupDetails, 'id'), { limit: 10 });
+      })
+      .catch(() => {
+        setLoading(false);
+      });
   };
 
   return (
@@ -103,7 +136,7 @@ function GroupMemberModal(props: any) {
         <div className="card-modal">
           <div className="modal-body-sec">
             <div className="header-section">
-              <h3 className="title3">Group Members {users.length}</h3>
+              <h3 className="title3">Group Members </h3>
             </div>
 
             <div className="flex-section">
@@ -144,12 +177,7 @@ function GroupMemberModal(props: any) {
                 </Select>
               </div>
               <Button
-                onClick={() =>
-                  onAddMember([
-                    selectedUser,
-                    ...map(get(groupDetails, 'group_members', []), 'id'),
-                  ])
-                }
+                onClick={() => onAddMember([selectedUser])}
                 className="btn-add"
                 type="primary"
               >
@@ -169,30 +197,40 @@ function GroupMemberModal(props: any) {
               <List
                 className="demo-loadmore-list"
                 itemLayout="horizontal"
-                dataSource={get(groupDetails, 'group_members', [])}
+                dataSource={[
+                  ...get(groupDetails, 'group_members', []),
+                  ...invitedMembers,
+                ]}
                 renderItem={(item: any, index: Number) => (
                   <List.Item
-                    actions={[
-                      <Text code>
-                        {get(user, 'id') === get(item, 'id')
-                          ? 'Admin'
-                          : 'Member'}
-                      </Text>,
-                      // <a className="list-close-button">x</a>,
-                      get(user, 'id') !== get(item, 'id') && (
-                        <Popconfirm
-                          title="Are you sure to remove this member from  group?"
-                          onConfirm={() => {
-                            onRemoveMember(index);
-                          }}
-                          onCancel={() => {}}
-                          okText="Yes"
-                          cancelText="No"
-                        >
-                          <Button type="link" icon={<DeleteOutlined/>}/>
-                        </Popconfirm>
-                      ),
-                    ]}
+                    actions={
+                      !get(item, 'invited')
+                        ? [
+                            <Text code>
+                              {get(user, 'id') === get(item, 'id')
+                                ? 'Admin'
+                                : 'Member'}
+                            </Text>,
+                            get(user, 'id') !== get(item, 'id') && (
+                              <Popconfirm
+                                title="Are you sure to remove this member from  group?"
+                                onConfirm={() => {
+                                  onRemoveMember(index);
+                                }}
+                                onCancel={() => {}}
+                                okText="Yes"
+                                cancelText="No"
+                              >
+                                <Button type="link" icon={<DeleteOutlined />} />
+                              </Popconfirm>
+                            ),
+                          ]
+                        : [
+                            get(item, 'invited') && (
+                              <Tag color="red">Invited</Tag>
+                            ),
+                          ]
+                    }
                   >
                     <List.Item.Meta
                       avatar={

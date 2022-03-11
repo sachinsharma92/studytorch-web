@@ -15,11 +15,12 @@ function SharedWithMeCollection(props: any) {
           <Col xs={24} sm={6} key={index}>
             <SharedFolderCard
               folderName={get(folder, 'collection.name')}
+              index={index}
               id={get(folder, 'collection.id')}
               folderColor={get(folder, 'collection.color')}
               notes={get(folder, 'collection.note_count')}
               quizzes={get(folder, 'collection.question_count')}
-              sharedBy={get(folder, 'shared_by.name')}
+              sharedBy={get(folder, 'shared_by')}
               onViewDetails={() => onViewDetails(folder)}
               onRemoveSharedCollection={() =>
                 onRemoveSharedCollection(get(folder, 'collection.id'))

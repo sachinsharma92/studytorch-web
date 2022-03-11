@@ -153,6 +153,23 @@ export const fetchGroupQuizDetails =
       });
   };
 
+export const fetchInvitedGroupMember =
+  (id: any): any =>
+  (dispatch: any, getState: any, { api }: any): any => {
+    return api
+      .get(
+        replaceMultiple(APIS.GET_INVITED_GROUP_MEMBER, {
+          ':id': id,
+        })
+      )
+      .then((result: any) => {
+        return result;
+      })
+      .catch((error: any) => {
+        throw error;
+      });
+  };
+
 export const addMemberToGroup =
   (id: any, payload: any): any =>
   (dispatch: any, getState: any, { api }: any): any => {
@@ -163,6 +180,66 @@ export const addMemberToGroup =
         }),
         payload
       )
+      .then((result: any) => {
+        return result;
+      })
+      .catch((error: any) => {
+        throw error;
+      });
+  };
+
+export const removeMemberToGroup =
+  (groupID: any, memberId: any): any =>
+  (dispatch: any, getState: any, { api }: any): any => {
+    return api
+      .delete(
+        replaceMultiple(APIS.REMOVE_MEMBER_TO_GROUP, {
+          ':member_id': memberId,
+          ':id': groupID,
+        })
+      )
+      .then((result: any) => {
+        return result;
+      })
+      .catch((error: any) => {
+        throw error;
+      });
+  };
+
+export const verifyGroupLink =
+  (uuid: any): any =>
+  (dispatch: any, getState: any, { api }: any): any => {
+    const url = `groups/verify-link/${uuid}`;
+    return api
+      .get(url)
+      .then((result: any) => {
+        return result;
+      })
+      .catch((error: any) => {
+        throw error;
+      });
+  };
+
+export const onAcceptGroupLink =
+  (uuid: any): any =>
+  (dispatch: any, getState: any, { api }: any): any => {
+    const url = `groups/accept-link/${uuid}`;
+    return api
+      .post(url)
+      .then((result: any) => {
+        return result;
+      })
+      .catch((error: any) => {
+        throw error;
+      });
+  };
+
+export const rejectLink =
+  (uuid: any): any =>
+  (dispatch: any, getState: any, { api }: any): any => {
+    const url = `reject-link/${uuid}`;
+    return api
+      .put(url)
       .then((result: any) => {
         return result;
       })

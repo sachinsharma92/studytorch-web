@@ -2,7 +2,7 @@ export const CREATE_COLLECTION_SUCCESS = 'Collection Created Successfully';
 export const UPDATE_COLLECTION_SUCCESS = 'Collection Updated Successfully';
 export const DELETE_COLLECTION_SUCCESS = 'Collection Deleted Successfully';
 export const SHARE_COLLECTION_SUCCESS =
-  'Collection shared successfully to user';
+  'Collection shared invitation sent successfully to user';
 export const REMOVE_SHARE_COLLECTION_SUCCESS =
   'User removed successfully from collection';
 export const COLLECTION_LEAVE_SUCCESS = 'Collection leave successfully';
@@ -24,13 +24,18 @@ export const VERIFICATION_CODE_SENT_SUCCESS =
 
 export const CODE_VERIFY_SUCCESS = 'Code verify successfully';
 export const PROFILE_UPDATE_SUCCESS = 'Profile updated successfully';
+export const NOTIFICATION_UPDATE_SUCCESS =
+  'Notification settings updated successfully';
 export const CHANGE_PASSWORD_SUCCESS = 'Password Changed successfully';
 
 export const CREATE_GROUP_SUCCESS = 'Group Created Successfully';
 export const UPDATE_GROUP_SUCCESS = 'Group Updated Successfully';
 export const DELETE_GROUP_SUCCESS = 'Group deleted Successfully';
 export const LEAVE_GROUP_SUCCESS = 'Group leaved Successfully';
-export const GROUP_MEMBER_UPDATED_SUCCESS = 'Group member updated Successfully';
+export const GROUP_MEMBER_UPDATED_SUCCESS =
+  'Request send to member successfully';
+export const GROUP_MEMBER_REMOVED_SUCCESS =
+  'Member removed from group successfully';
 
 export const CREATE_CHECKLIST_SUCCESS = 'Checklist Created Successfully';
 export const UPDATE_CHECKLIST_SUCCESS = 'Checklist Updated Successfully';
@@ -47,3 +52,6 @@ export const CREATE_QUIZ_SUCCESS = 'Quiz Created Successfully';
 export const UPDATE_QUIZ_SUCCESS = 'Quiz Updated Successfully';
 export const DELETE_QUIZ_SUCCESS = 'Quiz deleted Successfully';
 export const SUBMIT_QUIZ_SUCCESS = 'Quiz Submitted Successfully';
+
+export const LINK_ACCEPT_SUCCESS = ' Link accepted successfully';
+export const LINK_REJECT_SUCCESS = ' Link rejected successfully';

@@ -203,7 +203,7 @@ function CollectionDetails(props: any) {
   const createQuizToggleModal = () => {
     setIsCreateQuizModal(!isCreateQuizModal);
   };
-  console.log('=====>collectiondetaiks', collectionDetails);
+
   return (
     <PrimaryLayout>
       <div className="collection-page-style">

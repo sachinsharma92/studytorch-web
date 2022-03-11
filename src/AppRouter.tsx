@@ -107,6 +107,20 @@ const ReadNoteScreen = lazy(
     )
 );
 
+const GroupInvitationScreen = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "scoreDetails" */ './pages/invitation/groupInvitationScreen'
+    )
+);
+
+const CollectionInvitationScreen = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "scoreDetails" */ './pages/invitation/collectionInvitationScreen'
+    )
+);
+
 const AppRouter = () => {
   const [isLoading, setIsLoading] = useState(false);
 
@@ -116,6 +130,14 @@ const AppRouter = () => {
         <Router>
           <Routes>
             <Route path={'/test'} element={<TestScreen />} />
+            <Route
+              path={ROUTES.GROUP_INVITAION}
+              element={<GroupInvitationScreen />}
+            />
+            <Route
+              path={ROUTES.SHARED_COLLECTION_INVITAION}
+              element={<CollectionInvitationScreen />}
+            />
             <Route path={ROUTES.HOME_SCREEN} element={<HomeScreen />} />
             <Route path={ROUTES.LOGIN_SCREEN} element={<LoginScreen />} />
             <Route path={'/'} element={<LoginScreen />} />

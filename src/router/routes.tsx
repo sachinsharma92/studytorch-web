@@ -37,3 +37,7 @@ export const PROFILE_SCREEN = '/profile';
 export const NOTIFICATION_SCREEN = '/notification';
 export const SECURITY_SCREEN = '/security';
 export const ACCOUNT_DELETE_SCREEN = '/account-delete';
+
+// INVITATION
+export const GROUP_INVITAION = '/group-invitation/:id';
+export const SHARED_COLLECTION_INVITAION = '/shared-collection-invitation/:id';

@@ -14,7 +14,7 @@ function ColumnHighchartChart(props: any) {
     tooltip: {
       formatter: function (obj: any, obj2: any) {
         return `<text x="8" data-z-index="1" y="18" style="color:#333333;font-size:12px;fill:#333333;">
-		<tspan style="font-size: 10px">02</tspan>
+		<tspan style="font-size: 10px">${get(this, 'x')}</tspan>
 		<tspan class="highcharts-br" dy="15" x="8">​</tspan>
 		<tspan style="fill:#6C5ECF">●</tspan>
 		Time: 

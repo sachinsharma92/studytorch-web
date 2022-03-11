@@ -140,11 +140,13 @@ export default function PrimaryLayout(props: any) {
                 </Col>
                 <Col xs={10} md={10}>
                   <SearchPrimary onClick={modalSearchToggle} />
-                  <SearchDataModal
-                    visible={isModalSearch}
-                    handleCancel={modalSearchToggle}
-                    handleLeave={modalSearchToggle}
-                  />
+                  {isModalSearch && (
+                    <SearchDataModal
+                      visible={isModalSearch}
+                      handleCancel={modalSearchToggle}
+                      handleLeave={modalSearchToggle}
+                    />
+                  )}
                 </Col>
                 <Col xs={10} md={6}>
                   <div className="flex-right">
