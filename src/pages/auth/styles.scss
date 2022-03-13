@@ -72,19 +72,22 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     overflow: scroll;
-    min-height: 100vh;
+    height: 100vh;
 
 		@include mobile {
 			padding: 20px;
 			padding-top: 110px;
-			min-height: auto;
+			height: auto;
 		}
 
     .form-section {
+      width: 500px;
       max-width: 500px;
-      padding-right: 5%;
+
+      @include mobile {
+        width: auto;
+      }
     }
 
     .title1 {
