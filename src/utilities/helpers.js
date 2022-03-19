@@ -2,6 +2,7 @@ import { Avatar } from 'antd';
 import get from 'lodash/get';
 import map from 'lodash/map';
 import moment from 'moment';
+import padStart from 'lodash/padStart';
 import upperCase from 'lodash/upperCase';
 
 export const truncateText = (input, length) => {
@@ -57,4 +58,20 @@ export const getTimeText = (time = 0) => {
   }
 
   return text;
+};
+
+export const getFormattedDateString = (date) => {
+  return `${date.getFullYear()}-${
+    // @ts-ignore: Unreachable code error
+    date.getMonth() + 1
+    // @ts-ignore: Unreachable code error
+  }-${date.getDate()}`;
+};
+
+export const getFormattedTimeString = (date) => {
+  return `${padStart(date.getHours(), 2, '0')}:${
+    // @ts-ignore: Unreachable code error
+    padStart(date.getMinutes(), 2, '0')
+    // @ts-ignore: Unreachable code error
+  }:${padStart(date.getSeconds(), 2, '0')}`;
 };

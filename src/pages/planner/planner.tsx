@@ -7,27 +7,39 @@ import moment from 'moment';
 import get from 'lodash/get';
 import map from 'lodash/map';
 import isArray from 'lodash/isArray';
+import pick from 'lodash/pick';
 import { useDispatch } from 'react-redux';
 import PlanAddModal from '../../components/planner/modals/planAddModal';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
+import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import {
   fetchUserCalendar,
   deleteUserCalendar,
+  updateUserCalendar,
 } from '../../redux/actions/UserCalendarAction';
 // Images
 import folderGray from '../../assets/images/icons/folder-gray.svg';
 import PlanDetails from '../../components/planner/planDetails';
-import { DELETE_CALENDAR_PLAN_SUCCESS } from '../../constants/messages';
+import {
+  DELETE_CALENDAR_PLAN_SUCCESS,
+  UPDATE_CALENDAR_PLAN_SUCCESS,
+} from '../../constants/messages';
+import {
+  getFormattedDateString,
+  getFormattedTimeString,
+} from '../../utilities/helpers';
 // Styles
 import './styles.scss';
 
 const localizer = momentLocalizer(moment);
+const DnDCalendar = withDragAndDrop(Calendar as any);
 
 function PlannerScreen(props: any) {
   const [isPlannerAddModal, setIsPlannerAddModal] = useState({
     visible: false,
     data: null,
+    edit: false,
   });
   const [dateFilter, setDateFilter] = useState({
     start_date: moment().startOf('month').format('YYYY-MM-DD'),
@@ -49,11 +61,25 @@ function PlannerScreen(props: any) {
   };
 
   const dispatch = useDispatch();
-  const plannerAddToggleModal = (data = null) => {
+  const plannerAddToggleModal = (data: any = null, edit = false) => {
     setIsPlannerAddModal({
       visible: !get(isPlannerAddModal, 'visible'),
       data,
+      edit,
     });
+  };
+
+  const editUserCalendar = (id: any, payload: any) => {
+    setLoading(true);
+    dispatch(updateUserCalendar(id, payload))
+      .then(() => {
+        setLoading(false);
+        message.success(UPDATE_CALENDAR_PLAN_SUCCESS);
+        getUserCalendar(dateFilter);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
   };
 
   const getUserCalendar = (query: any) => {
@@ -66,11 +92,11 @@ function PlannerScreen(props: any) {
             id: get(plan, 'id'),
             title: get(plan, 'title'),
             start: moment(
-              `${get(plan, 'date')} ${get(plan, 'start_time')}`,
+              `${get(plan, 'start_date')} ${get(plan, 'start_time')}`,
               'YYYY-MM-DD HH:mm'
             ).toDate(),
             end: moment(
-              `${get(plan, 'date')} ${get(plan, 'end_time')}`,
+              `${get(plan, 'end_date')} ${get(plan, 'end_time')}`,
               'YYYY-MM-DD HH:mm'
             ).toDate(),
             color: get(plan, 'color'),
@@ -105,7 +131,9 @@ function PlannerScreen(props: any) {
   useEffect(() => {
     getUserCalendar(dateFilter);
   }, []);
-
+  console.log({ plans });
+  const now = new Date();
+  now.setHours(0, 0, 0, 0);
   return (
     <PrimaryLayout>
       <div className="planner-page-style">
@@ -140,12 +168,28 @@ function PlannerScreen(props: any) {
             </div>
           ) : (
             <div className="calendar-section">
-              <Calendar
+              <DnDCalendar
                 localizer={localizer}
+                selectable
                 views={['month', 'week', 'day']}
                 events={plans}
-                onSelectEvent={(event) => {
+                onSelectEvent={(event: any) => {
                   togglePlanDetails(event);
+                }}
+                onSelectSlot={(slotInfo) => {
+                  if (
+                    !moment(
+                      getFormattedDateString(get(slotInfo, 'slots.0')),
+                      'YYYY-MM-DD'
+                    ).isBefore(moment().startOf('day'))
+                  ) {
+                    plannerAddToggleModal(
+                      {
+                        date: getFormattedDateString(get(slotInfo, 'slots.0')),
+                      },
+                      false
+                    );
+                  }
                 }}
                 onRangeChange={(slotInfo) => {
                   if (isArray(slotInfo) && slotInfo.length > 1) {
@@ -167,41 +211,50 @@ function PlannerScreen(props: any) {
                   }
                   if (isArray(slotInfo)) {
                     getUserCalendar({
-                      // @ts-ignore: Unreachable code error
-                      start_date: `${get(slotInfo, '0').getFullYear()}-${
-                        // @ts-ignore: Unreachable code error
-                        get(slotInfo, '0').getMonth() + 1
-                        // @ts-ignore: Unreachable code error
-                      }-${get(slotInfo, '0').getDate()}`,
-                      // @ts-ignore: Unreachable code error
-                      end_date: `${get(slotInfo, '0').getFullYear()}-${
-                        // @ts-ignore: Unreachable code error
-                        get(slotInfo, '0').getMonth() + 1
-                        // @ts-ignore: Unreachable code error
-                      }-${get(slotInfo, '0').getDate()}`,
+                      start_date: getFormattedDateString(get(slotInfo, '0')),
+                      end_date: getFormattedDateString(get(slotInfo, '0')),
                     });
                   } else {
                     getUserCalendar({
-                      // @ts-ignore: Unreachable code error
-                      start_date: `${get(slotInfo, 'start').getFullYear()}-${
-                        // @ts-ignore: Unreachable code error
-                        get(slotInfo, 'start').getMonth() + 1
-                        // @ts-ignore: Unreachable code error
-                      }-${get(slotInfo, 'start').getDate()}`,
-                      // @ts-ignore: Unreachable code error
-                      end_date: `${get(slotInfo, 'end').getFullYear()}-${
-                        // @ts-ignore: Unreachable code error
-                        get(slotInfo, 'end').getMonth() + 1
-                        // @ts-ignore: Unreachable code error
-                      }-${get(slotInfo, 'end').getDate()}`,
+                      start_date: getFormattedDateString(
+                        get(slotInfo, 'start')
+                      ),
+                      end_date: getFormattedDateString(get(slotInfo, 'end')),
                     });
                   }
+                }}
+                onEventDrop={(eventObj) => {
+                  editUserCalendar(get(eventObj, 'event.id'), {
+                    ...pick(get(eventObj, 'event'), [
+                      'title',
+                      'description',
+                      'color',
+                    ]),
+                    start_date: getFormattedDateString(get(eventObj, 'start')),
+                    end_date: getFormattedDateString(get(eventObj, 'end')),
+                    start_time: getFormattedTimeString(get(eventObj, 'start')),
+                    end_time: getFormattedTimeString(get(eventObj, 'end')),
+                  });
                 }}
                 startAccessor="start"
                 endAccessor="end"
                 style={{ height: 600 }}
                 eventPropGetter={(event) => {
-                  return { style: { backgroundColor: get(event, 'color') } };
+                  return {
+                    style: { backgroundColor: get(event, 'color') },
+                  };
+                }}
+                dayPropGetter={(dayobj) => {
+                  return {
+                    style:
+                      now > dayobj
+                        ? {
+                            pointerEvents: 'none',
+                            opacity: 0.3,
+                            background: '#ccc',
+                          }
+                        : {},
+                  };
                 }}
               />
             </div>
@@ -213,15 +266,15 @@ function PlannerScreen(props: any) {
       {get(isPlannerAddModal, 'visible') && (
         <PlanAddModal
           visible={get(isPlannerAddModal, 'visible')}
-          edit={get(isPlannerAddModal, 'data') ? true : false}
+          edit={get(isPlannerAddModal, 'edit')}
           initialValues={get(isPlannerAddModal, 'data')}
-          addHandler={plannerAddToggleModal}
+          addHandler={() => plannerAddToggleModal()}
           onSuccess={() => {
             plannerAddToggleModal();
             getUserCalendar(dateFilter);
           }}
-          cancelHandler={plannerAddToggleModal}
-          onCancel={plannerAddToggleModal}
+          cancelHandler={() => plannerAddToggleModal()}
+          onCancel={() => plannerAddToggleModal()}
         />
       )}
 
@@ -239,7 +292,7 @@ function PlannerScreen(props: any) {
           onDeletePlan={onDeletePlan}
           onClickEdit={(plan: any) => {
             togglePlanDetails();
-            plannerAddToggleModal(plan);
+            plannerAddToggleModal(plan, true);
           }}
         />
       </Drawer>

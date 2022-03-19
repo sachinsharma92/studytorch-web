@@ -27,6 +27,8 @@ import {
   UPDATE_CALENDAR_PLAN_SUCCESS,
 } from '../../../constants/messages';
 
+const { RangePicker } = DatePicker;
+
 const colors = ['#878C93', '#6153CC', '#FF715B', '#FB7E7E', '#FFB627'];
 
 function PlanAddModal(props: any) {
@@ -37,7 +39,8 @@ function PlanAddModal(props: any) {
   const generatePayload = (values: any) => {
     return {
       ...values,
-      date: get(values, 'date').format('YYYY-MM-DD'),
+      start_date: get(values, 'date.0').format('YYYY-MM-DD'),
+      end_date: get(values, 'date.1').format('YYYY-MM-DD'),
       start_time: get(values, 'start_time').format('HH:mm'),
       end_time: get(values, 'end_time').format('HH:mm'),
     };
@@ -78,15 +81,14 @@ function PlanAddModal(props: any) {
     }
   };
 
-  const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo);
-  };
+  const onFinishFailed = (errorInfo: any) => {};
 
   return (
     <Modal
       centered
       visible={props.visible}
       footer={false}
+      maskClosable={false}
       onCancel={props.onCancel}
       wrapClassName="planner-modal-style primary-modal-style"
       maskStyle={{ background: 'rgba(30,39,94, 0.6)' }}
@@ -100,14 +102,24 @@ function PlanAddModal(props: any) {
               edit
                 ? {
                     ...initialValues,
-                    date: moment(get(initialValues, 'date'), 'YYYY-MM-DD'),
+                    date: [
+                      moment(get(initialValues, 'start_date'), 'YYYY-MM-DD'),
+                      moment(get(initialValues, 'end_date'), 'YYYY-MM-DD'),
+                    ],
                     start_time: moment(
                       get(initialValues, 'start_time'),
                       'HH:mm'
                     ),
                     end_time: moment(get(initialValues, 'end_time'), 'HH:mm'),
                   }
-                : {}
+                : {
+                    date: get(initialValues, 'date')
+                      ? [
+                          moment(get(initialValues, 'date'), 'YYYY-MM-DD'),
+                          moment(get(initialValues, 'date'), 'YYYY-MM-DD'),
+                        ]
+                      : [moment(), moment()],
+                  }
             }
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
@@ -162,21 +174,31 @@ function PlanAddModal(props: any) {
 
                 <Form.Item
                   name="date"
+                  label="From - To date"
                   rules={[{ required: true, message: 'Date is required!' }]}
                 >
-                  <DatePicker format={'DD-MM-YYYY'} className="date-planner" />
+                  <RangePicker
+                    disabled={edit}
+                    disabledDate={(current) => {
+                      return current && current < moment().startOf('day');
+                    }}
+                    className="date-planner"
+                    format={'DD-MM-YYYY'}
+                  />
                 </Form.Item>
 
                 <Row gutter={24}>
                   <Col sm={12}>
                     <Form.Item
                       name="start_time"
+                      label="Start"
                       rules={[
                         { required: true, message: 'Start time is required!' },
                       ]}
                     >
                       <TimePicker
                         format={'HH:mm'}
+                        minuteStep={15}
                         className="timepicker"
                         defaultOpenValue={moment('00:00:00', 'HH:mm:ss')}
                       />
@@ -185,11 +207,29 @@ function PlanAddModal(props: any) {
                   <Col sm={12}>
                     <Form.Item
                       name="end_time"
+                      dependencies={['start_time']}
+                      label="End"
                       rules={[
                         { required: true, message: 'End time is required!' },
+                        ({ getFieldValue }) => ({
+                          validator(_, value) {
+                            if (
+                              !value ||
+                              getFieldValue('start_time').isBefore(value)
+                            ) {
+                              return Promise.resolve();
+                            }
+                            return Promise.reject(
+                              new Error(
+                                'End time should be greater than start time'
+                              )
+                            );
+                          },
+                        }),
                       ]}
                     >
                       <TimePicker
+                        minuteStep={15}
                         format={'HH:mm'}
                         className="timepicker"
                         defaultOpenValue={moment('00:00:00', 'HH:mm:ss')}
@@ -205,7 +245,7 @@ function PlanAddModal(props: any) {
                 Cancel
               </Button>
               <Button type="primary" htmlType="submit">
-                Add
+                {edit ? 'Update' : 'Add'}
               </Button>
             </div>
           </Form>

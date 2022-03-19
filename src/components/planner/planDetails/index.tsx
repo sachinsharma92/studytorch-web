@@ -1,11 +1,13 @@
 import { Button, Col, Row, Tooltip, Popconfirm } from 'antd';
 import get from 'lodash/get';
+import moment from 'moment';
 import { DeleteFilled } from '@ant-design/icons';
 // Styles
 import './styles.scss';
 
 function PlanDetails(props: any) {
   const { plan, onClickEdit, onDeletePlan } = props;
+
   return (
     <div className="report-detail-style">
       <div className="user-head">
@@ -16,8 +18,22 @@ function PlanDetails(props: any) {
         <Row>
           <Col sm={12}>
             <div className="info-box">
-              <h4 className="title4">Date</h4>
-              <p className="description">08 / 11 / 2021</p>
+              <h4 className="title4">From</h4>
+              <p className="description">
+                {moment(get(plan, 'start_date'), 'YYYY-MM-DD').format(
+                  'DD/MM/YYYY'
+                )}
+              </p>
+            </div>
+          </Col>
+          <Col sm={12}>
+            <div className="info-box">
+              <h4 className="title4">To</h4>
+              <p className="description">
+                {moment(get(plan, 'end_date'), 'YYYY-MM-DD').format(
+                  'DD/MM/YYYY'
+                )}
+              </p>
             </div>
           </Col>
           <Col sm={12}>
