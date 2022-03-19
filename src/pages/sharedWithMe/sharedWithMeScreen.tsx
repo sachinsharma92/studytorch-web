@@ -134,9 +134,8 @@ function SharedWithMeScreen() {
                 <EmptyState
                   imgUrl={folderGray}
                   title=""
-                  description=" No Collection is shared with you  "
+                  description="No shared Collections"
                   buttonType="primary"
-                  // buttonHandler={() => toggleNoteModal()}
                 />
               </div>
             )}

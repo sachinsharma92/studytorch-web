@@ -113,6 +113,10 @@ function RegisterScreen(props: RegisterScreenProps) {
                     min: 10,
                     message: 'Phone number should be of atleast 10 character',
                   },
+                  {
+                    pattern: new RegExp(/^([0|+[0-9]{1,5})?([7-9][0-9]{9})$/),
+                    message: 'Invalid phone number format!',
+                  },
                 ]}
               >
                 <Input placeholder="Type your contact " />

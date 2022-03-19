@@ -461,7 +461,7 @@ function ShareWithMeDetails(props: any) {
                           ? 'Create your Questions'
                           : 'No Question Present in this collection'
                       }
-                      description=" Quizzes will be depend on question your create here"
+                      description=" Quizzes will depend on questions you create here"
                       buttonText={
                         get(permissions, 'canEditCollection')
                           ? 'Add Questions'

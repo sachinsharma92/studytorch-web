@@ -336,7 +336,7 @@ function CollectionDetails(props: any) {
                     <EmptyState
                       imgUrl={folderGray}
                       title="Create your Questions"
-                      description=" Quizzes will be depend on question your create here"
+                      description="Quizzes will depend on questions you create here"
                       buttonText="Add Questions"
                       buttonType="primary"
                       buttonHandler={() => toggleQuestionModal()}
