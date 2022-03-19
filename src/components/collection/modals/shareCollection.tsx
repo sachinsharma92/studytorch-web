@@ -7,21 +7,19 @@ import {
   Select,
   Radio,
   Spin,
-  Typography,
+  notification,
   Input,
   message,
   Popconfirm,
   Tag,
 } from 'antd';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import get from 'lodash/get';
-import map from 'lodash/map';
-import debounce from 'lodash/debounce';
+import find from 'lodash/find';
 import { useDispatch } from 'react-redux';
 import { getNameAvatar } from '../../../utilities/helpers';
 import { avatarColors } from '../../../constants/groups';
 import {
-  fetchUserForCollection,
   fetchCollectionSharedUsers,
   shareCollection,
   removeFromShareCollection,
@@ -40,7 +38,6 @@ import { DeleteOutlined } from '@ant-design/icons';
 import './styles.scss';
 
 const { Option } = Select;
-const { Text } = Typography;
 
 function ShareCollectionModal(props: any) {
   const { collection } = props;
@@ -48,7 +45,7 @@ function ShareCollectionModal(props: any) {
   const [isSettingModal, setIsSettingModal] = useState(false);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
-  const [users, setUsers] = useState([]);
+  const [user, setUser] = useState<any>(null);
   const [sharedUsers, setSharedUsers] = useState([]);
   const [invitedUsers, setInvitedUsers] = useState([]);
   const [selectedUser, setSelecteduser] = useState({
@@ -59,18 +56,6 @@ function ShareCollectionModal(props: any) {
 
   const settingModalToggle = () => {
     setIsSettingModal(!isSettingModal);
-  };
-
-  const getUsersForCollection = (id: any, query: any) => {
-    setLoading(true);
-    dispatch(fetchUserForCollection(id, query))
-      .then((result: []) => {
-        setUsers([...result]);
-        setLoading(false);
-      })
-      .catch(() => {
-        setLoading(false);
-      });
   };
 
   const getSharedUser = (id: any) => {
@@ -98,29 +83,46 @@ function ShareCollectionModal(props: any) {
   };
 
   useEffect(() => {
-    getUsersForCollection(get(collection, 'id'), { limit: 10 });
     getSharedUser(get(collection, 'id'));
     getInvitedMembers(get(collection, 'id'));
   }, []);
 
-  const onSearch = (value: any) => {
-    getUsersForCollection(get(collection, 'id'), { limit: 10, query: value });
-  };
-
-  const debouncedChangeHandler = useCallback(debounce(onSearch, 500), []);
-
   const onAddUser = () => {
+    if (!user) {
+      notification.error({
+        message: 'Email is required',
+        description: 'Please input a user email!',
+      });
+      return;
+    }
+    let regex = new RegExp('[a-z0-9]+@[a-z]+.[a-z]{2,3}');
+
+    if (!regex.test(user)) {
+      notification.error({
+        message: 'Invalid Email',
+        description: 'Please input a valid format of email',
+      });
+      return;
+    }
+
+    if (find(sharedUsers, ['email', user])) {
+      notification.error({
+        message: 'Already Shared',
+        description: `Collection is already shared with ${user}`,
+      });
+      return;
+    }
+
     const payload = {
       parent_id: get(collection, 'id'),
       edit_persmission: get(selectedUser, 'edit_persmission'),
       subfolder_shared: get(selectedUser, 'subfolder_shared'),
-      user_uuid: [get(selectedUser, 'user')],
+      email: user,
     };
 
     setLoading(true);
     dispatch(shareCollection(payload))
       .then((result: []) => {
-        getUsersForCollection(get(collection, 'id'), { limit: 10 });
         getSharedUser(get(collection, 'id'));
         getInvitedMembers(get(collection, 'id'));
         message.success(SHARE_COLLECTION_SUCCESS);
@@ -129,6 +131,7 @@ function ShareCollectionModal(props: any) {
           edit_persmission: 0,
           subfolder_shared: 0,
         });
+        setUser(null);
         setLoading(false);
       })
       .catch(() => {
@@ -140,7 +143,6 @@ function ShareCollectionModal(props: any) {
     setLoading(true);
     dispatch(removeFromShareCollection(get(collection, 'id'), user_id))
       .then(() => {
-        getUsersForCollection(get(collection, 'id'), { limit: 10 });
         getSharedUser(get(collection, 'id'));
         getInvitedMembers(get(collection, 'id'));
         message.success(REMOVE_SHARE_COLLECTION_SUCCESS);
@@ -174,42 +176,11 @@ function ShareCollectionModal(props: any) {
               </div>
               <div className="input-section">
                 <Input.Group>
-                  <Select
-                    placeholder="E-mail/Username"
-                    style={{ width: '100%' }}
-                    loading={loading}
-                    value={get(selectedUser, 'user')}
-                    onChange={(value: any) =>
-                      setSelecteduser({ ...selectedUser, user: value })
-                    }
-                    showSearch
-                    onSearch={debouncedChangeHandler}
-                  >
-                    {map(users, (user, i) => (
-                      <Option
-                        key={i}
-                        value={get(user, 'id')}
-                        label={get(user, 'name')}
-                      >
-                        <Space>
-                          {get(user, 'image') ? (
-                            <Avatar src={get(user, 'image_url')} />
-                          ) : (
-                            getNameAvatar(
-                              get(user, 'name'),
-                              30,
-                              avatarColors[i % 4]
-                            )
-                          )}
-                          <Space>
-                            <Text>{get(user, 'username')}</Text>
-                            <Text code>{get(user, 'email')}</Text>
-                          </Space>
-                          {/* {get(user, 'email')} */}
-                        </Space>
-                      </Option>
-                    ))}
-                  </Select>
+                  <Input
+                    value={user}
+                    placeholder="share via entering email"
+                    onChange={(e: any) => setUser(e.target.value)}
+                  />
                   <Select
                     value={get(selectedUser, 'edit_persmission')}
                     onChange={(value) => {
@@ -262,7 +233,9 @@ function ShareCollectionModal(props: any) {
                           <Avatar src={get(user, 'image_url')} />
                         ) : (
                           getNameAvatar(
-                            get(user, 'name'),
+                            !get(user, 'invited')
+                              ? get(user, 'name')
+                              : get(user, 'email'),
                             30,
                             avatarColors[i % 4]
                           )

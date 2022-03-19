@@ -1,4 +1,4 @@
-import { Button, message, Space, Spin } from 'antd';
+import { Button, message, Space, Spin, notification } from 'antd';
 import get from 'lodash/get';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -38,8 +38,17 @@ function CollectionInvitationScreen(props: any) {
     setLoading(true);
     dispatch(verifyCollectionLink(id))
       .then((result: any) => {
-        setCollection(result);
-        setLoading(false);
+        if (!get(result, 'userExists')) {
+          navigate(ROUTES.LOGIN_SCREEN, { replace: true });
+          notification.error({
+            message: 'Please register on study torch',
+            description: 'Please register first and then accept link',
+          });
+          return;
+        } else {
+          setCollection(result);
+          setLoading(false);
+        }
       })
       .catch(() => {
         navigate(ROUTES.LOGIN_SCREEN, { replace: true });

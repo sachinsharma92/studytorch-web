@@ -1,5 +1,5 @@
 import { Spin } from 'antd';
-import { lazy, Suspense, useState } from 'react';
+import { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import * as ROUTES from './router/routes';
 import LogoutScreen from './pages/auth/logoutScreen';
@@ -122,86 +122,73 @@ const CollectionInvitationScreen = lazy(
 );
 
 const AppRouter = () => {
-  const [isLoading, setIsLoading] = useState(false);
-
   return (
-    <Spin spinning={isLoading}>
-      <Suspense fallback={<Spin spinning={true} />}>
-        <Router>
-          <Routes>
-            <Route path={'/test'} element={<TestScreen />} />
-            <Route
-              path={ROUTES.GROUP_INVITAION}
-              element={<GroupInvitationScreen />}
-            />
-            <Route
-              path={ROUTES.SHARED_COLLECTION_INVITAION}
-              element={<CollectionInvitationScreen />}
-            />
-            <Route path={ROUTES.HOME_SCREEN} element={<HomeScreen />} />
-            <Route path={ROUTES.LOGIN_SCREEN} element={<LoginScreen />} />
-            <Route path={'/'} element={<LoginScreen />} />
-            <Route path={ROUTES.LOGOUT_SCREEN} element={<LogoutScreen />} />
-            <Route path={ROUTES.SIGNUP_SCREEN} element={<RegisterScreen />} />
-            <Route path={ROUTES.FORGOT_SCREEN} element={<ForgotScreen />} />
-            <Route
-              path={ROUTES.SHARED_SCREEN}
-              element={<SharedWithMeScreen />}
-            />
-            <Route
-              path={ROUTES.ONBOARDING_SCREEN}
-              element={<OnboardingScreen />}
-            />
-            <Route
-              path={ROUTES.READ_NOTE_SCREEN}
-              element={<ReadNoteScreen />}
-            />
-            {/* New flow here */}
-            <Route
-              path={ROUTES.COLLECTION_SCREEN}
-              element={<CollectionScreen />}
-            />
-            <Route
-              path={ROUTES.COLLECTION_DETAILS_SCREEN}
-              element={<CollectionDetailsScreen />}
-            />
-            <Route path={ROUTES.GROUPS_SCREEN} element={<GroupsScreen />} />
-            <Route
-              path={ROUTES.GROUPS_DETAIL_SCREEN}
-              element={<GroupDetailScreen />}
-            />
-            <Route path={ROUTES.QUIZ_SCREEN} element={<QuizScreen />} />
-            <Route path={ROUTES.PLANNER_SCREEN} element={<PlannerScreen />} />
-            <Route
-              path={ROUTES.CHECKLIST_SCREEN}
-              element={<ChecklistScreen />}
-            />
-            <Route path={ROUTES.PROFILE_SCREEN} element={<ProfileScreen />} />
-            <Route
-              path={ROUTES.NOTIFICATION_SCREEN}
-              element={<NotificationScreen />}
-            />
-            <Route path={ROUTES.SECURITY_SCREEN} element={<SecurityScreen />} />
-            <Route
-              path={ROUTES.ACCOUNT_DELETE_SCREEN}
-              element={<AccountDeleteScreen />}
-            />
-            <Route
-              path={ROUTES.SHARED_DETAILS_SCREEN}
-              element={<SharedWithMeDetailScreen />}
-            />
-            <Route
-              path={ROUTES.GROUP_MEMBERS_SCREEN}
-              element={<GroupMembersScreen />}
-            />
-            <Route
-              path={ROUTES.GROUP_SCORE_DETAILS_SCREEN}
-              element={<ScoreDetailScreen />}
-            />
-          </Routes>
-        </Router>
-      </Suspense>
-    </Spin>
+    <Suspense fallback={<Spin spinning={true} />}>
+      <Router>
+        <Routes>
+          <Route path={'/test'} element={<TestScreen />} />
+          <Route
+            path={ROUTES.GROUP_INVITAION}
+            element={<GroupInvitationScreen />}
+          />
+          <Route
+            path={ROUTES.SHARED_COLLECTION_INVITAION}
+            element={<CollectionInvitationScreen />}
+          />
+          <Route path={ROUTES.HOME_SCREEN} element={<HomeScreen />} />
+          <Route path={ROUTES.LOGIN_SCREEN} element={<LoginScreen />} />
+          <Route path={'/'} element={<LoginScreen />} />
+          <Route path={ROUTES.LOGOUT_SCREEN} element={<LogoutScreen />} />
+          <Route path={ROUTES.SIGNUP_SCREEN} element={<RegisterScreen />} />
+          <Route path={ROUTES.FORGOT_SCREEN} element={<ForgotScreen />} />
+          <Route path={ROUTES.SHARED_SCREEN} element={<SharedWithMeScreen />} />
+          <Route
+            path={ROUTES.ONBOARDING_SCREEN}
+            element={<OnboardingScreen />}
+          />
+          <Route path={ROUTES.READ_NOTE_SCREEN} element={<ReadNoteScreen />} />
+          {/* New flow here */}
+          <Route
+            path={ROUTES.COLLECTION_SCREEN}
+            element={<CollectionScreen />}
+          />
+          <Route
+            path={ROUTES.COLLECTION_DETAILS_SCREEN}
+            element={<CollectionDetailsScreen />}
+          />
+          <Route path={ROUTES.GROUPS_SCREEN} element={<GroupsScreen />} />
+          <Route
+            path={ROUTES.GROUPS_DETAIL_SCREEN}
+            element={<GroupDetailScreen />}
+          />
+          <Route path={ROUTES.QUIZ_SCREEN} element={<QuizScreen />} />
+          <Route path={ROUTES.PLANNER_SCREEN} element={<PlannerScreen />} />
+          <Route path={ROUTES.CHECKLIST_SCREEN} element={<ChecklistScreen />} />
+          <Route path={ROUTES.PROFILE_SCREEN} element={<ProfileScreen />} />
+          <Route
+            path={ROUTES.NOTIFICATION_SCREEN}
+            element={<NotificationScreen />}
+          />
+          <Route path={ROUTES.SECURITY_SCREEN} element={<SecurityScreen />} />
+          <Route
+            path={ROUTES.ACCOUNT_DELETE_SCREEN}
+            element={<AccountDeleteScreen />}
+          />
+          <Route
+            path={ROUTES.SHARED_DETAILS_SCREEN}
+            element={<SharedWithMeDetailScreen />}
+          />
+          <Route
+            path={ROUTES.GROUP_MEMBERS_SCREEN}
+            element={<GroupMembersScreen />}
+          />
+          <Route
+            path={ROUTES.GROUP_SCORE_DETAILS_SCREEN}
+            element={<ScoreDetailScreen />}
+          />
+        </Routes>
+      </Router>
+    </Suspense>
   );
 };
 

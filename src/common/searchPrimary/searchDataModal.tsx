@@ -1,6 +1,8 @@
-import { Modal, Input, Divider, List, Spin } from 'antd';
+import { Modal, Input, Divider, List, Spin, Space, Tag } from 'antd';
 import { useDispatch } from 'react-redux';
 import get from 'lodash/get';
+import map from 'lodash/map';
+import isEmpty from 'lodash/isEmpty';
 import { useState, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import debounce from 'lodash/debounce';
@@ -25,6 +27,14 @@ function SearchDataModal(props: any) {
   const dispatch = useDispatch();
 
   const getGlobalSearch = (query: any) => {
+    if (!query || isEmpty(query)) {
+      setData({
+        collections: [],
+        notes: [],
+        groups: [],
+      });
+      return;
+    }
     setLoading(true);
     const queryObj = {
       limit: 5,
@@ -44,10 +54,6 @@ function SearchDataModal(props: any) {
   const onSearch = (value: any) => {
     getGlobalSearch(value);
   };
-
-  useEffect(() => {
-    getGlobalSearch('');
-  }, []);
 
   const debouncedChangeHandler = useCallback(debounce(onSearch, 500), []);
 
@@ -114,7 +120,6 @@ function SearchDataModal(props: any) {
                 <Divider orientation="left">Notes</Divider>
                 <List
                   dataSource={get(data, 'notes')}
-                  header="Recent searches"
                   renderItem={(item) => (
                     <List.Item onClick={() => navigate(get(item, 'url'))}>
                       <img
@@ -122,7 +127,17 @@ function SearchDataModal(props: any) {
                         className="small-folder-icon"
                         alt=""
                       />{' '}
-                      {get(item, 'title')}
+                      <Space>
+                        <>{get(item, 'title')}</>
+                        <>
+                          {' '}
+                          {map(get(item, 'tags', []), (t, i) => (
+                            <Tag className="tag-style" key={i}>
+                              {t}
+                            </Tag>
+                          ))}
+                        </>
+                      </Space>
                     </List.Item>
                   )}
                 />

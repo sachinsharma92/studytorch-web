@@ -4,26 +4,25 @@ import {
   List,
   Modal,
   message,
-  Select,
   Popconfirm,
   Row,
   Col,
   Typography,
-  Space,
+  Spin,
+  Input,
   Tag,
+  notification,
 } from 'antd';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import get from 'lodash/get';
-import debounce from 'lodash/debounce';
+import find from 'lodash/find';
 import upperCase from 'lodash/upperCase';
 import {
-  getUserForGroup,
   addMemberToGroup,
   removeMemberToGroup,
   fetchInvitedGroupMember,
 } from '../../../redux/actions/groupActions';
-import { getNameAvatar } from '../../../utilities/helpers';
-import { avatarColors } from '../../../constants/groups';
+
 import {
   GROUP_MEMBER_UPDATED_SUCCESS,
   GROUP_MEMBER_REMOVED_SUCCESS,
@@ -32,33 +31,17 @@ import { DeleteOutlined } from '@ant-design/icons';
 
 // Styles
 import './styles.scss';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { map } from 'lodash';
 
 const { Text } = Typography;
 
-const { Option } = Select;
-
 function GroupMemberModal(props: any) {
   const { groupDetails, refreshGroupDetails } = props;
   const dispatch = useDispatch();
-  const [users, setUsers] = useState([]);
+  const [user, setUser] = useState<any>(undefined);
   const [invitedMembers, setInvitedMembers] = useState([]);
-  const [selectedUser, setSelecteduser] = useState(undefined);
   const [loading, setLoading] = useState(false);
-  const user = useSelector((state) => get(state, 'userState.user'));
-
-  const getUsersForGroup = (id: any, query: any) => {
-    setLoading(true);
-    dispatch(getUserForGroup(id, query))
-      .then((result: []) => {
-        setUsers([...result]);
-        setLoading(false);
-      })
-      .catch(() => {
-        setLoading(false);
-      });
-  };
 
   const getInvitedGroupMember = () => {
     setLoading(true);
@@ -73,35 +56,52 @@ function GroupMemberModal(props: any) {
   };
 
   useEffect(() => {
-    getUsersForGroup(get(groupDetails, 'id'), { limit: 10 });
     getInvitedGroupMember();
   }, []);
 
-  const onSearch = (value: any) => {
-    getUsersForGroup(get(groupDetails, 'id'), { limit: 10, query: value });
-  };
+  const onAddMember = () => {
+    if (!user) {
+      notification.error({
+        message: 'Email is required',
+        description: 'Please input a user email!',
+      });
+      return;
+    }
+    let regex = new RegExp('[a-z0-9]+@[a-z]+.[a-z]{2,3}');
 
-  const onAddMember = (userIdArr: any = []) => {
+    if (!regex.test(user)) {
+      notification.error({
+        message: 'Invalid Email',
+        description: 'Please input a valid format of email',
+      });
+      return;
+    }
+
+    if (find(get(groupDetails, 'group_members', []), ['email', user])) {
+      notification.error({
+        message: 'Already Shared',
+        description: `Group is already shared with ${user}`,
+      });
+      return;
+    }
+
     setLoading(true);
     dispatch(
       addMemberToGroup(get(groupDetails, 'id'), {
-        user_uuid: userIdArr,
+        email: user,
       })
     )
       .then(() => {
         setLoading(false);
         message.success(GROUP_MEMBER_UPDATED_SUCCESS);
-        setSelecteduser(undefined);
+        setUser(undefined);
         refreshGroupDetails();
         getInvitedGroupMember();
-        getUsersForGroup(get(groupDetails, 'id'), { limit: 10 });
       })
       .catch(() => {
         setLoading(false);
       });
   };
-
-  const debouncedChangeHandler = useCallback(debounce(onSearch, 500), []);
 
   const onRemoveMember = (index: Number) => {
     const membersId = map(get(groupDetails, 'group_members', []), 'id');
@@ -112,9 +112,8 @@ function GroupMemberModal(props: any) {
       .then(() => {
         setLoading(false);
         message.success(GROUP_MEMBER_REMOVED_SUCCESS);
-        setSelecteduser(undefined);
+        setUser(undefined);
         refreshGroupDetails();
-        getUsersForGroup(get(groupDetails, 'id'), { limit: 10 });
       })
       .catch(() => {
         setLoading(false);
@@ -133,124 +132,104 @@ function GroupMemberModal(props: any) {
         maskStyle={{ background: 'rgba(30,39,94, 0.8)' }}
         closable={false}
       >
-        <div className="card-modal">
-          <div className="modal-body-sec">
-            <div className="header-section">
-              <h3 className="title3">Group Members </h3>
-            </div>
-
-            <div className="flex-section">
-              <div className="input-section">
-                <Select
-                  placeholder="E-mail/Username"
-                  style={{ width: '100%' }}
-                  loading={loading}
-                  value={selectedUser}
-                  onChange={(value: any) => setSelecteduser(value)}
-                  showSearch
-                  onSearch={debouncedChangeHandler}
-                >
-                  {map(users, (user, i) => (
-                    <Option
-                      key={i}
-                      value={get(user, 'id')}
-                      label={get(user, 'name')}
-                    >
-                      <Space>
-                        {get(user, 'image') ? (
-                          <Avatar src={get(user, 'image_url')} />
-                        ) : (
-                          getNameAvatar(
-                            get(user, 'name'),
-                            30,
-                            avatarColors[i % 4]
-                          )
-                        )}
-                        <Space>
-                          <Text>{get(user, 'username')}</Text>
-                          <Text code>{get(user, 'email')}</Text>
-                        </Space>
-                        {/* {get(user, 'email')} */}
-                      </Space>
-                    </Option>
-                  ))}
-                </Select>
+        <Spin spinning={loading}>
+          <div className="card-modal">
+            <div className="modal-body-sec">
+              <div className="header-section">
+                <h3 className="title3">Group Members </h3>
               </div>
-              <Button
-                onClick={() => onAddMember([selectedUser])}
-                className="btn-add"
-                type="primary"
-              >
-                Add
-              </Button>
-            </div>
 
-            <div className="list-section">
-              <Row>
-                <Col sm={16}>
-                  <div className="list-head-text">Members</div>
-                </Col>
-                <Col sm={8}>
-                  <div className="list-head-text">Role</div>
-                </Col>
-              </Row>
-              <List
-                className="demo-loadmore-list"
-                itemLayout="horizontal"
-                dataSource={[
-                  ...get(groupDetails, 'group_members', []),
-                  ...invitedMembers,
-                ]}
-                renderItem={(item: any, index: Number) => (
-                  <List.Item
-                    actions={
-                      !get(item, 'invited')
-                        ? [
-                            <Text code>
-                              {get(user, 'id') === get(item, 'id')
-                                ? 'Admin'
-                                : 'Member'}
-                            </Text>,
-                            get(user, 'id') !== get(item, 'id') && (
-                              <Popconfirm
-                                title="Are you sure to remove this member from  group?"
-                                onConfirm={() => {
-                                  onRemoveMember(index);
-                                }}
-                                onCancel={() => {}}
-                                okText="Yes"
-                                cancelText="No"
-                              >
-                                <Button type="link" icon={<DeleteOutlined />} />
-                              </Popconfirm>
-                            ),
-                          ]
-                        : [
-                            get(item, 'invited') && (
-                              <Tag color="red">Invited</Tag>
-                            ),
-                          ]
-                    }
-                  >
-                    <List.Item.Meta
-                      avatar={
-                        get(item, 'image') ? (
-                          <Avatar src={get(item, 'image_url')} />
-                        ) : (
-                          <Avatar className="avatar-sec">
-                            {upperCase(get(item, 'name.0'))}
-                          </Avatar>
-                        )
+              <div className="flex-section">
+                <div className="input-section">
+                  <Input
+                    value={user}
+                    placeholder="share via entering email"
+                    onChange={(e: any) => setUser(e.target.value)}
+                  />
+                </div>
+                <Button
+                  onClick={() => onAddMember()}
+                  className="btn-add"
+                  type="primary"
+                >
+                  Add
+                </Button>
+              </div>
+
+              <div className="list-section">
+                <Row>
+                  <Col sm={16}>
+                    <div className="list-head-text">Members</div>
+                  </Col>
+                  <Col sm={8}>
+                    <div className="list-head-text">Role</div>
+                  </Col>
+                </Row>
+                <List
+                  className="demo-loadmore-list"
+                  itemLayout="horizontal"
+                  dataSource={[
+                    ...get(groupDetails, 'group_members', []),
+                    ...invitedMembers,
+                  ]}
+                  renderItem={(item: any, index: Number) => (
+                    <List.Item
+                      actions={
+                        !get(item, 'invited')
+                          ? [
+                              <Text code>
+                                {get(user, 'id') === get(item, 'id')
+                                  ? 'Admin'
+                                  : 'Member'}
+                              </Text>,
+                              get(user, 'id') !== get(item, 'id') && (
+                                <Popconfirm
+                                  title="Are you sure to remove this member from  group?"
+                                  onConfirm={() => {
+                                    onRemoveMember(index);
+                                  }}
+                                  onCancel={() => {}}
+                                  okText="Yes"
+                                  cancelText="No"
+                                >
+                                  <Button
+                                    type="link"
+                                    icon={<DeleteOutlined />}
+                                  />
+                                </Popconfirm>
+                              ),
+                            ]
+                          : [
+                              get(item, 'invited') && (
+                                <Tag color="red">Invited</Tag>
+                              ),
+                            ]
                       }
-                      title={get(item, 'name')}
-                      description={get(item, 'email')}
-                    />
-                  </List.Item>
-                )}
-              />
+                    >
+                      <List.Item.Meta
+                        avatar={
+                          get(item, 'image') ? (
+                            <Avatar src={get(item, 'image_url')} />
+                          ) : (
+                            <Avatar className="avatar-sec">
+                              {upperCase(
+                                get(item, 'invited')
+                                  ? get(item, 'email.0')
+                                  : get(item, 'name.0')
+                              )}
+                            </Avatar>
+                          )
+                        }
+                        title={get(item, 'name')}
+                        description={get(item, 'email')}
+                      />
+                    </List.Item>
+                  )}
+                />
+              </div>
             </div>
           </div>
-        </div>
+        </Spin>
       </Modal>
     </>
   );

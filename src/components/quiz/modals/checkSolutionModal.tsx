@@ -4,7 +4,7 @@ import {
   Divider,
   Modal,
   Progress,
-  Radio,
+  Descriptions,
   Spin,
   Row,
   Input,
@@ -13,26 +13,43 @@ import {
   Checkbox,
 } from 'antd';
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { READ_NOTE_SCREEN } from '../../../router/routes';
 import {
   ClockCircleOutlined,
   CheckCircleTwoTone,
   CloseCircleTwoTone,
+  ArrowRightOutlined,
 } from '@ant-design/icons';
 import get from 'lodash/get';
 import map from 'lodash/map';
 import isEqual from 'lodash/isEqual';
 import { LeftOutlined } from '@ant-design/icons';
 import { fetchQuizDetails } from '../../../redux/actions/quizActions';
-import { getTimeText } from '../../../utilities/helpers';
+import { getTimeText, replaceMultiple } from '../../../utilities/helpers';
 // Styles
 import './styles.scss';
 import { useDispatch } from 'react-redux';
 
 const GetQuestion = (props: any) => {
   const { question, onSubmitAnswer } = props;
+  const answerCorrect = isEqual(
+    get(question, 'answers', []),
+    get(question, 'submitted_answer')
+  );
   return (
     <div className="question-section">
-      <h4 className="title4">{get(question, 'title')}</h4>
+      <div className="question-container">
+        <h4 className="title4">{get(question, 'title')}</h4>
+        <Link
+          to={replaceMultiple(READ_NOTE_SCREEN, {
+            ':id': get(question, 'note.id'),
+          })}
+          target="_blank"
+        >
+          Go to Note <ArrowRightOutlined />
+        </Link>
+      </div>
       {map(get(question, 'images'), (image) => (
         <Image width={100} style={{ padding: 10 }} src={get(image, 'url')} />
       ))}
@@ -65,10 +82,7 @@ const GetQuestion = (props: any) => {
           </Row>
         </Checkbox.Group>
       )}
-      {isEqual(
-        get(question, 'answers', []),
-        get(question, 'submitted_answer')
-      ) ? (
+      {answerCorrect ? (
         <div className="answer-sec correct">
           <Space>
             <CheckCircleTwoTone
@@ -79,12 +93,24 @@ const GetQuestion = (props: any) => {
           </Space>
         </div>
       ) : (
-        <div className="answer-sec wrong">
-          <Space>
-            <CloseCircleTwoTone className="question-icon" twoToneColor="red" />
-            Wrong
-          </Space>
-        </div>
+        <>
+          <div>
+            <Descriptions bordered title=" " size={'default'}>
+              <Descriptions.Item label="Correct Answer">
+                {get(question, 'answers', []).join(', ')}
+              </Descriptions.Item>
+            </Descriptions>
+          </div>
+          <div className="answer-sec wrong">
+            <Space>
+              <CloseCircleTwoTone
+                className="question-icon"
+                twoToneColor="red"
+              />
+              Wrong
+            </Space>
+          </div>
+        </>
       )}
     </div>
   );
@@ -161,6 +187,7 @@ function CheckSolutionModal(props: any) {
               'total_question'
             )}`}</span>
           </div>
+
           <div className="progress-style">
             <Progress
               percent={
@@ -172,6 +199,7 @@ function CheckSolutionModal(props: any) {
               }
             />
           </div>
+
           <GetQuestion question={get(questions, currentQuestion)} />
           <div className="button-section">
             <Button
