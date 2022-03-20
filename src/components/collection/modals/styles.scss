@@ -321,6 +321,8 @@
   }
 
   .editor-section {
+    word-break: break-all;
+    
     .public-DraftStyleDefault-block {
       // min-height: 400px;
       // max-height: 400px;

@@ -10,8 +10,8 @@ import {
 } from 'draft-js';
 import get from 'lodash/get';
 import { useDispatch } from 'react-redux';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import draftToHtml from 'draftjs-to-html';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import {
   Button,
   Modal,
