@@ -12,8 +12,9 @@ import {
   Input,
   Tag,
   notification,
+  Drawer,
 } from 'antd';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import get from 'lodash/get';
 import find from 'lodash/find';
 import upperCase from 'lodash/upperCase';
@@ -28,6 +29,7 @@ import {
   GROUP_MEMBER_REMOVED_SUCCESS,
 } from '../../../constants/messages';
 import { DeleteOutlined } from '@ant-design/icons';
+import UserProgress from '../../../components/userProgress';
 
 // Styles
 import './styles.scss';
@@ -39,9 +41,14 @@ const { Text } = Typography;
 function GroupMemberModal(props: any) {
   const { groupDetails, refreshGroupDetails } = props;
   const dispatch = useDispatch();
+  const adminUser = useSelector((state) => get(state, 'userState.user'));
   const [user, setUser] = useState<any>(undefined);
   const [invitedMembers, setInvitedMembers] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [userProgressDrawer, setUserProgressDrawer] = useState({
+    visible: false,
+    data: null,
+  });
 
   const getInvitedGroupMember = () => {
     setLoading(true);
@@ -172,65 +179,98 @@ function GroupMemberModal(props: any) {
                     ...get(groupDetails, 'group_members', []),
                     ...invitedMembers,
                   ]}
-                  renderItem={(item: any, index: Number) => (
-                    <List.Item
-                      actions={
-                        !get(item, 'invited')
-                          ? [
-                              <Text code>
-                                {get(user, 'id') === get(item, 'id')
-                                  ? 'Admin'
-                                  : 'Member'}
-                              </Text>,
-                              get(user, 'id') !== get(item, 'id') && (
-                                <Popconfirm
-                                  title="Are you sure to remove this member from  group?"
-                                  onConfirm={() => {
-                                    onRemoveMember(index);
-                                  }}
-                                  onCancel={() => {}}
-                                  okText="Yes"
-                                  cancelText="No"
-                                >
-                                  <Button
-                                    type="link"
-                                    icon={<DeleteOutlined />}
-                                  />
-                                </Popconfirm>
-                              ),
-                            ]
-                          : [
-                              get(item, 'invited') && (
-                                <Tag color="red">Invited</Tag>
-                              ),
-                            ]
+                  renderItem={(item: any, index: Number) => {
+                    const action = !get(item, 'invited')
+                      ? [
+                          <Text code>
+                            {get(adminUser, 'id') === get(item, 'id')
+                              ? 'Admin'
+                              : 'Member'}
+                          </Text>,
+                        ]
+                      : [
+                          get(item, 'invited') && (
+                            <Tag color="red">Invited</Tag>
+                          ),
+                        ];
+                    if (
+                      !get(item, 'invited') &&
+                      get(adminUser, 'id') !== get(item, 'id')
+                    ) {
+                      action.push(
+                        <Popconfirm
+                          title="Are you sure to remove this member from  group?"
+                          onConfirm={() => {
+                            onRemoveMember(index);
+                          }}
+                          onCancel={() => {}}
+                          okText="Yes"
+                          cancelText="No"
+                        >
+                          <Button type="link" icon={<DeleteOutlined />} />
+                        </Popconfirm>
+                      );
+                      if (get(item, 'progress_access')) {
+                        action.push(
+                          <Button
+                            className="progress-button"
+                            size="small"
+                            type="link"
+                            onClick={() => {
+                              setUserProgressDrawer({
+                                visible: true,
+                                data: item,
+                              });
+                            }}
+                          >
+                            Progress
+                          </Button>
+                        );
                       }
-                    >
-                      <List.Item.Meta
-                        avatar={
-                          get(item, 'image') ? (
-                            <Avatar src={get(item, 'image_url')} />
-                          ) : (
-                            <Avatar className="avatar-sec">
-                              {upperCase(
-                                get(item, 'invited')
-                                  ? get(item, 'email.0')
-                                  : get(item, 'name.0')
-                              )}
-                            </Avatar>
-                          )
-                        }
-                        title={get(item, 'name')}
-                        description={get(item, 'email')}
-                      />
-                    </List.Item>
-                  )}
+                    }
+                    return (
+                      <List.Item actions={action}>
+                        <List.Item.Meta
+                          avatar={
+                            get(item, 'image') ? (
+                              <Avatar src={get(item, 'image_url')} />
+                            ) : (
+                              <Avatar className="avatar-sec">
+                                {upperCase(
+                                  get(item, 'invited')
+                                    ? get(item, 'email.0')
+                                    : get(item, 'name.0')
+                                )}
+                              </Avatar>
+                            )
+                          }
+                          title={get(item, 'name')}
+                          description={get(item, 'email')}
+                        />
+                      </List.Item>
+                    );
+                  }}
                 />
               </div>
             </div>
           </div>
         </Spin>
       </Modal>
+      <Drawer
+        width={'60%'}
+        closable={false}
+        destroyOnClose
+        onClose={() => {
+          setUserProgressDrawer({
+            visible: false,
+            data: null,
+          });
+        }}
+        maskClosable={true}
+        visible={get(userProgressDrawer, 'visible')}
+      >
+        <UserProgress user={get(userProgressDrawer, 'data')} />
+      </Drawer>
     </>
   );
 }

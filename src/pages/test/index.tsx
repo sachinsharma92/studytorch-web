@@ -1,35 +1,54 @@
-import { useStopwatch } from 'react-timer-hook';
+import React, { useRef, useState } from 'react';
 
-const TestScreen = () => {
-  const stopwatchOffset = new Date();
-  const t = 4300;
-  const hr = parseInt(`${t / 3600}`) + 1;
-  const min = parseInt(`${(t / 60) % 60}`);
-  const sec = t % 60;
-  console.log({
-    t,
-    hr,
-    min,
-    sec,
-  });
-  stopwatchOffset.setSeconds(stopwatchOffset.getSeconds() + t);
-  // stopwatchOffset.setMinutes(min);
-  // stopwatchOffset.setHours(hr);
+import { Popover } from 'react-text-selection-popover';
 
-  const { seconds, minutes, hours } = useStopwatch({
-    autoStart: true,
-    offsetTimestamp: stopwatchOffset,
-  });
-
+export default function Example() {
+  const [ref, setRef] = useState<HTMLElement>();
+  console.log('=====>ref', ref);
   return (
-    <p>
-      {hours}:{minutes}:{seconds}
-    </p>
+    <div>
+      <h1>
+        <pre>react-text-selection-popover</pre>
+      </h1>
+      <p>This is an example using react-text-selection-popover</p>
+
+      <p ref={(el) => el != null && setRef(el)}>
+        <pre>
+          ===== Select any text here and you'll see what I mean Select any text
+          here and you'll see what I mean Select any text here and you'll see
+          what I mean Select any text here and you'll see what I mean Select any
+          text here and you'll see what I mean Select any text here and you'll
+          see what I mean Select any text here and you'll see what I mean Select
+          any text here and you'll see what I mean Select any text here and
+          you'll see what I mean =============
+        </pre>
+      </p>
+      <Popover
+        target={ref}
+        render={({ clientRect, isCollapsed, textContent }) => {
+          if (clientRect == null || isCollapsed) return null;
+
+          return (
+            <div
+              style={{
+                position: 'absolute',
+                left: `${clientRect.left + clientRect.width / 2}px`,
+                top: `${clientRect.top - 40}px`,
+                marginLeft: '-75px',
+                width: '150px',
+                background: 'blue',
+                fontSize: '0.7em',
+                pointerEvents: 'none',
+                textAlign: 'center',
+                color: 'white',
+                borderRadius: '3px',
+              }}
+            >
+              Selecting {(textContent || '').length} characters
+            </div>
+          );
+        }}
+      />
+    </div>
   );
-};
-
-export default TestScreen;
-
-//const hours = parseInt(t/3600)
-//const min = parseInt((t/60)%60 )
-// const sec=t%60
+}

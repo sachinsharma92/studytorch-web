@@ -9,6 +9,7 @@ import {
   Select,
   PageHeader,
   Spin,
+  Breadcrumb,
 } from 'antd';
 import {
   PlusOutlined,
@@ -71,17 +72,6 @@ const menu = (
   </Menu>
 );
 
-const routes = [
-  {
-    path: 'index',
-    breadcrumbName: 'Collections',
-  },
-  {
-    path: 'first',
-    breadcrumbName: 'Maths',
-  },
-];
-
 function CollectionDetails(props: any) {
   const { id } = useParams();
   const dispatch = useDispatch();
@@ -119,6 +109,7 @@ function CollectionDetails(props: any) {
   const [flashModal, setFlashModal] = useState({
     visible: false,
     data: null,
+    edit: false,
   });
 
   const [isRevisionModeModal, setIsRevisionModeModal] = useState(false);
@@ -148,9 +139,10 @@ function CollectionDetails(props: any) {
     });
   };
 
-  const toggleFlashModal = (data = null) => {
+  const toggleFlashModal = (data = null, edit = false) => {
     setFlashModal({
       visible: !get(flashModal, 'visible'),
+      edit,
       data: data,
     });
   };
@@ -174,6 +166,22 @@ function CollectionDetails(props: any) {
   useEffect(() => {
     fetchCollectionDetails();
   }, [id]);
+
+  const routes = (collection: any) => {
+    return (
+      <Breadcrumb style={{ cursor: 'pointer' }}>
+        <Breadcrumb.Item
+          onClick={() => {
+            navigate(-1);
+          }}
+        >
+          {get(collection, 'parent.name')}
+        </Breadcrumb.Item>
+
+        <Breadcrumb.Item>{get(collection, 'name')}</Breadcrumb.Item>
+      </Breadcrumb>
+    );
+  };
 
   const toggleData = (
     <div className="toggle-menu">
@@ -211,7 +219,7 @@ function CollectionDetails(props: any) {
           className="site-page-header header-back"
           onBack={() => navigate(-1)}
           title={get(collectionDetails, 'name')}
-          breadcrumb={{ routes }}
+          breadcrumb={routes(collectionDetails)}
           extra={[
             <Button
               icon={<ShareAltOutlined />}
@@ -405,7 +413,7 @@ function CollectionDetails(props: any) {
                             collection={collectionDetails}
                             onSuccess={fetchCollectionDetails}
                             onEditFlashCard={(data: any) => {
-                              toggleFlashModal(data);
+                              toggleFlashModal(data, true);
                             }}
                           />
                         </Col>
@@ -484,10 +492,8 @@ function CollectionDetails(props: any) {
         <FlashEditModal
           visible={get(flashModal, 'visible')}
           initialValue={get(flashModal, 'data')}
-          edit={get(flashModal, 'data') ? true : false}
-          btnAddHandler={toggleFlashModal}
-          cancelHandler={toggleFlashModal}
-          backHandler={toggleFlashModal}
+          edit={get(flashModal, 'edit')}
+          cancelHandler={() => toggleFlashModal()}
           collection={collectionDetails}
           onSuccess={() => {
             toggleFlashModal();

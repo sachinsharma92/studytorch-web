@@ -2,10 +2,10 @@ import * as APIS from '../../constants/apis';
 import { getUrl } from '../../utilities/helpers';
 
 export const fetchDashboardMetrices =
-  (): any =>
+  (id: any, query: any = {}): any =>
   (dispatch: any, getState: any, { api }: any): any => {
     return api
-      .get(APIS.DASHBOARD_METRICES)
+      .get(getUrl(`${APIS.DASHBOARD_METRICES}/${id}`, query))
       .then((result: any) => {
         return result;
       })
@@ -15,10 +15,10 @@ export const fetchDashboardMetrices =
   };
 
 export const fetchDashboardCollection =
-  (): any =>
+  (query: any = {}): any =>
   (dispatch: any, getState: any, { api }: any): any => {
     return api
-      .get(APIS.DASHBOARD_COLLECTION)
+      .get(getUrl(APIS.DASHBOARD_COLLECTION, query))
       .then((result: any) => {
         return result;
       })
@@ -28,10 +28,10 @@ export const fetchDashboardCollection =
   };
 
 export const fetchDashboardPattern =
-  (): any =>
+  (id: any, query: any = {}): any =>
   (dispatch: any, getState: any, { api }: any): any => {
     return api
-      .get(APIS.DASHBOARD_PATTERN)
+      .get(getUrl(`${APIS.DASHBOARD_PATTERN}/${id}`, query))
       .then((result: any) => {
         return result;
       })
@@ -41,10 +41,10 @@ export const fetchDashboardPattern =
   };
 
 export const fetchDashboardQuizPattern =
-  (): any =>
+  (id: any, query: any = {}): any =>
   (dispatch: any, getState: any, { api }: any): any => {
     return api
-      .get(APIS.DASHBOARD_QUIZ_PATTERN)
+      .get(getUrl(`${APIS.DASHBOARD_QUIZ_PATTERN}/${id}`, query))
       .then((result: any) => {
         return result;
       })

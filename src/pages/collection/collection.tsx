@@ -15,12 +15,17 @@ import CreateCollectionModal from '../../components/collection/modals/createColl
 import { fetchCollection } from '../../redux/actions/collectionActions';
 // Images
 import folderGray from '../../assets/images/icons/folder-gray.svg';
+import ShareCollectionToGroup from '../../components/collection/modals/shareCollectionToGroup';
 
 // Styles
 import './styles.scss';
 
 function CollectionScreen(props: any) {
   const [collectionModal, setCollectionModal] = useState<any>({
+    visible: false,
+    data: null,
+  });
+  const [shareCollectionModal, setShareCollectionModal] = useState<any>({
     visible: false,
     data: null,
   });
@@ -34,6 +39,13 @@ function CollectionScreen(props: any) {
   const toggleCollectionModal = (data = null) => {
     setCollectionModal({
       visible: !get(collectionModal, 'visible'),
+      data: data,
+    });
+  };
+
+  const toggleShareCollectionModal = (data = null) => {
+    setShareCollectionModal({
+      visible: !get(shareCollectionModal, 'visible'),
       data: data,
     });
   };
@@ -91,6 +103,9 @@ function CollectionScreen(props: any) {
                     <Col sm={6} key={index}>
                       <CollectionCard
                         setLoading={setLoading}
+                        toggleShareCollectionModal={() =>
+                          toggleShareCollectionModal(collection)
+                        }
                         parentCollection={rootCollection}
                         id={get(collection, 'id')}
                         color={get(collection, 'color')}
@@ -128,6 +143,13 @@ function CollectionScreen(props: any) {
         </div>
       </Spin>
       {/* Collection Modal here */}
+      <ShareCollectionToGroup
+        visible={get(shareCollectionModal, 'visible')}
+        collection={get(shareCollectionModal, 'data')}
+        onCancel={() => {
+          toggleShareCollectionModal();
+        }}
+      />
       <CreateCollectionModal
         visible={get(collectionModal, 'visible')}
         onCancel={() => toggleCollectionModal()}

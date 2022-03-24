@@ -72,14 +72,14 @@ function FlashEditModal(props: any) {
       <Spin spinning={loading}>
         <div className="card-modal">
           <div className="top-button-section">
-            <Button onClick={props.backHandler} className="btn-outline">
+            <Button onClick={props.cancelHandler} className="btn-outline">
               <img src={iconArrowLeft} alt="" /> Back
             </Button>
           </div>
           <h3 className="title3">{edit ? 'Edit' : 'Add'} Flash Card</h3>
           <Form
             name="basic"
-            initialValues={edit ? initialValue : {}}
+            initialValues={initialValue}
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
             autoComplete="off"

@@ -5,20 +5,23 @@ import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import PieChart from '../charts/pieHighchartChart';
 import { fetchDashboardMetrices } from '../../redux/actions/dashboardActions';
-import hrsIcon from "../../assets/images/dashboard/hrs.svg";
-import notesIcon from "../../assets/images/dashboard/notes.svg";
-import collectionIcon from "../../assets/images/dashboard/collection.svg";
-import quizIcon from "../../assets/images/dashboard/quiz.svg";
-import groupStudiesIcon from "../../assets/images/dashboard/group-studies.svg";
+import hrsIcon from '../../assets/images/dashboard/hrs.svg';
+import notesIcon from '../../assets/images/dashboard/notes.svg';
+import collectionIcon from '../../assets/images/dashboard/collection.svg';
+import quizIcon from '../../assets/images/dashboard/quiz.svg';
+import groupStudiesIcon from '../../assets/images/dashboard/group-studies.svg';
+import { rangeQueryObj } from '../../utilities/helpers';
 
-const DashboardMetrices = () => {
+const DashboardMetrices = (props: any) => {
+  const { user, dateRange } = props;
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const [metrices, setMetrices] = useState(null);
 
   const getDashboardMetrices = () => {
     setLoading(true);
-    dispatch(fetchDashboardMetrices())
+    console.log();
+    dispatch(fetchDashboardMetrices(get(user, 'id'), rangeQueryObj(dateRange)))
       .then((result: any) => {
         setMetrices(result);
         setLoading(false);
@@ -30,7 +33,7 @@ const DashboardMetrices = () => {
 
   useEffect(() => {
     getDashboardMetrices();
-  }, []);
+  }, [dateRange]);
 
   return (
     <Spin spinning={loading}>
@@ -46,7 +49,7 @@ const DashboardMetrices = () => {
         <Col xs={12} sm={6}>
           <div className="card-outline">
             <div className="image-box">
-              <img src={hrsIcon} className="icon" alt='' />
+              <img src={hrsIcon} className="icon" alt="" />
             </div>
             <h3 className="title-md">
               {getTimeText(get(metrices, 'total_studied_time'))}
@@ -58,7 +61,7 @@ const DashboardMetrices = () => {
         <Col xs={12} sm={6}>
           <div className="card-outline">
             <div className="image-box">
-              <img src={notesIcon} className="icon" alt='' />
+              <img src={notesIcon} className="icon" alt="" />
             </div>
             <h3 className="title-md">{get(metrices, 'note_count')}</h3>
             <h4 className="description">Notes</h4>
@@ -68,7 +71,7 @@ const DashboardMetrices = () => {
         <Col xs={12} sm={6}>
           <div className="card-outline">
             <div className="image-box">
-              <img src={collectionIcon} className="icon" alt='' />
+              <img src={collectionIcon} className="icon" alt="" />
             </div>
             <h3 className="title-md">{get(metrices, 'collection_count')}</h3>
             <h4 className="description">Collections</h4>
@@ -78,7 +81,7 @@ const DashboardMetrices = () => {
         <Col xs={12} sm={6}>
           <div className="card-outline">
             <div className="image-box">
-              <img src={quizIcon} className="icon" alt='' />
+              <img src={quizIcon} className="icon" alt="" />
             </div>
             <h3 className="title-md">{get(metrices, 'active_quiz_count')}</h3>
             <h4 className="description">Active Quizes</h4>
@@ -88,7 +91,7 @@ const DashboardMetrices = () => {
         <Col xs={12} sm={6}>
           <div className="card-outline">
             <div className="image-box">
-              <img src={groupStudiesIcon} className="icon" alt='' />
+              <img src={groupStudiesIcon} className="icon" alt="" />
             </div>
             <h3 className="title-md">{get(metrices, 'group_count')}</h3>
             <h4 className="description">Study Groups</h4>

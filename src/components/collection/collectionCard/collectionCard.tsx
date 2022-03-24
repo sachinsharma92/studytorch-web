@@ -3,6 +3,7 @@ import {
   EditOutlined,
   DeleteOutlined,
   ExclamationCircleOutlined,
+  ShareAltOutlined,
 } from '@ant-design/icons';
 import get from 'lodash/get';
 import { useDispatch } from 'react-redux';
@@ -27,6 +28,7 @@ function CollectionCard(props: any) {
     withUserStyle,
     parentCollection,
     hideEditDelete,
+    toggleShareCollectionModal,
   } = props;
   const dispatch = useDispatch();
 
@@ -63,6 +65,14 @@ function CollectionCard(props: any) {
       <Menu.Item icon={<DeleteOutlined />} onClick={() => onConfirmDelete()}>
         Delete
       </Menu.Item>
+      {toggleShareCollectionModal && (
+        <Menu.Item
+          icon={<ShareAltOutlined />}
+          onClick={() => toggleShareCollectionModal()}
+        >
+          Share to group
+        </Menu.Item>
+      )}
     </Menu>
   );
 

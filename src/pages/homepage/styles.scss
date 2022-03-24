@@ -1,18 +1,28 @@
 // variables
-@import "../../styles/variables/colors";
-@import "../../styles/variables/mixins";
+@import '../../styles/variables/colors';
+@import '../../styles/variables/mixins';
 
 .homepage-style {
+  .name-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .ranger-picker {
+    max-height: 40px;
+    min-width: 200px;
+  }
+
   .right-section {
     background: #fafafb;
     height: calc(100vh - 64px);
-    overflow-x:scroll ;
+    overflow-x: scroll;
     padding: 24px;
   }
 
   .section-main {
     padding: 24px;
-    height:calc(100vh - 64px);
+    height: calc(100vh - 64px);
     overflow-x: scroll;
   }
 
@@ -62,7 +72,6 @@
   }
 
   .pie-graph-card {
-
     @include mobile {
       flex-direction: column;
     }
@@ -138,7 +147,6 @@
     }
   }
 
-
   // study-section
   .study-section {
     margin-bottom: 50px;
@@ -150,7 +158,7 @@
   }
 
   .score-chart-card {
-    border: 1px solid #F2F2F2;
+    border: 1px solid #f2f2f2;
     border-radius: 40px;
     padding: 20px;
     margin-top: 30px;

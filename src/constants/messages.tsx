@@ -3,6 +3,8 @@ export const UPDATE_COLLECTION_SUCCESS = 'Collection Updated Successfully';
 export const DELETE_COLLECTION_SUCCESS = 'Collection Deleted Successfully';
 export const SHARE_COLLECTION_SUCCESS =
   'Collection shared invitation sent successfully to user';
+export const SHARE_COLLECTION__TO_GROUP_SUCCESS =
+  'Collection shared to group successfully';
 export const REMOVE_SHARE_COLLECTION_SUCCESS =
   'User removed successfully from collection';
 export const COLLECTION_LEAVE_SUCCESS = 'Collection leave successfully';

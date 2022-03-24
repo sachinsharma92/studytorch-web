@@ -226,7 +226,7 @@ function QuizSelectModal(props: any) {
     sendEvent(timeDiff % 30);
     onCancel();
   };
-  console.log('=====>question', questions);
+
   return (
     <Modal
       centered

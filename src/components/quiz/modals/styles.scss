@@ -27,6 +27,15 @@
   justify-content: center;
 }
 
+.progress-button {
+  cursor: pointer;
+  font-size: 12px;
+  color: $theme-primary;
+  span {
+    text-decoration: underline;
+  }
+}
+
 .answer-sec {
   height: 40px;
   margin-top: 20px;

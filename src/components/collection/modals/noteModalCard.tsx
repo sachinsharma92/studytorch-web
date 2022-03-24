@@ -1,39 +1,29 @@
 import { useEffect, useState } from 'react';
-
-import map from 'lodash/map';
 import { Editor } from 'react-draft-wysiwyg';
-import {
-  EditorState,
-  convertToRaw,
-  convertFromHTML,
-  ContentState,
-} from 'draft-js';
+import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
 import get from 'lodash/get';
+import map from 'lodash/map';
 import { useDispatch } from 'react-redux';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
-import draftToHtml from 'draftjs-to-html';
+
 import {
   Button,
   Modal,
   Breadcrumb,
-  Dropdown,
-  Menu,
   Form,
   Input,
   Row,
   Col,
   Select,
-  notification,
   message,
   Spin,
 } from 'antd';
-import { DownloadOutlined, FileTextOutlined } from '@ant-design/icons';
 import { createNote, updateNote } from '../../../redux/actions/noteActions';
 // Images
-import iconFullscreen from '../../../assets/images/icons/fullscreen.svg';
-import iconMore from '../../../assets/images/icons/more-dircle.svg';
+
 import iconArrowLeft from '../../../assets/images/icons/caret-Left.svg';
 import ButtonCustom from '../../../common/buttons/buttonCustom';
+import QuestionImageUpload from '../../../components/questionImageUpload';
 import {
   CREATE_NOTE_SUCCESS,
   UPDATE_NOTE_SUCCESS,
@@ -42,26 +32,15 @@ import {
 // Styles
 import './styles.scss';
 
-const menu = (
-  <Menu>
-    <Menu.Item icon={<DownloadOutlined />}>
-      <a target="_blank" rel="noopener noreferrer" href="#">
-        Donwload PDF
-      </a>
-    </Menu.Item>
-    <Menu.Item icon={<FileTextOutlined />}>
-      <a target="_blank" rel="noopener noreferrer" href="#">
-        Print
-      </a>
-    </Menu.Item>
-  </Menu>
-);
-
 function NoteModalCard(props: any) {
   const { collection, onSuccess, edit, onCancel, initialValue, visible } =
     props;
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+
+  const [images, setImages] = useState<any[]>(
+    edit ? get(initialValue, 'images', []) : []
+  );
 
   const [editorState, setEditorState] = useState<any>(
     EditorState.createEmpty()
@@ -69,14 +48,11 @@ function NoteModalCard(props: any) {
 
   useEffect(() => {
     if (visible && edit) {
-      const blocksFromHTML = convertFromHTML(get(initialValue, 'description'));
-
-      const contentState = ContentState.createFromBlockArray(
-        blocksFromHTML.contentBlocks,
-        blocksFromHTML.entityMap
+      setEditorState(
+        EditorState.createWithContent(
+          convertFromRaw(get(initialValue, 'description'))
+        )
       );
-
-      setEditorState(EditorState.createWithContent(contentState));
     }
   }, [visible]);
 
@@ -92,6 +68,7 @@ function NoteModalCard(props: any) {
         setLoading(false);
       });
   };
+
   const editNotes = (payload: any) => {
     setLoading(true);
     dispatch(updateNote(get(initialValue, 'id'), payload))
@@ -109,23 +86,20 @@ function NoteModalCard(props: any) {
     if (edit) {
       editNotes({
         ...values,
-        description: draftToHtml(convertToRaw(editorState.getCurrentContent())),
+        description: convertToRaw(editorState.getCurrentContent()),
         parent_id: get(collection, 'id'),
+        images: map(images, 'key'),
       });
     } else {
       addNotes({
         ...values,
-        description: draftToHtml(convertToRaw(editorState.getCurrentContent())),
+        description: convertToRaw(editorState.getCurrentContent()),
         parent_id: get(collection, 'id'),
+        images: map(images, 'key'),
       });
     }
   };
   const onFinishFailed = () => {};
-
-  const [isNoteViewModal, setNoteViewModal] = useState(false);
-  const noteViewToggleModal = () => {
-    setNoteViewModal(!isNoteViewModal);
-  };
 
   return (
     <Modal
@@ -143,24 +117,6 @@ function NoteModalCard(props: any) {
             <Button onClick={onCancel} className="btn-outline">
               <img src={iconArrowLeft} alt="" /> Back
             </Button>
-            <div className="action-sec">
-              <Button href={props.buttonHandler}>
-                <img src={iconFullscreen} alt="" />
-              </Button>
-
-              <Dropdown
-                overlayClassName="collection-dropdown"
-                overlay={menu}
-                placement="bottomRight"
-              >
-                <a
-                  className="ant-dropdown-link"
-                  onClick={(e) => e.preventDefault()}
-                >
-                  <img src={iconMore} className="icon-style" />
-                </a>
-              </Dropdown>
-            </div>
           </div>
 
           <Breadcrumb>
@@ -230,7 +186,20 @@ function NoteModalCard(props: any) {
                   }}
                 />
               </div>
-
+              <div className="image-upload-container">
+                <Row>
+                  <Col xl={24}>
+                    <Form.Item label="Images">
+                      <QuestionImageUpload
+                        setLoading={setLoading}
+                        images={images}
+                        edit={edit}
+                        setImages={setImages}
+                      />
+                    </Form.Item>
+                  </Col>
+                </Row>
+              </div>
               <div className="button-bottom-section">
                 <ButtonCustom
                   onClick={onCancel}

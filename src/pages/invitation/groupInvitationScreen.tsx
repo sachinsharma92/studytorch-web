@@ -1,4 +1,13 @@
-import { Button, message, Space, Spin, notification } from 'antd';
+import {
+  Button,
+  message,
+  Space,
+  Spin,
+  notification,
+  Checkbox,
+  Row,
+  Col,
+} from 'antd';
 import get from 'lodash/get';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -21,7 +30,6 @@ import '../auth/styles.scss';
 /**
  * Props
  */
-
 /**
  *
  * @param props: LoginScreenProps
@@ -31,6 +39,7 @@ function GroupInvitationScreen(props: any) {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [group, setGroup] = useState(null);
+  const [progressAccess, setProgressAccess] = useState(true);
   const dispatch = useDispatch();
   const { id } = useParams();
 
@@ -58,7 +67,11 @@ function GroupInvitationScreen(props: any) {
 
   const onVerifyLink = () => {
     setLoading(true);
-    dispatch(onAcceptGroupLink(id))
+    dispatch(
+      onAcceptGroupLink(id, {
+        progress_access: progressAccess,
+      })
+    )
       .then(() => {
         setLoading(false);
         message.success(LINK_ACCEPT_SUCCESS);
@@ -97,6 +110,18 @@ function GroupInvitationScreen(props: any) {
               <p className="description">
                 You got invitation to join {get(group, 'name')} Group
               </p>
+              <Row style={{ marginBottom: 50 }}>
+                <Col>
+                  <Checkbox
+                    checked={progressAccess}
+                    onChange={(e: any) => {
+                      setProgressAccess(e.target.checked);
+                    }}
+                  >
+                    Allow Group admin to access your progress
+                  </Checkbox>
+                </Col>
+              </Row>
               <Space size={'large'}>
                 <Button type="primary" onClick={onVerifyLink}>
                   Join

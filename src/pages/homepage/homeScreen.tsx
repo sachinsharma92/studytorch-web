@@ -4,9 +4,8 @@ import get from 'lodash/get';
 import PrimaryLayout from '../../common/primaryLayout/primaryLayout';
 
 import CollectionDashboardSection from '../../components/dashboard/abc';
-import DashboardMetrices from '../../components/dashboard/dashboardMetrices';
-import StudyPatternGraph from '../../components/dashboard/studyPatternGraph';
-import QuizPatternGraph from '../../components/dashboard/quizPatternGraph';
+
+import UserProgress from '../../components/userProgress';
 
 import requireAuth from '../../hocs/requireAuth';
 
@@ -18,24 +17,7 @@ function HomeScreen() {
 
   return (
     <PrimaryLayout>
-      <div className="homepage-style">
-        <Row>
-          <Col sm={18}>
-            <div className="section-main">
-              <h3 className="title3 space-md">Welcome , {get(user, 'name')}</h3>
-
-              <DashboardMetrices />
-
-              <StudyPatternGraph />
-
-              <QuizPatternGraph />
-            </div>
-          </Col>
-          <Col sm={6}>
-            <CollectionDashboardSection />
-          </Col>
-        </Row>
-      </div>
+      <UserProgress user={user} isDashboard />
     </PrimaryLayout>
   );
 }

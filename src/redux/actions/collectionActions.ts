@@ -14,6 +14,23 @@ export const createCollection =
       });
   };
 
+export const shareCollectionToGroup =
+  (uuid: any, groupUuid: any): any =>
+  (dispatch: any, getState: any, { api }: any): any => {
+    const url = replaceMultiple(APIS.SHARED_COLLECTION_TO_GROUP, {
+      ':id': uuid,
+      ':groupUuid': groupUuid,
+    });
+    return api
+      .post(url)
+      .then((result: any) => {
+        return result;
+      })
+      .catch((error: any) => {
+        throw error;
+      });
+  };
+
 export const updateCollection =
   (id: number, payload: any): any =>
   (dispatch: any, getState: any, { api }: any): any => {

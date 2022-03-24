@@ -13,6 +13,7 @@ import {
   Drawer,
   Spin,
   Tooltip,
+  Breadcrumb,
 } from 'antd';
 import get from 'lodash/get';
 import map from 'lodash/map';
@@ -138,10 +139,13 @@ function GroupDetailScreen(props: any) {
   const [flashModal, setFlashModal] = useState({
     visible: false,
     data: null,
+    edit: false,
   });
-  const toggleFlashModal = (data = null) => {
+
+  const toggleFlashModal = (data = null, edit = false) => {
     setFlashModal({
       visible: !get(flashModal, 'visible'),
+      edit,
       data: data,
     });
   };
@@ -244,7 +248,31 @@ function GroupDetailScreen(props: any) {
     });
   };
 
-  console.log({ groupDetails });
+  const routes = (collection: any) => {
+    return (
+      <Breadcrumb style={{ cursor: 'pointer' }}>
+        {get(collection, 'parent') ? (
+          <Breadcrumb.Item
+            onClick={() => {
+              navigate(-1);
+            }}
+          >
+            {get(collection, 'parent.name')}
+          </Breadcrumb.Item>
+        ) : (
+          <Breadcrumb.Item
+            onClick={() => {
+              navigate(-1);
+            }}
+          >
+            Groups
+          </Breadcrumb.Item>
+        )}
+
+        <Breadcrumb.Item>{get(collection, 'name')}</Breadcrumb.Item>
+      </Breadcrumb>
+    );
+  };
 
   return (
     <PrimaryLayout>
@@ -259,18 +287,7 @@ function GroupDetailScreen(props: any) {
           className="site-page-header header-back"
           onBack={() => navigate(-1)}
           title={get(collectionDetails, 'name')}
-          breadcrumb={{
-            routes: [
-              {
-                path: 'index',
-                breadcrumbName: 'Group',
-              },
-              {
-                path: 'first',
-                breadcrumbName: get(groupDetails, 'name', ''),
-              },
-            ],
-          }}
+          breadcrumb={routes(collectionDetails)}
           extra={[
             <div className="btn-section-top">
               <JoinedDropDown
@@ -529,7 +546,7 @@ function GroupDetailScreen(props: any) {
                             collection={collectionDetails}
                             onSuccess={getGroupCollectionDetails}
                             onEditFlashCard={(data: any) => {
-                              toggleFlashModal(data);
+                              toggleFlashModal(data, true);
                             }}
                           />
                         </Col>
@@ -645,10 +662,8 @@ function GroupDetailScreen(props: any) {
         <FlashEditModal
           visible={get(flashModal, 'visible')}
           initialValue={get(flashModal, 'data')}
-          edit={get(flashModal, 'data') ? true : false}
-          btnAddHandler={toggleFlashModal}
-          cancelHandler={toggleFlashModal}
-          backHandler={toggleFlashModal}
+          edit={get(flashModal, 'edit')}
+          cancelHandler={() => toggleFlashModal()}
           collection={collectionDetails}
           onSuccess={() => {
             toggleFlashModal();

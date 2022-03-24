@@ -21,6 +21,8 @@ export const USERS_FOR_COLLECTION = 'collections/:id/users';
 export const SHARED_COLLECITONS = 'share-collections';
 export const SHARED_USERS = 'collections/:id/shared-users';
 export const SHARED_COLLECTION = 'share-collections';
+export const SHARED_COLLECTION_TO_GROUP =
+  'collections/:id/share-group/:groupUuid';
 export const REMOVE_USER_SHARED_COLLECTION =
   'share-collections/:uuid/remove/:user_uuid';
 export const GET_COLLECTION_INVITED_MEMBER =

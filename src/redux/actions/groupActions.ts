@@ -221,11 +221,11 @@ export const verifyGroupLink =
   };
 
 export const onAcceptGroupLink =
-  (uuid: any): any =>
+  (uuid: any, payload: any): any =>
   (dispatch: any, getState: any, { api }: any): any => {
     const url = `groups/accept-link/${uuid}`;
     return api
-      .post(url)
+      .post(url, payload)
       .then((result: any) => {
         return result;
       })

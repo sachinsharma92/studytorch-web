@@ -3,6 +3,8 @@ import {
   DeleteOutlined,
   ExclamationCircleOutlined,
 } from '@ant-design/icons';
+import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
+import draftToHtml from 'draftjs-to-html';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import replace from 'lodash/replace';
@@ -52,6 +54,10 @@ function NotesCard(props: any) {
     });
   };
 
+  const t = EditorState.createWithContent(
+    convertFromRaw(get(props, 'description'))
+  );
+
   const menu = (
     <Menu>
       <Menu.Item icon={<EditOutlined />} key={'1'} onClick={onEditNote}>
@@ -85,7 +91,10 @@ function NotesCard(props: any) {
           </div>
           <p className="description">
             {truncateText(
-              get(props, 'description', '').replace(/<[^>]+>/g, ''),
+              draftToHtml(convertToRaw(t.getCurrentContent())).replace(
+                /<[^>]+>/g,
+                ''
+              ),
               50
             )}
           </p>

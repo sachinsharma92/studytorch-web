@@ -1,0 +1,20 @@
+// variables
+@import '../../styles/variables/colors';
+@import '../../styles/variables/mixins';
+
+.popover-container {
+  position: absolute;
+}
+
+.button-section {
+  text-align: center;
+}
+
+.button-style {
+  span {
+    color: $theme-primary;
+    font-size: 14px;
+    text-decoration: underline;
+    font-weight: 600;
+  }
+}

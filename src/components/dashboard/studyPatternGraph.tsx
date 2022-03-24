@@ -9,8 +9,10 @@ import arrowIcon1 from '../../assets/images/icons/arrow-down1.svg';
 import EmptyState from '../../common/emptyState/emptyState';
 import { fetchDashboardPattern } from '../../redux/actions/dashboardActions';
 import noDataImage from '../../assets/images/study-not-data.svg';
+import { rangeQueryObj } from '../../utilities/helpers';
 
 const StudyPatternGraph = (props: any) => {
+  const { user, dateRange } = props;
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const [data, setData] = useState<any>({
@@ -39,7 +41,7 @@ const StudyPatternGraph = (props: any) => {
 
   const getDashboardPattern = () => {
     setLoading(true);
-    dispatch(fetchDashboardPattern())
+    dispatch(fetchDashboardPattern(get(user, 'id'), rangeQueryObj(dateRange)))
       .then((result: any) => {
         setData(getGraphData(result));
         setLoading(false);
@@ -51,7 +53,7 @@ const StudyPatternGraph = (props: any) => {
 
   useEffect(() => {
     getDashboardPattern();
-  }, []);
+  }, [dateRange]);
 
   return (
     <Spin spinning={loading}>

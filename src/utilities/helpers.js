@@ -49,7 +49,9 @@ export const getTimeText = (time = 0) => {
     Math.floor(durationValue.asSeconds()) - (hours * 60 * 60 + mins * 60);
 
   let text = '';
-  if (time < 60) {
+  if (!time) {
+    text = `0 Sec`;
+  } else if (time < 60) {
     text = `${time} Sec`;
   } else if (time < 3600) {
     text = `${mins} Min ${sec ? sec + ' Sec' : ''}`;
@@ -74,4 +76,11 @@ export const getFormattedTimeString = (date) => {
     padStart(date.getMinutes(), 2, '0')
     // @ts-ignore: Unreachable code error
   }:${padStart(date.getSeconds(), 2, '0')}`;
+};
+
+export const rangeQueryObj = (range: any) => {
+  return {
+    start_date: range[0].format('YYYY-MM-DD'),
+    end_date: range[1].format('YYYY-MM-DD'),
+  };
 };

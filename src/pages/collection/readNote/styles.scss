@@ -1,17 +1,22 @@
 // variables
-@import "../../../styles/variables/colors";
-@import "../../../styles/variables/mixins";
-
+@import '../../../styles/variables/colors';
+@import '../../../styles/variables/mixins';
 
 // Note Modal
-.read-note-style {
+.collection-name-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-right: 20px;
+}
 
+.read-note-style {
   .title3 {
     font-size: 28px;
   }
 
   .action-section {
-    border-bottom: 1px solid #EBF2FA;
+    border-bottom: 1px solid #ebf2fa;
     padding: 20px 20px;
   }
 
@@ -27,9 +32,8 @@
     .description {
       margin-top: 20px;
       font-size: 16px;
-      color: #3C3F54;
+      color: #3c3f54;
     }
-
   }
 
   .top-button-section {
@@ -73,7 +77,7 @@
   }
 
   .tag-style {
-    background: #E4ECF7;
+    background: #e4ecf7;
     color: #505780;
     border-radius: 100px;
     height: 28px;

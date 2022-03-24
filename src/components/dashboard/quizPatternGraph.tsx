@@ -9,8 +9,10 @@ import { fetchDashboardQuizPattern } from '../../redux/actions/dashboardActions'
 import arrowIcon2 from '../../assets/images/icons/arrow-down2.svg';
 import EmptyState from '../../common/emptyState/emptyState';
 import noDataImage from '../../assets/images/study-not-data.svg';
+import { rangeQueryObj } from '../../utilities/helpers';
 
 const QuizPatternGraph = (props: any) => {
+  const { user, dateRange } = props;
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const [data, setData] = useState<any>({
@@ -39,7 +41,9 @@ const QuizPatternGraph = (props: any) => {
 
   const getDashboardQuizPattern = () => {
     setLoading(true);
-    dispatch(fetchDashboardQuizPattern())
+    dispatch(
+      fetchDashboardQuizPattern(get(user, 'id'), rangeQueryObj(dateRange))
+    )
       .then((result: any) => {
         setData(getGraphData(result));
         setLoading(false);
@@ -51,7 +55,7 @@ const QuizPatternGraph = (props: any) => {
 
   useEffect(() => {
     getDashboardQuizPattern();
-  }, []);
+  }, [dateRange]);
 
   return (
     <Spin spinning={loading}>

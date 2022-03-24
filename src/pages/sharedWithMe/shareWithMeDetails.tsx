@@ -12,6 +12,7 @@ import {
   Dropdown,
   Spin,
   Modal,
+  Breadcrumb,
   message,
 } from 'antd';
 import { useDispatch } from 'react-redux';
@@ -80,17 +81,6 @@ const menu = (
   </Menu>
 );
 
-const routes = [
-  {
-    path: 'index',
-    breadcrumbName: 'Collections',
-  },
-  {
-    path: 'first',
-    breadcrumbName: 'Maths Group',
-  },
-];
-
 function ShareWithMeDetails(props: any) {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -158,11 +148,13 @@ function ShareWithMeDetails(props: any) {
   const [flashModal, setFlashModal] = useState({
     visible: false,
     data: null,
+    edit: false,
   });
 
-  const toggleFlashModal = (data = null) => {
+  const toggleFlashModal = (data = null, edit = false) => {
     setFlashModal({
       visible: !get(flashModal, 'visible'),
+      edit,
       data: data,
     });
   };
@@ -255,6 +247,32 @@ function ShareWithMeDetails(props: any) {
   if (!collectionDetails) {
     return <Skeleton />;
   }
+  //get(collection, 'parent')
+  const routes = (collection: any) => {
+    return (
+      <Breadcrumb style={{ cursor: 'pointer' }}>
+        {get(collection, 'parent') ? (
+          <Breadcrumb.Item
+            onClick={() => {
+              navigate(-1);
+            }}
+          >
+            {get(collection, 'parent.name')}
+          </Breadcrumb.Item>
+        ) : (
+          <Breadcrumb.Item
+            onClick={() => {
+              navigate(-1);
+            }}
+          >
+            Shared collections
+          </Breadcrumb.Item>
+        )}
+
+        <Breadcrumb.Item>{get(collection, 'name')}</Breadcrumb.Item>
+      </Breadcrumb>
+    );
+  };
 
   return (
     <PrimaryLayout>
@@ -264,7 +282,7 @@ function ShareWithMeDetails(props: any) {
             className="site-page-header header-back"
             onBack={() => navigate(-1)}
             title={get(collectionDetails, 'name')}
-            breadcrumb={{ routes }}
+            breadcrumb={routes(collectionDetails)}
             extra={[
               <div className="btn-section-top">
                 <div className="user-flex-icon">
@@ -536,7 +554,7 @@ function ShareWithMeDetails(props: any) {
                             hideEditDelete={!canEditCollection}
                             onSuccess={fetchSharedCollectionDetails}
                             onEditFlashCard={(data: any) => {
-                              toggleFlashModal(data);
+                              toggleFlashModal(data, true);
                             }}
                           />
                         </Col>
@@ -652,10 +670,8 @@ function ShareWithMeDetails(props: any) {
         <FlashEditModal
           visible={get(flashModal, 'visible')}
           initialValue={get(flashModal, 'data')}
-          edit={get(flashModal, 'data') ? true : false}
-          btnAddHandler={toggleFlashModal}
-          cancelHandler={toggleFlashModal}
-          backHandler={toggleFlashModal}
+          edit={get(flashModal, 'edit')}
+          cancelHandler={() => toggleFlashModal()}
           collection={collectionDetails}
           onSuccess={() => {
             toggleFlashModal();

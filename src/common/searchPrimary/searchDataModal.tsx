@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import get from 'lodash/get';
 import map from 'lodash/map';
 import isEmpty from 'lodash/isEmpty';
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import debounce from 'lodash/debounce';
 import { fetchGlobalSearch } from '../../redux/actions/dashboardActions';
