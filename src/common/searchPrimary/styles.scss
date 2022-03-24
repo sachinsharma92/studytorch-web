@@ -80,6 +80,8 @@
 
   .ant-modal-content {
     border-radius: 8px;
+    max-height: 90vh;
+    overflow-x: scroll;
   }
 
   .input-section {
