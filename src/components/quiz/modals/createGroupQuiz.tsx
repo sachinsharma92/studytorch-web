@@ -117,6 +117,7 @@ function CreateGroupQuizModal(props: any) {
       <Modal
         centered
         visible={props.visible}
+        maskClosable={false}
         footer={false}
         onCancel={props.onCancel}
         wrapClassName="create-modal-style primary-modal-style"
@@ -192,6 +193,12 @@ function CreateGroupQuizModal(props: any) {
                     <Form.Item
                       name="sub_folder_included"
                       label="Include sub questions"
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Please select one option!',
+                        },
+                      ]}
                     >
                       <Radio.Group disabled={noDisableSubFolder}>
                         <Radio value={true}>Yes</Radio>
@@ -202,7 +209,7 @@ function CreateGroupQuizModal(props: any) {
                 </div>
 
                 <div className="button-section">
-                  <Button className="btn-cancel" onClick={props.cancelHandler}>
+                  <Button className="btn-cancel" onClick={props.onCancel}>
                     Cancel
                   </Button>
 
@@ -235,7 +242,7 @@ function CreateGroupQuizModal(props: any) {
                 </div>
               </div>
               <div className="button-section">
-                <Button className="btn-cancel" onClick={props.cancelHandler}>
+                <Button className="btn-cancel" onClick={props.onCancel}>
                   Cancel
                 </Button>
 

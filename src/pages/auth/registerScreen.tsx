@@ -19,6 +19,7 @@ interface RegisterScreenProps {}
 function RegisterScreen(props: RegisterScreenProps) {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+
   const isLoggedIn = useSelector((state) => get(state, 'userState.isLoggedIn'));
   const showOnBoarding = useSelector((state) =>
     get(state, 'userState.showOnBoarding')
@@ -109,13 +110,11 @@ function RegisterScreen(props: RegisterScreenProps) {
                 name="phone"
                 rules={[
                   { required: true, message: 'Please input your contact!' },
+
                   {
-                    min: 10,
-                    message: 'Phone number should be of atleast 10 character',
-                  },
-                  {
-                    pattern: new RegExp(/^([0|+[0-9]{1,5})?([7-9][0-9]{9})$/),
-                    message: 'Invalid phone number format!',
+                    pattern: new RegExp(/^\+(?:[0-9] ?){6,14}[0-9]$/),
+                    message:
+                      'Invalid phone number format, Make sure phone number start with Country code Ex +61XXXXX!',
                   },
                 ]}
               >
@@ -158,7 +157,25 @@ function RegisterScreen(props: RegisterScreenProps) {
                 <Input.Password placeholder="Type your password" />
               </Form.Item>
 
-              <Form.Item className="checkbox-style">
+              <Form.Item
+                className="checkbox-style"
+                valuePropName="checked"
+                name="accept"
+                rules={[
+                  {
+                    validator: (rule, value, callback) => {
+                      console.log({ value });
+                      if (!value) {
+                        callback(
+                          'Please accept  the Terms and Conditions, and our Privacy Policy!'
+                        );
+                        return;
+                      }
+                      callback();
+                    },
+                  },
+                ]}
+              >
                 <Checkbox>
                   By creating an account means you agree to the Terms and
                   Conditions, and our Privacy Policy

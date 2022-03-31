@@ -92,6 +92,7 @@ function CreateQuizModal(props: any) {
       <Modal
         centered
         visible={props.visible}
+        maskClosable={false}
         footer={false}
         destroyOnClose
         onCancel={props.onCancel}
@@ -167,6 +168,16 @@ function CreateQuizModal(props: any) {
                   <Form.Item
                     name="sub_folder_included"
                     label="Include sub questions"
+                    rules={
+                      !noDisableSubFolder
+                        ? [
+                            {
+                              required: true,
+                              message: 'Please select one option!',
+                            },
+                          ]
+                        : []
+                    }
                   >
                     <Radio.Group disabled={noDisableSubFolder}>
                       <Radio value={true}>Yes</Radio>

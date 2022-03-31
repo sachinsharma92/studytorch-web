@@ -114,8 +114,9 @@ function ProfileScreen(props: any) {
               rules={[
                 { required: true, message: 'Please input your contact!' },
                 {
-                  min: 10,
-                  message: 'Phone number should be of atleast 10 character',
+                  pattern: new RegExp(/^\+(?:[0-9] ?){6,14}[0-9]$/),
+                  message:
+                    'Invalid phone number format, Make sure phone number start with Country code Ex +61XXXXX!',
                 },
               ]}
             >

@@ -56,7 +56,7 @@ import folderGray from '../../assets/images/icons/folder-gray.svg';
 
 // Styles
 import './styles.scss';
-import CreateQuizModal from '../../components/quiz/modals/createQuizModal';
+import CreateGroupQuiz from '../../components/quiz/modals/createGroupQuiz';
 import CheckSolutionModal from '../../components/quiz/modals/checkSolutionModal';
 import ReportDetailCard from '../../components/groups/drawerCards/reportDetailCard';
 
@@ -459,7 +459,14 @@ function GroupDetailScreen(props: any) {
               </TabPane>
               <TabPane tab="Question" key="3">
                 <div className="inline-button-section mt--20 mb--30">
-                  <ButtonCustom className="round-primary" title="Take a Quiz" />
+                  {get(groupDetails, 'is_group_admin') && (
+                    <ButtonCustom
+                      onClick={createQuizToggleModal}
+                      className="round-primary"
+                      title="Take a Quiz"
+                    />
+                  )}
+
                   <ButtonCustom
                     className="round-primary"
                     icon={<img src={filter} alt="" />}
@@ -574,6 +581,23 @@ function GroupDetailScreen(props: any) {
         </Spin>
       </div>
 
+      {/* GroupQuiz Modal */}
+      {isCreateQuizModal && (
+        <CreateGroupQuiz
+          visible={isCreateQuizModal}
+          collections={[collectionDetails]}
+          group={groupDetails}
+          members={get(groupDetails, 'group_members', [])}
+          type="individual"
+          createHandler={createQuizToggleModal}
+          cancelHandler={createQuizToggleModal}
+          onSuccess={() => {
+            createQuizToggleModal();
+          }}
+          onCancel={createQuizToggleModal}
+        />
+      )}
+
       {/* Collection Modal here */}
       <CreateCollectionModal
         visible={get(collectionModal, 'visible')}
@@ -674,13 +698,6 @@ function GroupDetailScreen(props: any) {
 
       {/* Share Modal here */}
 
-      {/* Questions Modal */}
-      <CreateQuizModal
-        visible={isCreateQuizModal}
-        createHandler={createQuizToggleModal}
-        cancelHandler={createQuizToggleModal}
-        onCancel={createQuizToggleModal}
-      />
       <Modal
         visible={get(imagePreview, 'previewVisible')}
         footer={null}
