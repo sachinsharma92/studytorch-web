@@ -152,3 +152,16 @@ export const deleteUser =
         throw error;
       });
   };
+
+export const cancelInvitation =
+  (uuid: any): any =>
+  (dispatch: any, getState: any, { api }: any): any => {
+    return api
+      .delete(`${APIS.CANCEL_INVITATION}/${uuid}`)
+      .then((result: any) => {
+        return result;
+      })
+      .catch((error: any) => {
+        throw error;
+      });
+  };

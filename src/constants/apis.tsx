@@ -46,6 +46,7 @@ export const GET_INVITED_GROUP_MEMBER = 'groups/:id/invited-members';
 export const REMOVE_MEMBER_TO_GROUP = 'groups/:id/remove-members/:member_id';
 export const GROUP_REPORT = 'groups/:id/reports';
 export const GROUP_QUIZ_DETAILS = 'groups/:gid/quizzes/:id';
+export const CANCEL_INVITATION = '/cancel-invitation';
 
 ///########MEDIA#############
 export const UPLOAD_IMAGE = '/media';

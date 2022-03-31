@@ -23,7 +23,7 @@ import {
   removeMemberToGroup,
   fetchInvitedGroupMember,
 } from '../../../redux/actions/groupActions';
-
+import { cancelInvitation } from '../../../redux/actions/userActions';
 import {
   GROUP_MEMBER_UPDATED_SUCCESS,
   GROUP_MEMBER_REMOVED_SUCCESS,
@@ -127,12 +127,33 @@ function GroupMemberModal(props: any) {
       });
   };
 
+  const onCancelInvitation = (uuid: any) => {
+    setLoading(true);
+    dispatch(cancelInvitation(uuid))
+      .then(() => {
+        setLoading(false);
+        setUser(undefined);
+        refreshGroupDetails();
+        getInvitedGroupMember();
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  };
+
   return (
     <>
       <Modal
         centered
         visible={props.visible}
-        footer={false}
+        maskClosable={false}
+        footer={
+          <>
+            <Button type="primary" onClick={props.onCancel}>
+              Cancel
+            </Button>
+          </>
+        }
         onCancel={props.onCancel}
         destroyOnClose
         wrapClassName="group-members-style primary-modal-style"
@@ -189,6 +210,17 @@ function GroupMemberModal(props: any) {
                           </Text>,
                         ]
                       : [
+                          <Popconfirm
+                            title="Are you sure you want to cancel group invitation?"
+                            onConfirm={() => {
+                              onCancelInvitation(get(item, 'id'));
+                            }}
+                            onCancel={() => {}}
+                            okText="Yes"
+                            cancelText="No"
+                          >
+                            <Button type="link" icon={<DeleteOutlined />} />
+                          </Popconfirm>,
                           get(item, 'invited') && (
                             <Tag color="red">Invited</Tag>
                           ),

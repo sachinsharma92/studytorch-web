@@ -19,6 +19,7 @@ import find from 'lodash/find';
 import { useDispatch } from 'react-redux';
 import { getNameAvatar } from '../../../utilities/helpers';
 import { avatarColors } from '../../../constants/groups';
+import { cancelInvitation } from '../../../redux/actions/userActions';
 import {
   fetchCollectionSharedUsers,
   shareCollection,
@@ -152,6 +153,18 @@ function ShareCollectionModal(props: any) {
         setLoading(false);
       });
   };
+  const onCancelInvitation = (uuid: any) => {
+    setLoading(true);
+    dispatch(cancelInvitation(uuid))
+      .then(() => {
+        setLoading(false);
+        getSharedUser(get(collection, 'id'));
+        getInvitedMembers(get(collection, 'id'));
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  };
 
   return (
     <>
@@ -224,7 +237,20 @@ function ShareCollectionModal(props: any) {
                               <Button type="link" icon={<DeleteOutlined />} />
                             </Popconfirm>,
                           ]
-                        : [<Tag color="red">Invited</Tag>]
+                        : [
+                            <Popconfirm
+                              title="Are you sure you want to cancel share collection invitation?"
+                              onConfirm={() => {
+                                onCancelInvitation(get(user, 'id'));
+                              }}
+                              onCancel={() => {}}
+                              okText="Yes"
+                              cancelText="No"
+                            >
+                              <Button type="link" icon={<DeleteOutlined />} />
+                            </Popconfirm>,
+                            <Tag color="red">Invited</Tag>,
+                          ]
                     }
                   >
                     <List.Item.Meta

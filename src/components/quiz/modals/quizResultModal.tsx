@@ -7,6 +7,7 @@ import { fetchQuizDetails } from '../../../redux/actions/quizActions';
 // Styles
 import './styles.scss';
 import { remove } from 'lodash';
+import { getTimeText } from '../../../utilities/helpers';
 
 function QuizResultModal(props: any) {
   const { quiz } = props;
@@ -49,7 +50,7 @@ function QuizResultModal(props: any) {
   };
 
   const questionStats = getQuestionStats();
-
+  console.log(quizDetails, getTimeText(get(quizDetails, 'total_time')));
   return (
     <Modal
       centered
@@ -66,7 +67,10 @@ function QuizResultModal(props: any) {
             <h1 className="title1">Congratulations !</h1>
             <p className="description">
               You Finished Completed your Quiz in{' '}
-              <span className="theme-color"> 20:40 </span>
+              <span className="theme-color">
+                {' '}
+                {getTimeText(get(quizDetails, 'total_time'))}
+              </span>
             </p>
 
             <div className="row-section">
