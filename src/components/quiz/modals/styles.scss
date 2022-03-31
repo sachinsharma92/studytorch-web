@@ -181,6 +181,43 @@
         border-color: $white;
       }
     }
+    .select-wrong-checkbox-style {
+      width: 100%;
+
+      .ant-checkbox-wrapper {
+        border: 1px solid #d9d9d9;
+        border-radius: 4px;
+        padding: 15px;
+        width: 100%;
+        color: $textColor-dark;
+      }
+
+      .ant-checkbox-wrapper-checked {
+        background: $theme-secondary;
+        border-color: $theme-secondary !important;
+        border-radius: 4px;
+        color: $white;
+      }
+
+      .ant-checkbox-inner {
+        width: 18px;
+        height: 18px;
+      }
+
+      .ant-checkbox-checked .ant-checkbox-inner {
+        background: $white;
+        border-color: $white;
+        display: flex;
+        align-items: center;
+      }
+      .ant-checkbox-checked .ant-checkbox-inner::after {
+        border-color: $theme-secondary;
+      }
+
+      .ant-checkbox-checked::after {
+        border-color: $white;
+      }
+    }
   }
 
   .ant-modal-content {

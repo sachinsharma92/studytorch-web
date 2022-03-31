@@ -42,9 +42,9 @@ const GetQuestion = (props: any) => {
       <div className="question-container">
         <h4 className="title4">{get(question, 'title')}</h4>
         <Link
-          to={replaceMultiple(READ_NOTE_SCREEN, {
+          to={`${replaceMultiple(READ_NOTE_SCREEN, {
             ':id': get(question, 'note.id'),
-          })}
+          })}?noBack=true`}
           target="_blank"
         >
           Go to Note <ArrowRightOutlined />
@@ -68,7 +68,11 @@ const GetQuestion = (props: any) => {
         get(question, 'type.value') === 2) && (
         <Checkbox.Group
           value={get(question, 'submitted_answer', [])}
-          className="select-checkbox-style"
+          className={
+            answerCorrect
+              ? 'select-checkbox-style'
+              : 'select-wrong-checkbox-style'
+          }
           disabled
         >
           <Row gutter={[20, 20]}>

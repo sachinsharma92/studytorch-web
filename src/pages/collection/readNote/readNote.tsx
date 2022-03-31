@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import get from 'lodash/get';
 import map from 'lodash/map';
@@ -38,6 +38,9 @@ function ReadNoteScreen(props: any) {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [ref, setRef] = useState<HTMLElement>();
+  const { search } = useLocation();
+  let query = new URLSearchParams(search);
+  console.log(query.get('noBack'));
 
   const [flashModal, setFlashModal] = useState({
     visible: false,
@@ -110,9 +113,13 @@ function ReadNoteScreen(props: any) {
         <div className="read-note-style">
           <div className="action-section">
             <div className="top-button-section">
-              <Button className="btn-outline" onClick={() => navigate(-1)}>
-                <img src={iconArrowLeft} alt="" /> Back
-              </Button>
+              {query.get('noBack') ? (
+                <></>
+              ) : (
+                <Button className="btn-outline" onClick={() => navigate(-1)}>
+                  <img src={iconArrowLeft} alt="" /> Back
+                </Button>
+              )}
             </div>
             <div className="collection-name-container">
               <Breadcrumb>
