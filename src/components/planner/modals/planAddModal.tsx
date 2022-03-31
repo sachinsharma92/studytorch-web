@@ -178,7 +178,7 @@ function PlanAddModal(props: any) {
                   rules={[{ required: true, message: 'Date is required!' }]}
                 >
                   <RangePicker
-                    disabled={edit}
+                    // disabled={edit}
                     disabledDate={(current) => {
                       return current && current < moment().startOf('day');
                     }}

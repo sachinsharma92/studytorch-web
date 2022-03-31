@@ -29,6 +29,7 @@ const UserProgress = (props: any) => {
               <RangePicker
                 className="ranger-picker"
                 size="small"
+                allowClear={false}
                 value={dateRange}
                 onChange={(val) => {
                   setDateRange(val);
