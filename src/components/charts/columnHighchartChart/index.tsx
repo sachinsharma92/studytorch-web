@@ -5,7 +5,7 @@ import { getTimeText } from '../../../utilities/helpers';
 
 function ColumnHighchartChart(props: any) {
   const { categories, values } = props;
-
+  
   const options = {
     chart: {
       type: 'column',
@@ -23,6 +23,7 @@ function ColumnHighchartChart(props: any) {
 	 </text>`;
       },
     },
+  
     title: {
       text: '',
     },
@@ -31,12 +32,17 @@ function ColumnHighchartChart(props: any) {
     },
     xAxis: {
       categories,
+      title:{
+        text: 'Dates (DD)',
+      },
     },
     yAxis: {
       labels: {
         enabled: false,
       },
-      title: true,
+      title:{
+        text: 'Time Spent',
+      },
       gridLineColor: 'transparent',
     },
     credits: {

@@ -85,7 +85,7 @@ function QuizScreen(props: any) {
       fetchUserQuizzes({
         page,
         status,
-        limit: 9,
+        limit: 20,
       })
     )
       .then((result: any) => {

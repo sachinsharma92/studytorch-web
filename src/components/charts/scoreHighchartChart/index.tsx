@@ -30,9 +30,15 @@ function ScoreHighchartChart(props: any) {
     },
     xAxis: {
       categories,
+      title:{
+        text: 'Dates (DD)',
+      },
     },
     yAxis: {
-      title: false,
+      
+      title:{
+        text: 'Average(%)',
+      },
     },
     credits: {
       enabled: false,

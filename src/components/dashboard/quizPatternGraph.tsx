@@ -29,7 +29,7 @@ const QuizPatternGraph = (props: any) => {
     const valArr: any[] = [];
 
     map(result, (d) => {
-      catArr.push(moment(get(d, 'date'), 'YYYY-MM-DD').format('DD'));
+      catArr.push(moment(get(d, 'date'), 'YYYY-MM-DD').format('DD/MM'));
       valArr.push(get(d, 'avg'));
     });
 
@@ -61,12 +61,12 @@ const QuizPatternGraph = (props: any) => {
     <Spin spinning={loading}>
       <section className="quiz-section">
         <h3 className="title3">Quiz Score Analysis</h3>
-        <div className="arrow-icon">
+        {/* <div className="arrow-icon">
           <p className="description">{`${get(date, 'start').format(
             'DD'
           )} - ${get(date, 'end').format('DD MMMM, YYYY')}`}</p>
           <img src={arrowIcon2} alt="" />
-        </div>
+        </div> */}
         {get(data, 'categories', []).length === 0 && (
           <EmptyState
             imgUrl={noDataImage}

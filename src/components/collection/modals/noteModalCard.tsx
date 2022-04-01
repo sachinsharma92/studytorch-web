@@ -107,6 +107,7 @@ function NoteModalCard(props: any) {
       visible={visible}
       destroyOnClose
       footer={false}
+      maskClosable={false}
       onCancel={onCancel}
       wrapClassName="note-modal-style primary-modal-style"
       maskStyle={{ background: 'rgba(30,38,94, 0.6)' }}
@@ -179,8 +180,20 @@ function NoteModalCard(props: any) {
                 <Editor
                   editorState={editorState}
                   toolbarClassName="toolbarClassName"
-                  wrapperClassName="wrapperClassName"
-                  editorClassName="editorClassName"
+                  wrapperClassName="demo-wrapper"
+                  editorClassName="demo-editor"
+                  toolbar={{
+                    options: ['inline', 'blockType', 'fontSize', 'list', 'textAlign', 'history','emoji', 'image', 'remove',"colorPicker","link",],
+                    list: {
+                      inDropdown: false,
+                      className: undefined,
+                      component: undefined,
+                      dropdownClassName: undefined,
+                      options: ['unordered', 'ordered', 'indent', 'outdent'],
+                      
+                    }
+                  
+                  }}
                   onEditorStateChange={(value) => {
                     setEditorState(value);
                   }}

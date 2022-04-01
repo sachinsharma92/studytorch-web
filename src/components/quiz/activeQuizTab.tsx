@@ -21,6 +21,7 @@ const ActiveQuizTab = (props: any) => {
       </Row>
       <div className="pagination-section">
         <Pagination
+          hideOnSinglePage
           current={get(quizzes, 'pagination.current_page')}
           total={get(quizzes, 'pagination.total')}
           pageSize={get(quizzes, 'pagination.per_page')}
