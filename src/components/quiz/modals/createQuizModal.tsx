@@ -8,18 +8,18 @@ import {
   Input,
   Spin,
   message,
-} from 'antd';
-import { useDispatch } from 'react-redux';
-import get from 'lodash/get';
-import map from 'lodash/map';
+} from "antd";
+import { useDispatch } from "react-redux";
+import get from "lodash/get";
+import map from "lodash/map";
 // Styles
-import './styles.scss';
-import { useState } from 'react';
+import "./styles.scss";
+import { useState } from "react";
 import {
   createIndividualQuiz,
   createsharedCollectionQuiz,
-} from '../../../redux/actions/quizActions';
-import { CREATE_QUIZ_SUCCESS } from '../../../constants/messages';
+} from "../../../redux/actions/quizActions";
+import { CREATE_QUIZ_SUCCESS } from "../../../constants/messages";
 
 const { Option } = Select;
 
@@ -28,22 +28,22 @@ function CreateQuizModal(props: any) {
     props;
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
-  const isIndividual = type === 'individual';
+  const isIndividual = type === "individual";
 
   const generatePayload = (values: any) => {
     if (isIndividual) {
       return {
-        name: get(values, 'name'),
-        sub_folder_included: get(values, 'sub_folder_included'),
-        no_of_question: get(values, 'no_of_question'),
-        parent_id: get(values, 'collection'),
+        name: get(values, "name"),
+        sub_folder_included: get(values, "sub_folder_included"),
+        no_of_question: get(values, "no_of_question"),
+        parent_id: get(values, "collection"),
       };
     } else {
       return {
-        name: get(values, 'name'),
-        sub_folder_included: get(values, 'sub_folder_included'),
-        no_of_question: get(values, 'no_of_question'),
-        uuid: get(values, 'collection'),
+        name: get(values, "name"),
+        sub_folder_included: get(values, "sub_folder_included"),
+        no_of_question: get(values, "no_of_question"),
+        uuid: get(values, "collection"),
       };
     }
   };
@@ -83,9 +83,7 @@ function CreateQuizModal(props: any) {
     }
   };
 
-  const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo);
-  };
+  const onFinishFailed = (errorInfo: any) => {};
 
   return (
     <>
@@ -97,7 +95,7 @@ function CreateQuizModal(props: any) {
         destroyOnClose
         onCancel={props.onCancel}
         wrapClassName="create-modal-style primary-modal-style"
-        maskStyle={{ background: 'rgba(30,39,94, 0.6)' }}
+        maskStyle={{ background: "rgba(30,39,94, 0.6)" }}
       >
         <Spin spinning={loading}>
           <div className="card-modal">
@@ -121,7 +119,7 @@ function CreateQuizModal(props: any) {
                     rules={[
                       {
                         required: true,
-                        message: 'Quiz name is required !',
+                        message: "Quiz name is required !",
                       },
                     ]}
                   >
@@ -133,15 +131,15 @@ function CreateQuizModal(props: any) {
                     rules={[
                       {
                         required: true,
-                        message: ' Collection field is required !',
+                        message: " Collection field is required !",
                       },
                     ]}
                   >
                     <Select placeholder="Select collection" allowClear>
                       {map(collections, (collection) => {
                         return (
-                          <Option value={get(collection, 'id')}>
-                            {get(collection, 'name')}
+                          <Option value={get(collection, "id")}>
+                            {get(collection, "name")}
                           </Option>
                         );
                       })}
@@ -154,14 +152,14 @@ function CreateQuizModal(props: any) {
                     rules={[
                       {
                         required: true,
-                        message: ' Number of question field is required !',
+                        message: " Number of question field is required !",
                       },
                     ]}
                   >
                     <InputNumber
                       min={2}
                       placeholder="Select No. of Questions"
-                      style={{ width: '50%' }}
+                      style={{ width: "50%" }}
                     />
                   </Form.Item>
 
@@ -173,7 +171,7 @@ function CreateQuizModal(props: any) {
                         ? [
                             {
                               required: true,
-                              message: 'Please select one option!',
+                              message: "Please select one option!",
                             },
                           ]
                         : []
@@ -193,7 +191,7 @@ function CreateQuizModal(props: any) {
                 </Button>
 
                 <Button type="primary" htmlType="submit">
-                  {' '}
+                  {" "}
                   Create Quiz
                 </Button>
               </div>

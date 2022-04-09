@@ -1,24 +1,24 @@
-import { useState, useEffect } from 'react';
-import { Button, Tabs, PageHeader, Spin } from 'antd';
-import get from 'lodash/get';
-import { useDispatch, useSelector } from 'react-redux';
-import PrimaryLayout from '../../common/primaryLayout/primaryLayout';
-import EmptyState from '../../common/emptyState/emptyState';
+import { useState, useEffect } from "react";
+import { Button, Tabs, PageHeader, Spin } from "antd";
+import get from "lodash/get";
+import { useDispatch, useSelector } from "react-redux";
+import PrimaryLayout from "../../common/primaryLayout/primaryLayout";
+import EmptyState from "../../common/emptyState/emptyState";
 
-import ActiveQuizTab from '../../components/quiz/activeQuizTab';
-import CompleteQuizTab from '../../components/quiz/completeQuizTab';
+import ActiveQuizTab from "../../components/quiz/activeQuizTab";
+import CompleteQuizTab from "../../components/quiz/completeQuizTab";
 
-import { fetchUserQuizzes } from '../../redux/actions/quizActions';
-import { fetchCollection } from '../../redux/actions/collectionActions';
+import { fetchUserQuizzes } from "../../redux/actions/quizActions";
+import { fetchCollection } from "../../redux/actions/collectionActions";
 // Images
-import folderGray from '../../assets/images/icons/folder-gray.svg';
+import folderGray from "../../assets/images/icons/folder-gray.svg";
 
 // Styles
-import './styles.scss';
-import CreateQuizModal from '../../components/quiz/modals/createQuizModal';
-import QuizResultModal from '../../components/quiz/modals/quizResultModal';
-import CheckSolutionModal from '../../components/quiz/modals/checkSolutionModal';
-import QuizSelectModal from '../../components/quiz/modals/quizSelectModal';
+import "./styles.scss";
+import CreateQuizModal from "../../components/quiz/modals/createQuizModal";
+import QuizResultModal from "../../components/quiz/modals/quizResultModal";
+import CheckSolutionModal from "../../components/quiz/modals/checkSolutionModal";
+import QuizSelectModal from "../../components/quiz/modals/quizSelectModal";
 
 const { TabPane } = Tabs;
 
@@ -28,12 +28,12 @@ function QuizScreen(props: any) {
   const [isCreateQuizModal, setIsCreateQuizModal] = useState(false);
   const [collectionDetails, setCollectionDetails] = useState(null);
   const rootCollection = useSelector((state) =>
-    get(state, 'userState.user.rootCollection')
+    get(state, "userState.user.rootCollection")
   );
 
   const fetchCollectionDetails = () => {
     setLoading(true);
-    dispatch(fetchCollection(get(rootCollection, 'id')))
+    dispatch(fetchCollection(get(rootCollection, "id")))
       .then((result: any) => {
         setCollectionDetails(result);
         setLoading(false);
@@ -69,7 +69,7 @@ function QuizScreen(props: any) {
 
   const quizSelectToggleModal = (data = null) => {
     setIsQuizSelectModal({
-      visible: !get(isQuizSelectModal, 'visible'),
+      visible: !get(isQuizSelectModal, "visible"),
       data,
     });
   };
@@ -93,13 +93,13 @@ function QuizScreen(props: any) {
 
         if (status === 0) {
           setActiveQuiz({
-            data: get(result, 'data'),
-            pagination: get(result, 'meta.pagination'),
+            data: get(result, "data"),
+            pagination: get(result, "meta.pagination"),
           });
         } else {
           setCompleteQuiz({
-            data: get(result, 'data'),
-            pagination: get(result, 'meta.pagination'),
+            data: get(result, "data"),
+            pagination: get(result, "meta.pagination"),
           });
         }
       })
@@ -115,7 +115,7 @@ function QuizScreen(props: any) {
 
   const toggleCheckSolution = (data = null) => {
     setCheckSolutionModal({
-      visible: !get(checkSolutionModal, 'visible'),
+      visible: !get(checkSolutionModal, "visible"),
       data,
     });
   };
@@ -124,7 +124,7 @@ function QuizScreen(props: any) {
     refreshQuizData();
     fetchCollectionDetails();
   }, []);
-  console.log({ checkSolutionModal });
+
   return (
     <PrimaryLayout>
       <div className="quiz-page-style">
@@ -147,10 +147,10 @@ function QuizScreen(props: any) {
           <div className="tab-section">
             <Tabs defaultActiveKey="1">
               <TabPane
-                tab={`Active Quizes (${get(activeQuizzes, 'data', []).length})`}
+                tab={`Active Quizes (${get(activeQuizzes, "data", []).length})`}
                 key="1"
               >
-                {get(activeQuizzes, 'data', []).length > 0 && (
+                {get(activeQuizzes, "data", []).length > 0 && (
                   <ActiveQuizTab
                     quizzes={activeQuizzes}
                     onClickTakeQuiz={quizSelectToggleModal}
@@ -160,7 +160,7 @@ function QuizScreen(props: any) {
                   />
                 )}
 
-                {get(activeQuizzes, 'data', []).length === 0 && (
+                {get(activeQuizzes, "data", []).length === 0 && (
                   <div className="state-center">
                     <EmptyState
                       imgUrl={folderGray}
@@ -176,11 +176,11 @@ function QuizScreen(props: any) {
 
               <TabPane
                 tab={`Completed Quizes (${
-                  get(completeQuizzes, 'data', []).length
+                  get(completeQuizzes, "data", []).length
                 })`}
                 key="2"
               >
-                {get(completeQuizzes, 'data', []).length > 0 && (
+                {get(completeQuizzes, "data", []).length > 0 && (
                   <CompleteQuizTab
                     quizzes={completeQuizzes}
                     onClickPagination={(page: any) => {
@@ -190,7 +190,7 @@ function QuizScreen(props: any) {
                   />
                 )}
 
-                {get(completeQuizzes, 'data', []).length === 0 && (
+                {get(completeQuizzes, "data", []).length === 0 && (
                   <div className="state-center">
                     <EmptyState
                       imgUrl={folderGray}
@@ -211,7 +211,7 @@ function QuizScreen(props: any) {
       {/* Questions Modal */}
       <CreateQuizModal
         visible={isCreateQuizModal}
-        collections={get(collectionDetails, 'subCollections', [])}
+        collections={get(collectionDetails, "subCollections", [])}
         type="individual"
         onSuccess={() => {
           createQuizToggleModal();
@@ -221,12 +221,12 @@ function QuizScreen(props: any) {
       />
 
       {/* Questions Modal */}
-      {get(isQuizSelectModal, 'visible') && (
+      {get(isQuizSelectModal, "visible") && (
         <QuizSelectModal
-          visible={get(isQuizSelectModal, 'visible')}
+          visible={get(isQuizSelectModal, "visible")}
           refreshQuizData={() => refreshQuizData()}
           onCancel={quizSelectToggleModal}
-          quiz={get(isQuizSelectModal, 'data')}
+          quiz={get(isQuizSelectModal, "data")}
           onSuccessSubmit={(quiz: any) => {
             quizSelectToggleModal();
             setIsQuizResultModal({ visible: true, data: quiz });
@@ -235,10 +235,10 @@ function QuizScreen(props: any) {
         />
       )}
 
-      {get(checkSolutionModal, 'visible') && (
+      {get(checkSolutionModal, "visible") && (
         <CheckSolutionModal
-          visible={get(checkSolutionModal, 'visible')}
-          quiz={get(checkSolutionModal, 'data')}
+          visible={get(checkSolutionModal, "visible")}
+          quiz={get(checkSolutionModal, "data")}
           onCancel={() => {
             toggleCheckSolution();
           }}
@@ -246,10 +246,10 @@ function QuizScreen(props: any) {
       )}
 
       {/* Questions Modal */}
-      {get(isQuizResultModal, 'visible') && (
+      {get(isQuizResultModal, "visible") && (
         <QuizResultModal
-          visible={get(isQuizResultModal, 'visible')}
-          quiz={get(isQuizResultModal, 'data')}
+          visible={get(isQuizResultModal, "visible")}
+          quiz={get(isQuizResultModal, "data")}
           onCancel={() => setIsQuizResultModal({ visible: false, data: null })}
         />
       )}

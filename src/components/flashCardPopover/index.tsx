@@ -1,7 +1,7 @@
-import { Button, Popover as NPopover } from 'antd';
-import { Popover } from 'react-text-selection-popover';
+import { Button, Popover as NPopover } from "antd";
+import { Popover } from "react-text-selection-popover";
 
-import './styles.scss';
+import "./styles.scss";
 
 const FlashCardPopOver = (props: any) => {
   const { ref, onAddFlashCard } = props;
@@ -14,10 +14,7 @@ const FlashCardPopOver = (props: any) => {
           const { clientRect, isCollapsed, textContent } = obj;
 
           if (clientRect == null || isCollapsed) return null;
-          console.log({
-            left: `${clientRect.left + clientRect.width / 2}px`,
-            top: `${clientRect.top - 40}px`,
-          });
+
           return (
             <div
               className="popover-container"

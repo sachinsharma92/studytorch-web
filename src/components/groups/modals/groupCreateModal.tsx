@@ -1,16 +1,17 @@
-import { Button, Modal, Input, Radio, message, Spin, Form } from 'antd';
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import get from 'lodash/get';
-import map from 'lodash/map';
-import './styles.scss';
+import { Button, Modal, Input, message, Spin, Form } from "antd";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import get from "lodash/get";
+
+import "./styles.scss";
 import {
   CREATE_GROUP_SUCCESS,
   UPDATE_GROUP_SUCCESS,
-} from '../../../constants/messages';
-import { createGroup, updateGroup } from '../../../redux/actions/groupActions';
+} from "../../../constants/messages";
+import { createGroup, updateGroup } from "../../../redux/actions/groupActions";
+import ColorInput from "../../../components/colorInput";
 
-const colors = ['#FFEDE3', '#E3F8FF', '#FFE3E1', '#EFF2FF'];
+const colors = ["#FFEDE3", "#E3F8FF", "#FFE3E1", "#EFF2FF"];
 
 // Styles
 
@@ -18,6 +19,7 @@ function GroupCreateModal(props: any) {
   const dispatch = useDispatch();
   const { onSuccess, initialValue, edit } = props;
   const [loading, setLoading] = useState(false);
+  const [form] = Form.useForm();
 
   const addGroup = (payload: any) => {
     setLoading(true);
@@ -34,7 +36,7 @@ function GroupCreateModal(props: any) {
 
   const editGroup = (payload: any) => {
     setLoading(true);
-    dispatch(updateGroup(get(initialValue, 'id'), payload))
+    dispatch(updateGroup(get(initialValue, "id"), payload))
       .then(() => {
         onSuccess();
         message.success(UPDATE_GROUP_SUCCESS);
@@ -63,18 +65,13 @@ function GroupCreateModal(props: any) {
       footer={false}
       onCancel={props.onCancel}
       wrapClassName="group-modal-style primary-modal-style"
-      maskStyle={{ background: 'rgba(30,39,94, 0.6)' }}
+      maskStyle={{ background: "rgba(30,39,94, 0.6)" }}
     >
       <Spin spinning={loading}>
         <Form
           name="basic"
-          initialValues={
-            edit
-              ? initialValue
-              : {
-                  color: colors[0],
-                }
-          }
+          form={form}
+          initialValues={edit ? initialValue : {}}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
           autoComplete="off"
@@ -88,7 +85,7 @@ function GroupCreateModal(props: any) {
               <Form.Item
                 name="name"
                 rules={[
-                  { required: true, message: 'Please input Group name!' },
+                  { required: true, message: "Please input Group name!" },
                 ]}
               >
                 <Input placeholder="Maths Group" />
@@ -97,21 +94,12 @@ function GroupCreateModal(props: any) {
 
             <div className="folder-color-section radio-tick-container">
               <div className="label">Select Color</div>
-              <Form.Item
-                name="color"
-                rules={[{ required: true, message: 'Please select colour!' }]}
-              >
-                <Radio.Group>
-                  {map(colors, (c, index) => (
-                    <Radio.Button
-                      key={index}
-                      value={c}
-                      className={`radio-tick-style`}
-                      style={{ background: c }}
-                    />
-                  ))}
-                </Radio.Group>
-              </Form.Item>
+              <ColorInput
+                form={form}
+                initialColor={
+                  initialValue ? get(initialValue, "color") : "#6C5ECF"
+                }
+              />
             </div>
             <Button block type="primary" htmlType="submit">
               Save

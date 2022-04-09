@@ -1,29 +1,25 @@
-import { useEffect, useState } from 'react';
-import { Col, Row, Spin, Modal, message } from 'antd';
-import { PlusOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
-import { useDispatch } from 'react-redux';
-import map from 'lodash/map';
-import get from 'lodash/get';
-import PrimaryLayout from '../../common/primaryLayout/primaryLayout';
-import EmptyState from '../../common/emptyState/emptyState';
-import GroupsCard from '../../components/groups/groupsCard/groupsCard';
-import ButtonCustom from '../../common/buttons/buttonCustom';
-import GroupCreateModal from '../../components/groups/modals/groupCreateModal';
+import { useEffect, useState } from "react";
+import { Col, Row, Spin, Modal, message } from "antd";
+import { PlusOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
+import { useDispatch } from "react-redux";
+import map from "lodash/map";
+import get from "lodash/get";
+import PrimaryLayout from "../../common/primaryLayout/primaryLayout";
+import EmptyState from "../../common/emptyState/emptyState";
+import GroupsCard from "../../components/groups/groupsCard/groupsCard";
+import ButtonCustom from "../../common/buttons/buttonCustom";
+import GroupCreateModal from "../../components/groups/modals/groupCreateModal";
 import {
   getUserGroups,
   deleteGroup,
   leaveGroup,
-} from '../../redux/actions/groupActions';
+} from "../../redux/actions/groupActions";
 import {
   DELETE_GROUP_SUCCESS,
   LEAVE_GROUP_SUCCESS,
-} from '../../constants/messages';
-
-// Images
-import folderGray from '../../assets/images/icons/folder-gray.svg';
-
-// Styles
-import './styles.scss';
+} from "../../constants/messages";
+import folderGray from "../../assets/images/icons/folder-gray.svg";
+import "./styles.scss";
 
 const { confirm } = Modal;
 
@@ -42,7 +38,7 @@ function GroupsScreen(props: any) {
   const toggleGroupModal = (data = null) => {
     setGroupModal({
       data,
-      visible: !get(groupModal, 'visible'),
+      visible: !get(groupModal, "visible"),
     });
   };
 
@@ -91,29 +87,25 @@ function GroupsScreen(props: any) {
 
   const onConfirmDelete = (id: any) => {
     confirm({
-      title: 'Do you Want to delete this Group?',
+      title: "Do you Want to delete this Group?",
       icon: <ExclamationCircleOutlined />,
 
       onOk() {
         onClickDelete(id);
       },
-      onCancel() {
-        console.log('Cancel');
-      },
+      onCancel() {},
     });
   };
 
   const onConfirmLeave = (id: any) => {
     confirm({
-      title: 'Do you Want to leave this Group?',
+      title: "Do you Want to leave this Group?",
       icon: <ExclamationCircleOutlined />,
 
       onOk() {
         onLeaveGroup(id);
       },
-      onCancel() {
-        console.log('Cancel');
-      },
+      onCancel() {},
     });
   };
 
@@ -157,11 +149,11 @@ function GroupsScreen(props: any) {
 
         {/* Group Modal here */}
         <GroupCreateModal
-          visible={get(groupModal, 'visible')}
+          visible={get(groupModal, "visible")}
           onCancel={() => toggleGroupModal()}
           onSuccess={onCreateSuccess}
-          edit={get(groupModal, 'data') ? true : false}
-          initialValue={get(groupModal, 'data')}
+          edit={get(groupModal, "data") ? true : false}
+          initialValue={get(groupModal, "data")}
         />
 
         <ButtonCustom

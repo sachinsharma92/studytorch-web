@@ -1,22 +1,22 @@
-import { Button, Dropdown, Tag, Radio, message, Modal, Menu } from 'antd';
-import get from 'lodash/get';
-import includes from 'lodash/includes';
-import { useDispatch } from 'react-redux';
-import map from 'lodash/map';
+import { Button, Dropdown, Tag, Radio, message, Modal, Menu } from "antd";
+import get from "lodash/get";
+import includes from "lodash/includes";
+import { useDispatch } from "react-redux";
+import map from "lodash/map";
 import {
   EditOutlined,
   DeleteOutlined,
   ExclamationCircleOutlined,
-} from '@ant-design/icons';
-import { optionAlphabet } from '../../../constants/questions';
-import { deleteQuestion } from '../../../redux/actions/questionActions';
+} from "@ant-design/icons";
+import { optionAlphabet } from "../../../constants/questions";
+import { deleteQuestion } from "../../../redux/actions/questionActions";
 // Images
-import verticalDot from '../../../assets/images/icons/vertical-dot.svg';
-import { truncateText } from '../../../utilities/helpers';
-import { DELETE_QUESTION_SUCCESS } from '../../../constants/messages';
+import verticalDot from "../../../assets/images/icons/vertical-dot.svg";
+import { truncateText } from "../../../utilities/helpers";
+import { DELETE_QUESTION_SUCCESS } from "../../../constants/messages";
 
 // Styles
-import './styles.scss';
+import "./styles.scss";
 const { confirm } = Modal;
 
 function QuestionCard(props: any) {
@@ -28,12 +28,12 @@ function QuestionCard(props: any) {
     hideEditDelete,
     collection,
   } = props;
-  const answers = get(question, 'answers');
+  const answers = get(question, "answers");
   const dispatch = useDispatch();
 
   const onClickDelete = () => {
     setLoading(true);
-    dispatch(deleteQuestion(get(question, 'id'), get(collection, 'id')))
+    dispatch(deleteQuestion(get(question, "id"), get(collection, "id")))
       .then(() => {
         onSuccess();
         message.success(DELETE_QUESTION_SUCCESS);
@@ -46,14 +46,12 @@ function QuestionCard(props: any) {
 
   const onConfirmDelete = () => {
     confirm({
-      title: 'Do you want to delete this question?',
+      title: "Do you want to delete this question?",
       icon: <ExclamationCircleOutlined />,
       onOk() {
         onClickDelete();
       },
-      onCancel() {
-        console.log('Cancel');
-      },
+      onCancel() {},
     });
   };
 
@@ -74,14 +72,14 @@ function QuestionCard(props: any) {
         <div>
           <div className="tag-section">
             <Tag className="tag-style">
-              {get(question, 'type.value') === 0 ? 'Subjective' : 'MCQ'}
+              {get(question, "type.value") === 0 ? "Subjective" : "MCQ"}
             </Tag>
           </div>
 
           <div className="title-section">
             <div className="question-tag">Q</div>
             <h4 className="title4">
-              {truncateText(get(question, 'title'), 50)}
+              {truncateText(get(question, "title"), 50)}
             </h4>
           </div>
         </div>
@@ -100,20 +98,20 @@ function QuestionCard(props: any) {
         </div>
       </div>
 
-      {get(question, 'type.value') === 0 ? (
+      {get(question, "type.value") === 0 ? (
         <div className="description-sec">
           <p className="description">{truncateText(answers[0], 200)}</p>
         </div>
       ) : (
         <div className="list-section">
-          <Radio.Group value={[get(question, 'answers')]}>
-            {map(get(question, 'options', []), (option, i) => (
+          <Radio.Group value={[get(question, "answers")]}>
+            {map(get(question, "options", []), (option, i) => (
               <Radio.Button
                 value={option}
                 className={
                   includes(answers, option)
-                    ? 'ant-radio-button-wrapper-checked '
-                    : ''
+                    ? "ant-radio-button-wrapper-checked "
+                    : ""
                 }
               >
                 <span>{get(optionAlphabet, `${i}`)}.</span> {option}

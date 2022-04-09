@@ -1,11 +1,11 @@
-import { useEffect, useState, useRef } from 'react';
-import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import get from 'lodash/get';
-import map from 'lodash/map';
-import draftToHtml from 'draftjs-to-html';
-import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
-import ReactToPrint from 'react-to-print';
+import { useEffect, useState, useRef } from "react";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import get from "lodash/get";
+import map from "lodash/map";
+import draftToHtml from "draftjs-to-html";
+import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
+import ReactToPrint from "react-to-print";
 import {
   Button,
   Breadcrumb,
@@ -15,20 +15,20 @@ import {
   Menu,
   Image,
   Divider,
-} from 'antd';
-import { DownloadOutlined } from '@ant-design/icons';
-import { fetchNoteDetails } from '../../../redux/actions/noteActions';
-import EventsSocket from '../../../components/eventSocket';
-import PrimaryLayout from '../../../common/primaryLayout/primaryLayout';
-import iconArrowLeft from '../../../assets/images/icons/caret-Left.svg';
-import iconMore from '../../../assets/images/icons/more-dircle.svg';
-import FlashCardPopOver from '../../../components/flashCardPopover';
-import FlashEditModal from '../../../components/collection/modals/flashEditModal';
+} from "antd";
+import { DownloadOutlined } from "@ant-design/icons";
+import { fetchNoteDetails } from "../../../redux/actions/noteActions";
+import EventsSocket from "../../../components/eventSocket";
+import PrimaryLayout from "../../../common/primaryLayout/primaryLayout";
+import iconArrowLeft from "../../../assets/images/icons/caret-Left.svg";
+import iconMore from "../../../assets/images/icons/more-dircle.svg";
+import FlashCardPopOver from "../../../components/flashCardPopover";
+import FlashEditModal from "../../../components/collection/modals/flashEditModal";
 
 // Images
 
 // Styles
-import './styles.scss';
+import "./styles.scss";
 
 function ReadNoteScreen(props: any) {
   const [note, setNote] = useState(null);
@@ -40,7 +40,6 @@ function ReadNoteScreen(props: any) {
   const [ref, setRef] = useState<HTMLElement>();
   const { search } = useLocation();
   let query = new URLSearchParams(search);
-  console.log(query.get('noBack'));
 
   const [flashModal, setFlashModal] = useState({
     visible: false,
@@ -50,7 +49,7 @@ function ReadNoteScreen(props: any) {
 
   const toggleFlashModal = (data = null, edit = false) => {
     setFlashModal({
-      visible: !get(flashModal, 'visible'),
+      visible: !get(flashModal, "visible"),
       edit,
       data: data,
     });
@@ -59,7 +58,7 @@ function ReadNoteScreen(props: any) {
   const getNoteDescription = () => {
     if (note) {
       const t = EditorState.createWithContent(
-        convertFromRaw(get(note, 'description'))
+        convertFromRaw(get(note, "description"))
       );
       return draftToHtml(convertToRaw(t.getCurrentContent()));
     }
@@ -107,13 +106,13 @@ function ReadNoteScreen(props: any) {
   return (
     <PrimaryLayout>
       <Spin spinning={loading}>
-        {get(note, 'id') && (
-          <EventsSocket time={30} type="note" uuid={get(note, 'id')} />
+        {get(note, "id") && (
+          <EventsSocket time={30} type="note" uuid={get(note, "id")} />
         )}
         <div className="read-note-style">
           <div className="action-section">
             <div className="top-button-section">
-              {query.get('noBack') ? (
+              {query.get("noBack") ? (
                 <></>
               ) : (
                 <Button className="btn-outline" onClick={() => navigate(-1)}>
@@ -125,7 +124,7 @@ function ReadNoteScreen(props: any) {
               <Breadcrumb>
                 <Breadcrumb.Item>Adding in Collections</Breadcrumb.Item>
                 <Breadcrumb.Item>
-                  {get(note, 'collection.name')}
+                  {get(note, "collection.name")}
                 </Breadcrumb.Item>
               </Breadcrumb>
               <Dropdown
@@ -138,9 +137,9 @@ function ReadNoteScreen(props: any) {
             </div>
           </div>
           <div className="view-section" ref={componentRef}>
-            <h1 className="title1">{get(note, 'title')}</h1>
+            <h1 className="title1">{get(note, "title")}</h1>
             <div className="tag-section">
-              {map(get(note, 'tags', []), (t, i) => (
+              {map(get(note, "tags", []), (t, i) => (
                 <Tag className="tag-style" key={i}>
                   {t}
                 </Tag>
@@ -154,11 +153,11 @@ function ReadNoteScreen(props: any) {
               }}
             ></div>
             <Divider />
-            {map(get(note, 'images'), (image) => (
+            {map(get(note, "images"), (image) => (
               <Image
                 width={100}
                 style={{ padding: 10 }}
-                src={get(image, 'url')}
+                src={get(image, "url")}
               />
             ))}
           </div>
@@ -171,13 +170,13 @@ function ReadNoteScreen(props: any) {
           toggleFlashModal(val, false);
         }}
       />
-      {get(flashModal, 'visible') && (
+      {get(flashModal, "visible") && (
         <FlashEditModal
-          visible={get(flashModal, 'visible')}
-          initialValue={get(flashModal, 'data')}
-          edit={get(flashModal, 'edit')}
+          visible={get(flashModal, "visible")}
+          initialValue={get(flashModal, "data")}
+          edit={get(flashModal, "edit")}
           cancelHandler={toggleFlashModal}
-          collection={get(note, 'collection')}
+          collection={get(note, "collection")}
           onSuccess={() => {
             toggleFlashModal(null);
           }}

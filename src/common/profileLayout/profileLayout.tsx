@@ -28,9 +28,9 @@ function ProfileLayout(props: any) {
           <Menu.Item key="1">
             <Link to={ROUTES.PROFILE_SCREEN}>My Profile</Link>
           </Menu.Item>
-          <Menu.Item key="2">
+          {/* <Menu.Item key="2">
             <Link to={ROUTES.NOTIFICATION_SCREEN}>Notifications</Link>
-          </Menu.Item>
+          </Menu.Item> */}
           <Menu.Item key="3">
             <Link to={ROUTES.SECURITY_SCREEN}>Security</Link>
           </Menu.Item>

@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
+import { HotKeys } from "react-hotkeys";
 import {
   Button,
   Col,
@@ -10,48 +11,49 @@ import {
   PageHeader,
   Spin,
   Breadcrumb,
-} from 'antd';
+  Pagination,
+} from "antd";
 import {
   PlusOutlined,
   EditOutlined,
   DeleteOutlined,
   ShareAltOutlined,
-} from '@ant-design/icons';
-import get from 'lodash/get';
-import map from 'lodash/map';
-
-import replace from 'lodash/replace';
-import { useParams, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { QUIZ_SCREEN } from '../../router/routes';
-import { fetchCollection } from '../../redux/actions/collectionActions';
-import EventsSocket from '../../components/eventSocket';
+} from "@ant-design/icons";
+import get from "lodash/get";
+import map from "lodash/map";
+import replace from "lodash/replace";
+import { useParams, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { QUIZ_SCREEN } from "../../router/routes";
+import { fetchCollection } from "../../redux/actions/collectionActions";
+import EventsSocket from "../../components/eventSocket";
 
 // Custom Component and Modal
-import ROUTES from '../../router';
-import EmptyState from '../../common/emptyState/emptyState';
-import PrimaryLayout from '../../common/primaryLayout/primaryLayout';
-import NotesCard from '../../components/collection/notesCard/notesCard';
-import FlashCard from '../../components/collection/flashCard/flashCard';
-import ShareCollectionModal from '../../components/collection/modals/shareCollection';
-import CreateCollectionModal from '../../components/collection/modals/createCollection';
-import ButtonCustom from '../../common/buttons/buttonCustom';
-import QuestionCard from '../../components/collection/questionCard/questionCard';
-import NoteModalCard from '../../components/collection/modals/noteModalCard';
-import QuestionModal from '../../components/collection/modals/questionModal';
-import QuestionAddedModal from '../../components/collection/modals/questionAddedModal';
-import FlashEditModal from '../../components/collection/modals/flashEditModal';
-import RevisionModeModal from '../../components/collection/modals/revisionModeModal';
-import CollectionCard from '../../components/collection/collectionCard/collectionCard';
-import CreateQuizModal from '../../components/quiz/modals/createQuizModal';
+import ROUTES from "../../router";
+import EmptyState from "../../common/emptyState/emptyState";
+import PrimaryLayout from "../../common/primaryLayout/primaryLayout";
+import NotesCard from "../../components/collection/notesCard/notesCard";
+import FlashCard from "../../components/collection/flashCard/flashCard";
+import ShareCollectionModal from "../../components/collection/modals/shareCollection";
+import CreateCollectionModal from "../../components/collection/modals/createCollection";
+import ButtonCustom from "../../common/buttons/buttonCustom";
+import QuestionCard from "../../components/collection/questionCard/questionCard";
+import NoteModalCard from "../../components/collection/modals/noteModalCard";
+import QuestionModal from "../../components/collection/modals/questionModal";
+import QuestionAddedModal from "../../components/collection/modals/questionAddedModal";
+import FlashEditModal from "../../components/collection/modals/flashEditModal";
+import RevisionModeModal from "../../components/collection/modals/revisionModeModal";
+import CollectionCard from "../../components/collection/collectionCard/collectionCard";
+import CreateQuizModal from "../../components/quiz/modals/createQuizModal";
+import { getPaginatedData } from "../../utilities/helpers";
 
 // Images
-import filter from '../../assets/images/icons/filter.svg';
-import folderGray from '../../assets/images/icons/folder-gray.svg';
+import filter from "../../assets/images/icons/filter.svg";
+import folderGray from "../../assets/images/icons/folder-gray.svg";
 // Styles
-import './styles.scss';
-import McqQuestionModal from '../../components/collection/modals/mcqQuestionModal';
-import ModalConfirmation from '../../common/modalConfirmation';
+import "./styles.scss";
+import ModalConfirmation from "../../common/modalConfirmation";
+import { ContentBlock } from "draft-js";
 
 const { TabPane } = Tabs;
 
@@ -78,6 +80,12 @@ function CollectionDetails(props: any) {
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
+  const [tabPagination, setTabPagination] = useState({
+    collection: 1,
+    notes: 1,
+    question: 1,
+    pageSize: 2,
+  });
   const [collectionDetails, setCollectionDetails] = useState(null);
   const [collectionModal, setCollectionModal] = useState<any>({
     visible: false,
@@ -116,7 +124,7 @@ function CollectionDetails(props: any) {
   const [isCreateQuizModal, setIsCreateQuizModal] = useState(false);
   const toggleCollectionModal = (data = null) => {
     setCollectionModal({
-      visible: !get(collectionModal, 'visible'),
+      visible: !get(collectionModal, "visible"),
       data: data,
     });
   };
@@ -127,21 +135,22 @@ function CollectionDetails(props: any) {
 
   const toggleNoteModal = (data = null) => {
     setNoteModal({
-      visible: !get(noteModal, 'visible'),
+      visible: !get(noteModal, "visible"),
       data: data,
     });
   };
 
   const toggleQuestionModal = (data = null) => {
     setQuestionModal({
-      visible: !get(questionModal, 'visible'),
+      visible: !get(questionModal, "visible"),
       data: data,
     });
+    window.focus();
   };
 
   const toggleFlashModal = (data = null, edit = false) => {
     setFlashModal({
-      visible: !get(flashModal, 'visible'),
+      visible: !get(flashModal, "visible"),
       edit,
       data: data,
     });
@@ -163,22 +172,47 @@ function CollectionDetails(props: any) {
       });
   };
 
+  const onKeyPressFunction = (event: any) => {
+    console.log(get(event, "altKey"), event, get(event, "keyCode"));
+
+    if (get(event, "altKey") && get(event, "keyCode") === 67) {
+      setCollectionModal({ visible: true, data: null });
+    }
+
+    if (get(event, "altKey") && get(event, "keyCode") === 78) {
+      setNoteModal({ visible: true, data: null });
+    }
+
+    if (get(event, "altKey") && get(event, "keyCode") === 81) {
+      setQuestionModal({ visible: true, data: null });
+    }
+  };
+
+  useEffect(() => {
+    // @ts-ignore: Unreachable code error
+    document.addEventListener("keydown", onKeyPressFunction);
+    return () => {
+      // @ts-ignore: Unreachable code error
+      document.removeEventListener("keydown", onKeyPressFunction);
+    };
+  }, []);
+
   useEffect(() => {
     fetchCollectionDetails();
   }, [id]);
 
   const routes = (collection: any) => {
     return (
-      <Breadcrumb style={{ cursor: 'pointer' }}>
+      <Breadcrumb style={{ cursor: "pointer" }}>
         <Breadcrumb.Item
           onClick={() => {
             navigate(-1);
           }}
         >
-          {get(collection, 'parent.name')}
+          {get(collection, "parent.name")}
         </Breadcrumb.Item>
 
-        <Breadcrumb.Item>{get(collection, 'name')}</Breadcrumb.Item>
+        <Breadcrumb.Item>{get(collection, "name")}</Breadcrumb.Item>
       </Breadcrumb>
     );
   };
@@ -213,12 +247,12 @@ function CollectionDetails(props: any) {
   };
 
   return (
-    <PrimaryLayout>
+    <PrimaryLayout id="primary-layout">
       <div className="collection-page-style">
         <PageHeader
           className="site-page-header header-back"
           onBack={() => navigate(-1)}
-          title={get(collectionDetails, 'name')}
+          title={get(collectionDetails, "name")}
           breadcrumb={routes(collectionDetails)}
           extra={[
             <Button
@@ -236,7 +270,7 @@ function CollectionDetails(props: any) {
           <div className="tab-section">
             <Tabs defaultActiveKey="1">
               <TabPane tab="Collection" key="1">
-                {get(collectionDetails, 'subCollections', []).length === 0 ? (
+                {get(collectionDetails, "subCollections", []).length === 0 ? (
                   <div className="state-center">
                     <EmptyState
                       imgUrl={folderGray}
@@ -251,26 +285,26 @@ function CollectionDetails(props: any) {
                   <div className="card-section">
                     <Row gutter={32}>
                       {map(
-                        get(collectionDetails, 'subCollections', []),
+                        get(collectionDetails, "subCollections", []),
                         (collection, index) => (
                           <Col sm={6} key={index}>
                             <CollectionCard
-                              id={get(collection, 'id')}
+                              id={get(collection, "id")}
                               parentCollection={collectionDetails}
-                              color={get(collection, 'color')}
-                              title={get(collection, 'name')}
+                              color={get(collection, "color")}
+                              title={get(collection, "name")}
                               setLoading={setLoading}
                               description={`${get(
                                 collection,
-                                'note_count'
+                                "note_count"
                               )} Notes, ${get(
                                 collection,
-                                'question_count'
+                                "question_count"
                               )} Quesitions`}
                               cardHandler={replace(
                                 ROUTES.COLLECTION_DETAILS_SCREEN,
-                                ':id',
-                                get(collection, 'id')
+                                ":id",
+                                get(collection, "id")
                               )}
                               onEditCollection={() => {
                                 toggleCollectionModal(collection);
@@ -285,7 +319,7 @@ function CollectionDetails(props: any) {
                 )}
               </TabPane>
               <TabPane tab="Notes" key="2">
-                {get(collectionDetails, 'notes', []).length === 0 ? (
+                {get(collectionDetails, "notes", []).length === 0 ? (
                   <div className="state-center">
                     <EmptyState
                       imgUrl={folderGray}
@@ -300,18 +334,18 @@ function CollectionDetails(props: any) {
                   <div className="card-section note-section">
                     <Row gutter={32}>
                       {map(
-                        get(collectionDetails, 'notes', []),
+                        get(collectionDetails, "notes", []),
                         (note, index) => (
                           <Col sm={8} key={index}>
                             <NotesCard
-                              title={get(note, 'title')}
+                              title={get(note, "title")}
                               collection={collectionDetails}
-                              id={get(note, 'id')}
+                              id={get(note, "id")}
                               setLoading={setLoading}
-                              description={get(note, 'description')}
+                              description={get(note, "description")}
                               menuData={menu}
                               cardHandler="/"
-                              tags={get(note, 'tags')}
+                              tags={get(note, "tags")}
                               onEditNote={() => {
                                 toggleNoteModal(note);
                               }}
@@ -325,7 +359,7 @@ function CollectionDetails(props: any) {
                 )}
               </TabPane>
               <TabPane tab="Question" key="3">
-                {get(collectionDetails, 'questions', []).length > 0 && (
+                {get(collectionDetails, "questions", []).length > 0 && (
                   <div className="inline-button-section mt--20 mb--30">
                     <ButtonCustom
                       className="round-primary"
@@ -339,7 +373,7 @@ function CollectionDetails(props: any) {
                     />
                   </div>
                 )}
-                {get(collectionDetails, 'questions', []).length === 0 ? (
+                {get(collectionDetails, "questions", []).length === 0 ? (
                   <div className="state-center">
                     <EmptyState
                       imgUrl={folderGray}
@@ -354,7 +388,11 @@ function CollectionDetails(props: any) {
                   <div className="card-section note-section">
                     <Row gutter={32}>
                       {map(
-                        get(collectionDetails, 'questions', []),
+                        getPaginatedData(
+                          get(collectionDetails, "questions", []),
+                          get(tabPagination, "question"),
+                          get(tabPagination, "pageSize")
+                        ),
                         (question, i) => {
                           return (
                             <Col sm={12} key={i}>
@@ -374,9 +412,15 @@ function CollectionDetails(props: any) {
                     </Row>
                   </div>
                 )}
+                <div className="pagination-section">
+                  <Pagination
+                    current={get(tabPagination, "question")}
+                    total={get(collectionDetails, "questions", []).length}
+                  />
+                </div>
               </TabPane>
               <TabPane tab="Flash Card" key="4">
-                {get(collectionDetails, 'flashCards', []).length > 0 && (
+                {get(collectionDetails, "flashCards", []).length > 0 && (
                   <div className="inline-button-section mt--20">
                     <ButtonCustom
                       className="round-primary"
@@ -388,9 +432,9 @@ function CollectionDetails(props: any) {
                 <RevisionModeModal
                   visible={isRevisionModeModal}
                   closeHandler={revisionModeToggle}
-                  flashCards={get(collectionDetails, 'flashCards', [])}
+                  flashCards={get(collectionDetails, "flashCards", [])}
                 />
-                {get(collectionDetails, 'flashCards', []).length === 0 && (
+                {get(collectionDetails, "flashCards", []).length === 0 && (
                   <div className="state-center">
                     <EmptyState
                       imgUrl={folderGray}
@@ -404,7 +448,7 @@ function CollectionDetails(props: any) {
                 <div className="card-section note-section">
                   <Row gutter={32}>
                     {map(
-                      get(collectionDetails, 'flashCards', []),
+                      get(collectionDetails, "flashCards", []),
                       (flashCard, index) => (
                         <Col sm={8} key={index}>
                           <FlashCard
@@ -426,20 +470,20 @@ function CollectionDetails(props: any) {
           </div>
         </Spin>
       </div>
-      {get(collectionDetails, 'id') && (
+      {get(collectionDetails, "id") && (
         <EventsSocket
           time={30}
           type="collection"
-          uuid={get(collectionDetails, 'id')}
+          uuid={get(collectionDetails, "id")}
         />
       )}
       {/* Collection Modal here */}
       <CreateCollectionModal
-        visible={get(collectionModal, 'visible')}
+        visible={get(collectionModal, "visible")}
         onCancel={() => toggleCollectionModal()}
         onSuccess={onCollecitonSuccess}
-        edit={get(collectionModal, 'data') ? true : false}
-        initialValue={get(collectionModal, 'data')}
+        edit={get(collectionModal, "data") ? true : false}
+        initialValue={get(collectionModal, "data")}
         collection={collectionDetails}
       />
 
@@ -455,25 +499,25 @@ function CollectionDetails(props: any) {
       )}
 
       {/* Note Modal here */}
-      {get(noteModal, 'visible') && (
+      {get(noteModal, "visible") && (
         <NoteModalCard
-          visible={get(noteModal, 'visible')}
+          visible={get(noteModal, "visible")}
           collection={collectionDetails}
           onCancel={() => {
             toggleNoteModal();
           }}
-          edit={get(noteModal, 'data') ? true : false}
-          initialValue={get(noteModal, 'data')}
+          edit={get(noteModal, "data") ? true : false}
+          initialValue={get(noteModal, "data")}
           onSuccess={onNotesSuccess}
         />
       )}
 
       {/* Questions Modal */}
-      {get(questionModal, 'visible') && (
+      {get(questionModal, "visible") && (
         <QuestionModal
-          visible={get(questionModal, 'visible')}
-          edit={get(questionModal, 'data') ? true : false}
-          initialValue={get(questionModal, 'data')}
+          visible={get(questionModal, "visible")}
+          edit={get(questionModal, "data") ? true : false}
+          initialValue={get(questionModal, "data")}
           onSuccess={(edit = false) => {
             toggleQuestionModal();
             setIsQuestionAddedModal({
@@ -488,11 +532,11 @@ function CollectionDetails(props: any) {
         />
       )}
 
-      {get(flashModal, 'visible') && (
+      {get(flashModal, "visible") && (
         <FlashEditModal
-          visible={get(flashModal, 'visible')}
-          initialValue={get(flashModal, 'data')}
-          edit={get(flashModal, 'edit')}
+          visible={get(flashModal, "visible")}
+          initialValue={get(flashModal, "data")}
+          edit={get(flashModal, "edit")}
           cancelHandler={() => toggleFlashModal()}
           collection={collectionDetails}
           onSuccess={() => {
@@ -503,8 +547,8 @@ function CollectionDetails(props: any) {
       )}
 
       <QuestionAddedModal
-        visible={get(isQuestionAddedModal, 'visible')}
-        edit={get(isQuestionAddedModal, 'edit')}
+        visible={get(isQuestionAddedModal, "visible")}
+        edit={get(isQuestionAddedModal, "edit")}
         buttonDoneHandler={() => {
           setIsQuestionAddedModal({
             visible: false,
@@ -527,7 +571,7 @@ function CollectionDetails(props: any) {
         type="individual"
         onSuccess={(quiz: any) => {
           createQuizToggleModal();
-          navigate(`${QUIZ_SCREEN}?uuid=${get(quiz, 'id')}`, {
+          navigate(`${QUIZ_SCREEN}?uuid=${get(quiz, "id")}`, {
             replace: true,
           });
         }}

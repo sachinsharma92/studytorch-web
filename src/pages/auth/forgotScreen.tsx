@@ -1,22 +1,22 @@
-import { Button, Form, Input, Spin, message, Typography } from 'antd';
-import { useState } from 'react';
-import get from 'lodash/get';
-import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
-import ROUTES from '../../router';
-import AuthLayout from './authLayout';
+import { Button, Form, Input, Spin, message, Typography } from "antd";
+import { useState } from "react";
+import get from "lodash/get";
+import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+import ROUTES from "../../router";
+import AuthLayout from "./authLayout";
 import {
   forgotPassword,
   verifyforgotPassword,
   updateforgotPassword,
-} from '../../redux/actions/userActions';
+} from "../../redux/actions/userActions";
 import {
   VERIFICATION_CODE_SENT_SUCCESS,
   CODE_VERIFY_SUCCESS,
-} from '../../constants/messages';
+} from "../../constants/messages";
 
 // Styles
-import './styles.scss';
+import "./styles.scss";
 
 const { Text } = Typography;
 
@@ -40,7 +40,7 @@ function ForgotScreen(props: any) {
           ...state,
           emailSent: false,
           verifyCodeSection: true,
-          email: get(values, 'email'),
+          email: get(values, "email"),
         });
         setLoading(false);
       })
@@ -49,16 +49,14 @@ function ForgotScreen(props: any) {
       });
   };
 
-  const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo);
-  };
+  const onFinishFailed = (errorInfo: any) => {};
 
   const onVerifyCode = (value: any) => {
     setLoading(true);
     dispatch(
       verifyforgotPassword({
-        email: get(state, 'email'),
-        code: get(value, 'code'),
+        email: get(state, "email"),
+        code: get(value, "code"),
       })
     )
       .then((result: any) => {
@@ -68,7 +66,7 @@ function ForgotScreen(props: any) {
           ...state,
           verifyCodeSection: false,
           showChangePasswordSection: true,
-          code_id: get(result, 'code_id'),
+          code_id: get(result, "code_id"),
         });
         setLoading(false);
       })
@@ -80,7 +78,7 @@ function ForgotScreen(props: any) {
   const onChangePassword = (values: any) => {
     setLoading(true);
     dispatch(
-      updateforgotPassword({ ...values, code_id: get(state, 'code_id') })
+      updateforgotPassword({ ...values, code_id: get(state, "code_id") })
     )
       .then((result: any) => {
         message.success(CODE_VERIFY_SUCCESS);
@@ -102,7 +100,7 @@ function ForgotScreen(props: any) {
     <div className="auth-page-style">
       <AuthLayout>
         <Spin spinning={loading}>
-          {get(state, 'emailSent') && (
+          {get(state, "emailSent") && (
             <div className="form-section">
               <div className="content">
                 <div className="emoji-style">🔐</div>
@@ -127,11 +125,11 @@ function ForgotScreen(props: any) {
                   rules={[
                     {
                       required: true,
-                      message: 'Please input your registerd email!',
+                      message: "Please input your registerd email!",
                     },
                     {
-                      type: 'email',
-                      message: 'Please input valid email format!',
+                      type: "email",
+                      message: "Please input valid email format!",
                     },
                   ]}
                 >
@@ -147,13 +145,13 @@ function ForgotScreen(props: any) {
             </div>
           )}
 
-          {get(state, 'verifyCodeSection') && (
+          {get(state, "verifyCodeSection") && (
             <div className="content">
               <div className="emoji-style">🔐</div>
               <h2 className="title1">Email Sent</h2>
               <p className="description">
-                An Email has been sent to{' '}
-                <Link to="">{get(state, 'email')}</Link>
+                An Email has been sent to{" "}
+                <Link to="">{get(state, "email")}</Link>
               </p>
               <Form
                 name="basic"
@@ -169,11 +167,11 @@ function ForgotScreen(props: any) {
                   rules={[
                     {
                       required: true,
-                      message: 'Please input your verification code!',
+                      message: "Please input your verification code!",
                     },
                     {
                       min: 4,
-                      message: 'Verification code is of minimum 4 character!',
+                      message: "Verification code is of minimum 4 character!",
                     },
                   ]}
                 >
@@ -184,7 +182,7 @@ function ForgotScreen(props: any) {
                     type="link"
                     onClick={() => {
                       onFinish({
-                        email: get(state, 'email'),
+                        email: get(state, "email"),
                       });
                     }}
                     className="color-primary"
@@ -201,7 +199,7 @@ function ForgotScreen(props: any) {
             </div>
           )}
 
-          {get(state, 'showChangePasswordSection') && (
+          {get(state, "showChangePasswordSection") && (
             <div className="content">
               <div className="emoji-style">🔐</div>
               <h2 className="title1">Enter New Password</h2>
@@ -220,7 +218,7 @@ function ForgotScreen(props: any) {
                   rules={[
                     {
                       required: true,
-                      message: 'Please input your password!',
+                      message: "Please input your password!",
                     },
                   ]}
                   hasFeedback
@@ -230,20 +228,20 @@ function ForgotScreen(props: any) {
                 <Form.Item
                   name="confirm_password"
                   label="Confirm Password"
-                  dependencies={['password']}
+                  dependencies={["password"]}
                   rules={[
                     {
                       required: true,
-                      message: 'Please input your confirm password!',
+                      message: "Please input your confirm password!",
                     },
                     ({ getFieldValue }) => ({
                       validator(_, value) {
-                        if (!value || getFieldValue('password') === value) {
+                        if (!value || getFieldValue("password") === value) {
                           return Promise.resolve();
                         }
                         return Promise.reject(
                           new Error(
-                            'The two passwords that you entered do not match!'
+                            "The two passwords that you entered do not match!"
                           )
                         );
                       },
@@ -263,12 +261,12 @@ function ForgotScreen(props: any) {
             </div>
           )}
 
-          {get(state, 'passwordChangedSuccessSection') && (
+          {get(state, "passwordChangedSuccessSection") && (
             <div className="content">
               <div className="emoji-style">🔐</div>
               <h2 className="title1">Password Changed Successfully</h2>
               <p className="description">
-                Click here to go to <Link to="/login">login page</Link>{' '}
+                Click here to go to <Link to="/login">login page</Link>{" "}
               </p>
             </div>
           )}

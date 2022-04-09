@@ -1,13 +1,13 @@
-import { Button, Col, Modal, Row, Spin } from 'antd';
-import get from 'lodash/get';
-import goldMedal from '../../../assets/images/icons/gold-medal.svg';
-import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { fetchQuizDetails } from '../../../redux/actions/quizActions';
+import { Button, Col, Modal, Row, Spin } from "antd";
+import get from "lodash/get";
+import goldMedal from "../../../assets/images/icons/gold-medal.svg";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { fetchQuizDetails } from "../../../redux/actions/quizActions";
 // Styles
-import './styles.scss';
-import { remove } from 'lodash';
-import { getTimeText } from '../../../utilities/helpers';
+import "./styles.scss";
+import { remove } from "lodash";
+import { getTimeText } from "../../../utilities/helpers";
 
 function QuizResultModal(props: any) {
   const { quiz } = props;
@@ -17,7 +17,7 @@ function QuizResultModal(props: any) {
 
   const getQuizDetails = () => {
     setLoading(true);
-    dispatch(fetchQuizDetails(get(quiz, 'id')))
+    dispatch(fetchQuizDetails(get(quiz, "id")))
       .then((result: any) => {
         setQuizDetails(result);
         setLoading(false);
@@ -39,18 +39,18 @@ function QuizResultModal(props: any) {
         incorrect: 0,
       };
     } else {
-      const questions = [...get(quizDetails, 'questions')];
-      remove(questions, (q) => get(q, 'submitted_answer', []).length === 0);
+      const questions = [...get(quizDetails, "questions")];
+      remove(questions, (q) => get(q, "submitted_answer", []).length === 0);
       return {
         attempted: questions.length,
-        correct: get(quizDetails, 'correct_answer'),
-        incorrect: questions.length - get(quizDetails, 'correct_answer'),
+        correct: get(quizDetails, "correct_answer"),
+        incorrect: questions.length - get(quizDetails, "correct_answer"),
       };
     }
   };
 
   const questionStats = getQuestionStats();
-  console.log(quizDetails, getTimeText(get(quizDetails, 'total_time')));
+
   return (
     <Modal
       centered
@@ -58,7 +58,7 @@ function QuizResultModal(props: any) {
       footer={false}
       onCancel={props.onCancel}
       wrapClassName="quiz-result-style primary-modal-style"
-      maskStyle={{ background: 'rgba(30,39,94, 0.6)' }}
+      maskStyle={{ background: "rgba(30,39,94, 0.6)" }}
     >
       <Spin spinning={loading}>
         <div className="card-modal">
@@ -66,10 +66,10 @@ function QuizResultModal(props: any) {
             <img src={goldMedal} alt="" />
             <h1 className="title1">Congratulations !</h1>
             <p className="description">
-              You Finished Completed your Quiz in{' '}
+              You Finished Completed your Quiz in{" "}
               <span className="theme-color">
-                {' '}
-                {getTimeText(get(quizDetails, 'total_time'))}
+                {" "}
+                {getTimeText(get(quizDetails, "total_time"))}
               </span>
             </p>
 
@@ -79,21 +79,21 @@ function QuizResultModal(props: any) {
                   <div className="text-box">
                     <div className="label">Attempt</div>
                     <div className="text">
-                      {get(questionStats, 'attempted')}
+                      {get(questionStats, "attempted")}
                     </div>
                   </div>
                 </Col>
                 <Col sm={8}>
                   <div className="text-box">
                     <div className="label">Correct</div>
-                    <div className="text">{get(questionStats, 'correct')}</div>
+                    <div className="text">{get(questionStats, "correct")}</div>
                   </div>
                 </Col>
                 <Col sm={8}>
                   <div className="text-box">
                     <div className="label">Incorrect</div>
                     <div className="text">
-                      {get(questionStats, 'incorrect')}
+                      {get(questionStats, "incorrect")}
                     </div>
                   </div>
                 </Col>
@@ -104,8 +104,8 @@ function QuizResultModal(props: any) {
           <div className="button-section">
             Your Scored
             <div className="title-result">
-              <span> {get(quizDetails, 'correct_answer')}</span>/
-              {get(quizDetails, 'questions', []).length}
+              <span> {get(quizDetails, "correct_answer")}</span>/
+              {get(quizDetails, "questions", []).length}
             </div>
             <Button type="primary" onClick={props.onCancel}>
               Take Another Quiz

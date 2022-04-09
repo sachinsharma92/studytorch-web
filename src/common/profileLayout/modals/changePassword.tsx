@@ -1,11 +1,11 @@
-import { Button, Modal, Form, Input, Spin, message } from 'antd';
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { changePassword } from '../../../redux/actions/userActions';
-import { CHANGE_PASSWORD_SUCCESS } from '../../../constants/messages';
+import { Button, Modal, Form, Input, Spin, message } from "antd";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { changePassword } from "../../../redux/actions/userActions";
+import { CHANGE_PASSWORD_SUCCESS } from "../../../constants/messages";
 
 // Styles
-import './styles.scss';
+import "./styles.scss";
 
 function ChangePassword(props: any) {
   const [loading, setLoading] = useState(false);
@@ -25,9 +25,7 @@ function ChangePassword(props: any) {
       });
   };
 
-  const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo);
-  };
+  const onFinishFailed = (errorInfo: any) => {};
 
   return (
     <Modal
@@ -37,7 +35,7 @@ function ChangePassword(props: any) {
       destroyOnClose
       onCancel={props.onCancel}
       wrapClassName="planner-modal-style primary-modal-style"
-      maskStyle={{ background: 'rgba(30,39,94, 0.6)' }}
+      maskStyle={{ background: "rgba(30,39,94, 0.6)" }}
     >
       <Spin spinning={loading}>
         <div className="card-modal">
@@ -59,7 +57,7 @@ function ChangePassword(props: any) {
                   label="Current Password"
                   name="current_password"
                   rules={[
-                    { required: true, message: 'Current password is required' },
+                    { required: true, message: "Current password is required" },
                   ]}
                 >
                   <Input placeholder="Enter Password" />
@@ -68,7 +66,7 @@ function ChangePassword(props: any) {
                   label="New Password"
                   name="new_password"
                   rules={[
-                    { required: true, message: 'New password is required' },
+                    { required: true, message: "New password is required" },
                   ]}
                 >
                   <Input placeholder="Enter Password" />
@@ -76,17 +74,17 @@ function ChangePassword(props: any) {
                 <Form.Item
                   label="Confim New Password"
                   name="confirm_password"
-                  dependencies={['new_password']}
+                  dependencies={["new_password"]}
                   rules={[
-                    { required: true, message: 'Confirm password is required' },
+                    { required: true, message: "Confirm password is required" },
                     ({ getFieldValue }) => ({
                       validator(_, value) {
-                        if (!value || getFieldValue('new_password') === value) {
+                        if (!value || getFieldValue("new_password") === value) {
                           return Promise.resolve();
                         }
                         return Promise.reject(
                           new Error(
-                            'The two passwords that you entered do not match!'
+                            "The two passwords that you entered do not match!"
                           )
                         );
                       },

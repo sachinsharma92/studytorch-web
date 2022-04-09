@@ -1,9 +1,10 @@
-import { Avatar } from 'antd';
-import get from 'lodash/get';
-import map from 'lodash/map';
-import moment from 'moment';
-import padStart from 'lodash/padStart';
-import upperCase from 'lodash/upperCase';
+import { Avatar } from "antd";
+import get from "lodash/get";
+import map from "lodash/map";
+import moment from "moment";
+import slice from "lodash/slice";
+import padStart from "lodash/padStart";
+import upperCase from "lodash/upperCase";
 
 export const truncateText = (input, length) => {
   if (input.length > length) {
@@ -12,23 +13,23 @@ export const truncateText = (input, length) => {
   return input;
 };
 
-export const getNameAvatar = (name, size = 30, color = '#f56a00') => (
+export const getNameAvatar = (name, size = 30, color = "#f56a00") => (
   <Avatar size={size} style={{ backgroundColor: color }}>
-    {upperCase(get(name, '0'))}
+    {upperCase(get(name, "0"))}
   </Avatar>
 );
 
 export const replaceMultiple = (string, mapObj) => {
-  const re = new RegExp(Object.keys(mapObj).join('|'), 'gi');
+  const re = new RegExp(Object.keys(mapObj).join("|"), "gi");
   string = string.replace(re, (matched) => mapObj[matched]);
   return string;
 };
 
 export const getUrl = (apiPath, params = null) => {
-  let paramString = '';
+  let paramString = "";
   let firstParam = true;
   if (params) {
-    paramString += '?';
+    paramString += "?";
     map(params, (value, key) => {
       if (firstParam) {
         paramString += `${key}=${value}`;
@@ -42,21 +43,21 @@ export const getUrl = (apiPath, params = null) => {
 };
 
 export const getTimeText = (time = 0) => {
-  var durationValue = moment.duration(time, 'seconds');
+  var durationValue = moment.duration(time, "seconds");
   var hours = Math.floor(durationValue.asHours());
   var mins = Math.floor(durationValue.asMinutes()) - hours * 60;
   var sec =
     Math.floor(durationValue.asSeconds()) - (hours * 60 * 60 + mins * 60);
 
-  let text = '';
+  let text = "";
   if (!time) {
     text = `0 Sec`;
   } else if (time < 60) {
     text = `${time} Sec`;
   } else if (time < 3600) {
-    text = `${mins} Min ${sec ? sec + ' Sec' : ''}`;
+    text = `${mins} Min ${sec ? sec + " Sec" : ""}`;
   } else {
-    text = `${hours}:${mins} ${sec ? ':' + sec : ''} Hrs`;
+    text = `${hours}:${mins} ${sec ? ":" + sec : ""} Hrs`;
   }
 
   return text;
@@ -71,16 +72,22 @@ export const getFormattedDateString = (date) => {
 };
 
 export const getFormattedTimeString = (date) => {
-  return `${padStart(date.getHours(), 2, '0')}:${
+  return `${padStart(date.getHours(), 2, "0")}:${
     // @ts-ignore: Unreachable code error
-    padStart(date.getMinutes(), 2, '0')
+    padStart(date.getMinutes(), 2, "0")
     // @ts-ignore: Unreachable code error
-  }:${padStart(date.getSeconds(), 2, '0')}`;
+  }:${padStart(date.getSeconds(), 2, "0")}`;
 };
 
 export const rangeQueryObj = (range: any) => {
   return {
-    start_date: range[0].format('YYYY-MM-DD'),
-    end_date: range[1].format('YYYY-MM-DD'),
+    start_date: range[0].format("YYYY-MM-DD"),
+    end_date: range[1].format("YYYY-MM-DD"),
   };
+};
+
+export const getPaginatedData = (data = [], page = 1, size = 10) => {
+  const start = size * (page - 1);
+  const end = start + size;
+  return slice(data, start, end);
 };

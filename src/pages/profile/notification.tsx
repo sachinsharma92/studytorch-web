@@ -1,21 +1,21 @@
-import { useState, useEffect } from 'react';
-import { Row, Col, Spin, Checkbox, Button, message } from 'antd';
-import get from 'lodash/get';
-import map from 'lodash/map';
-import { useSelector, useDispatch } from 'react-redux';
-import ProfileLayout from '../../common/profileLayout/profileLayout';
-import { updateUserNotification } from '../../redux/actions/userActions';
-import { NOTIFICATION_UPDATE_SUCCESS } from '../../constants/messages';
+import { useState, useEffect } from "react";
+import { Row, Col, Spin, Checkbox, Button, message } from "antd";
+import get from "lodash/get";
+import map from "lodash/map";
+import { useSelector, useDispatch } from "react-redux";
+import ProfileLayout from "../../common/profileLayout/profileLayout";
+import { updateUserNotification } from "../../redux/actions/userActions";
+import { NOTIFICATION_UPDATE_SUCCESS } from "../../constants/messages";
 
 // Styles
-import './styles.scss';
+import "./styles.scss";
 
 function NotificationScreen(props: any) {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const [checkedValues, setCheckedValues] = useState<any>([]);
   const notificationPermission = useSelector((state) =>
-    get(state, 'userState.user.notification_permissions')
+    get(state, "userState.user.notification_permissions")
   );
 
   useEffect(() => {
@@ -32,7 +32,7 @@ function NotificationScreen(props: any) {
     map(checkedValues, (c): any => {
       paylaod[c] = true;
     });
-    console.log(paylaod);
+
     setLoading(false);
     dispatch(updateUserNotification({ notification_permissions: paylaod }))
       .then(() => {
@@ -60,7 +60,7 @@ function NotificationScreen(props: any) {
               </div>
               <div className="checkbox-style">
                 <Checkbox.Group
-                  style={{ width: '100%' }}
+                  style={{ width: "100%" }}
                   value={checkedValues}
                   onChange={onChange}
                 >

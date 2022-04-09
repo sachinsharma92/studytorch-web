@@ -1,18 +1,21 @@
-import { Dropdown, Menu, Input, Checkbox, Row, Col } from 'antd';
-import { useState } from 'react';
+import { Dropdown, Menu, Input, Checkbox, Row, Col, Tag } from "antd";
+import { useState } from "react";
+
 import {
   EditOutlined,
   DeleteOutlined,
   InfoCircleOutlined,
-} from '@ant-design/icons';
-import map from 'lodash/map';
-import filter from 'lodash/filter';
-import get from 'lodash/get';
-
-import verticalDot from '../../assets/images/icons/vertical-dot.svg';
+  FolderOpenOutlined,
+  FolderViewOutlined,
+} from "@ant-design/icons";
+import map from "lodash/map";
+import filter from "lodash/filter";
+import get from "lodash/get";
+import remove from "lodash/remove";
+import verticalDot from "../../assets/images/icons/vertical-dot.svg";
 
 // Styles
-import './styles.scss';
+import "./styles.scss";
 
 const { Search } = Input;
 
@@ -29,16 +32,18 @@ function ChecklistCard(props: any) {
     const payload = {
       is_completed: e.target.checked,
     };
-    updateTask(get(checklist, 'id'), e.target.value, payload);
+    updateTask(get(checklist, "id"), e.target.value, payload);
   }
 
   const onArchive = (id: any) => {
-    updateTask(get(checklist, 'id'), id, {
+    updateTask(get(checklist, "id"), id, {
       is_archived: true,
     });
   };
 
-  const [task, setTask] = useState('');
+  const [task, setTask] = useState("");
+  const [hideArchived, setHideArchived] = useState(true);
+
   const menuData = (
     <Menu>
       <Menu.Item
@@ -51,18 +56,38 @@ function ChecklistCard(props: any) {
       </Menu.Item>
       <Menu.Item
         icon={<DeleteOutlined />}
-        onClick={() => onConfirmDelete(get(checklist, 'id'))}
+        onClick={() => onConfirmDelete(get(checklist, "id"))}
       >
         Delete
       </Menu.Item>
       <Menu.Item
         icon={<InfoCircleOutlined />}
         onClick={() => {
-          onArchiveChecklist(get(checklist, 'id'));
+          onArchiveChecklist(get(checklist, "id"));
         }}
       >
         Archive checked items
       </Menu.Item>
+      {hideArchived && (
+        <Menu.Item
+          icon={<FolderOpenOutlined />}
+          onClick={() => {
+            setHideArchived(false);
+          }}
+        >
+          Show Archived tasks
+        </Menu.Item>
+      )}
+      {!hideArchived && (
+        <Menu.Item
+          icon={<FolderViewOutlined />}
+          onClick={() => {
+            setHideArchived(true);
+          }}
+        >
+          Hide Archived tasks
+        </Menu.Item>
+      )}
     </Menu>
   );
 
@@ -79,24 +104,30 @@ function ChecklistCard(props: any) {
     </Menu>
   );
 
-  const completedTask = filter(get(checklist, 'tasks', []), [
-    'is_completed',
+  const completedTask = filter(get(checklist, "tasks", []), [
+    "is_completed",
     true,
   ]);
 
   const addTask = () => {
-    addTaskToCheckList(get(checklist, 'id'), { description: task });
-    setTask('');
+    addTaskToCheckList(get(checklist, "id"), { description: task });
+    setTask("");
   };
+
+  let checkList = [...get(checklist, "tasks", [])];
+
+  if (hideArchived) {
+    remove(checkList, ["is_archived", true]);
+  }
 
   return (
     <div className="checklist-card-style" onClick={props.onClick}>
       <div className="card-style">
         <div className="header">
           <h4 className="title4">
-            {get(checklist, 'title')}
+            {get(checklist, "title")}
             <span>
-              ({completedTask.length}/{get(checklist, 'tasks', []).length})
+              ({completedTask.length}/{checkList.length})
             </span>
           </h4>
 
@@ -107,23 +138,23 @@ function ChecklistCard(props: any) {
 
         <div className="list-section">
           <Checkbox.Group
-            style={{ width: '100%' }}
+            style={{ width: "100%" }}
             // onChange={onChange}
-            value={map(completedTask, 'id')}
+            value={map(completedTask, "id")}
           >
             <Row>
-              {map(get(checklist, 'tasks', []), (task) => {
+              {map(checkList, (task) => {
                 return (
                   <Col span={24}>
                     <div className="checkbox-item">
-                      <Checkbox value={get(task, 'id')} onChange={onChange}>
-                        {get(task, 'description')}
+                      <Checkbox value={get(task, "id")} onChange={onChange}>
+                        {get(task, "description")}
                       </Checkbox>
 
-                      {get(task, 'is_completed') && (
+                      {get(task, "is_completed") && !get(task, "is_archived") && (
                         <Dropdown
                           overlayClassName="collection-dropdown"
-                          overlay={taskMenu(get(task, 'id'))}
+                          overlay={taskMenu(get(task, "id"))}
                         >
                           <img
                             src={verticalDot}
@@ -132,6 +163,7 @@ function ChecklistCard(props: any) {
                           />
                         </Dropdown>
                       )}
+                      {get(task, "is_archived") && <Tag>Archived</Tag>}
                     </div>
                   </Col>
                 );

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import {
   Button,
   Col,
@@ -14,51 +14,51 @@ import {
   Spin,
   Tooltip,
   Breadcrumb,
-} from 'antd';
-import get from 'lodash/get';
-import map from 'lodash/map';
-import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
-import { useParams, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+} from "antd";
+import get from "lodash/get";
+import map from "lodash/map";
+import { PlusOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import { useParams, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 // Custom Component and Modal
-import { GROUPS_DETAIL_SCREEN } from '../../router/routes';
-import EmptyState from '../../common/emptyState/emptyState';
-import PrimaryLayout from '../../common/primaryLayout/primaryLayout';
-import NotesCard from '../../components/collection/notesCard/notesCard';
-import FlashCard from '../../components/collection/flashCard/flashCard';
-import CreateCollectionModal from '../../components/collection/modals/createCollection';
-import ButtonCustom from '../../common/buttons/buttonCustom';
-import QuestionCard from '../../components/collection/questionCard/questionCard';
-import NoteModalCard from '../../components/collection/modals/noteModalCard';
-import QuestionModal from '../../components/collection/modals/questionModal';
-import QuestionAddedModal from '../../components/collection/modals/questionAddedModal';
-import FlashEditModal from '../../components/collection/modals/flashEditModal';
-import CollectionCard from '../../components/collection/collectionCard/collectionCard';
-import RevisionModeModal from '../../components/collection/modals/revisionModeModal';
-import JoinedDropDown from '../../components/groups/joinedDropDown';
-import GroupBanner from '../../components/groups/groupBanner/groupBanner';
-import GroupMembers from '../../components/groups/groupMembers';
-import GroupCreateModal from '../../components/groups/modals/groupCreateModal';
-import GroupQuizTab from '../../components/groups/groupQuizTab/groupQuizTab';
-import GroupReportTab from '../../components/groups/groupReportTab';
+import { GROUPS_DETAIL_SCREEN } from "../../router/routes";
+import EmptyState from "../../common/emptyState/emptyState";
+import PrimaryLayout from "../../common/primaryLayout/primaryLayout";
+import NotesCard from "../../components/collection/notesCard/notesCard";
+import FlashCard from "../../components/collection/flashCard/flashCard";
+import CreateCollectionModal from "../../components/collection/modals/createCollection";
+import ButtonCustom from "../../common/buttons/buttonCustom";
+import QuestionCard from "../../components/collection/questionCard/questionCard";
+import NoteModalCard from "../../components/collection/modals/noteModalCard";
+import QuestionModal from "../../components/collection/modals/questionModal";
+import QuestionAddedModal from "../../components/collection/modals/questionAddedModal";
+import FlashEditModal from "../../components/collection/modals/flashEditModal";
+import CollectionCard from "../../components/collection/collectionCard/collectionCard";
+import RevisionModeModal from "../../components/collection/modals/revisionModeModal";
+import JoinedDropDown from "../../components/groups/joinedDropDown";
+import GroupBanner from "../../components/groups/groupBanner/groupBanner";
+import GroupMembers from "../../components/groups/groupMembers";
+import GroupCreateModal from "../../components/groups/modals/groupCreateModal";
+import GroupQuizTab from "../../components/groups/groupQuizTab/groupQuizTab";
+import GroupReportTab from "../../components/groups/groupReportTab";
 import {
   fetchGroupCollectionDetails,
   fetchGroupDetails,
-} from '../../redux/actions/groupActions';
-import { getNameAvatar, replaceMultiple } from '../../utilities/helpers';
-import { avatarColors } from '../../constants/groups';
+} from "../../redux/actions/groupActions";
+import { getNameAvatar, replaceMultiple } from "../../utilities/helpers";
+import { avatarColors } from "../../constants/groups";
 // Images
-import filter from '../../assets/images/icons/filter.svg';
-import heroBackground from '../../assets/images/banner-group.png';
-import verticalDot from '../../assets/images/icons/vertical-dot.svg';
+import filter from "../../assets/images/icons/filter.svg";
+import heroBackground from "../../assets/images/banner-group.png";
+import verticalDot from "../../assets/images/icons/vertical-dot.svg";
 
-import folderGray from '../../assets/images/icons/folder-gray.svg';
+import folderGray from "../../assets/images/icons/folder-gray.svg";
 
 // Styles
-import './styles.scss';
-import CreateGroupQuiz from '../../components/quiz/modals/createGroupQuiz';
-import CheckSolutionModal from '../../components/quiz/modals/checkSolutionModal';
-import ReportDetailCard from '../../components/groups/drawerCards/reportDetailCard';
+import "./styles.scss";
+import CreateGroupQuiz from "../../components/quiz/modals/createGroupQuiz";
+import CheckSolutionModal from "../../components/quiz/modals/checkSolutionModal";
+import ReportDetailCard from "../../components/groups/drawerCards/reportDetailCard";
 
 const { TabPane } = Tabs;
 
@@ -71,16 +71,16 @@ const menu = (
 
 const flashCardData = [
   {
-    title: 'Headline label',
+    title: "Headline label",
     description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Adipiscing  elit fringilla vitae...',
-    tag: 'Tag 1',
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Adipiscing  elit fringilla vitae...",
+    tag: "Tag 1",
   },
   {
-    title: 'Headline label',
+    title: "Headline label",
     description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Adipiscing  elit fringilla vitae...',
-    tag: 'Tag 1',
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Adipiscing  elit fringilla vitae...",
+    tag: "Tag 1",
   },
 ];
 
@@ -106,7 +106,7 @@ function GroupDetailScreen(props: any) {
   const toggleGroupModal = (data = null) => {
     setGroupModal({
       data,
-      visible: !get(groupModal, 'visible'),
+      visible: !get(groupModal, "visible"),
     });
   };
 
@@ -144,7 +144,7 @@ function GroupDetailScreen(props: any) {
 
   const toggleFlashModal = (data = null, edit = false) => {
     setFlashModal({
-      visible: !get(flashModal, 'visible'),
+      visible: !get(flashModal, "visible"),
       edit,
       data: data,
     });
@@ -206,21 +206,21 @@ function GroupDetailScreen(props: any) {
   //////////new start ///////////
   const toggleCollectionModal = (data = null) => {
     setCollectionModal({
-      visible: !get(collectionModal, 'visible'),
+      visible: !get(collectionModal, "visible"),
       data: data,
     });
   };
 
   const toggleNoteModal = (data = null) => {
     setNoteModal({
-      visible: !get(noteModal, 'visible'),
+      visible: !get(noteModal, "visible"),
       data: data,
     });
   };
 
   const toggleQuestionModal = (data = null) => {
     setQuestionModal({
-      visible: !get(questionModal, 'visible'),
+      visible: !get(questionModal, "visible"),
       data: data,
     });
   };
@@ -243,21 +243,46 @@ function GroupDetailScreen(props: any) {
 
   const toggleCheckSolution = (data = null) => {
     setCheckSolutionModal({
-      visible: !get(checkSolutionModal, 'visible'),
+      visible: !get(checkSolutionModal, "visible"),
       data,
     });
   };
 
+  const onKeyPressFunction = (event: any) => {
+    if (get(event, "altKey") && get(event, "keyCode") === 67) {
+      setCollectionModal({ visible: true, data: null });
+    }
+
+    if (get(event, "altKey") && get(event, "keyCode") === 78) {
+      setNoteModal({ visible: true, data: null });
+    }
+
+    if (get(event, "altKey") && get(event, "keyCode") === 81) {
+      setQuestionModal({ visible: true, data: null });
+    }
+  };
+
+  useEffect(() => {
+    // @ts-ignore: Unreachable code error
+    if (get(groupDetails, "is_group_admin")) {
+      document.addEventListener("keydown", onKeyPressFunction);
+    }
+    return () => {
+      // @ts-ignore: Unreachable code error
+      document.removeEventListener("keydown", onKeyPressFunction);
+    };
+  }, [groupDetails]);
+
   const routes = (collection: any) => {
     return (
-      <Breadcrumb style={{ cursor: 'pointer' }}>
-        {get(collection, 'parent') ? (
+      <Breadcrumb style={{ cursor: "pointer" }}>
+        {get(collection, "parent") ? (
           <Breadcrumb.Item
             onClick={() => {
               navigate(-1);
             }}
           >
-            {get(collection, 'parent.name')}
+            {get(collection, "parent.name")}
           </Breadcrumb.Item>
         ) : (
           <Breadcrumb.Item
@@ -269,7 +294,7 @@ function GroupDetailScreen(props: any) {
           </Breadcrumb.Item>
         )}
 
-        <Breadcrumb.Item>{get(collection, 'name')}</Breadcrumb.Item>
+        <Breadcrumb.Item>{get(collection, "name")}</Breadcrumb.Item>
       </Breadcrumb>
     );
   };
@@ -286,7 +311,7 @@ function GroupDetailScreen(props: any) {
         <PageHeader
           className="site-page-header header-back"
           onBack={() => navigate(-1)}
-          title={get(collectionDetails, 'name')}
+          title={get(collectionDetails, "name")}
           breadcrumb={routes(collectionDetails)}
           extra={[
             <div className="btn-section-top">
@@ -294,7 +319,7 @@ function GroupDetailScreen(props: any) {
                 groupDetails={groupDetails}
                 setLoading={setLoading}
               />
-              {get(groupDetails, 'is_group_admin') && (
+              {get(groupDetails, "is_group_admin") && (
                 <GroupMembers
                   groupDetails={groupDetails}
                   refreshGroupDetails={getGroupDetails}
@@ -316,8 +341,8 @@ function GroupDetailScreen(props: any) {
                     <Menu.Item
                       onClick={() => {
                         setImagePreview({
-                          previewImage: get(groupDetails, 'banner_image')
-                            ? get(groupDetails, 'banner_image_url')
+                          previewImage: get(groupDetails, "banner_image")
+                            ? get(groupDetails, "banner_image_url")
                             : heroBackground,
                           previewVisible: true,
                         });
@@ -337,18 +362,18 @@ function GroupDetailScreen(props: any) {
         <Spin spinning={loading}>
           <div className="avatar-group">
             <Avatar.Group maxCount={5}>
-              {map(get(groupDetails, 'group_members', []), (member, i: any) => {
-                if (get(member, 'image')) {
+              {map(get(groupDetails, "group_members", []), (member, i: any) => {
+                if (get(member, "image")) {
                   return (
-                    <Tooltip title={get(member, 'username')}>
-                      <Avatar src={get(member, 'image_url')} />
+                    <Tooltip title={get(member, "username")}>
+                      <Avatar src={get(member, "image_url")} />
                     </Tooltip>
                   );
                 }
                 return (
-                  <Tooltip title={get(member, 'username')}>
+                  <Tooltip title={get(member, "username")}>
                     {getNameAvatar(
-                      get(member, 'name'),
+                      get(member, "name"),
                       30,
                       avatarColors[i % 4]
                     )}
@@ -361,7 +386,7 @@ function GroupDetailScreen(props: any) {
           <div className="tab-section">
             <Tabs defaultActiveKey="1" destroyInactiveTabPane>
               <TabPane tab="Collection" key="1">
-                {get(collectionDetails, 'subCollections', []).length === 0 ? (
+                {get(collectionDetails, "subCollections", []).length === 0 ? (
                   <div className="state-center">
                     <EmptyState
                       imgUrl={folderGray}
@@ -376,30 +401,30 @@ function GroupDetailScreen(props: any) {
                   <div className="card-section">
                     <Row gutter={32}>
                       {map(
-                        get(collectionDetails, 'subCollections', []),
+                        get(collectionDetails, "subCollections", []),
                         (collection, index) => (
                           <Col sm={6} key={index}>
                             <CollectionCard
-                              id={get(collection, 'id')}
+                              id={get(collection, "id")}
                               hideEditDelete={
-                                !get(groupDetails, 'is_group_admin')
+                                !get(groupDetails, "is_group_admin")
                               }
                               parentCollection={collectionDetails}
-                              color={get(collection, 'color')}
-                              title={get(collection, 'name')}
+                              color={get(collection, "color")}
+                              title={get(collection, "name")}
                               setLoading={setLoading}
                               description={`${get(
                                 collection,
-                                'note_count'
+                                "note_count"
                               )} Notes, ${get(
                                 collection,
-                                'question_count'
+                                "question_count"
                               )} Quesitions`}
                               cardHandler={replaceMultiple(
                                 GROUPS_DETAIL_SCREEN,
                                 {
-                                  ':id': get(collection, 'id'),
-                                  ':gid': gid,
+                                  ":id": get(collection, "id"),
+                                  ":gid": gid,
                                 }
                               )}
                               onEditCollection={() => {
@@ -415,7 +440,7 @@ function GroupDetailScreen(props: any) {
                 )}
               </TabPane>
               <TabPane tab="Notes" key="2">
-                {get(collectionDetails, 'notes', []).length === 0 ? (
+                {get(collectionDetails, "notes", []).length === 0 ? (
                   <div className="state-center">
                     <EmptyState
                       imgUrl={folderGray}
@@ -430,21 +455,21 @@ function GroupDetailScreen(props: any) {
                   <div className="card-section note-section">
                     <Row gutter={32}>
                       {map(
-                        get(collectionDetails, 'notes', []),
+                        get(collectionDetails, "notes", []),
                         (note, index) => (
                           <Col sm={8} key={index}>
                             <NotesCard
-                              title={get(note, 'title')}
+                              title={get(note, "title")}
                               hideEditDelete={
-                                !get(groupDetails, 'is_group_admin')
+                                !get(groupDetails, "is_group_admin")
                               }
                               collection={collectionDetails}
-                              id={get(note, 'id')}
+                              id={get(note, "id")}
                               setLoading={setLoading}
-                              description={get(note, 'description')}
+                              description={get(note, "description")}
                               menuData={menu}
                               cardHandler="/"
-                              tags={get(note, 'tags')}
+                              tags={get(note, "tags")}
                               onEditNote={() => {
                                 toggleNoteModal(note);
                               }}
@@ -459,7 +484,7 @@ function GroupDetailScreen(props: any) {
               </TabPane>
               <TabPane tab="Question" key="3">
                 <div className="inline-button-section mt--20 mb--30">
-                  {get(groupDetails, 'is_group_admin') && (
+                  {get(groupDetails, "is_group_admin") && (
                     <ButtonCustom
                       onClick={createQuizToggleModal}
                       className="round-primary"
@@ -473,7 +498,7 @@ function GroupDetailScreen(props: any) {
                     title="Filter"
                   />
                 </div>
-                {get(collectionDetails, 'questions', []).length === 0 ? (
+                {get(collectionDetails, "questions", []).length === 0 ? (
                   <div className="state-center">
                     <EmptyState
                       imgUrl={folderGray}
@@ -488,13 +513,13 @@ function GroupDetailScreen(props: any) {
                   <div className="card-section note-section">
                     <Row gutter={32}>
                       {map(
-                        get(collectionDetails, 'questions', []),
+                        get(collectionDetails, "questions", []),
                         (question, i) => {
                           return (
                             <Col sm={12} key={i}>
                               <QuestionCard
                                 hideEditDelete={
-                                  !get(groupDetails, 'is_group_admin')
+                                  !get(groupDetails, "is_group_admin")
                                 }
                                 question={question}
                                 collection={collectionDetails}
@@ -513,7 +538,7 @@ function GroupDetailScreen(props: any) {
                 )}
               </TabPane>
               <TabPane tab="Flash Card" key="4">
-                {get(collectionDetails, 'flashCards', []).length > 0 && (
+                {get(collectionDetails, "flashCards", []).length > 0 && (
                   <div className="inline-button-section mt--20">
                     <ButtonCustom
                       className="round-primary"
@@ -525,9 +550,9 @@ function GroupDetailScreen(props: any) {
                 <RevisionModeModal
                   visible={isRevisionModeModal}
                   closeHandler={revisionModeToggle}
-                  flashCards={get(collectionDetails, 'flashCards', [])}
+                  flashCards={get(collectionDetails, "flashCards", [])}
                 />
-                {get(collectionDetails, 'flashCards', []).length === 0 && (
+                {get(collectionDetails, "flashCards", []).length === 0 && (
                   <div className="state-center">
                     <EmptyState
                       imgUrl={folderGray}
@@ -541,13 +566,13 @@ function GroupDetailScreen(props: any) {
                 <div className="card-section note-section">
                   <Row gutter={32}>
                     {map(
-                      get(collectionDetails, 'flashCards', []),
+                      get(collectionDetails, "flashCards", []),
                       (flashCard, index) => (
                         <Col sm={8} key={index}>
                           <FlashCard
                             flashCard={flashCard}
                             hideEditDelete={
-                              !get(groupDetails, 'is_group_admin')
+                              !get(groupDetails, "is_group_admin")
                             }
                             setLoading={setLoading}
                             collection={collectionDetails}
@@ -571,7 +596,7 @@ function GroupDetailScreen(props: any) {
                 />
               </TabPane>
 
-              {get(groupDetails, 'is_group_admin') && (
+              {get(groupDetails, "is_group_admin") && (
                 <TabPane tab="Reports" key="6">
                   <GroupReportTab group={groupDetails} />
                 </TabPane>
@@ -587,7 +612,7 @@ function GroupDetailScreen(props: any) {
           visible={isCreateQuizModal}
           collections={[collectionDetails]}
           group={groupDetails}
-          members={get(groupDetails, 'group_members', [])}
+          members={get(groupDetails, "group_members", [])}
           type="individual"
           createHandler={createQuizToggleModal}
           cancelHandler={createQuizToggleModal}
@@ -600,45 +625,45 @@ function GroupDetailScreen(props: any) {
 
       {/* Collection Modal here */}
       <CreateCollectionModal
-        visible={get(collectionModal, 'visible')}
+        visible={get(collectionModal, "visible")}
         onCancel={() => toggleCollectionModal()}
         onSuccess={onCollecitonSuccess}
-        edit={get(collectionModal, 'data') ? true : false}
-        initialValue={get(collectionModal, 'data')}
+        edit={get(collectionModal, "data") ? true : false}
+        initialValue={get(collectionModal, "data")}
         collection={collectionDetails}
       />
       {/* GroupCreateModal Modal here */}
       <GroupCreateModal
-        visible={get(groupModal, 'visible')}
+        visible={get(groupModal, "visible")}
         onCancel={() => toggleGroupModal()}
         onSuccess={() => {
           toggleGroupModal();
           getGroupDetails();
         }}
-        edit={get(groupModal, 'data') ? true : false}
-        initialValue={get(groupModal, 'data')}
+        edit={get(groupModal, "data") ? true : false}
+        initialValue={get(groupModal, "data")}
       />
 
       {/* Note Modal here */}
-      {get(noteModal, 'visible') && (
+      {get(noteModal, "visible") && (
         <NoteModalCard
-          visible={get(noteModal, 'visible')}
+          visible={get(noteModal, "visible")}
           collection={collectionDetails}
           onCancel={() => {
             toggleNoteModal();
           }}
-          edit={get(noteModal, 'data') ? true : false}
-          initialValue={get(noteModal, 'data')}
+          edit={get(noteModal, "data") ? true : false}
+          initialValue={get(noteModal, "data")}
           onSuccess={onNotesSuccess}
         />
       )}
 
       {/* Questions Modal */}
-      {get(questionModal, 'visible') && (
+      {get(questionModal, "visible") && (
         <QuestionModal
-          visible={get(questionModal, 'visible')}
-          edit={get(questionModal, 'data') ? true : false}
-          initialValue={get(questionModal, 'data')}
+          visible={get(questionModal, "visible")}
+          edit={get(questionModal, "data") ? true : false}
+          initialValue={get(questionModal, "data")}
           onSuccess={(edit = false) => {
             toggleQuestionModal();
             setIsQuestionAddedModal({
@@ -654,8 +679,8 @@ function GroupDetailScreen(props: any) {
       )}
 
       <QuestionAddedModal
-        visible={get(isQuestionAddedModal, 'visible')}
-        edit={get(isQuestionAddedModal, 'edit')}
+        visible={get(isQuestionAddedModal, "visible")}
+        edit={get(isQuestionAddedModal, "edit")}
         buttonDoneHandler={() => {
           setIsQuestionAddedModal({
             visible: false,
@@ -672,21 +697,21 @@ function GroupDetailScreen(props: any) {
         }}
       />
 
-      {get(checkSolutionModal, 'visible') && (
+      {get(checkSolutionModal, "visible") && (
         <CheckSolutionModal
-          visible={get(checkSolutionModal, 'visible')}
-          quiz={get(checkSolutionModal, 'data')}
+          visible={get(checkSolutionModal, "visible")}
+          quiz={get(checkSolutionModal, "data")}
           onCancel={() => {
             toggleCheckSolution();
           }}
         />
       )}
 
-      {get(flashModal, 'visible') && (
+      {get(flashModal, "visible") && (
         <FlashEditModal
-          visible={get(flashModal, 'visible')}
-          initialValue={get(flashModal, 'data')}
-          edit={get(flashModal, 'edit')}
+          visible={get(flashModal, "visible")}
+          initialValue={get(flashModal, "data")}
+          edit={get(flashModal, "edit")}
           cancelHandler={() => toggleFlashModal()}
           collection={collectionDetails}
           onSuccess={() => {
@@ -699,7 +724,7 @@ function GroupDetailScreen(props: any) {
       {/* Share Modal here */}
 
       <Modal
-        visible={get(imagePreview, 'previewVisible')}
+        visible={get(imagePreview, "previewVisible")}
         footer={null}
         onCancel={() => {
           setImagePreview({
@@ -710,11 +735,11 @@ function GroupDetailScreen(props: any) {
       >
         <img
           alt="example"
-          style={{ width: '100%' }}
-          src={get(imagePreview, 'previewImage')}
+          style={{ width: "100%" }}
+          src={get(imagePreview, "previewImage")}
         />
       </Modal>
-      {get(groupDetails, 'is_group_admin') && (
+      {get(groupDetails, "is_group_admin") && (
         <Popover content={toggleData} placement="topRight">
           <Button
             className="button-add-circle"

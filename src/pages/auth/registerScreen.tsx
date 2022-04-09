@@ -1,15 +1,15 @@
-import { Button, Form, Input, Checkbox, Spin } from 'antd';
-import { useState } from 'react';
+import { Button, Form, Input, Checkbox, Spin } from "antd";
+import { useState } from "react";
 
-import get from 'lodash/get';
-import { Navigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import ROUTES from '../../router';
-import AuthLayout from './authLayout';
-import { register } from '../../redux/actions/userActions';
+import get from "lodash/get";
+import { Navigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import ROUTES from "../../router";
+import AuthLayout from "./authLayout";
+import { register } from "../../redux/actions/userActions";
 
 // Styles
-import './styles.scss';
+import "./styles.scss";
 
 /**
  * Props
@@ -20,9 +20,9 @@ function RegisterScreen(props: RegisterScreenProps) {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
-  const isLoggedIn = useSelector((state) => get(state, 'userState.isLoggedIn'));
+  const isLoggedIn = useSelector((state) => get(state, "userState.isLoggedIn"));
   const showOnBoarding = useSelector((state) =>
-    get(state, 'userState.showOnBoarding')
+    get(state, "userState.showOnBoarding")
   );
 
   const onRegister = (payload: any) => {
@@ -48,9 +48,7 @@ function RegisterScreen(props: RegisterScreenProps) {
     return <Navigate to={ROUTES.HOME_SCREEN} />;
   }
 
-  const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo);
-  };
+  const onFinishFailed = (errorInfo: any) => {};
 
   return (
     <div className="auth-page-style">
@@ -75,7 +73,7 @@ function RegisterScreen(props: RegisterScreenProps) {
                 label="Full Name "
                 name="name"
                 rules={[
-                  { required: true, message: 'Please input your Full Name!' },
+                  { required: true, message: "Please input your Full Name!" },
                 ]}
               >
                 <Input placeholder="Type your full Name" />
@@ -85,7 +83,7 @@ function RegisterScreen(props: RegisterScreenProps) {
                 label="User Name"
                 name="username"
                 rules={[
-                  { required: true, message: 'Please input your User Name!' },
+                  { required: true, message: "Please input your User Name!" },
                 ]}
               >
                 <Input placeholder="Type your User name" />
@@ -95,10 +93,10 @@ function RegisterScreen(props: RegisterScreenProps) {
                 label="E-mail"
                 name="email"
                 rules={[
-                  { required: true, message: 'Please input your email!' },
+                  { required: true, message: "Please input your email!" },
                   {
-                    type: 'email',
-                    message: 'Please input valid email format!',
+                    type: "email",
+                    message: "Please input valid email format!",
                   },
                 ]}
               >
@@ -109,12 +107,12 @@ function RegisterScreen(props: RegisterScreenProps) {
                 label="Phone"
                 name="phone"
                 rules={[
-                  { required: true, message: 'Please input your contact!' },
+                  { required: true, message: "Please input your contact!" },
 
                   {
                     pattern: new RegExp(/^\+(?:[0-9] ?){6,14}[0-9]$/),
                     message:
-                      'Invalid phone number format, Make sure phone number start with Country code Ex +61XXXXX!',
+                      "Invalid phone number format, Make sure phone number start with Country code Ex +61XXXXX!",
                   },
                 ]}
               >
@@ -125,7 +123,7 @@ function RegisterScreen(props: RegisterScreenProps) {
                 label="Password"
                 name="password"
                 rules={[
-                  { required: true, message: 'Please input your password!' },
+                  { required: true, message: "Please input your password!" },
                 ]}
               >
                 <Input.Password placeholder="Type your password" />
@@ -133,21 +131,21 @@ function RegisterScreen(props: RegisterScreenProps) {
 
               <Form.Item
                 label="Confirm Password"
-                dependencies={['password']}
+                dependencies={["password"]}
                 name="confirmPassword"
                 rules={[
                   {
                     required: true,
-                    message: 'Please input your confirm password!',
+                    message: "Please input your confirm password!",
                   },
                   ({ getFieldValue }) => ({
                     validator(_, value) {
-                      if (!value || getFieldValue('password') === value) {
+                      if (!value || getFieldValue("password") === value) {
                         return Promise.resolve();
                       }
                       return Promise.reject(
                         new Error(
-                          'The two passwords that you entered do not match!'
+                          "The two passwords that you entered do not match!"
                         )
                       );
                     },
@@ -164,10 +162,9 @@ function RegisterScreen(props: RegisterScreenProps) {
                 rules={[
                   {
                     validator: (rule, value, callback) => {
-                      console.log({ value });
                       if (!value) {
                         callback(
-                          'Please accept  the Terms and Conditions, and our Privacy Policy!'
+                          "Please accept  the Terms and Conditions, and our Privacy Policy!"
                         );
                         return;
                       }
@@ -189,7 +186,7 @@ function RegisterScreen(props: RegisterScreenProps) {
               </Form.Item>
 
               <Form.Item>
-                Have a Account?{' '}
+                Have a Account?{" "}
                 <Button
                   type="link"
                   href={ROUTES.LOGIN_SCREEN}

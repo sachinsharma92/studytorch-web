@@ -3,7 +3,6 @@ import {
   Col,
   Modal,
   Progress,
-  Radio,
   Spin,
   Row,
   Input,
@@ -11,25 +10,26 @@ import {
   Descriptions,
   message,
   Checkbox,
-} from 'antd';
-import { useEffect, useState, useRef } from 'react';
-import { useSelector } from 'react-redux';
-import useWebSocket from 'react-use-websocket';
-import get from 'lodash/get';
-import map from 'lodash/map';
-import last from 'lodash/last';
-import QuizTime from '../quizTime';
-import { LeftOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
+} from "antd";
+import isUndefined from "lodash/isUndefined";
+import { useEffect, useState, useRef } from "react";
+import { useSelector } from "react-redux";
+import useWebSocket from "react-use-websocket";
+import get from "lodash/get";
+import map from "lodash/map";
+import last from "lodash/last";
+import QuizTime from "../quizTime";
+import { LeftOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import {
   fetchQuizDetails,
   submitQuiz,
   submitQuizAnswer,
-} from '../../../redux/actions/quizActions';
-import { SUBMIT_QUIZ_SUCCESS } from '../../../constants/messages';
+} from "../../../redux/actions/quizActions";
+import { SUBMIT_QUIZ_SUCCESS } from "../../../constants/messages";
 
 // Styles
-import './styles.scss';
-import { useDispatch } from 'react-redux';
+import "./styles.scss";
+import { useDispatch } from "react-redux";
 
 const { confirm } = Modal;
 
@@ -38,27 +38,27 @@ const GetQuestion = (props: any) => {
 
   return (
     <div className="question-section">
-      <h4 className="title4">{get(question, 'title')}</h4>
-      {map(get(question, 'images'), (image) => (
-        <Image width={100} style={{ padding: 10 }} src={get(image, 'url')} />
+      <h4 className="title4">{get(question, "title")}</h4>
+      {map(get(question, "images"), (image) => (
+        <Image width={100} style={{ padding: 10 }} src={get(image, "url")} />
       ))}
-      {get(question, 'type.value') === 0 && (
+      {get(question, "type.value") === 0 && (
         <Input.TextArea
           rows={4}
           onChange={(e) => {
             onSubmitAnswer(e.target.value ? [e.target.value] : []);
           }}
           placeholder="Answer"
-          value={get(question, 'submitted_answer.0')}
+          value={get(question, "submitted_answer.0")}
         />
       )}
-      {(get(question, 'type.value') === 1 ||
-        get(question, 'type.value') === 2) && (
+      {(get(question, "type.value") === 1 ||
+        get(question, "type.value") === 2) && (
         <Checkbox.Group
-          value={get(question, 'submitted_answer', [])}
+          value={get(question, "submitted_answer", [])}
           className="select-checkbox-style"
           onChange={(values) => {
-            if (get(question, 'type.value') === 1) {
+            if (get(question, "type.value") === 1) {
               onSubmitAnswer([last(values)]);
             } else {
               onSubmitAnswer(values);
@@ -66,7 +66,7 @@ const GetQuestion = (props: any) => {
           }}
         >
           <Row gutter={[20, 20]}>
-            {map(get(question, 'options'), (option) => {
+            {map(get(question, "options"), (option) => {
               return (
                 <Col span={12}>
                   <Checkbox value={option}>{option}</Checkbox>
@@ -90,18 +90,18 @@ function QuizSelectModal(props: any) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [loading, setLoading] = useState(false);
   const time = useRef(0);
-  const token = useSelector((state) => get(state, 'userState.accessToken'));
+  const token = useSelector((state) => get(state, "userState.accessToken"));
 
   const getQuestionDetails = (id: any) => {
     setLoading(true);
     dispatch(fetchQuizDetails(id))
       .then((result: any) => {
         setQuizDetails(result);
-        const questions = map(get(result, 'questions', []), (q) => {
+        const questions = map(get(result, "questions", []), (q) => {
           let obj = {
             ...q,
-            submitted_answer: get(q, 'submitted_answer')
-              ? get(q, 'submitted_answer')
+            submitted_answer: get(q, "submitted_answer")
+              ? get(q, "submitted_answer")
               : [],
           };
           return obj;
@@ -115,11 +115,11 @@ function QuizSelectModal(props: any) {
   };
 
   useEffect(() => {
-    getQuestionDetails(get(quiz, 'id'));
+    getQuestionDetails(get(quiz, "id"));
   }, []);
 
   const onSubmitAnswer = (answer: any, index: any) => {
-    questions[index]['submitted_answer'] = answer;
+    questions[index]["submitted_answer"] = answer;
     setQuestions([...questions]);
   };
 
@@ -127,8 +127,8 @@ function QuizSelectModal(props: any) {
     setLoading(true);
 
     dispatch(
-      submitQuiz(get(quizDetails, 'id'), {
-        time: get(time, 'current'),
+      submitQuiz(get(quizDetails, "id"), {
+        time: get(time, "current"),
         ...payload,
       })
     )
@@ -152,8 +152,8 @@ function QuizSelectModal(props: any) {
     if (quizDetails) {
       sendMessage(
         JSON.stringify({
-          type: 'quiz',
-          uuid: get(quizDetails, 'id'),
+          type: "quiz",
+          uuid: get(quizDetails, "id"),
           time: t,
         })
       );
@@ -164,18 +164,18 @@ function QuizSelectModal(props: any) {
     let attempted = 0;
     const payload = {
       responses: map(questions, (q) => {
-        if (get(q, 'submitted_answer.0')) {
+        if (get(q, "submitted_answer.0")) {
           attempted += 1;
         }
         return {
-          uuid: get(q, 'id'),
-          answer: get(q, 'submitted_answer'),
+          uuid: get(q, "id"),
+          answer: get(q, "submitted_answer"),
         };
       }),
     };
 
     confirm({
-      title: 'Are you sure, You want to submit this quiz?',
+      title: "Are you sure, You want to submit this quiz?",
       content: (
         <Descriptions title="Questions" bordered column={1}>
           <Descriptions.Item label="Total">
@@ -200,15 +200,15 @@ function QuizSelectModal(props: any) {
     const responses: any[] = [];
 
     map(questions, (q) => {
-      if (get(q, 'submitted_answer', []).length > 0) {
+      if (get(q, "submitted_answer", []).length > 0) {
         responses.push({
-          uuid: get(q, 'id'),
-          answer: get(q, 'submitted_answer'),
+          uuid: get(q, "id"),
+          answer: get(q, "submitted_answer"),
         });
       }
     });
 
-    dispatch(submitQuizAnswer(get(quizDetails, 'id'), { responses }))
+    dispatch(submitQuizAnswer(get(quizDetails, "id"), { responses }))
       .then(() => {
         refreshQuizData();
       })
@@ -219,13 +219,46 @@ function QuizSelectModal(props: any) {
     updateQuizAnswer();
     const timeDiff =
       time.current -
-      (get(quizDetails, 'totalLogTime')
-        ? parseInt(get(quizDetails, 'totalLogTime', '0'))
+      (get(quizDetails, "totalLogTime")
+        ? parseInt(get(quizDetails, "totalLogTime", "0"))
         : 0);
 
     sendEvent(timeDiff % 30);
     onCancel();
   };
+
+  const moveForward = () => {
+    setCurrentQuestion((c) => {
+      if (c < questions.length - 1) {
+        return c + 1;
+      } else {
+        onConifrmSubmitQuiz();
+        return c;
+      }
+    });
+  };
+
+  const onKeyPressFunction = (event: any) => {
+    if (
+      isUndefined(get(event, "target.type")) &&
+      get(event, "keyCode") === 13
+    ) {
+      moveForward();
+    }
+  };
+
+  useEffect(() => {
+    if (questions.length === 0) {
+      return;
+    }
+
+    // @ts-ignore: Unreachable code error
+    document.addEventListener("keydown", onKeyPressFunction);
+    return () => {
+      // @ts-ignore: Unreachable code error
+      document.removeEventListener("keydown", onKeyPressFunction);
+    };
+  }, [questions]);
 
   return (
     <Modal
@@ -235,11 +268,11 @@ function QuizSelectModal(props: any) {
       footer={false}
       onCancel={onModalCancel}
       wrapClassName="quiz-modal-style primary-modal-style"
-      maskStyle={{ background: 'rgba(30,39,94, 0.6)' }}
+      maskStyle={{ background: "rgba(30,39,94, 0.6)" }}
     >
       <Spin spinning={loading}>
         <div className="card-modal">
-          <h3 className="title3">{get(quiz, 'name')}</h3>
+          <h3 className="title3">{get(quiz, "name")}</h3>
 
           <div className="time-status-section">
             {quizDetails && (
@@ -249,19 +282,19 @@ function QuizSelectModal(props: any) {
                 quizDetails={quizDetails}
               />
             )}
-            <span className="space-style">|</span>{' '}
+            <span className="space-style">|</span>{" "}
             <span>{`Question ${currentQuestion + 1} / ${get(
               quizDetails,
-              'total_question'
+              "total_question"
             )}`}</span>
           </div>
 
           <div className="progress-style">
             <Progress
               percent={
-                get(quizDetails, 'total_question', 0) > 0
+                get(quizDetails, "total_question", 0) > 0
                   ? ((currentQuestion + 1) /
-                      get(quizDetails, 'total_question', 0)) *
+                      get(quizDetails, "total_question", 0)) *
                     100
                   : 0
               }
@@ -294,7 +327,7 @@ function QuizSelectModal(props: any) {
               onClick={() => {
                 if (
                   currentQuestion + 1 ===
-                  get(quizDetails, 'total_question')
+                  get(quizDetails, "total_question")
                 ) {
                   onConifrmSubmitQuiz();
                 } else {
@@ -302,9 +335,9 @@ function QuizSelectModal(props: any) {
                 }
               }}
             >
-              {currentQuestion + 1 === get(quizDetails, 'total_question')
-                ? 'Submit Quiz'
-                : 'Next Question'}
+              {currentQuestion + 1 === get(quizDetails, "total_question")
+                ? "Submit Quiz"
+                : "Next Question"}
             </Button>
           </div>
         </div>

@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
-import { Editor } from 'react-draft-wysiwyg';
-import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
-import get from 'lodash/get';
-import map from 'lodash/map';
-import { useDispatch } from 'react-redux';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import { useEffect, useState } from "react";
+import { Editor } from "react-draft-wysiwyg";
+import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
+import get from "lodash/get";
+import map from "lodash/map";
+import { useDispatch } from "react-redux";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 import {
   Button,
@@ -17,20 +17,20 @@ import {
   Select,
   message,
   Spin,
-} from 'antd';
-import { createNote, updateNote } from '../../../redux/actions/noteActions';
+} from "antd";
+import { createNote, updateNote } from "../../../redux/actions/noteActions";
 // Images
 
-import iconArrowLeft from '../../../assets/images/icons/caret-Left.svg';
-import ButtonCustom from '../../../common/buttons/buttonCustom';
-import QuestionImageUpload from '../../../components/questionImageUpload';
+import iconArrowLeft from "../../../assets/images/icons/caret-Left.svg";
+import ButtonCustom from "../../../common/buttons/buttonCustom";
+import QuestionImageUpload from "../../../components/questionImageUpload";
 import {
   CREATE_NOTE_SUCCESS,
   UPDATE_NOTE_SUCCESS,
-} from '../../../constants/messages';
+} from "../../../constants/messages";
 
 // Styles
-import './styles.scss';
+import "./styles.scss";
 
 function NoteModalCard(props: any) {
   const { collection, onSuccess, edit, onCancel, initialValue, visible } =
@@ -39,7 +39,7 @@ function NoteModalCard(props: any) {
   const dispatch = useDispatch();
 
   const [images, setImages] = useState<any[]>(
-    edit ? get(initialValue, 'images', []) : []
+    edit ? get(initialValue, "images", []) : []
   );
 
   const [editorState, setEditorState] = useState<any>(
@@ -50,7 +50,7 @@ function NoteModalCard(props: any) {
     if (visible && edit) {
       setEditorState(
         EditorState.createWithContent(
-          convertFromRaw(get(initialValue, 'description'))
+          convertFromRaw(get(initialValue, "description"))
         )
       );
     }
@@ -71,7 +71,7 @@ function NoteModalCard(props: any) {
 
   const editNotes = (payload: any) => {
     setLoading(true);
-    dispatch(updateNote(get(initialValue, 'id'), payload))
+    dispatch(updateNote(get(initialValue, "id"), payload))
       .then(() => {
         onSuccess();
         message.success(UPDATE_NOTE_SUCCESS);
@@ -87,15 +87,15 @@ function NoteModalCard(props: any) {
       editNotes({
         ...values,
         description: convertToRaw(editorState.getCurrentContent()),
-        parent_id: get(collection, 'id'),
-        images: map(images, 'key'),
+        parent_id: get(collection, "id"),
+        images: map(images, "key"),
       });
     } else {
       addNotes({
         ...values,
         description: convertToRaw(editorState.getCurrentContent()),
-        parent_id: get(collection, 'id'),
-        images: map(images, 'key'),
+        parent_id: get(collection, "id"),
+        images: map(images, "key"),
       });
     }
   };
@@ -108,9 +108,9 @@ function NoteModalCard(props: any) {
       destroyOnClose
       footer={false}
       maskClosable={false}
-      onCancel={onCancel}
+      onCancel={() => {}}
       wrapClassName="note-modal-style primary-modal-style"
-      maskStyle={{ background: 'rgba(30,38,94, 0.6)' }}
+      maskStyle={{ background: "rgba(30,38,94, 0.6)" }}
     >
       <Spin spinning={loading}>
         <div className="card-modal">
@@ -124,7 +124,7 @@ function NoteModalCard(props: any) {
             <Breadcrumb.Item>
               <a href="">Adding in Collections</a>
             </Breadcrumb.Item>
-            <Breadcrumb.Item>{get(collection, 'name')}</Breadcrumb.Item>
+            <Breadcrumb.Item>{get(collection, "name")}</Breadcrumb.Item>
           </Breadcrumb>
 
           <Form
@@ -132,8 +132,8 @@ function NoteModalCard(props: any) {
             initialValues={
               edit
                 ? {
-                    title: get(initialValue, 'title'),
-                    tags: get(initialValue, 'tags'),
+                    title: get(initialValue, "title"),
+                    tags: get(initialValue, "tags"),
                   }
                 : {}
             }
@@ -151,7 +151,7 @@ function NoteModalCard(props: any) {
                     rules={[
                       {
                         required: true,
-                        message: 'Please input note heading !',
+                        message: "Please input note heading !",
                       },
                     ]}
                   >
@@ -171,7 +171,7 @@ function NoteModalCard(props: any) {
                       mode="tags"
                       size="large"
                       placeholder="Please select"
-                      style={{ width: '100%' }}
+                      style={{ width: "100%" }}
                     />
                   </Form.Item>
                 </div>
@@ -183,16 +183,26 @@ function NoteModalCard(props: any) {
                   wrapperClassName="demo-wrapper"
                   editorClassName="demo-editor"
                   toolbar={{
-                    options: ['inline', 'blockType', 'fontSize', 'list', 'textAlign', 'history','emoji', 'image', 'remove',"colorPicker","link",],
+                    options: [
+                      "inline",
+                      "blockType",
+                      "fontSize",
+                      "list",
+                      "textAlign",
+                      "history",
+                      "emoji",
+                      "image",
+                      "remove",
+                      "colorPicker",
+                      "link",
+                    ],
                     list: {
                       inDropdown: false,
                       className: undefined,
                       component: undefined,
                       dropdownClassName: undefined,
-                      options: ['unordered', 'ordered', 'indent', 'outdent'],
-                      
-                    }
-                  
+                      options: ["unordered", "ordered", "indent", "outdent"],
+                    },
                   }}
                   onEditorStateChange={(value) => {
                     setEditorState(value);
@@ -222,7 +232,7 @@ function NoteModalCard(props: any) {
 
                 <div className={`button-custom ${props.btnContainer}`}>
                   <Button type="primary" htmlType="submit" title="Add Notes">
-                    {edit ? 'Update Note' : 'Add Notes'}
+                    {edit ? "Update Note" : "Add Notes"}
                   </Button>
                 </div>
               </div>

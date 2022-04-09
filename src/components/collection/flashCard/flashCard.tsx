@@ -1,20 +1,20 @@
-import { Link } from 'react-router-dom';
-import { Dropdown, Menu, Modal, message } from 'antd';
-import get from 'lodash/get';
-import { useDispatch } from 'react-redux';
+import { Link } from "react-router-dom";
+import { Dropdown, Menu, Modal, message } from "antd";
+import get from "lodash/get";
+import { useDispatch } from "react-redux";
 import {
   EditOutlined,
   DeleteOutlined,
   ExclamationCircleOutlined,
-} from '@ant-design/icons';
+} from "@ant-design/icons";
 // Images
-import shareIcon from '../../../assets/images/icons/external-link.svg';
-import quickIcon from '../../../assets/images/icons/quick.svg';
-import verticalDot from '../../../assets/images/icons/vertical-dot.svg';
-import { deleteFlashCard } from '../../../redux/actions/flashCardActions';
+import shareIcon from "../../../assets/images/icons/external-link.svg";
+import quickIcon from "../../../assets/images/icons/quick.svg";
+import verticalDot from "../../../assets/images/icons/vertical-dot.svg";
+import { deleteFlashCard } from "../../../redux/actions/flashCardActions";
 // Styles
-import './styles.scss';
-import { DELETE_FLASHCARD_SUCCESS } from '../../../constants/messages';
+import "./styles.scss";
+import { DELETE_FLASHCARD_SUCCESS } from "../../../constants/messages";
 
 const { confirm } = Modal;
 
@@ -31,7 +31,7 @@ function FlashCard(props: any) {
 
   const onClickDelete = () => {
     setLoading(true);
-    dispatch(deleteFlashCard(get(flashCard, 'id'), get(collection, 'id')))
+    dispatch(deleteFlashCard(get(flashCard, "id"), get(collection, "id")))
       .then(() => {
         onSuccess();
         message.success(DELETE_FLASHCARD_SUCCESS);
@@ -44,14 +44,12 @@ function FlashCard(props: any) {
 
   const onConfirmDelete = () => {
     confirm({
-      title: 'Do you want to delete this flash card?',
+      title: "Do you want to delete this flash card?",
       icon: <ExclamationCircleOutlined />,
       onOk() {
         onClickDelete();
       },
-      onCancel() {
-        console.log('Cancel');
-      },
+      onCancel() {},
     });
   };
 
@@ -84,7 +82,7 @@ function FlashCard(props: any) {
         <div className="content-sec">
           <div className="title-section">
             <img src={quickIcon} alt="" />
-            <h4 className="title4">{get(flashCard, 'title')}</h4>
+            <h4 className="title4">{get(flashCard, "title")}</h4>
           </div>
 
           <div className="button-section">
@@ -103,7 +101,7 @@ function FlashCard(props: any) {
             )}
           </div>
         </div>
-        <p className="description">{get(flashCard, 'description')}</p>
+        <p className="description">{get(flashCard, "description")}</p>
       </div>
     </div>
   );

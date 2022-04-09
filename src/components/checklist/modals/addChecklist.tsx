@@ -1,19 +1,19 @@
-import { Button, Modal, Form, Input, Spin, message } from 'antd';
-import { useDispatch } from 'react-redux';
-import get from 'lodash/get';
+import { Button, Modal, Form, Input, Spin, message } from "antd";
+import { useDispatch } from "react-redux";
+import get from "lodash/get";
 
 import {
   createChecklist,
   updateChecklist,
-} from '../../../redux/actions/checklistActions';
+} from "../../../redux/actions/checklistActions";
 import {
   CREATE_CHECKLIST_SUCCESS,
   UPDATE_CHECKLIST_SUCCESS,
-} from '../../../constants/messages';
+} from "../../../constants/messages";
 
 // Styles
-import './styles.scss';
-import { useState } from 'react';
+import "./styles.scss";
+import { useState } from "react";
 
 function AddChecklist(props: any) {
   const { edit, initialValues, onSuccess } = props;
@@ -36,7 +36,7 @@ function AddChecklist(props: any) {
 
   const editChecklist = (payload: any) => {
     setLoading(true);
-    dispatch(updateChecklist(get(initialValues, 'id'), payload))
+    dispatch(updateChecklist(get(initialValues, "id"), payload))
       .then(() => {
         setLoading(false);
         message.success(UPDATE_CHECKLIST_SUCCESS);
@@ -55,9 +55,7 @@ function AddChecklist(props: any) {
     }
   };
 
-  const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo);
-  };
+  const onFinishFailed = (errorInfo: any) => {};
 
   return (
     <Modal
@@ -66,7 +64,7 @@ function AddChecklist(props: any) {
       footer={false}
       onCancel={props.onCancel}
       wrapClassName="planner-modal-style primary-modal-style"
-      maskStyle={{ background: 'rgba(30,39,94, 0.6)' }}
+      maskStyle={{ background: "rgba(30,39,94, 0.6)" }}
     >
       <Spin spinning={loading}>
         <div className="card-modal">
@@ -81,7 +79,7 @@ function AddChecklist(props: any) {
             <div className="content-body">
               <div className="header">
                 <h3 className="title3">
-                  {edit ? 'Edit' : 'Create'} Study Checklist
+                  {edit ? "Edit" : "Create"} Study Checklist
                 </h3>
               </div>
 
@@ -90,7 +88,7 @@ function AddChecklist(props: any) {
                   label="Enter name"
                   name="title"
                   rules={[
-                    { required: true, message: 'Name field is required!' },
+                    { required: true, message: "Name field is required!" },
                   ]}
                 >
                   <Input placeholder="List name" />

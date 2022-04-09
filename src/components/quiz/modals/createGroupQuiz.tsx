@@ -12,35 +12,35 @@ import {
   InputNumber,
   Spin,
   notification,
-} from 'antd';
-import { useDispatch } from 'react-redux';
-import get from 'lodash/get';
-import map from 'lodash/map';
-import assign from 'lodash/assign';
-import { getNameAvatar } from '../../../utilities/helpers';
-import { avatarColors } from '../../../constants/groups';
-import { createGroupCollectionQuiz } from '../../../redux/actions/quizActions';
+} from "antd";
+import { useDispatch } from "react-redux";
+import get from "lodash/get";
+import map from "lodash/map";
+import assign from "lodash/assign";
+import { getNameAvatar } from "../../../utilities/helpers";
+import { avatarColors } from "../../../constants/groups";
+import { createGroupCollectionQuiz } from "../../../redux/actions/quizActions";
 
 // Styles
-import './styles.scss';
-import { useState } from 'react';
-import { CREATE_QUIZ_SUCCESS } from '../../../constants/messages';
+import "./styles.scss";
+import { useState } from "react";
+import { CREATE_QUIZ_SUCCESS } from "../../../constants/messages";
 
 const { Option } = Select;
 
 const columns = [
   {
-    title: 'Name',
-    dataIndex: 'name',
-    key: 'name',
+    title: "Name",
+    dataIndex: "name",
+    key: "name",
     render: (name: any, record: any, index: any) => {
       return (
         <div className="info-sec">
           <Space>
-            {get(record, 'image') ? (
-              <Avatar src={get(record, 'image_url')} />
+            {get(record, "image") ? (
+              <Avatar src={get(record, "image_url")} />
             ) : (
-              getNameAvatar(get(record, 'name'), 30, avatarColors[index % 4])
+              getNameAvatar(get(record, "name"), 30, avatarColors[index % 4])
             )}
 
             {name}
@@ -64,7 +64,7 @@ function CreateGroupQuizModal(props: any) {
 
   const addGroupQuiz = (payload: any) => {
     setLoading(true);
-    dispatch(createGroupCollectionQuiz(get(group, 'id'), payload))
+    dispatch(createGroupCollectionQuiz(get(group, "id"), payload))
       .then((result: any) => {
         message.success(CREATE_QUIZ_SUCCESS);
         onSuccess(result);
@@ -84,30 +84,23 @@ function CreateGroupQuizModal(props: any) {
     const payload = {};
     if (selectMembers.length === 0) {
       notification.error({
-        message: 'Member selection required',
-        description: 'Please select atleast one member',
+        message: "Member selection required",
+        description: "Please select atleast one member",
       });
       return;
     }
-    console.log(payload);
+
     assign(payload, quizPayload);
     assign(payload, { members: selectMembers });
 
     addGroupQuiz(payload);
   };
 
-  const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo);
-  };
+  const onFinishFailed = (errorInfo: any) => {};
 
   const rowSelection = {
     onChange: (selectedRowKeys: React.Key[], selectedRows: any[]) => {
-      console.log(
-        `selectedRowKeys: ${selectedRowKeys}`,
-        'selectedRows: ',
-        selectedRows
-      );
-      setSelectedMembers([...map(selectedRows, 'id')]);
+      setSelectedMembers([...map(selectedRows, "id")]);
     },
     selectedRowKeys: selectMembers,
   };
@@ -121,7 +114,7 @@ function CreateGroupQuizModal(props: any) {
         footer={false}
         onCancel={props.onCancel}
         wrapClassName="create-modal-style primary-modal-style"
-        maskStyle={{ background: 'rgba(30,39,94, 0.6)' }}
+        maskStyle={{ background: "rgba(30,39,94, 0.6)" }}
       >
         <Spin spinning={loading}>
           {step === 0 ? (
@@ -148,7 +141,7 @@ function CreateGroupQuizModal(props: any) {
                       rules={[
                         {
                           required: true,
-                          message: 'Quiz name is required !',
+                          message: "Quiz name is required !",
                         },
                       ]}
                     >
@@ -160,15 +153,15 @@ function CreateGroupQuizModal(props: any) {
                       rules={[
                         {
                           required: true,
-                          message: ' Collection field is required !',
+                          message: " Collection field is required !",
                         },
                       ]}
                     >
                       <Select placeholder="Select collection" allowClear>
                         {map(collections, (collection) => {
                           return (
-                            <Option value={get(collection, 'id')}>
-                              {get(collection, 'name')}
+                            <Option value={get(collection, "id")}>
+                              {get(collection, "name")}
                             </Option>
                           );
                         })}
@@ -180,14 +173,14 @@ function CreateGroupQuizModal(props: any) {
                       rules={[
                         {
                           required: true,
-                          message: ' Number of question field is required !',
+                          message: " Number of question field is required !",
                         },
                       ]}
                     >
                       <InputNumber
                         min={2}
                         placeholder="Select No. of Questions"
-                        style={{ width: '50%' }}
+                        style={{ width: "50%" }}
                       />
                     </Form.Item>
                     <Form.Item
@@ -196,7 +189,7 @@ function CreateGroupQuizModal(props: any) {
                       rules={[
                         {
                           required: true,
-                          message: 'Please select one option!',
+                          message: "Please select one option!",
                         },
                       ]}
                     >
@@ -214,7 +207,7 @@ function CreateGroupQuizModal(props: any) {
                   </Button>
 
                   <Button type="primary" htmlType="submit">
-                    {' '}
+                    {" "}
                     Next
                   </Button>
                 </div>
@@ -247,7 +240,7 @@ function CreateGroupQuizModal(props: any) {
                 </Button>
 
                 <Button type="primary" onClick={onFinalSubmit}>
-                  {' '}
+                  {" "}
                   Create Quiz
                 </Button>
               </div>

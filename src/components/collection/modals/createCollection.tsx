@@ -1,24 +1,25 @@
-import { Button, Modal, Input, Radio, Form, Spin, message } from 'antd';
-import get from 'lodash/get';
-import map from 'lodash/map';
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { collectionColors } from '../../../constants/collections';
+import { Button, Modal, Input, Form, Spin, message } from "antd";
+import get from "lodash/get";
+
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import ColorInput from "../../../components/colorInput";
 import {
   createCollection,
   updateCollection,
-} from '../../../redux/actions/collectionActions';
+} from "../../../redux/actions/collectionActions";
 import {
   CREATE_COLLECTION_SUCCESS,
   UPDATE_COLLECTION_SUCCESS,
-} from '../../../constants/messages';
+} from "../../../constants/messages";
 
 // Styles
-import './styles.scss';
+import "./styles.scss";
 
 function CreateCollectionModal(props: any) {
   const { edit, onSuccess, collection, initialValue } = props;
   const [loading, setLoading] = useState(false);
+  const [form] = Form.useForm();
   const dispatch = useDispatch();
 
   const addCollection = (payload: any) => {
@@ -36,7 +37,7 @@ function CreateCollectionModal(props: any) {
 
   const editCollection = (payload: any) => {
     setLoading(true);
-    dispatch(updateCollection(get(initialValue, 'id'), payload))
+    dispatch(updateCollection(get(initialValue, "id"), payload))
       .then(() => {
         onSuccess();
         message.success(UPDATE_COLLECTION_SUCCESS);
@@ -49,9 +50,9 @@ function CreateCollectionModal(props: any) {
 
   const onFinish = (values: any) => {
     if (edit) {
-      editCollection({ ...values, parent_id: get(collection, 'id') });
+      editCollection({ ...values, parent_id: get(collection, "id") });
     } else {
-      addCollection({ ...values, parent_id: get(collection, 'id') });
+      addCollection({ ...values, parent_id: get(collection, "id") });
     }
   };
 
@@ -60,23 +61,18 @@ function CreateCollectionModal(props: any) {
   return (
     <Modal
       centered
-      visible={get(props, 'visible')}
+      visible={get(props, "visible")}
       footer={false}
-      onCancel={get(props, 'onCancel')}
+      onCancel={get(props, "onCancel")}
       destroyOnClose
       wrapClassName="collection-modal-style primary-modal-style"
-      maskStyle={{ background: 'rgba(30,39,94, 0.8)' }}
+      maskStyle={{ background: "rgba(30,39,94, 0.8)" }}
     >
       <Spin spinning={loading}>
         <Form
+          form={form}
           name="basic"
-          initialValues={
-            edit
-              ? initialValue
-              : {
-                  color: 'purple',
-                }
-          }
+          initialValues={edit ? initialValue : {}}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
           autoComplete="off"
@@ -84,7 +80,7 @@ function CreateCollectionModal(props: any) {
         >
           <div className="card-modal">
             <h3 className="title3">
-              {edit ? 'Edit Collection' : 'Create Collection'}
+              {edit ? "Edit Collection" : "Create Collection"}
             </h3>
 
             <div className="input-section">
@@ -92,7 +88,7 @@ function CreateCollectionModal(props: any) {
               <Form.Item
                 name="name"
                 rules={[
-                  { required: true, message: 'Please input collection name!' },
+                  { required: true, message: "Please input collection name!" },
                 ]}
               >
                 <Input placeholder="Ex. Maths" />
@@ -101,23 +97,11 @@ function CreateCollectionModal(props: any) {
 
             <div className="folder-color-section radio-tick-container">
               <div className="label">Select Color</div>
-              <Form.Item
-                name="color"
-                rules={[{ required: true, message: 'Please select colour!' }]}
-              >
-                <Radio.Group>
-                  {map(collectionColors, (collectionColor, index) => {
-                    return (
-                      <Radio.Button
-                        key={index}
-                        value={get(collectionColor, 'value')}
-                        className={`radio-tick-style`}
-                        style={{ background: get(collectionColor, 'value') }}
-                      />
-                    );
-                  })}
-                </Radio.Group>
-              </Form.Item>
+              <ColorInput
+                form={form}
+                edit={edit}
+                initialColor={edit ? get(initialValue, "color") : "#6C5ECF"}
+              />
             </div>
             <Button block type="primary" htmlType="submit">
               Created

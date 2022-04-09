@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 import {
   Button,
   Modal,
@@ -15,34 +15,34 @@ import {
   Space,
   message,
   notification,
-} from 'antd';
-import { useDispatch } from 'react-redux';
-import get from 'lodash/get';
-import map from 'lodash/map';
-import last from 'lodash/last';
-import pullAt from 'lodash/pullAt';
+} from "antd";
+import { useDispatch } from "react-redux";
+import get from "lodash/get";
+import map from "lodash/map";
+import last from "lodash/last";
+import pullAt from "lodash/pullAt";
 
-import indexOf from 'lodash/indexOf';
-import assign from 'lodash/assign';
-import includes from 'lodash/includes';
+import indexOf from "lodash/indexOf";
+import assign from "lodash/assign";
+import includes from "lodash/includes";
 import {
   createQuestion,
   updateQuestion,
-} from '../../../redux/actions/questionActions';
-import QuestionImageUpload from '../../../components/questionImageUpload';
+} from "../../../redux/actions/questionActions";
+import QuestionImageUpload from "../../../components/questionImageUpload";
 
 import {
   CREATE_QUESTION_SUCCESS,
   UPDATE_QUESTION_SUCCESS,
-} from '../../../constants/messages';
+} from "../../../constants/messages";
 
 // Images
-import iconArrowLeft from '../../../assets/images/icons/caret-Left.svg';
-import ButtonCustom from '../../../common/buttons/buttonCustom';
-import { optionAlphabet } from '../../../constants/questions';
+import iconArrowLeft from "../../../assets/images/icons/caret-Left.svg";
+import ButtonCustom from "../../../common/buttons/buttonCustom";
+import { optionAlphabet } from "../../../constants/questions";
 
 // Styles
-import './styles.scss';
+import "./styles.scss";
 
 const { Option } = Select;
 
@@ -53,19 +53,19 @@ function QuestionModal(props: any) {
   const [loading, setLoading] = useState(false);
 
   const isMCQType =
-    edit && get(initialValue, 'type.value') !== 0 ? true : false;
-  const [type, setType] = useState(edit ? get(initialValue, 'type.value') : 0);
+    edit && get(initialValue, "type.value") !== 0 ? true : false;
+  const [type, setType] = useState(edit ? get(initialValue, "type.value") : 0);
   const dispatch = useDispatch();
-  const [activeTabKey, setActiveTabKey] = useState(isMCQType ? '2' : '1');
+  const [activeTabKey, setActiveTabKey] = useState(isMCQType ? "2" : "1");
 
   const [images, setImages] = useState<any[]>(
-    edit ? get(initialValue, 'images', []) : []
+    edit ? get(initialValue, "images", []) : []
   );
 
   const getOptionAnswerIndex = () => {
-    const ans = get(initialValue, 'answers', '');
+    const ans = get(initialValue, "answers", "");
     return map(ans, (a) => {
-      return indexOf(get(initialValue, 'options'), a);
+      return indexOf(get(initialValue, "options"), a);
     });
   };
 
@@ -73,11 +73,11 @@ function QuestionModal(props: any) {
     isMCQType ? getOptionAnswerIndex() : []
   );
   const [optionCount, setOptionCount] = useState(
-    isMCQType ? get(initialValue, 'options', []).length : 2
+    isMCQType ? get(initialValue, "options", []).length : 2
   );
 
   const onChangeQuestionType = (key: any) => {
-    if (key === '1') {
+    if (key === "1") {
       setActiveTabKey(key);
       setType(0);
     } else {
@@ -90,36 +90,36 @@ function QuestionModal(props: any) {
     const returnObj = {};
 
     assign(returnObj, {
-      parent_id: get(collection, 'id'),
-      note_id: get(values, 'note_id'),
-      title: get(values, 'title'),
+      parent_id: get(collection, "id"),
+      note_id: get(values, "note_id"),
+      title: get(values, "title"),
       type,
-      images: map(images, 'key'),
+      images: map(images, "key"),
     });
 
     switch (type) {
       case 0:
         assign(returnObj, {
-          answers: [get(values, 'textanswer')],
+          answers: [get(values, "textanswer")],
         });
         break;
 
       case 1:
         assign(returnObj, {
-          options: map(get(values, 'answer'), 'options'),
+          options: map(get(values, "answer"), "options"),
           answers: map(
-            pullAt(get(values, 'answer'), checkedOptions),
-            'options'
+            pullAt(get(values, "answer"), checkedOptions),
+            "options"
           ),
         });
         break;
 
       case 2:
         assign(returnObj, {
-          options: map(get(values, 'answer'), 'options'),
+          options: map(get(values, "answer"), "options"),
           answers: map(
-            pullAt(get(values, 'answer'), checkedOptions),
-            'options'
+            pullAt(get(values, "answer"), checkedOptions),
+            "options"
           ),
         });
         break;
@@ -143,7 +143,7 @@ function QuestionModal(props: any) {
 
   const editQuestion = (payload: any) => {
     setLoading(true);
-    dispatch(updateQuestion(get(initialValue, 'id'), payload))
+    dispatch(updateQuestion(get(initialValue, "id"), payload))
       .then(() => {
         setLoading(false);
         message.success(UPDATE_QUESTION_SUCCESS);
@@ -158,7 +158,7 @@ function QuestionModal(props: any) {
     const payload = generatePayload(values);
     if (type !== 0 && checkedOptions.length === 0) {
       notification.error({
-        message: 'Please mark atlast one option as correct one',
+        message: "Please mark atlast one option as correct one",
       });
       return;
     }
@@ -188,17 +188,17 @@ function QuestionModal(props: any) {
 
   const getInitialValues = () => {
     const returnObj = {
-      title: get(initialValue, 'title'),
-      note_id: get(initialValue, 'note.id'),
+      title: get(initialValue, "title"),
+      note_id: get(initialValue, "note.id"),
     };
-    const ans = get(initialValue, 'answers', '');
+    const ans = get(initialValue, "answers", "");
     if (!isMCQType) {
       assign(returnObj, {
-        textanswer: get(ans, '0'),
+        textanswer: get(ans, "0"),
       });
     } else {
       assign(returnObj, {
-        answer: map(get(initialValue, 'options'), (option) => {
+        answer: map(get(initialValue, "options"), (option) => {
           return {
             options: option,
             correct: includes(ans, option),
@@ -216,9 +216,10 @@ function QuestionModal(props: any) {
       visible={props.visible}
       destroyOnClose
       footer={false}
+      focusTriggerAfterClose
       onCancel={props.onCancel}
       wrapClassName="question-modal-style primary-modal-style"
-      maskStyle={{ background: 'rgba(30,38,94, 0.6)' }}
+      maskStyle={{ background: "rgba(30,38,94, 0.6)" }}
     >
       <Spin spinning={loading}>
         <div className="card-modal">
@@ -228,7 +229,7 @@ function QuestionModal(props: any) {
             </Button>
           </div>
 
-          <h3 className="title3">{edit ? 'Edit' : 'Add'} Question</h3>
+          <h3 className="title3">{edit ? "Edit" : "Add"} Question</h3>
           <Form
             name="basic"
             initialValues={edit ? getInitialValues() : {}}
@@ -245,7 +246,7 @@ function QuestionModal(props: any) {
                     rules={[
                       {
                         required: true,
-                        message: 'Please input question !',
+                        message: "Please input question !",
                       },
                     ]}
                   >
@@ -265,15 +266,15 @@ function QuestionModal(props: any) {
                     rules={[
                       {
                         required: true,
-                        message: 'Please select note !',
+                        message: "Please select note !",
                       },
                     ]}
                   >
                     <Select size="large" placeholder="Select Note">
-                      {map(get(collection, 'notes'), (note, i) => {
+                      {map(get(collection, "notes"), (note, i) => {
                         return (
-                          <Option key={i} value={get(note, 'id')}>
-                            {get(note, 'title')}
+                          <Option key={i} value={get(note, "id")}>
+                            {get(note, "title")}
                           </Option>
                         );
                       })}
@@ -296,7 +297,7 @@ function QuestionModal(props: any) {
                           rules={[
                             {
                               required: true,
-                              message: 'Please input answer !',
+                              message: "Please input answer !",
                             },
                           ]}
                         >
@@ -343,7 +344,7 @@ function QuestionModal(props: any) {
                       <div className="question-list">
                         <Row>
                           <Checkbox.Group
-                            style={{ width: '100%' }}
+                            style={{ width: "100%" }}
                             value={checkedOptions}
                             onChange={(obj: any) => {
                               onCheckedOption(obj);
@@ -354,19 +355,19 @@ function QuestionModal(props: any) {
                                 <Col span={24}>
                                   <Space>
                                     <Form.Item
-                                      name={['answer', i, 'correct']}
+                                      name={["answer", i, "correct"]}
                                       valuePropName="checked"
                                     >
                                       <Checkbox value={i}>
-                                        {optionAlphabet[i]}{' '}
+                                        {optionAlphabet[i]}{" "}
                                       </Checkbox>
                                     </Form.Item>
                                     <Form.Item
-                                      name={['answer', i, 'options']}
+                                      name={["answer", i, "options"]}
                                       rules={[
                                         {
                                           required: true,
-                                          message: 'Please input option !',
+                                          message: "Please input option !",
                                         },
                                       ]}
                                     >
@@ -405,7 +406,7 @@ function QuestionModal(props: any) {
               />
               <div className={`button-custom`}>
                 <Button type="primary" htmlType="submit">
-                  {edit ? 'Update' : 'Submit'}
+                  {edit ? "Update" : "Submit"}
                 </Button>
               </div>
             </div>
