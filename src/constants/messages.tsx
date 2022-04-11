@@ -11,12 +11,15 @@ export const COLLECTION_LEAVE_SUCCESS = "Collection leave successfully";
 export const COLLECTION_DUPLICATE_SUCCESS =
   "Duplicate collection created successfully";
 export const COLLECTION_ARCHIVE_SUCCESS = "Collection archived successfully";
+export const COLLECTION_UNARCHIVE_SUCCESS =
+  "Collection un-archived successfully";
 
 export const CREATE_NOTE_SUCCESS = "Note Created Successfully";
 export const UPDATE_NOTE_SUCCESS = "Note Updated Successfully";
 export const DELETE_NOTE_SUCCESS = "Note deleted Successfully";
 export const NOTE_DUPLICATE_SUCCESS = "Duplicate Note created successfully";
 export const NOTE_ARCHIVE_SUCCESS = "Note archived successfully";
+export const NOTE_UNARCHIVE_SUCCESS = "Note un-archived  successfully";
 
 export const CREATE_QUESTION_SUCCESS = "Question Created Successfully";
 export const UPDATE_QUESTION_SUCCESS = "Question Updated Successfully";
@@ -24,6 +27,7 @@ export const DELETE_QUESTION_SUCCESS = "Question deleted Successfully";
 export const QUESTION_DUPLICATE_SUCCESS =
   "Duplicate Question created successfully";
 export const QUESTION_ARCHIVE_SUCCESS = "Question archived successfully";
+export const QUESTION_UNARCHIVE_SUCCESS = "Question un-archived successfully";
 
 export const CREATE_FLASHCARD_SUCCESS = "Flash card Created Successfully";
 export const UPDATE_FLASHCARD_SUCCESS = "Flash card Updated Successfully";

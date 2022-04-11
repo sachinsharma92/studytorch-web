@@ -1,5 +1,5 @@
-import * as APIS from '../../constants/apis';
-import { getUrl, replaceMultiple } from '../../utilities/helpers';
+import * as APIS from "../../constants/apis";
+import { getUrl, replaceMultiple } from "../../utilities/helpers";
 
 export const createCollection =
   (payload: any): any =>
@@ -18,8 +18,8 @@ export const shareCollectionToGroup =
   (uuid: any, groupUuid: any): any =>
   (dispatch: any, getState: any, { api }: any): any => {
     const url = replaceMultiple(APIS.SHARED_COLLECTION_TO_GROUP, {
-      ':id': uuid,
-      ':groupUuid': groupUuid,
+      ":id": uuid,
+      ":groupUuid": groupUuid,
     });
     return api
       .post(url)
@@ -57,11 +57,24 @@ export const deleteCollection =
       });
   };
 
-  export const archiveCollection =
+export const archiveCollection =
   (id: number, payload: any): any =>
   (dispatch: any, getState: any, { api }: any): any => {
     return api
-      .put(`${APIS.COLLECITONS}/${id}/archive`,payload)
+      .put(`${APIS.COLLECITONS}/${id}/archive`, payload)
+      .then((result: any) => {
+        return result;
+      })
+      .catch((error: any) => {
+        throw error;
+      });
+  };
+
+export const fetchArchiveCollection =
+  (): any =>
+  (dispatch: any, getState: any, { api }: any): any => {
+    return api
+      .get(`${APIS.COLLECITONS}/archive`)
       .then((result: any) => {
         return result;
       })
@@ -114,7 +127,7 @@ export const fetchUserForCollection =
   (dispatch: any, getState: any, { api }: any): any => {
     const url = getUrl(
       replaceMultiple(APIS.USERS_FOR_COLLECTION, {
-        ':id': id,
+        ":id": id,
       }),
       query
     );
@@ -134,7 +147,7 @@ export const fetchCollectionSharedUsers =
     return api
       .get(
         replaceMultiple(APIS.SHARED_USERS, {
-          ':id': id,
+          ":id": id,
         })
       )
       .then((result: any) => {
@@ -158,12 +171,14 @@ export const shareCollection =
       });
   };
 
-
-  export const duplicateCollection =
-  (uuid: any,payload: any): any =>
+export const duplicateCollection =
+  (uuid: any, payload: any): any =>
   (dispatch: any, getState: any, { api }: any): any => {
     return api
-      .post(replaceMultiple(APIS.DUPLICATE_COLLECTION,{':id':uuid}),payload)
+      .post(
+        replaceMultiple(APIS.DUPLICATE_COLLECTION, { ":id": uuid }),
+        payload
+      )
       .then((result: any) => {
         return result;
       })
@@ -176,8 +191,8 @@ export const removeFromShareCollection =
   (id: any, user_id: any): any =>
   (dispatch: any, getState: any, { api }: any): any => {
     const url = replaceMultiple(APIS.REMOVE_USER_SHARED_COLLECTION, {
-      ':uuid': id,
-      ':user_uuid': user_id,
+      ":uuid": id,
+      ":user_uuid": user_id,
     });
     return api
       .delete(url)
@@ -208,7 +223,7 @@ export const fetchInvitedCollectionMember =
     return api
       .get(
         `${replaceMultiple(APIS.GET_COLLECTION_INVITED_MEMBER, {
-          ':parent_id': id,
+          ":parent_id": id,
         })}`
       )
       .then((result: any) => {

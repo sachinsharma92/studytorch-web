@@ -63,9 +63,9 @@ export default function MenuLinks(props: any) {
         <Link to={ROUTES.QUIZ_SCREEN}>Quiz</Link>
       </Menu.Item>
 
-      {/* <Menu.Item icon={<CloudDownloadOutlined />} key={ROUTES.ARCHIVED}>
+      <Menu.Item icon={<CloudDownloadOutlined />} key={ROUTES.ARCHIVED}>
         <Link to={ROUTES.ARCHIVED}>Archives</Link>
-      </Menu.Item> */}
+      </Menu.Item>
     </Menu>
   );
 }

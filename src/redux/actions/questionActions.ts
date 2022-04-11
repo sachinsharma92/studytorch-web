@@ -40,6 +40,19 @@ export const archiveQuestion =
       });
   };
 
+export const fetchArchiveQuestion =
+  (): any =>
+  (dispatch: any, getState: any, { api }: any): any => {
+    return api
+      .get(`${APIS.QUESTION}/archive`)
+      .then((result: any) => {
+        return result;
+      })
+      .catch((error: any) => {
+        throw error;
+      });
+  };
+
 export const deleteQuestion =
   (id: number, parent_id: any): any =>
   (dispatch: any, getState: any, { api }: any): any => {
