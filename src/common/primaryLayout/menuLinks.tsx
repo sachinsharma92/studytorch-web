@@ -1,18 +1,19 @@
-import { Menu } from 'antd';
-import { Link } from 'react-router-dom';
-import ROUTES from '../../router';
+import { Menu } from "antd";
+import { Link } from "react-router-dom";
+import ROUTES from "../../router";
 
 // Icons here
-import iconDashboard from '../../assets/images/icons/dashboard.svg';
-import iconCollections from '../../assets/images/icons/folder.svg';
-import iconShared from '../../assets/images/icons/user.svg';
-import iconGroups from '../../assets/images/icons/3user.svg';
-import iconPlanner from '../../assets/images/icons/calendar.svg';
-import iconChecklist from '../../assets/images/icons/checklist.svg';
-import iconQuiz from '../../assets/images/icons/help-circle.svg';
+import iconDashboard from "../../assets/images/icons/dashboard.svg";
+import iconCollections from "../../assets/images/icons/folder.svg";
+import iconShared from "../../assets/images/icons/user.svg";
+import iconGroups from "../../assets/images/icons/3user.svg";
+import iconPlanner from "../../assets/images/icons/calendar.svg";
+import iconChecklist from "../../assets/images/icons/checklist.svg";
+import iconQuiz from "../../assets/images/icons/help-circle.svg";
+import { CloudDownloadOutlined } from "@ant-design/icons";
 
 // Styles
-import './styles.scss';
+import "./styles.scss";
 
 export default function MenuLinks(props: any) {
   return (
@@ -61,6 +62,10 @@ export default function MenuLinks(props: any) {
       <Menu.Item icon={<img alt="" src={iconQuiz} />} key={ROUTES.QUIZ_SCREEN}>
         <Link to={ROUTES.QUIZ_SCREEN}>Quiz</Link>
       </Menu.Item>
+
+      {/* <Menu.Item icon={<CloudDownloadOutlined />} key={ROUTES.ARCHIVED}>
+        <Link to={ROUTES.ARCHIVED}>Archives</Link>
+      </Menu.Item> */}
     </Menu>
   );
 }

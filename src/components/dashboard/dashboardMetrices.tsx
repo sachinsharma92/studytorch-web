@@ -1,6 +1,7 @@
 import { Row, Col, Spin } from "antd";
 import get from "lodash/get";
 import { getTimeText } from "../../utilities/helpers";
+import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import PieChart from "../charts/pieHighchartChart";
@@ -11,12 +12,18 @@ import collectionIcon from "../../assets/images/dashboard/collection.svg";
 import quizIcon from "../../assets/images/dashboard/quiz.svg";
 import groupStudiesIcon from "../../assets/images/dashboard/group-studies.svg";
 import { rangeQueryObj } from "../../utilities/helpers";
+import {
+  GROUPS_SCREEN,
+  QUIZ_SCREEN,
+  COLLECTION_SCREEN,
+} from "../../router/routes";
 
 const DashboardMetrices = (props: any) => {
-  const { user, dateRange } = props;
+  const { user, dateRange, noRedirect } = props;
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const [metrices, setMetrices] = useState(null);
+  let navigate = useNavigate();
 
   const getDashboardMetrices = () => {
     setLoading(true);
@@ -34,6 +41,12 @@ const DashboardMetrices = (props: any) => {
   useEffect(() => {
     getDashboardMetrices();
   }, [dateRange]);
+
+  const onNavigate = (url: any) => {
+    if (!noRedirect) {
+      navigate(url);
+    }
+  };
 
   return (
     <Spin spinning={loading}>
@@ -69,7 +82,12 @@ const DashboardMetrices = (props: any) => {
         </Col>
 
         <Col xs={12} sm={6}>
-          <div className="card-outline">
+          <div
+            className="card-outline"
+            onClick={() => {
+              onNavigate(COLLECTION_SCREEN);
+            }}
+          >
             <div className="image-box">
               <img src={collectionIcon} className="icon" alt="" />
             </div>
@@ -79,7 +97,12 @@ const DashboardMetrices = (props: any) => {
         </Col>
 
         <Col xs={12} sm={6}>
-          <div className="card-outline">
+          <div
+            className="card-outline"
+            onClick={() => {
+              onNavigate(QUIZ_SCREEN);
+            }}
+          >
             <div className="image-box">
               <img src={quizIcon} className="icon" alt="" />
             </div>
@@ -89,11 +112,17 @@ const DashboardMetrices = (props: any) => {
         </Col>
 
         <Col xs={12} sm={6}>
-          <div className="card-outline">
+          <div
+            className="card-outline"
+            onClick={() => {
+              onNavigate(GROUPS_SCREEN);
+            }}
+          >
             <div className="image-box">
               <img src={groupStudiesIcon} className="icon" alt="" />
             </div>
             <h3 className="title-md">{get(metrices, "group_count")}</h3>
+
             <h4 className="description">Study Groups</h4>
           </div>
         </Col>
@@ -105,7 +134,11 @@ const DashboardMetrices = (props: any) => {
               <h4 className="description">Quizes Success Rate</h4>
 
               <div className="flex-style space-md-top">
-                <div>
+                <div
+                  onClick={() => {
+                    onNavigate(`${QUIZ_SCREEN}?key=2`);
+                  }}
+                >
                   <h4 className="title4">
                     <span className="dot-unsuccessful" />{" "}
                     {get(metrices, "total_quizzes_attempted", 0) -

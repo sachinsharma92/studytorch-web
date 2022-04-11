@@ -1,15 +1,16 @@
-import { Button, Modal, Carousel } from 'antd';
-import ButtonCustom from '../../../common/buttons/buttonCustom';
-import map from 'lodash/map';
+import { Button, Modal, Carousel } from "antd";
+import ButtonCustom from "../../../common/buttons/buttonCustom";
+import map from "lodash/map";
 // Images
-import light from '../../../assets/images/icons/light.svg';
+import light from "../../../assets/images/icons/light.svg";
 
 // Styles
-import './styles.scss';
-import { useState } from 'react';
+import "./styles.scss";
+import { useState } from "react";
 
 function RevisionModeModal(props: any) {
   const { flashCards } = props;
+
   const settings = {
     nextArrow: (
       <h2>
@@ -18,7 +19,7 @@ function RevisionModeModal(props: any) {
     ),
     prevArrow: (
       <h2>
-        <span>Skip</span>
+        <span>Prev</span>
       </h2>
     ),
   };
@@ -36,7 +37,7 @@ function RevisionModeModal(props: any) {
       footer={false}
       onCancel={props.onCancel}
       wrapClassName="revision-mode-modal primary-modal-style"
-      maskStyle={{ background: 'white' }}
+      maskStyle={{ background: "white" }}
     >
       <div className="top-button-section">
         <h3 className="title3">Revision Mode</h3>
@@ -56,7 +57,7 @@ function RevisionModeModal(props: any) {
                   <h2 className="title2">{item.title}</h2>
                   <p
                     className={`description ${
-                      !isBlurActive ? 'blur' : 'unblur'
+                      !isBlurActive ? "blur" : "unblur"
                     }`}
                   >
                     {item.description}
@@ -65,7 +66,7 @@ function RevisionModeModal(props: any) {
                     type="primary"
                     size="small"
                     onClick={toggleBlur}
-                    title={!isBlurActive ? 'Tap to Reveal' : 'Unhide'}
+                    title={!isBlurActive ? "Tap to Reveal" : "Unhide"}
                   />
                 </div>
               </div>

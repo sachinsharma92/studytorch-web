@@ -13,6 +13,7 @@ import {
   Drawer,
   Spin,
   Tooltip,
+  Pagination,
   Breadcrumb,
 } from "antd";
 import get from "lodash/get";
@@ -53,7 +54,7 @@ import heroBackground from "../../assets/images/banner-group.png";
 import verticalDot from "../../assets/images/icons/vertical-dot.svg";
 
 import folderGray from "../../assets/images/icons/folder-gray.svg";
-
+import { getPaginatedData } from "../../utilities/helpers";
 // Styles
 import "./styles.scss";
 import CreateGroupQuiz from "../../components/quiz/modals/createGroupQuiz";
@@ -90,7 +91,12 @@ function GroupDetailScreen(props: any) {
     previewImage: null,
     previewVisible: false,
   });
-
+  const [tabPagination, setTabPagination] = useState({
+    collection: 1,
+    notes: 1,
+    question: 1,
+    pageSize: 20,
+  });
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const [collectionDetails, setCollectionDetails] = useState(false);
@@ -401,7 +407,11 @@ function GroupDetailScreen(props: any) {
                   <div className="card-section">
                     <Row gutter={32}>
                       {map(
-                        get(collectionDetails, "subCollections", []),
+                        getPaginatedData(
+                          get(collectionDetails, "subCollections", []),
+                          get(tabPagination, "collection"),
+                          get(tabPagination, "pageSize")
+                        ),
                         (collection, index) => (
                           <Col sm={6} key={index}>
                             <CollectionCard
@@ -436,6 +446,22 @@ function GroupDetailScreen(props: any) {
                         )
                       )}
                     </Row>
+                    <div className="pagination-section">
+                      <Pagination
+                        hideOnSinglePage
+                        onChange={(p) => {
+                          setTabPagination({
+                            ...tabPagination,
+                            collection: p,
+                          });
+                        }}
+                        pageSize={get(tabPagination, "pageSize")}
+                        defaultCurrent={get(tabPagination, "collection")}
+                        total={
+                          get(collectionDetails, "subCollections", []).length
+                        }
+                      />
+                    </div>
                   </div>
                 )}
               </TabPane>
@@ -455,7 +481,11 @@ function GroupDetailScreen(props: any) {
                   <div className="card-section note-section">
                     <Row gutter={32}>
                       {map(
-                        get(collectionDetails, "notes", []),
+                        getPaginatedData(
+                          get(collectionDetails, "notes", []),
+                          get(tabPagination, "notes"),
+                          get(tabPagination, "pageSize")
+                        ),
                         (note, index) => (
                           <Col sm={8} key={index}>
                             <NotesCard
@@ -479,6 +509,20 @@ function GroupDetailScreen(props: any) {
                         )
                       )}
                     </Row>
+                    <div className="pagination-section">
+                      <Pagination
+                        hideOnSinglePage
+                        onChange={(p) => {
+                          setTabPagination({
+                            ...tabPagination,
+                            notes: p,
+                          });
+                        }}
+                        pageSize={get(tabPagination, "pageSize")}
+                        defaultCurrent={get(tabPagination, "notes")}
+                        total={get(collectionDetails, "notes", []).length}
+                      />
+                    </div>
                   </div>
                 )}
               </TabPane>
@@ -513,7 +557,11 @@ function GroupDetailScreen(props: any) {
                   <div className="card-section note-section">
                     <Row gutter={32}>
                       {map(
-                        get(collectionDetails, "questions", []),
+                        getPaginatedData(
+                          get(collectionDetails, "questions", []),
+                          get(tabPagination, "question"),
+                          get(tabPagination, "pageSize")
+                        ),
                         (question, i) => {
                           return (
                             <Col sm={12} key={i}>
@@ -534,6 +582,20 @@ function GroupDetailScreen(props: any) {
                         }
                       )}
                     </Row>
+                    <div className="pagination-section">
+                      <Pagination
+                        hideOnSinglePage
+                        onChange={(p) => {
+                          setTabPagination({
+                            ...tabPagination,
+                            question: p,
+                          });
+                        }}
+                        pageSize={get(tabPagination, "pageSize")}
+                        defaultCurrent={get(tabPagination, "question")}
+                        total={get(collectionDetails, "questions", []).length}
+                      />
+                    </div>
                   </div>
                 )}
               </TabPane>

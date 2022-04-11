@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button, Tabs, PageHeader, Spin } from "antd";
 import get from "lodash/get";
+import { useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import PrimaryLayout from "../../common/primaryLayout/primaryLayout";
 import EmptyState from "../../common/emptyState/emptyState";
@@ -26,6 +27,8 @@ function QuizScreen(props: any) {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [isCreateQuizModal, setIsCreateQuizModal] = useState(false);
+  const { search } = useLocation();
+  let query = new URLSearchParams(search);
   const [collectionDetails, setCollectionDetails] = useState(null);
   const rootCollection = useSelector((state) =>
     get(state, "userState.user.rootCollection")
@@ -145,7 +148,9 @@ function QuizScreen(props: any) {
           />
 
           <div className="tab-section">
-            <Tabs defaultActiveKey="1">
+            <Tabs
+              defaultActiveKey={query.get("key") ? `${query.get("key")}` : "1"}
+            >
               <TabPane
                 tab={`Active Quizes (${get(activeQuizzes, "data", []).length})`}
                 key="1"

@@ -1,20 +1,30 @@
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import {
   EditOutlined,
   DeleteOutlined,
   ExclamationCircleOutlined,
   ShareAltOutlined,
-} from '@ant-design/icons';
-import get from 'lodash/get';
-import { useDispatch } from 'react-redux';
-import { Dropdown, Menu, message, Modal } from 'antd';
-import { DELETE_COLLECTION_SUCCESS } from '../../../constants/messages';
-import { deleteCollection } from '../../../redux/actions/collectionActions';
-import verticalDot from '../../../assets/images/icons/vertical-dot.svg';
-import FolderIconSVG from '../../../common/FolderIconSVG';
+  CopyOutlined,
+  CloudDownloadOutlined,
+} from "@ant-design/icons";
+import get from "lodash/get";
+import { useDispatch } from "react-redux";
+import { Dropdown, Menu, message, Modal } from "antd";
+import {
+  DELETE_COLLECTION_SUCCESS,
+  COLLECTION_DUPLICATE_SUCCESS,
+  COLLECTION_ARCHIVE_SUCCESS,
+} from "../../../constants/messages";
+import {
+  deleteCollection,
+  duplicateCollection,
+  archiveCollection,
+} from "../../../redux/actions/collectionActions";
+import verticalDot from "../../../assets/images/icons/vertical-dot.svg";
+import FolderIconSVG from "../../../common/FolderIconSVG";
 
 // Styles
-import './styles.scss';
+import "./styles.scss";
 
 const { confirm } = Modal;
 
@@ -34,7 +44,7 @@ function CollectionCard(props: any) {
 
   const onClickDelete = () => {
     setLoading(true);
-    dispatch(deleteCollection(id, { parent_id: get(parentCollection, 'id') }))
+    dispatch(deleteCollection(id, { parent_id: get(parentCollection, "id") }))
       .then(() => {
         onSuccess();
         message.success(DELETE_COLLECTION_SUCCESS);
@@ -47,7 +57,7 @@ function CollectionCard(props: any) {
 
   const onConfirmDelete = () => {
     confirm({
-      title: 'Do you Want to delete this collection?',
+      title: "Do you Want to delete this collection?",
       icon: <ExclamationCircleOutlined />,
 
       onOk() {
@@ -57,10 +67,65 @@ function CollectionCard(props: any) {
     });
   };
 
+  const onClickArchive = () => {
+    setLoading(true);
+    dispatch(
+      archiveCollection(id, {
+        parent_id: get(parentCollection, "id"),
+        is_archived: true,
+      })
+    )
+      .then(() => {
+        onSuccess();
+        message.success(COLLECTION_ARCHIVE_SUCCESS);
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  };
+
+  const onConfirmArchive = () => {
+    confirm({
+      title: "Are you sure, you want to archive this collection?",
+      icon: <ExclamationCircleOutlined />,
+
+      onOk() {
+        onClickArchive();
+      },
+      onCancel() {},
+    });
+  };
+
+  const onCreatDuplicate = () => {
+    setLoading(true);
+    dispatch(
+      duplicateCollection(id, { parent_id: get(parentCollection, "id") })
+    )
+      .then(() => {
+        onSuccess();
+        message.success(COLLECTION_DUPLICATE_SUCCESS);
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  };
+
   const menu = (
     <Menu>
       <Menu.Item icon={<EditOutlined />} onClick={onEditCollection}>
         Edit
+      </Menu.Item>
+      <Menu.Item icon={<CopyOutlined />} onClick={() => onCreatDuplicate()}>
+        Create Duplicate
+      </Menu.Item>
+
+      <Menu.Item
+        icon={<CloudDownloadOutlined />}
+        onClick={() => onConfirmArchive()}
+      >
+        Archive Collection
       </Menu.Item>
       <Menu.Item icon={<DeleteOutlined />} onClick={() => onConfirmDelete()}>
         Delete

@@ -1,124 +1,127 @@
-import { Spin } from 'antd';
-import { lazy, Suspense } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import * as ROUTES from './router/routes';
-import LogoutScreen from './pages/auth/logoutScreen';
-import TestScreen from './pages/test';
+import { Spin } from "antd";
+import { lazy, Suspense } from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import * as ROUTES from "./router/routes";
+import LogoutScreen from "./pages/auth/logoutScreen";
+import TestScreen from "./pages/test";
 
 /**
  * Screens
  */
 const HomeScreen = lazy(
   () =>
-    import(/* webpackChunkName: "HomeScreen" */ './pages/homepage/homeScreen')
+    import(/* webpackChunkName: "HomeScreen" */ "./pages/homepage/homeScreen")
 );
 const LoginScreen = lazy(
-  () => import(/* webpackChunkName: "LoginScreen" */ './pages/auth/loginScreen')
+  () => import(/* webpackChunkName: "LoginScreen" */ "./pages/auth/loginScreen")
 );
 const RegisterScreen = lazy(
   () =>
     import(
-      /* webpackChunkName: "RegisterScreen" */ './pages/auth/registerScreen'
+      /* webpackChunkName: "RegisterScreen" */ "./pages/auth/registerScreen"
     )
 );
 const ForgotScreen = lazy(
   () =>
-    import(/* webpackChunkName: "ForgotScreen" */ './pages/auth/forgotScreen')
+    import(/* webpackChunkName: "ForgotScreen" */ "./pages/auth/forgotScreen")
 );
 const OnboardingScreen = lazy(
   () =>
     import(
-      /* webpackChunkName: "OnboardingScreen" */ './pages/onboarding/onboardingScreen'
+      /* webpackChunkName: "OnboardingScreen" */ "./pages/onboarding/onboardingScreen"
     )
 );
 const CollectionScreen = lazy(
   () =>
-    import(/* webpackChunkName: "Collection" */ './pages/collection/collection')
+    import(/* webpackChunkName: "Collection" */ "./pages/collection/collection")
 );
 const CollectionDetailsScreen = lazy(
   () =>
     import(
-      /* webpackChunkName: "CollectionDetails" */ './pages/collection/collectionDetails'
+      /* webpackChunkName: "CollectionDetails" */ "./pages/collection/collectionDetails"
     )
 );
 const GroupsScreen = lazy(
-  () => import(/* webpackChunkName: "groups" */ './pages/groups/groups')
+  () => import(/* webpackChunkName: "groups" */ "./pages/groups/groups")
 );
 const GroupDetailScreen = lazy(
   () =>
     import(
-      /* webpackChunkName: "groupsDetails" */ './pages/groups/groupsDetails'
+      /* webpackChunkName: "groupsDetails" */ "./pages/groups/groupsDetails"
     )
 );
 const QuizScreen = lazy(
-  () => import(/* webpackChunkName: "quiz" */ './pages/quiz/quiz')
+  () => import(/* webpackChunkName: "quiz" */ "./pages/quiz/quiz")
 );
 const PlannerScreen = lazy(
-  () => import(/* webpackChunkName: "planner" */ './pages/planner/planner')
+  () => import(/* webpackChunkName: "planner" */ "./pages/planner/planner")
 );
 const ChecklistScreen = lazy(
   () =>
-    import(/* webpackChunkName: "checklist" */ './pages/checklist/checklist')
+    import(/* webpackChunkName: "checklist" */ "./pages/checklist/checklist")
 );
 const ProfileScreen = lazy(
-  () => import(/* webpackChunkName: "profile" */ './pages/profile/profile')
+  () => import(/* webpackChunkName: "profile" */ "./pages/profile/profile")
 );
 const NotificationScreen = lazy(
   () =>
     import(
-      /* webpackChunkName: "notification" */ './pages/profile/notification'
+      /* webpackChunkName: "notification" */ "./pages/profile/notification"
     )
 );
 const SecurityScreen = lazy(
-  () => import(/* webpackChunkName: "security" */ './pages/profile/security')
+  () => import(/* webpackChunkName: "security" */ "./pages/profile/security")
 );
 const AccountDeleteScreen = lazy(
   () =>
     import(
-      /* webpackChunkName: "accountDelete" */ './pages/profile/accountDelete'
+      /* webpackChunkName: "accountDelete" */ "./pages/profile/accountDelete"
     )
 );
 const SharedWithMeScreen = lazy(
   () =>
     import(
-      /* webpackChunkName: "sharedWithMeScreen" */ './pages/sharedWithMe/sharedWithMeScreen'
+      /* webpackChunkName: "sharedWithMeScreen" */ "./pages/sharedWithMe/sharedWithMeScreen"
     )
 );
 const SharedWithMeDetailScreen = lazy(
   () =>
     import(
-      /* webpackChunkName: "shareWithMeDetails" */ './pages/sharedWithMe/shareWithMeDetails'
+      /* webpackChunkName: "shareWithMeDetails" */ "./pages/sharedWithMe/shareWithMeDetails"
     )
 );
 const GroupMembersScreen = lazy(
-  () => import(/* webpackChunkName: "members" */ './pages/groups/members/')
+  () => import(/* webpackChunkName: "members" */ "./pages/groups/members/")
 );
 const ScoreDetailScreen = lazy(
   () =>
     import(
-      /* webpackChunkName: "scoreDetails" */ './pages/groups/scoreDetails/'
+      /* webpackChunkName: "scoreDetails" */ "./pages/groups/scoreDetails/"
     )
 );
 
 const ReadNoteScreen = lazy(
   () =>
     import(
-      /* webpackChunkName: "scoreDetails" */ './pages/collection/readNote/readNote'
+      /* webpackChunkName: "scoreDetails" */ "./pages/collection/readNote/readNote"
     )
 );
 
 const GroupInvitationScreen = lazy(
   () =>
     import(
-      /* webpackChunkName: "scoreDetails" */ './pages/invitation/groupInvitationScreen'
+      /* webpackChunkName: "scoreDetails" */ "./pages/invitation/groupInvitationScreen"
     )
 );
 
 const CollectionInvitationScreen = lazy(
   () =>
     import(
-      /* webpackChunkName: "scoreDetails" */ './pages/invitation/collectionInvitationScreen'
+      /* webpackChunkName: "scoreDetails" */ "./pages/invitation/collectionInvitationScreen"
     )
+);
+const ArchiveScreen = lazy(
+  () => import(/* webpackChunkName: "scoreDetails" */ "./pages/archives")
 );
 
 const AppRouter = () => {
@@ -126,7 +129,7 @@ const AppRouter = () => {
     <Suspense fallback={<Spin spinning={true} />}>
       <Router>
         <Routes>
-          <Route path={'/test'} element={<TestScreen />} />
+          <Route path={"/test"} element={<TestScreen />} />
           <Route
             path={ROUTES.GROUP_INVITAION}
             element={<GroupInvitationScreen />}
@@ -137,7 +140,7 @@ const AppRouter = () => {
           />
           <Route path={ROUTES.HOME_SCREEN} element={<HomeScreen />} />
           <Route path={ROUTES.LOGIN_SCREEN} element={<LoginScreen />} />
-          <Route path={'/'} element={<LoginScreen />} />
+          <Route path={"/"} element={<LoginScreen />} />
           <Route path={ROUTES.LOGOUT_SCREEN} element={<LogoutScreen />} />
           <Route path={ROUTES.SIGNUP_SCREEN} element={<RegisterScreen />} />
           <Route path={ROUTES.FORGOT_SCREEN} element={<ForgotScreen />} />
@@ -162,6 +165,7 @@ const AppRouter = () => {
             element={<GroupDetailScreen />}
           />
           <Route path={ROUTES.QUIZ_SCREEN} element={<QuizScreen />} />
+          <Route path={ROUTES.ARCHIVED} element={<ArchiveScreen />} />
           <Route path={ROUTES.PLANNER_SCREEN} element={<PlannerScreen />} />
           <Route path={ROUTES.CHECKLIST_SCREEN} element={<ChecklistScreen />} />
           <Route path={ROUTES.PROFILE_SCREEN} element={<ProfileScreen />} />

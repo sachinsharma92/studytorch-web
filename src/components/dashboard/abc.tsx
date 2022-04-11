@@ -10,6 +10,7 @@ import EmptyState from "../../common/emptyState/emptyState";
 import noDataImage from "../../assets/images/study-not-data.svg";
 
 const CollectionSection = (props: any) => {
+  const { noRedirect } = props;
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const [collections, setCollections] = useState(null);
@@ -45,31 +46,53 @@ const CollectionSection = (props: any) => {
         )}
         {map(
           get(collections, "most_used_collections", []),
-          (collection: any, index) => (
-            <Link
-              className="collection-card"
-              key={index}
-              to={get(collection, "url")}
-            >
-              <div className="icon-folder">
-                <FolderIconSVG
-                  withUserStyle={"folderUser"}
-                  fillColor={
-                    get(collection, "color")
-                      ? get(collection, "color")
-                      : "#503FC8"
-                  }
-                />
+          (collection: any, index) =>
+            noRedirect ? (
+              <div className="collection-card">
+                {" "}
+                <div className="icon-folder">
+                  <FolderIconSVG
+                    withUserStyle={"folderUser"}
+                    fillColor={
+                      get(collection, "color")
+                        ? get(collection, "color")
+                        : "#503FC8"
+                    }
+                  />
+                </div>
+                <div className="content-sec">
+                  <h4 className="title4">{get(collection, "name")}</h4>
+                  <p className="description">
+                    {get(collection, "note_count")} notes,{" "}
+                    {get(collection, "question_count")} questions
+                  </p>
+                </div>
               </div>
-              <div className="content-sec">
-                <h4 className="title4">{get(collection, "name")}</h4>
-                <p className="description">
-                  {get(collection, "note_count")} notes,{" "}
-                  {get(collection, "question_count")} questions
-                </p>
-              </div>
-            </Link>
-          )
+            ) : (
+              <Link
+                className="collection-card"
+                key={index}
+                to={get(collection, "url")}
+              >
+                <div className="icon-folder">
+                  <FolderIconSVG
+                    withUserStyle={"folderUser"}
+                    fillColor={
+                      get(collection, "color")
+                        ? get(collection, "color")
+                        : "#503FC8"
+                    }
+                  />
+                </div>
+                <div className="content-sec">
+                  <h4 className="title4">{get(collection, "name")}</h4>
+                  <p className="description">
+                    {get(collection, "note_count")} notes,{" "}
+                    {get(collection, "question_count")} questions
+                  </p>
+                </div>
+              </Link>
+            )
         )}
 
         <h4 className="title4 mt-3">Recent Studied Collections</h4>
@@ -84,31 +107,53 @@ const CollectionSection = (props: any) => {
         )}
         {map(
           get(collections, "recent_collections", []),
-          (collection: any, index) => (
-            <Link
-              className="collection-card"
-              key={index}
-              to={get(collection, "url")}
-            >
-              <div className="icon-folder">
-                <FolderIconSVG
-                  withUserStyle={"folderUser"}
-                  fillColor={
-                    get(collection, "color")
-                      ? get(collection, "color")
-                      : "#503FC8"
-                  }
-                />
+          (collection: any, index) =>
+            noRedirect ? (
+              <div className="collection-card">
+                {" "}
+                <div className="icon-folder">
+                  <FolderIconSVG
+                    withUserStyle={"folderUser"}
+                    fillColor={
+                      get(collection, "color")
+                        ? get(collection, "color")
+                        : "#503FC8"
+                    }
+                  />
+                </div>
+                <div className="content-sec">
+                  <h4 className="title4">{get(collection, "name")}</h4>
+                  <p className="description">
+                    {get(collection, "note_count")} notes,{" "}
+                    {get(collection, "question_count")} questions
+                  </p>
+                </div>
               </div>
-              <div className="content-sec">
-                <h4 className="title4">{get(collection, "name")}</h4>
-                <p className="description">
-                  {get(collection, "note_count")} notes,{" "}
-                  {get(collection, "question_count")} questions
-                </p>
-              </div>
-            </Link>
-          )
+            ) : (
+              <Link
+                className="collection-card"
+                key={index}
+                to={get(collection, "url")}
+              >
+                <div className="icon-folder">
+                  <FolderIconSVG
+                    withUserStyle={"folderUser"}
+                    fillColor={
+                      get(collection, "color")
+                        ? get(collection, "color")
+                        : "#503FC8"
+                    }
+                  />
+                </div>
+                <div className="content-sec">
+                  <h4 className="title4">{get(collection, "name")}</h4>
+                  <p className="description">
+                    {get(collection, "note_count")} notes,{" "}
+                    {get(collection, "question_count")} questions
+                  </p>
+                </div>
+              </Link>
+            )
         )}
       </div>
     </Spin>

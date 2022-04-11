@@ -14,6 +14,7 @@ import {
   Modal,
   Breadcrumb,
   message,
+  Pagination,
 } from "antd";
 import { useDispatch } from "react-redux";
 import {
@@ -54,6 +55,7 @@ import {
   leaveShareCollection,
 } from "../../redux/actions/collectionActions";
 import EmptyState from "../../common/emptyState/emptyState";
+import { getPaginatedData } from "../../utilities/helpers";
 // Images
 import filter from "../../assets/images/icons/filter.svg";
 import Users3 from "../../assets/images/icons/3-user.svg";
@@ -89,6 +91,12 @@ function ShareWithMeDetails(props: any) {
     canEditCollection: false,
   });
   const [isCreateQuizModal, setIsCreateQuizModal] = useState(false);
+  const [tabPagination, setTabPagination] = useState({
+    collection: 1,
+    notes: 1,
+    question: 1,
+    pageSize: 20,
+  });
 
   const [collectionModal, setCollectionModal] = useState<any>({
     visible: false,
@@ -405,7 +413,11 @@ function ShareWithMeDetails(props: any) {
                     <div className="card-section">
                       <Row gutter={32}>
                         {map(
-                          get(collectionDetails, "subCollections", []),
+                          getPaginatedData(
+                            get(collectionDetails, "subCollections", []),
+                            get(tabPagination, "collection"),
+                            get(tabPagination, "pageSize")
+                          ),
                           (collection, index) => (
                             <Col sm={6} key={index}>
                               <CollectionCard
@@ -437,6 +449,23 @@ function ShareWithMeDetails(props: any) {
                           )
                         )}
                       </Row>
+
+                      <div className="pagination-section">
+                        <Pagination
+                          hideOnSinglePage
+                          onChange={(p) => {
+                            setTabPagination({
+                              ...tabPagination,
+                              collection: p,
+                            });
+                          }}
+                          pageSize={get(tabPagination, "pageSize")}
+                          defaultCurrent={get(tabPagination, "collection")}
+                          total={
+                            get(collectionDetails, "subCollections", []).length
+                          }
+                        />
+                      </div>
                     </div>
                   )}
                 </TabPane>
@@ -465,7 +494,11 @@ function ShareWithMeDetails(props: any) {
                   <div className="card-section note-section">
                     <Row gutter={32}>
                       {map(
-                        get(collectionDetails, "notes", []),
+                        getPaginatedData(
+                          get(collectionDetails, "notes", []),
+                          get(tabPagination, "notes"),
+                          get(tabPagination, "pageSize")
+                        ),
                         (note, index) => (
                           <Col sm={8} key={index}>
                             <NotesCard
@@ -487,6 +520,20 @@ function ShareWithMeDetails(props: any) {
                         )
                       )}
                     </Row>
+                    <div className="pagination-section">
+                      <Pagination
+                        hideOnSinglePage
+                        onChange={(p) => {
+                          setTabPagination({
+                            ...tabPagination,
+                            notes: p,
+                          });
+                        }}
+                        pageSize={get(tabPagination, "pageSize")}
+                        defaultCurrent={get(tabPagination, "notes")}
+                        total={get(collectionDetails, "notes", []).length}
+                      />
+                    </div>
                   </div>
                 )}
               </TabPane>
@@ -529,7 +576,11 @@ function ShareWithMeDetails(props: any) {
                   <div className="card-section note-section">
                     <Row gutter={32}>
                       {map(
-                        get(collectionDetails, "questions", []),
+                        getPaginatedData(
+                          get(collectionDetails, "questions", []),
+                          get(tabPagination, "question"),
+                          get(tabPagination, "pageSize")
+                        ),
                         (question, i) => {
                           return (
                             <Col sm={12} key={i}>
@@ -548,6 +599,20 @@ function ShareWithMeDetails(props: any) {
                         }
                       )}
                     </Row>
+                    <div className="pagination-section">
+                      <Pagination
+                        hideOnSinglePage
+                        onChange={(p) => {
+                          setTabPagination({
+                            ...tabPagination,
+                            question: p,
+                          });
+                        }}
+                        pageSize={get(tabPagination, "pageSize")}
+                        defaultCurrent={get(tabPagination, "question")}
+                        total={get(collectionDetails, "questions", []).length}
+                      />
+                    </div>
                   </div>
                 )}
               </TabPane>

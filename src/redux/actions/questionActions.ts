@@ -1,4 +1,5 @@
-import * as APIS from '../../constants/apis';
+import * as APIS from "../../constants/apis";
+import { replaceMultiple } from "../../utilities/helpers";
 
 export const createQuestion =
   (payload: any): any =>
@@ -26,11 +27,37 @@ export const updateQuestion =
       });
   };
 
+export const archiveQuestion =
+  (id: number, payload: any): any =>
+  (dispatch: any, getState: any, { api }: any): any => {
+    return api
+      .put(`${APIS.QUESTION}/${id}/archive`, payload)
+      .then((result: any) => {
+        return result;
+      })
+      .catch((error: any) => {
+        throw error;
+      });
+  };
+
 export const deleteQuestion =
   (id: number, parent_id: any): any =>
   (dispatch: any, getState: any, { api }: any): any => {
     return api
       .delete(`${APIS.QUESTION}/${id}`, { data: { parent_id } })
+      .then((result: any) => {
+        return result;
+      })
+      .catch((error: any) => {
+        throw error;
+      });
+  };
+
+export const duplicateQuestion =
+  (uuid: any, payload: any): any =>
+  (dispatch: any, getState: any, { api }: any): any => {
+    return api
+      .post(replaceMultiple(APIS.DUPLICATE_QUESTION, { ":id": uuid }), payload)
       .then((result: any) => {
         return result;
       })

@@ -65,6 +65,7 @@ function CreateCollectionModal(props: any) {
       footer={false}
       onCancel={get(props, "onCancel")}
       destroyOnClose
+      maskClosable={false}
       wrapClassName="collection-modal-style primary-modal-style"
       maskStyle={{ background: "rgba(30,39,94, 0.8)" }}
     >

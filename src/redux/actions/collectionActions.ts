@@ -57,6 +57,19 @@ export const deleteCollection =
       });
   };
 
+  export const archiveCollection =
+  (id: number, payload: any): any =>
+  (dispatch: any, getState: any, { api }: any): any => {
+    return api
+      .put(`${APIS.COLLECITONS}/${id}/archive`,payload)
+      .then((result: any) => {
+        return result;
+      })
+      .catch((error: any) => {
+        throw error;
+      });
+  };
+
 export const fetchCollection =
   (id: any): any =>
   (dispatch: any, getState: any, { api }: any): any => {
@@ -137,6 +150,20 @@ export const shareCollection =
   (dispatch: any, getState: any, { api }: any): any => {
     return api
       .post(APIS.SHARED_COLLECTION, payload)
+      .then((result: any) => {
+        return result;
+      })
+      .catch((error: any) => {
+        throw error;
+      });
+  };
+
+
+  export const duplicateCollection =
+  (uuid: any,payload: any): any =>
+  (dispatch: any, getState: any, { api }: any): any => {
+    return api
+      .post(replaceMultiple(APIS.DUPLICATE_COLLECTION,{':id':uuid}),payload)
       .then((result: any) => {
         return result;
       })

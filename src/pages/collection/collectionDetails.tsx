@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { HotKeys } from "react-hotkeys";
 import {
   Button,
   Col,
@@ -53,7 +52,6 @@ import folderGray from "../../assets/images/icons/folder-gray.svg";
 // Styles
 import "./styles.scss";
 import ModalConfirmation from "../../common/modalConfirmation";
-import { ContentBlock } from "draft-js";
 
 const { TabPane } = Tabs;
 
@@ -84,7 +82,7 @@ function CollectionDetails(props: any) {
     collection: 1,
     notes: 1,
     question: 1,
-    pageSize: 2,
+    pageSize: 20,
   });
   const [collectionDetails, setCollectionDetails] = useState(null);
   const [collectionModal, setCollectionModal] = useState<any>({
@@ -285,7 +283,11 @@ function CollectionDetails(props: any) {
                   <div className="card-section">
                     <Row gutter={32}>
                       {map(
-                        get(collectionDetails, "subCollections", []),
+                        getPaginatedData(
+                          get(collectionDetails, "subCollections", []),
+                          get(tabPagination, "collection"),
+                          get(tabPagination, "pageSize")
+                        ),
                         (collection, index) => (
                           <Col sm={6} key={index}>
                             <CollectionCard
@@ -317,6 +319,24 @@ function CollectionDetails(props: any) {
                     </Row>
                   </div>
                 )}
+                {collectionDetails && (
+                  <div className="pagination-section">
+                    <Pagination
+                      hideOnSinglePage
+                      onChange={(p) => {
+                        setTabPagination({
+                          ...tabPagination,
+                          collection: p,
+                        });
+                      }}
+                      pageSize={get(tabPagination, "pageSize")}
+                      defaultCurrent={get(tabPagination, "collection")}
+                      total={
+                        get(collectionDetails, "subCollections", []).length
+                      }
+                    />
+                  </div>
+                )}
               </TabPane>
               <TabPane tab="Notes" key="2">
                 {get(collectionDetails, "notes", []).length === 0 ? (
@@ -334,7 +354,11 @@ function CollectionDetails(props: any) {
                   <div className="card-section note-section">
                     <Row gutter={32}>
                       {map(
-                        get(collectionDetails, "notes", []),
+                        getPaginatedData(
+                          get(collectionDetails, "notes", []),
+                          get(tabPagination, "notes"),
+                          get(tabPagination, "pageSize")
+                        ),
                         (note, index) => (
                           <Col sm={8} key={index}>
                             <NotesCard
@@ -355,6 +379,22 @@ function CollectionDetails(props: any) {
                         )
                       )}
                     </Row>
+                  </div>
+                )}
+                {collectionDetails && (
+                  <div className="pagination-section">
+                    <Pagination
+                      hideOnSinglePage
+                      onChange={(p) => {
+                        setTabPagination({
+                          ...tabPagination,
+                          notes: p,
+                        });
+                      }}
+                      pageSize={get(tabPagination, "pageSize")}
+                      defaultCurrent={get(tabPagination, "notes")}
+                      total={get(collectionDetails, "notes", []).length}
+                    />
                   </div>
                 )}
               </TabPane>
@@ -412,12 +452,23 @@ function CollectionDetails(props: any) {
                     </Row>
                   </div>
                 )}
-                <div className="pagination-section">
-                  <Pagination
-                    current={get(tabPagination, "question")}
-                    total={get(collectionDetails, "questions", []).length}
-                  />
-                </div>
+
+                {collectionDetails && (
+                  <div className="pagination-section">
+                    <Pagination
+                      hideOnSinglePage
+                      onChange={(p) => {
+                        setTabPagination({
+                          ...tabPagination,
+                          question: p,
+                        });
+                      }}
+                      pageSize={get(tabPagination, "pageSize")}
+                      defaultCurrent={get(tabPagination, "question")}
+                      total={get(collectionDetails, "questions", []).length}
+                    />
+                  </div>
+                )}
               </TabPane>
               <TabPane tab="Flash Card" key="4">
                 {get(collectionDetails, "flashCards", []).length > 0 && (
@@ -478,14 +529,16 @@ function CollectionDetails(props: any) {
         />
       )}
       {/* Collection Modal here */}
-      <CreateCollectionModal
-        visible={get(collectionModal, "visible")}
-        onCancel={() => toggleCollectionModal()}
-        onSuccess={onCollecitonSuccess}
-        edit={get(collectionModal, "data") ? true : false}
-        initialValue={get(collectionModal, "data")}
-        collection={collectionDetails}
-      />
+      {get(collectionModal, "visible") && (
+        <CreateCollectionModal
+          visible={get(collectionModal, "visible")}
+          onCancel={() => toggleCollectionModal()}
+          onSuccess={onCollecitonSuccess}
+          edit={get(collectionModal, "data") ? true : false}
+          initialValue={get(collectionModal, "data")}
+          collection={collectionDetails}
+        />
+      )}
 
       {/* Share Modal here */}
       {isShareModal && (
