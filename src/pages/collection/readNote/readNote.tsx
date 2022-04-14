@@ -163,13 +163,13 @@ function ReadNoteScreen(props: any) {
           </div>
         </div>
       </Spin>
-      <FlashCardPopOver
+      {/* <FlashCardPopOver
         ref={ref}
         onAddFlashCard={(val: any) => {
           clearSelection();
           toggleFlashModal(val, false);
         }}
-      />
+      /> */}
       {get(flashModal, "visible") && (
         <FlashEditModal
           visible={get(flashModal, "visible")}

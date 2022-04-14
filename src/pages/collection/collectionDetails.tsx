@@ -226,7 +226,7 @@ function CollectionDetails(props: any) {
       </a>
       <a onClick={() => toggleNoteModal()}>Notes</a>
       <a onClick={() => toggleQuestionModal()}>Question</a>
-      <a onClick={() => toggleFlashModal()}>Flash Card</a>
+      {/* <a onClick={() => toggleFlashModal()}>Flash Card</a> */}
     </div>
   );
 
@@ -470,7 +470,7 @@ function CollectionDetails(props: any) {
                   </div>
                 )}
               </TabPane>
-              <TabPane tab="Flash Card" key="4">
+              {/* <TabPane tab="Flash Card" key="4">
                 {get(collectionDetails, "flashCards", []).length > 0 && (
                   <div className="inline-button-section mt--20">
                     <ButtonCustom
@@ -516,7 +516,7 @@ function CollectionDetails(props: any) {
                     )}
                   </Row>
                 </div>
-              </TabPane>
+              </TabPane> */}
             </Tabs>
           </div>
         </Spin>

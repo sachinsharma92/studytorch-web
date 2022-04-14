@@ -599,7 +599,7 @@ function GroupDetailScreen(props: any) {
                   </div>
                 )}
               </TabPane>
-              <TabPane tab="Flash Card" key="4">
+              {/* <TabPane tab="Flash Card" key="4">
                 {get(collectionDetails, "flashCards", []).length > 0 && (
                   <div className="inline-button-section mt--20">
                     <ButtonCustom
@@ -648,7 +648,7 @@ function GroupDetailScreen(props: any) {
                     )}
                   </Row>
                 </div>
-              </TabPane>
+              </TabPane> */}
 
               <TabPane tab="Quiz" key="5">
                 <GroupQuizTab
@@ -686,20 +686,23 @@ function GroupDetailScreen(props: any) {
       )}
 
       {/* Collection Modal here */}
-      <CreateCollectionModal
-        visible={get(collectionModal, "visible")}
-        onCancel={() => toggleCollectionModal()}
-        onSuccess={onCollecitonSuccess}
-        edit={get(collectionModal, "data") ? true : false}
-        initialValue={get(collectionModal, "data")}
-        collection={collectionDetails}
-      />
+      {get(collectionModal, "visible") && (
+        <CreateCollectionModal
+          visible={get(collectionModal, "visible")}
+          onCancel={() => toggleCollectionModal()}
+          onSuccess={onCollecitonSuccess}
+          edit={get(collectionModal, "data") ? true : false}
+          initialValue={get(collectionModal, "data")}
+          collection={collectionDetails}
+        />
+      )}
       {/* GroupCreateModal Modal here */}
       <GroupCreateModal
         visible={get(groupModal, "visible")}
         onCancel={() => toggleGroupModal()}
         onSuccess={() => {
           toggleGroupModal();
+          getGroupCollectionDetails();
           getGroupDetails();
         }}
         edit={get(groupModal, "data") ? true : false}
