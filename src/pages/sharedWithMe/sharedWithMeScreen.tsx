@@ -187,7 +187,7 @@ function SharedWithMeScreen() {
                   <h4 className="title4">
                     {get(sharedDrawer, "data.collection.name")}
                   </h4>
-                  <p>20 Notes, 2 quizes</p>
+                  <p>20 Notes, 2 Quizzes</p>
                 </div>
               </div>
               <div className="shared-details">

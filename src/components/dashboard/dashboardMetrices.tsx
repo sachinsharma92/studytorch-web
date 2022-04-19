@@ -107,7 +107,7 @@ const DashboardMetrices = (props: any) => {
               <img src={quizIcon} className="icon" alt="" />
             </div>
             <h3 className="title-md">{get(metrices, "active_quiz_count")}</h3>
-            <h4 className="description">Active Quizes</h4>
+            <h4 className="description">Active Quizzes</h4>
           </div>
         </Col>
 
@@ -131,7 +131,7 @@ const DashboardMetrices = (props: any) => {
           <div className="card-outline pie-graph-card flex-style">
             <div className="content-sec">
               <h3 className="title-md">{get(metrices, "total_score")}%</h3>
-              <h4 className="description">Quizes Success Rate</h4>
+              <h4 className="description">Quizzes Success Rate</h4>
 
               <div className="flex-style space-md-top">
                 <div

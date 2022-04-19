@@ -148,13 +148,15 @@ function GroupsScreen(props: any) {
         </div>
 
         {/* Group Modal here */}
-        <GroupCreateModal
-          visible={get(groupModal, "visible")}
-          onCancel={() => toggleGroupModal()}
-          onSuccess={onCreateSuccess}
-          edit={get(groupModal, "data") ? true : false}
-          initialValue={get(groupModal, "data")}
-        />
+        {get(groupModal, "visible") && (
+          <GroupCreateModal
+            visible={get(groupModal, "visible")}
+            onCancel={() => toggleGroupModal()}
+            onSuccess={onCreateSuccess}
+            edit={get(groupModal, "data") ? true : false}
+            initialValue={get(groupModal, "data")}
+          />
+        )}
 
         <ButtonCustom
           onClick={() => {

@@ -152,7 +152,9 @@ function QuizScreen(props: any) {
               defaultActiveKey={query.get("key") ? `${query.get("key")}` : "1"}
             >
               <TabPane
-                tab={`Active Quizes (${get(activeQuizzes, "data", []).length})`}
+                tab={`Active Quizzes (${
+                  get(activeQuizzes, "data", []).length
+                })`}
                 key="1"
               >
                 {get(activeQuizzes, "data", []).length > 0 && (
@@ -180,7 +182,7 @@ function QuizScreen(props: any) {
               </TabPane>
 
               <TabPane
-                tab={`Completed Quizes (${
+                tab={`Completed Quizzes (${
                   get(completeQuizzes, "data", []).length
                 })`}
                 key="2"
