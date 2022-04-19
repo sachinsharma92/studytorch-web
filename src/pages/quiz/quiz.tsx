@@ -130,8 +130,8 @@ function QuizScreen(props: any) {
 
   return (
     <PrimaryLayout>
-      <div className="quiz-page-style">
-        <Spin spinning={loading}>
+      <Spin spinning={loading}>
+        <div className="quiz-page-style">
           <PageHeader
             className="site-page-header header-back"
             title="Quiz"
@@ -210,54 +210,56 @@ function QuizScreen(props: any) {
               </TabPane>
             </Tabs>
           </div>
-        </Spin>
-      </div>
+        </div>
 
-      {/* Questions Modal */}
-      <CreateQuizModal
-        visible={isCreateQuizModal}
-        collections={get(collectionDetails, "subCollections", [])}
-        type="individual"
-        onSuccess={() => {
-          createQuizToggleModal();
-          refreshQuizData();
-        }}
-        onCancel={createQuizToggleModal}
-      />
-
-      {/* Questions Modal */}
-      {get(isQuizSelectModal, "visible") && (
-        <QuizSelectModal
-          visible={get(isQuizSelectModal, "visible")}
-          refreshQuizData={() => refreshQuizData()}
-          onCancel={quizSelectToggleModal}
-          quiz={get(isQuizSelectModal, "data")}
-          onSuccessSubmit={(quiz: any) => {
-            quizSelectToggleModal();
-            setIsQuizResultModal({ visible: true, data: quiz });
+        {/* Questions Modal */}
+        <CreateQuizModal
+          visible={isCreateQuizModal}
+          collections={get(collectionDetails, "subCollections", [])}
+          type="individual"
+          onSuccess={() => {
+            createQuizToggleModal();
             refreshQuizData();
           }}
+          onCancel={createQuizToggleModal}
         />
-      )}
 
-      {get(checkSolutionModal, "visible") && (
-        <CheckSolutionModal
-          visible={get(checkSolutionModal, "visible")}
-          quiz={get(checkSolutionModal, "data")}
-          onCancel={() => {
-            toggleCheckSolution();
-          }}
-        />
-      )}
+        {/* Questions Modal */}
+        {get(isQuizSelectModal, "visible") && (
+          <QuizSelectModal
+            visible={get(isQuizSelectModal, "visible")}
+            refreshQuizData={() => refreshQuizData()}
+            onCancel={quizSelectToggleModal}
+            quiz={get(isQuizSelectModal, "data")}
+            onSuccessSubmit={(quiz: any) => {
+              quizSelectToggleModal();
+              setIsQuizResultModal({ visible: true, data: quiz });
+              refreshQuizData();
+            }}
+          />
+        )}
 
-      {/* Questions Modal */}
-      {get(isQuizResultModal, "visible") && (
-        <QuizResultModal
-          visible={get(isQuizResultModal, "visible")}
-          quiz={get(isQuizResultModal, "data")}
-          onCancel={() => setIsQuizResultModal({ visible: false, data: null })}
-        />
-      )}
+        {get(checkSolutionModal, "visible") && (
+          <CheckSolutionModal
+            visible={get(checkSolutionModal, "visible")}
+            quiz={get(checkSolutionModal, "data")}
+            onCancel={() => {
+              toggleCheckSolution();
+            }}
+          />
+        )}
+
+        {/* Questions Modal */}
+        {get(isQuizResultModal, "visible") && (
+          <QuizResultModal
+            visible={get(isQuizResultModal, "visible")}
+            quiz={get(isQuizResultModal, "data")}
+            onCancel={() =>
+              setIsQuizResultModal({ visible: false, data: null })
+            }
+          />
+        )}
+      </Spin>
     </PrimaryLayout>
   );
 }

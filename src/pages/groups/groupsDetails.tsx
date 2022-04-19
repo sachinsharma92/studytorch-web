@@ -26,7 +26,7 @@ import { GROUPS_DETAIL_SCREEN } from "../../router/routes";
 import EmptyState from "../../common/emptyState/emptyState";
 import PrimaryLayout from "../../common/primaryLayout/primaryLayout";
 import NotesCard from "../../components/collection/notesCard/notesCard";
-import FlashCard from "../../components/collection/flashCard/flashCard";
+// import FlashCard from "../../components/collection/flashCard/flashCard";
 import CreateCollectionModal from "../../components/collection/modals/createCollection";
 import ButtonCustom from "../../common/buttons/buttonCustom";
 import QuestionCard from "../../components/collection/questionCard/questionCard";
@@ -35,7 +35,7 @@ import QuestionModal from "../../components/collection/modals/questionModal";
 import QuestionAddedModal from "../../components/collection/modals/questionAddedModal";
 import FlashEditModal from "../../components/collection/modals/flashEditModal";
 import CollectionCard from "../../components/collection/collectionCard/collectionCard";
-import RevisionModeModal from "../../components/collection/modals/revisionModeModal";
+// import RevisionModeModal from "../../components/collection/modals/revisionModeModal";
 import JoinedDropDown from "../../components/groups/joinedDropDown";
 import GroupBanner from "../../components/groups/groupBanner/groupBanner";
 import GroupMembers from "../../components/groups/groupMembers";
@@ -547,7 +547,7 @@ function GroupDetailScreen(props: any) {
                     <EmptyState
                       imgUrl={folderGray}
                       title="Create your Questions"
-                      description=" Quizzes will be depend on question your create here"
+                      description="Quizzes will depend on questions you create here"
                       buttonText="Add Questions"
                       buttonType="primary"
                       buttonHandler={() => toggleQuestionModal()}
@@ -800,7 +800,7 @@ function GroupDetailScreen(props: any) {
       >
         <img
           alt="example"
-          style={{ width: "100%" }}
+          style={{ width: "100%", marginTop: 20 }}
           src={get(imagePreview, "previewImage")}
         />
       </Modal>

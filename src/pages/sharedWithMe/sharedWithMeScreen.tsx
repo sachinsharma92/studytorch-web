@@ -1,55 +1,55 @@
-import PrimaryLayout from '../../common/primaryLayout/primaryLayout';
-import SharedWithMeCollection from '../../components/sharedWithMeCollection';
-import { useEffect, useState } from 'react';
-import { Drawer, message, Spin, Modal } from 'antd';
-import { ExclamationCircleOutlined } from '@ant-design/icons';
-import { useDispatch } from 'react-redux';
-import filter from 'lodash/filter';
-import get from 'lodash/get';
-import map from 'lodash/map';
-import moment from 'moment';
-import FolderIconSVG from '../../common/FolderIconSVG';
-import ModalConfirmation from '../../common/modalConfirmation';
-import EmptyState from '../../common/emptyState/emptyState';
+import PrimaryLayout from "../../common/primaryLayout/primaryLayout";
+import SharedWithMeCollection from "../../components/sharedWithMeCollection";
+import { useEffect, useState } from "react";
+import { Drawer, message, Spin, Modal } from "antd";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
+import { useDispatch } from "react-redux";
+import filter from "lodash/filter";
+import get from "lodash/get";
+import map from "lodash/map";
+import moment from "moment";
+import FolderIconSVG from "../../common/FolderIconSVG";
+import ModalConfirmation from "../../common/modalConfirmation";
+import EmptyState from "../../common/emptyState/emptyState";
 import {
   fetchSharedCollections,
   leaveShareCollection,
-} from '../../redux/actions/collectionActions';
-import { COLLECTION_LEAVE_SUCCESS } from '../../constants/messages';
-import folderGray from '../../assets/images/icons/folder-gray.svg';
-import './styles.scss';
+} from "../../redux/actions/collectionActions";
+import { COLLECTION_LEAVE_SUCCESS } from "../../constants/messages";
+import folderGray from "../../assets/images/icons/folder-gray.svg";
+import "./styles.scss";
 
 const { confirm } = Modal;
 
 const getSortedCollections = (collections: any): any => {
   const today = filter(
     collections,
-    (c) => get(c, 'shared_period.isToday') === true
+    (c) => get(c, "shared_period.isToday") === true
   );
   const lastWeek = filter(
     collections,
-    (c) => get(c, 'shared_period.isLastWeek') === true
+    (c) => get(c, "shared_period.isLastWeek") === true
   );
   const old = filter(
     collections,
-    (c) => get(c, 'shared_period.isOld') === true
+    (c) => get(c, "shared_period.isOld") === true
   );
   const returnObj = [];
   if (today.length > 0) {
     returnObj.push({
-      time: 'Today',
+      time: "Today",
       folders: today,
     });
   }
   if (lastWeek.length > 0) {
     returnObj.push({
-      time: 'Last Week',
+      time: "Last Week",
       folders: lastWeek,
     });
   }
   if (old.length > 0) {
     returnObj.push({
-      time: 'Old',
+      time: "Old",
       folders: old,
     });
   }
@@ -83,7 +83,7 @@ function SharedWithMeScreen() {
 
   const toggleSharedDrawer = (data = null) => {
     setSharedDrawer({
-      visible: !get(sharedDrawer, 'visible'),
+      visible: !get(sharedDrawer, "visible"),
       data,
     });
   };
@@ -108,7 +108,7 @@ function SharedWithMeScreen() {
 
   const onConfirmDelete = (collectionId: any) => {
     confirm({
-      title: 'Are you sure,You want to leave this collection?',
+      title: "Are you sure,You want to leave this collection?",
       icon: <ExclamationCircleOutlined />,
 
       onOk() {
@@ -121,7 +121,7 @@ function SharedWithMeScreen() {
   const onViewDetails = (collection: any) => {
     toggleSharedDrawer(collection);
   };
-
+  console.log("sharedDrawer======>", sharedDrawer);
   return (
     <>
       <PrimaryLayout>
@@ -142,8 +142,8 @@ function SharedWithMeScreen() {
             {map(sharedCollection, (sc, index) => (
               <SharedWithMeCollection
                 key={index}
-                timeFilter={get(sc, 'time')}
-                folders={get(sc, 'folders', [])}
+                timeFilter={get(sc, "time")}
+                folders={get(sc, "folders", [])}
                 onViewDetails={onViewDetails}
                 onRemoveSharedCollection={onConfirmDelete}
               />
@@ -173,15 +173,20 @@ function SharedWithMeScreen() {
             className="shared-information-drawer"
             placement="right"
             onClose={() => toggleSharedDrawer()}
-            visible={get(sharedDrawer, 'visible')}
+            visible={get(sharedDrawer, "visible")}
           >
             <div className="detail-section">
               <div className="flex">
                 <div className="folder-icon">
-                  <FolderIconSVG fillColor={get(sharedDrawer, 'data.color')} />
+                  <FolderIconSVG
+                    withUserStyle
+                    fillColor={get(sharedDrawer, "data.collection.color")}
+                  />
                 </div>
                 <div className="info-sec">
-                  <h4 className="title4">{get(sharedDrawer, 'data.name')}</h4>
+                  <h4 className="title4">
+                    {get(sharedDrawer, "data.collection.name")}
+                  </h4>
                   <p>20 Notes, 2 quizes</p>
                 </div>
               </div>
@@ -189,16 +194,13 @@ function SharedWithMeScreen() {
                 <div className="name">
                   <p>Shared by </p>
                   <h4 className="title4">
-                    {get(sharedDrawer, 'data.collection_admin.name')}
+                    {get(sharedDrawer, "data.shared_by.name")}
                   </h4>
                 </div>
                 <div className="date">
                   <p>Date</p>
                   <h4 className="title4">
-                    {moment(
-                      get(sharedDrawer, 'data.share.shared_at'),
-                      'YYYY-MM-DD HH:mm:ss'
-                    ).format('DD/MM/YYYY')}
+                    {get(sharedDrawer, "data.updated_at_formatted")}
                   </h4>
                 </div>
               </div>

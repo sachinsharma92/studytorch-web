@@ -1,15 +1,17 @@
 import { Button, Modal, Carousel } from "antd";
 import ButtonCustom from "../../../common/buttons/buttonCustom";
 import map from "lodash/map";
+import get from "lodash/get";
 // Images
 import light from "../../../assets/images/icons/light.svg";
-
+import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
+import draftToHtml from "draftjs-to-html";
 // Styles
 import "./styles.scss";
 import { useState } from "react";
 
 function RevisionModeModal(props: any) {
-  const { flashCards } = props;
+  const { notes } = props;
 
   const settings = {
     nextArrow: (
@@ -30,6 +32,14 @@ function RevisionModeModal(props: any) {
     setIsBlurActive(!isBlurActive);
   };
 
+  const getNoteDescription = (note: any) => {
+    if (note) {
+      const t = EditorState.createWithContent(convertFromRaw(note));
+      console.log("@@@@", draftToHtml(convertToRaw(t.getCurrentContent())));
+      return draftToHtml(convertToRaw(t.getCurrentContent()));
+    }
+  };
+
   return (
     <Modal
       centered
@@ -47,31 +57,27 @@ function RevisionModeModal(props: any) {
       </div>
       <div className="slider-arrow">
         <Carousel autoplay={false} arrows {...settings}>
-          {map(flashCards, (item: any) => (
-            <div>
-              <div className="card-modal">
-                <div className="main-content-section">
-                  <div className="icon-circle">
-                    <img src={light} alt="" />
+          {map(notes, (item: any) => {
+            return (
+              <div>
+                <div className="card-modal">
+                  <div className="main-content-section">
+                    <div className="icon-circle">
+                      <img src={light} alt="" />
+                    </div>
+                    <h2 className="title2">{item.title}</h2>
+                    <p className={`description`}>
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: getNoteDescription(get(item, "description")),
+                        }}
+                      ></div>
+                    </p>
                   </div>
-                  <h2 className="title2">{item.title}</h2>
-                  <p
-                    className={`description ${
-                      !isBlurActive ? "blur" : "unblur"
-                    }`}
-                  >
-                    {item.description}
-                  </p>
-                  <ButtonCustom
-                    type="primary"
-                    size="small"
-                    onClick={toggleBlur}
-                    title={!isBlurActive ? "Tap to Reveal" : "Unhide"}
-                  />
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </Carousel>
       </div>
     </Modal>

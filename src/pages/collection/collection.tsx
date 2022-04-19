@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Col, Row, Popover, Spin } from "antd";
+import { Button, Col, Row, Popover, Spin, Pagination } from "antd";
 import get from "lodash/get";
 import map from "lodash/map";
 import find from "lodash/find";
@@ -13,6 +13,7 @@ import EmptyState from "../../common/emptyState/emptyState";
 import CollectionCard from "../../components/collection/collectionCard/collectionCard";
 import CreateCollectionModal from "../../components/collection/modals/createCollection";
 import { fetchCollection } from "../../redux/actions/collectionActions";
+import { getPaginatedData } from "../../utilities/helpers";
 // Images
 import folderGray from "../../assets/images/icons/folder-gray.svg";
 import ShareCollectionToGroup from "../../components/collection/modals/shareCollectionToGroup";
@@ -28,6 +29,10 @@ function CollectionScreen(props: any) {
   const [shareCollectionModal, setShareCollectionModal] = useState<any>({
     visible: false,
     data: null,
+  });
+  const [tabPagination, setTabPagination] = useState({
+    collection: 1,
+    pageSize: 20,
   });
   const [loading, setLoading] = useState(false);
   const [collectionDetails, setCollectionDetails] = useState(null);
@@ -76,7 +81,7 @@ function CollectionScreen(props: any) {
       <a onClick={() => toggleCollectionModal()}>New Collection</a>
     </div>
   );
-
+  console.log("@@@@@", collectionDetails);
   return (
     <PrimaryLayout>
       <Spin spinning={loading}>
@@ -98,7 +103,11 @@ function CollectionScreen(props: any) {
             <div className="card-section">
               <Row gutter={{ xs: 0, sm: 32, md: 32, lg: 32 }}>
                 {map(
-                  get(collectionDetails, "subCollections", []),
+                  getPaginatedData(
+                    get(collectionDetails, "subCollections", []),
+                    get(tabPagination, "collection"),
+                    get(tabPagination, "pageSize")
+                  ),
                   (collection, index) => (
                     <Col sm={6} key={index}>
                       <CollectionCard
@@ -139,6 +148,23 @@ function CollectionScreen(props: any) {
                 )}
               </Row>
             </div>
+          )}
+
+          {collectionDetails && (
+            <Row>
+              <Pagination
+                hideOnSinglePage
+                onChange={(p) => {
+                  setTabPagination({
+                    ...tabPagination,
+                    collection: p,
+                  });
+                }}
+                pageSize={get(tabPagination, "pageSize")}
+                defaultCurrent={get(tabPagination, "collection")}
+                total={get(collectionDetails, "subCollections", []).length}
+              />
+            </Row>
           )}
         </div>
       </Spin>

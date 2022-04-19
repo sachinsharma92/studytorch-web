@@ -32,7 +32,7 @@ import ROUTES from "../../router";
 import EmptyState from "../../common/emptyState/emptyState";
 import PrimaryLayout from "../../common/primaryLayout/primaryLayout";
 import NotesCard from "../../components/collection/notesCard/notesCard";
-import FlashCard from "../../components/collection/flashCard/flashCard";
+// import FlashCard from "../../components/collection/flashCard/flashCard";
 import ShareCollectionModal from "../../components/collection/modals/shareCollection";
 import CreateCollectionModal from "../../components/collection/modals/createCollection";
 import ButtonCustom from "../../common/buttons/buttonCustom";
@@ -351,35 +351,44 @@ function CollectionDetails(props: any) {
                     />
                   </div>
                 ) : (
-                  <div className="card-section note-section">
-                    <Row gutter={32}>
-                      {map(
-                        getPaginatedData(
-                          get(collectionDetails, "notes", []),
-                          get(tabPagination, "notes"),
-                          get(tabPagination, "pageSize")
-                        ),
-                        (note, index) => (
-                          <Col sm={8} key={index}>
-                            <NotesCard
-                              title={get(note, "title")}
-                              collection={collectionDetails}
-                              id={get(note, "id")}
-                              setLoading={setLoading}
-                              description={get(note, "description")}
-                              menuData={menu}
-                              cardHandler="/"
-                              tags={get(note, "tags")}
-                              onEditNote={() => {
-                                toggleNoteModal(note);
-                              }}
-                              onSuccess={fetchCollectionDetails}
-                            />
-                          </Col>
-                        )
-                      )}
-                    </Row>
-                  </div>
+                  <>
+                    <div className="inline-button-section mt--20">
+                      <ButtonCustom
+                        className="round-primary"
+                        onClick={revisionModeToggle}
+                        title="Revision Mode"
+                      />
+                    </div>
+                    <div className="card-section note-section">
+                      <Row gutter={32}>
+                        {map(
+                          getPaginatedData(
+                            get(collectionDetails, "notes", []),
+                            get(tabPagination, "notes"),
+                            get(tabPagination, "pageSize")
+                          ),
+                          (note, index) => (
+                            <Col sm={8} key={index}>
+                              <NotesCard
+                                title={get(note, "title")}
+                                collection={collectionDetails}
+                                id={get(note, "id")}
+                                setLoading={setLoading}
+                                description={get(note, "description")}
+                                menuData={menu}
+                                cardHandler="/"
+                                tags={get(note, "tags")}
+                                onEditNote={() => {
+                                  toggleNoteModal(note);
+                                }}
+                                onSuccess={fetchCollectionDetails}
+                              />
+                            </Col>
+                          )
+                        )}
+                      </Row>
+                    </div>
+                  </>
                 )}
                 {collectionDetails && (
                   <div className="pagination-section">
@@ -562,6 +571,14 @@ function CollectionDetails(props: any) {
           edit={get(noteModal, "data") ? true : false}
           initialValue={get(noteModal, "data")}
           onSuccess={onNotesSuccess}
+        />
+      )}
+
+      {isRevisionModeModal && (
+        <RevisionModeModal
+          visible={isRevisionModeModal}
+          closeHandler={revisionModeToggle}
+          notes={get(collectionDetails, "notes", [])}
         />
       )}
 

@@ -1,30 +1,30 @@
-import { useState, useEffect } from 'react';
-import { Button, Col, PageHeader, Row, Spin, message, Modal } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
-import map from 'lodash/map';
-import get from 'lodash/get';
-import { ExclamationCircleOutlined } from '@ant-design/icons';
-import { useDispatch } from 'react-redux';
-import PrimaryLayout from '../../common/primaryLayout/primaryLayout';
-import EmptyState from '../../common/emptyState/emptyState';
-import { fetchUserChecklist } from '../../redux/actions/checklistActions';
+import { useState, useEffect } from "react";
+import { Button, Col, PageHeader, Row, Spin, message, Modal } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
+import map from "lodash/map";
+import get from "lodash/get";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
+import { useDispatch } from "react-redux";
+import PrimaryLayout from "../../common/primaryLayout/primaryLayout";
+import EmptyState from "../../common/emptyState/emptyState";
+import { fetchUserChecklist } from "../../redux/actions/checklistActions";
 // Images
-import noDataImage from '../../assets/images/study-not-data.svg';
+import noDataImage from "../../assets/images/study-not-data.svg";
 import {
   deleteChecklist,
   createTaskToCheckList,
   updateTaskStatusToCheckList,
   archiveChecklist,
-} from '../../redux/actions/checklistActions';
+} from "../../redux/actions/checklistActions";
 import {
   DELETE_CHECKLIST_SUCCESS,
   CREATE_CHECKLIST_TASK_SUCCESS,
   UPDATE_CHECKLIST_TASK_SUCCESS,
-} from '../../constants/messages';
+} from "../../constants/messages";
 // Styles
-import './styles.scss';
-import AddChecklist from '../../components/checklist/modals/addChecklist';
-import ChecklistCard from '../../components/checklist/checklistCard';
+import "./styles.scss";
+import AddChecklist from "../../components/checklist/modals/addChecklist";
+import ChecklistCard from "../../components/checklist/checklistCard";
 
 const { confirm } = Modal;
 
@@ -39,7 +39,7 @@ function ChecklistScreen(props: any) {
 
   const checklistAddToggleModal = (data = null) => {
     setIsChecklistAddModal({
-      visible: !get(isChecklistAddModal, 'visible'),
+      visible: !get(isChecklistAddModal, "visible"),
       data,
     });
   };
@@ -75,7 +75,7 @@ function ChecklistScreen(props: any) {
 
   const onConfirmDelete = (id: any) => {
     confirm({
-      title: 'Do you Want to delete this Checklist?',
+      title: "Do you Want to delete this Checklist?",
       icon: <ExclamationCircleOutlined />,
 
       onOk() {
@@ -126,8 +126,8 @@ function ChecklistScreen(props: any) {
 
   return (
     <PrimaryLayout>
-      <div className="checklist-page-style">
-        <Spin spinning={loading}>
+      <Spin spinning={loading}>
+        <div className="checklist-page-style">
           <PageHeader
             className="site-page-header header-back"
             title="Study Checklist"
@@ -164,34 +164,34 @@ function ChecklistScreen(props: any) {
               </Row>
             </div>
           )}
-        </Spin>
-      </div>
+        </div>
 
-      {/* Questions Modal */}
-      {get(isChecklistAddModal, 'visible') && (
-        <AddChecklist
-          visible={get(isChecklistAddModal, 'visible')}
-          addHandler={checklistAddToggleModal}
-          cancelHandler={checklistAddToggleModal}
-          onCancel={checklistAddToggleModal}
-          edit={get(isChecklistAddModal, 'data') ? true : false}
-          initialValues={get(isChecklistAddModal, 'data')}
-          onSuccess={() => {
-            getUserCheckList();
+        {/* Questions Modal */}
+        {get(isChecklistAddModal, "visible") && (
+          <AddChecklist
+            visible={get(isChecklistAddModal, "visible")}
+            addHandler={checklistAddToggleModal}
+            cancelHandler={checklistAddToggleModal}
+            onCancel={checklistAddToggleModal}
+            edit={get(isChecklistAddModal, "data") ? true : false}
+            initialValues={get(isChecklistAddModal, "data")}
+            onSuccess={() => {
+              getUserCheckList();
+              checklistAddToggleModal();
+            }}
+          />
+        )}
+
+        <Button
+          onClick={() => {
             checklistAddToggleModal();
           }}
+          className="button-add-circle"
+          shape="circle"
+          type="primary"
+          icon={<PlusOutlined />}
         />
-      )}
-
-      <Button
-        onClick={() => {
-          checklistAddToggleModal();
-        }}
-        className="button-add-circle"
-        shape="circle"
-        type="primary"
-        icon={<PlusOutlined />}
-      />
+      </Spin>
     </PrimaryLayout>
   );
 }

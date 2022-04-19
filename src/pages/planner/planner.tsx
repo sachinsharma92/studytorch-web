@@ -136,8 +136,8 @@ function PlannerScreen(props: any) {
   now.setHours(0, 0, 0, 0);
   return (
     <PrimaryLayout>
-      <div className="planner-page-style">
-        <Spin spinning={loading}>
+      <Spin spinning={loading}>
+        <div className="planner-page-style">
           <PageHeader
             className="site-page-header header-back"
             title="Planner"
@@ -259,43 +259,43 @@ function PlannerScreen(props: any) {
               />
             </div>
           )}
-        </Spin>
-      </div>
+        </div>
 
-      {/* Questions Modal */}
-      {get(isPlannerAddModal, "visible") && (
-        <PlanAddModal
-          visible={get(isPlannerAddModal, "visible")}
-          edit={get(isPlannerAddModal, "edit")}
-          initialValues={get(isPlannerAddModal, "data")}
-          addHandler={() => plannerAddToggleModal()}
-          onSuccess={() => {
-            plannerAddToggleModal();
-            getUserCalendar(dateFilter);
-          }}
-          cancelHandler={() => plannerAddToggleModal()}
-          onCancel={() => plannerAddToggleModal()}
-        />
-      )}
+        {/* Questions Modal */}
+        {get(isPlannerAddModal, "visible") && (
+          <PlanAddModal
+            visible={get(isPlannerAddModal, "visible")}
+            edit={get(isPlannerAddModal, "edit")}
+            initialValues={get(isPlannerAddModal, "data")}
+            addHandler={() => plannerAddToggleModal()}
+            onSuccess={() => {
+              plannerAddToggleModal();
+              getUserCalendar(dateFilter);
+            }}
+            cancelHandler={() => plannerAddToggleModal()}
+            onCancel={() => plannerAddToggleModal()}
+          />
+        )}
 
-      <Drawer
-        width={450}
-        closable={false}
-        onClose={() => {
-          togglePlanDetails();
-        }}
-        maskClosable={true}
-        visible={get(planDetail, "visible")}
-      >
-        <PlanDetails
-          plan={get(planDetail, "data")}
-          onDeletePlan={onDeletePlan}
-          onClickEdit={(plan: any) => {
+        <Drawer
+          width={450}
+          closable={false}
+          onClose={() => {
             togglePlanDetails();
-            plannerAddToggleModal(plan, true);
           }}
-        />
-      </Drawer>
+          maskClosable={true}
+          visible={get(planDetail, "visible")}
+        >
+          <PlanDetails
+            plan={get(planDetail, "data")}
+            onDeletePlan={onDeletePlan}
+            onClickEdit={(plan: any) => {
+              togglePlanDetails();
+              plannerAddToggleModal(plan, true);
+            }}
+          />
+        </Drawer>
+      </Spin>
     </PrimaryLayout>
   );
 }

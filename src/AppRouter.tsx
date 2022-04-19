@@ -1,4 +1,4 @@
-import { Spin } from "antd";
+import { Spin, Skeleton } from "antd";
 import { lazy, Suspense } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import * as ROUTES from "./router/routes";
@@ -126,8 +126,8 @@ const ArchiveScreen = lazy(
 
 const AppRouter = () => {
   return (
-    <Suspense fallback={<Spin spinning={true} />}>
-      <Router>
+    <Router>
+      <Suspense fallback={<Skeleton />}>
         <Routes>
           <Route path={"/test"} element={<TestScreen />} />
           <Route
@@ -191,8 +191,8 @@ const AppRouter = () => {
             element={<ScoreDetailScreen />}
           />
         </Routes>
-      </Router>
-    </Suspense>
+      </Suspense>
+    </Router>
   );
 };
 
