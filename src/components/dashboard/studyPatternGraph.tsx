@@ -1,15 +1,14 @@
-import { Spin } from 'antd';
-import { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import get from 'lodash/get';
-import map from 'lodash/map';
-import moment from 'moment';
-import ColumnHighchartChart from '../charts/columnHighchartChart';
-import arrowIcon1 from '../../assets/images/icons/arrow-down1.svg';
-import EmptyState from '../../common/emptyState/emptyState';
-import { fetchDashboardPattern } from '../../redux/actions/dashboardActions';
-import noDataImage from '../../assets/images/study-not-data.svg';
-import { rangeQueryObj } from '../../utilities/helpers';
+import { Spin } from "antd";
+import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import get from "lodash/get";
+import map from "lodash/map";
+import moment from "moment";
+import ColumnHighchartChart from "../charts/columnHighchartChart";
+import EmptyState from "../../common/emptyState/emptyState";
+import { fetchDashboardPattern } from "../../redux/actions/dashboardActions";
+import noDataImage from "../../assets/images/study-not-data.svg";
+import { rangeQueryObj } from "../../utilities/helpers";
 
 const StudyPatternGraph = (props: any) => {
   const { user, dateRange } = props;
@@ -20,8 +19,8 @@ const StudyPatternGraph = (props: any) => {
     values: [],
   });
   const [date] = useState({
-    start: moment().startOf('month'),
-    end: moment().endOf('month'),
+    start: moment().startOf("month"),
+    end: moment().endOf("month"),
   });
 
   const getGraphData = (result: any) => {
@@ -29,8 +28,8 @@ const StudyPatternGraph = (props: any) => {
     const valArr: any[] = [];
 
     map(result, (d) => {
-      catArr.push(moment(get(d, 'date'), 'YYYY-MM-DD').format('DD/MM'));
-      valArr.push(get(d, 'time'));
+      catArr.push(moment(get(d, "date"), "YYYY-MM-DD").format("DD/MM"));
+      valArr.push(parseInt(get(d, "time")));
     });
 
     return {
@@ -41,7 +40,7 @@ const StudyPatternGraph = (props: any) => {
 
   const getDashboardPattern = () => {
     setLoading(true);
-    dispatch(fetchDashboardPattern(get(user, 'id'), rangeQueryObj(dateRange)))
+    dispatch(fetchDashboardPattern(get(user, "id"), rangeQueryObj(dateRange)))
       .then((result: any) => {
         setData(getGraphData(result));
         setLoading(false);
@@ -65,7 +64,7 @@ const StudyPatternGraph = (props: any) => {
           )} - ${get(date, 'end').format('DD MMMM, YYYY')}`}</p>
           <img src={arrowIcon1} alt="" />
         </div> */}
-        {get(data, 'categories', []).length === 0 && (
+        {get(data, "categories", []).length === 0 && (
           <EmptyState
             imgUrl={noDataImage}
             description="No study pattern, for this month"
@@ -73,10 +72,10 @@ const StudyPatternGraph = (props: any) => {
             imgStyle="empty-image"
           />
         )}
-        {get(data, 'categories', []).length > 0 && (
+        {get(data, "categories", []).length > 0 && (
           <ColumnHighchartChart
-            categories={get(data, 'categories')}
-            values={get(data, 'values')}
+            categories={get(data, "categories")}
+            values={get(data, "values")}
           />
         )}
       </section>
