@@ -1,6 +1,9 @@
 import { Avatar } from "antd";
 import get from "lodash/get";
 import map from "lodash/map";
+import isEmpty from "lodash/isEmpty";
+import startsWith from "lodash/startsWith";
+import countBy from "lodash/countBy";
 import moment from "moment";
 import slice from "lodash/slice";
 import padStart from "lodash/padStart";
@@ -11,6 +14,35 @@ export const truncateText = (input, length) => {
     return `${input.substring(0, length)}...`;
   }
   return input;
+};
+
+export const checkValidMobileNumber = (rule, value, callback) => {
+  const errorMessage =
+    "Invalid phone number format, Make sure phone number start with Country code Ex +61XXXXX!";
+
+  if (!value || isEmpty(value)) {
+    callback();
+    return;
+  }
+  const dashCount = countBy(value)["-"] || 0;
+
+  if (dashCount > 3) {
+    callback(errorMessage);
+    return;
+  }
+
+  const plusCount = countBy(value)["+"] || 0;
+  if (plusCount > 1) {
+    callback(errorMessage);
+    return;
+  }
+
+  if (plusCount && !startsWith(value, "+")) {
+    callback(errorMessage);
+    return;
+  }
+  callback();
+  return;
 };
 
 export const getNameAvatar = (name, size = 30, color = "#f56a00") => (

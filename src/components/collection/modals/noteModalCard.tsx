@@ -100,7 +100,10 @@ function NoteModalCard(props: any) {
     }
   };
   const onFinishFailed = () => {};
-
+  console.log({
+    title: get(initialValue, "title"),
+    tags: get(initialValue, "tags") ? get(initialValue, "tags") : undefined,
+  });
   return (
     <Modal
       centered
@@ -133,7 +136,9 @@ function NoteModalCard(props: any) {
               edit
                 ? {
                     title: get(initialValue, "title"),
-                    tags: get(initialValue, "tags"),
+                    tags: get(initialValue, "tags")
+                      ? get(initialValue, "tags")
+                      : [],
                   }
                 : {}
             }

@@ -1,32 +1,32 @@
-import { Dropdown, Avatar, Tooltip, Menu } from 'antd';
-import get from 'lodash/get';
-import map from 'lodash/map';
+import { Dropdown, Avatar, Tooltip, Menu } from "antd";
+import get from "lodash/get";
+import map from "lodash/map";
 
 import {
   EditOutlined,
   DeleteOutlined,
   InfoCircleOutlined,
-} from '@ant-design/icons';
-import verticalDot from '../../../assets/images/icons/vertical-dot.svg';
-import curveImgae from '../../../assets/images/curve-lines.svg';
-import { Link } from 'react-router-dom';
-import { getNameAvatar } from '../../../utilities/helpers';
-import { avatarColors } from '../../../constants/groups';
-import { GROUPS_DETAIL_SCREEN } from '../../../router/routes';
-import { replaceMultiple } from '../../../utilities/helpers';
+} from "@ant-design/icons";
+import verticalDot from "../../../assets/images/icons/vertical-dot.svg";
+import curveImgae from "../../../assets/images/curve-lines.svg";
+import { Link } from "react-router-dom";
+import { getNameAvatar } from "../../../utilities/helpers";
+import { avatarColors } from "../../../constants/groups";
+import { GROUPS_DETAIL_SCREEN } from "../../../router/routes";
+import { replaceMultiple } from "../../../utilities/helpers";
 
 // Styles
-import './styles.scss';
+import "./styles.scss";
 
 function GroupsCard(props: any) {
   const { group, onEditGroup, onDelete, onLeaveGroup } = props;
   const redirectUrl = replaceMultiple(GROUPS_DETAIL_SCREEN, {
-    ':id': get(group, 'master_collection.id'),
-    ':gid': get(group, 'id'),
+    ":id": get(group, "master_collection.id"),
+    ":gid": get(group, "id"),
   });
   const menu = (
     <Menu>
-      {get(group, 'is_group_admin') && (
+      {get(group, "is_group_admin") && (
         <Menu.Item
           onClick={() => {
             onEditGroup(group);
@@ -36,18 +36,18 @@ function GroupsCard(props: any) {
           Rename
         </Menu.Item>
       )}
-      {get(group, 'is_group_admin') && (
+      {get(group, "is_group_admin") && (
         <Menu.Item
           icon={<DeleteOutlined />}
-          onClick={() => onDelete(get(group, 'id'))}
+          onClick={() => onDelete(get(group, "id"))}
         >
           Delete
         </Menu.Item>
       )}
-      {!get(group, 'is_group_admin') && (
+      {!get(group, "is_group_admin") && (
         <Menu.Item
           icon={<DeleteOutlined />}
-          onClick={() => onLeaveGroup(get(group, 'id'))}
+          onClick={() => onLeaveGroup(get(group, "id"))}
         >
           Leave group
         </Menu.Item>
@@ -63,33 +63,33 @@ function GroupsCard(props: any) {
       className="groups-card-style"
       style={{
         backgroundImage: `url(${curveImgae})`,
-        backgroundColor: get(group, 'color'),
+        backgroundColor: get(group, "color"),
       }}
     >
       <Link to={redirectUrl}>
         <div className="flex-style">
           <div className="content-sec">
-            <h4 className="title4">{get(group, 'name')}</h4>
+            <h4 className="title4">{get(group, "name")}</h4>
             <p className="description">{`Created by ${get(
               group,
-              'group_admin.name'
-            )}, ${get(group, 'group_members', []).length} members`}</p>
+              "group_admin.name"
+            )}, ${get(group, "group_members", []).length} members`}</p>
           </div>
 
           <div className="avatar-group">
             <Avatar.Group maxCount={5}>
-              {map(get(group, 'group_members', []), (member, i: any) => {
-                if (get(member, 'image')) {
+              {map(get(group, "group_members", []), (member, i: any) => {
+                if (get(member, "image")) {
                   return (
-                    <Tooltip title={get(member, 'username')}>
-                      <Avatar src={get(member, 'image_url')} />
+                    <Tooltip title={get(member, "username")}>
+                      <Avatar src={get(member, "image_url")} />
                     </Tooltip>
                   );
                 }
                 return (
-                  <Tooltip title={get(member, 'username')}>
+                  <Tooltip title={get(member, "username")}>
                     {getNameAvatar(
-                      get(member, 'name'),
+                      get(member, "name"),
                       30,
                       avatarColors[i % 4]
                     )}

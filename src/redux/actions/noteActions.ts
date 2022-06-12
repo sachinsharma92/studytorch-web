@@ -14,6 +14,19 @@ export const createNote =
       });
   };
 
+export const createBulkNote =
+  (payload: any): any =>
+  (dispatch: any, getState: any, { api }: any): any => {
+    return api
+      .post(APIS.BULK_NOTES, payload)
+      .then((result: any) => {
+        return result;
+      })
+      .catch((error: any) => {
+        throw error;
+      });
+  };
+
 export const updateNote =
   (id: number, payload: any): any =>
   (dispatch: any, getState: any, { api }: any): any => {

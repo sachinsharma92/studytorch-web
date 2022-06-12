@@ -31,6 +31,7 @@ export const GET_COLLECTION_INVITED_MEMBER =
 
 ///########NOTES#############
 export const NOTES = "notes";
+export const BULK_NOTES = "notes/bulk";
 export const DUPLICATE_NOTE = "notes/:id/duplicate";
 
 ///########NOTES#############

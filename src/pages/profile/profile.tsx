@@ -5,6 +5,7 @@ import { updateUserProfile } from "../../redux/actions/userActions";
 import ProfileLayout from "../../common/profileLayout/profileLayout";
 import UploadImage from "../../common/profileLayout/uploadProfileImage";
 import { PROFILE_UPDATE_SUCCESS } from "../../constants/messages";
+import { checkValidMobileNumber } from "../../utilities/helpers";
 
 // Styles
 import "./styles.scss";
@@ -105,16 +106,14 @@ function ProfileScreen(props: any) {
             >
               <Input placeholder="Type your e-mail " />
             </Form.Item>
-
+            {/* // "", */}
             <Form.Item
               label="Phone"
               name="phone"
               rules={[
                 { required: true, message: "Please input your contact!" },
                 {
-                  pattern: new RegExp(/^\+(?:[0-9] ?){6,14}[0-9]$/),
-                  message:
-                    "Invalid phone number format, Make sure phone number start with Country code Ex +61XXXXX!",
+                  validator: checkValidMobileNumber,
                 },
               ]}
             >

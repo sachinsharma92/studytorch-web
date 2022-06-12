@@ -6,7 +6,6 @@ import {
   Row,
   Popover,
   Tabs,
-  Select,
   PageHeader,
   Spin,
   Breadcrumb,
@@ -44,6 +43,7 @@ import FlashEditModal from "../../components/collection/modals/flashEditModal";
 import RevisionModeModal from "../../components/collection/modals/revisionModeModal";
 import CollectionCard from "../../components/collection/collectionCard/collectionCard";
 import CreateQuizModal from "../../components/quiz/modals/createQuizModal";
+import CreateMultipleNoteModal from "../../components/collection/modals/createMultipleNoteModal";
 import { getPaginatedData } from "../../utilities/helpers";
 
 // Images
@@ -54,8 +54,6 @@ import "./styles.scss";
 import ModalConfirmation from "../../common/modalConfirmation";
 
 const { TabPane } = Tabs;
-
-const { Option } = Select;
 
 const menu = (
   <Menu>
@@ -102,6 +100,11 @@ function CollectionDetails(props: any) {
     data: null,
   });
 
+  const [bulkNoteModal, setBulkNoteModal] = useState({
+    visible: false,
+    data: null,
+  });
+
   const [isQuestionAddedModal, setIsQuestionAddedModal] = useState({
     visible: false,
     edit: false,
@@ -134,6 +137,13 @@ function CollectionDetails(props: any) {
   const toggleNoteModal = (data = null) => {
     setNoteModal({
       visible: !get(noteModal, "visible"),
+      data: data,
+    });
+  };
+
+  const toggleBulkNoteModal = (data = null) => {
+    setBulkNoteModal({
+      visible: !get(bulkNoteModal, "visible"),
       data: data,
     });
   };
@@ -224,7 +234,7 @@ function CollectionDetails(props: any) {
       >
         New Collection
       </a>
-      <a onClick={() => toggleNoteModal()}>Notes</a>
+      <a onClick={() => toggleBulkNoteModal()}>Notes</a>
       <a onClick={() => toggleQuestionModal()}>Question</a>
       {/* <a onClick={() => toggleFlashModal()}>Flash Card</a> */}
     </div>
@@ -232,6 +242,11 @@ function CollectionDetails(props: any) {
 
   const onNotesSuccess = () => {
     toggleNoteModal();
+    fetchCollectionDetails();
+  };
+
+  const onBulkNotesSuccess = () => {
+    toggleBulkNoteModal();
     fetchCollectionDetails();
   };
 
@@ -561,6 +576,17 @@ function CollectionDetails(props: any) {
       )}
 
       {/* Note Modal here */}
+      {get(bulkNoteModal, "visible") && (
+        <CreateMultipleNoteModal
+          visible={get(bulkNoteModal, "visible")}
+          collection={collectionDetails}
+          onCancel={() => {
+            toggleBulkNoteModal();
+          }}
+          onSuccess={onBulkNotesSuccess}
+        />
+      )}
+
       {get(noteModal, "visible") && (
         <NoteModalCard
           visible={get(noteModal, "visible")}

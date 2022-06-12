@@ -35,6 +35,7 @@ import QuestionModal from "../../components/collection/modals/questionModal";
 import QuestionAddedModal from "../../components/collection/modals/questionAddedModal";
 import FlashEditModal from "../../components/collection/modals/flashEditModal";
 import CollectionCard from "../../components/collection/collectionCard/collectionCard";
+import CreateMultipleNoteModal from "../../components/collection/modals/createMultipleNoteModal";
 // import RevisionModeModal from "../../components/collection/modals/revisionModeModal";
 import JoinedDropDown from "../../components/groups/joinedDropDown";
 import GroupBanner from "../../components/groups/groupBanner/groupBanner";
@@ -69,21 +70,6 @@ const menu = (
     <Menu.Item icon={<DeleteOutlined />}>Delete</Menu.Item>
   </Menu>
 );
-
-const flashCardData = [
-  {
-    title: "Headline label",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Adipiscing  elit fringilla vitae...",
-    tag: "Tag 1",
-  },
-  {
-    title: "Headline label",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Adipiscing  elit fringilla vitae...",
-    tag: "Tag 1",
-  },
-];
 
 function GroupDetailScreen(props: any) {
   const navigate = useNavigate();
@@ -122,6 +108,11 @@ function GroupDetailScreen(props: any) {
   });
 
   const [noteModal, setNoteModal] = useState({
+    visible: false,
+    data: null,
+  });
+
+  const [bulkNoteModal, setBulkNoteModal] = useState({
     visible: false,
     data: null,
   });
@@ -181,7 +172,7 @@ function GroupDetailScreen(props: any) {
       >
         New Collection
       </a>
-      <a onClick={() => toggleNoteModal()}>Notes</a>
+      <a onClick={() => toggleBulkNoteModal()}>Notes</a>
       <a onClick={() => toggleQuestionModal()}>Question</a>
     </div>
   );
@@ -224,6 +215,13 @@ function GroupDetailScreen(props: any) {
     });
   };
 
+  const toggleBulkNoteModal = (data = null) => {
+    setBulkNoteModal({
+      visible: !get(bulkNoteModal, "visible"),
+      data: data,
+    });
+  };
+
   const toggleQuestionModal = (data = null) => {
     setQuestionModal({
       visible: !get(questionModal, "visible"),
@@ -238,6 +236,11 @@ function GroupDetailScreen(props: any) {
 
   const onNotesSuccess = () => {
     toggleNoteModal();
+    getGroupCollectionDetails();
+  };
+
+  const onBulkNotesSuccess = () => {
+    toggleBulkNoteModal();
     getGroupCollectionDetails();
   };
   //////////new END ///////////
@@ -710,6 +713,16 @@ function GroupDetailScreen(props: any) {
       />
 
       {/* Note Modal here */}
+      {get(bulkNoteModal, "visible") && (
+        <CreateMultipleNoteModal
+          visible={get(bulkNoteModal, "visible")}
+          collection={collectionDetails}
+          onCancel={() => {
+            toggleBulkNoteModal();
+          }}
+          onSuccess={onBulkNotesSuccess}
+        />
+      )}
       {get(noteModal, "visible") && (
         <NoteModalCard
           visible={get(noteModal, "visible")}

@@ -47,6 +47,7 @@ import QuestionCard from "../../components/collection/questionCard/questionCard"
 import NoteModalCard from "../../components/collection/modals/noteModalCard";
 import QuestionModal from "../../components/collection/modals/questionModal";
 import RevisionModeModal from "../../components/collection/modals/revisionModeModal";
+import CreateMultipleNoteModal from "../../components/collection/modals/createMultipleNoteModal";
 import QuestionAddedModal from "../../components/collection/modals/questionAddedModal";
 import FlashEditModal from "../../components/collection/modals/flashEditModal";
 import CreateQuizModal from "../../components/quiz/modals/createQuizModal";
@@ -103,6 +104,11 @@ function ShareWithMeDetails(props: any) {
     data: null,
   });
 
+  const [bulkNoteModal, setBulkNoteModal] = useState({
+    visible: false,
+    data: null,
+  });
+
   const [noteModal, setNoteModal] = useState({
     visible: false,
     data: null,
@@ -145,6 +151,18 @@ function ShareWithMeDetails(props: any) {
       visible: !get(noteModal, "visible"),
       data: data,
     });
+  };
+
+  const toggleBulkNoteModal = (data = null) => {
+    setBulkNoteModal({
+      visible: !get(bulkNoteModal, "visible"),
+      data: data,
+    });
+  };
+
+  const onBulkNotesSuccess = () => {
+    toggleBulkNoteModal();
+    fetchSharedCollectionDetails();
   };
 
   const toggleQuestionModal = (data = null) => {
@@ -234,7 +252,7 @@ function ShareWithMeDetails(props: any) {
       >
         New Collection
       </a>
-      <a onClick={() => toggleNoteModal()}>Notes</a>
+      <a onClick={() => toggleBulkNoteModal()}>Notes</a>
       <a onClick={() => toggleQuestionModal()}>Question</a>
       {/* <a onClick={() => toggleFlashModal()}>Flash Card</a> */}
     </div>
@@ -701,6 +719,16 @@ function ShareWithMeDetails(props: any) {
       )}
 
       {/* Note Modal here */}
+      {get(bulkNoteModal, "visible") && (
+        <CreateMultipleNoteModal
+          visible={get(bulkNoteModal, "visible")}
+          collection={collectionDetails}
+          onCancel={() => {
+            toggleBulkNoteModal();
+          }}
+          onSuccess={onBulkNotesSuccess}
+        />
+      )}
       <NoteModalCard
         visible={get(noteModal, "visible")}
         collection={collectionDetails}

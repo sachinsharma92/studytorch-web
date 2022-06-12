@@ -581,3 +581,21 @@ p {
 
   }
 }
+
+.single-image-upload {
+  .ant-upload-select-picture-card{
+    height: 70px;
+    width: 80px;
+  }
+  img {
+    height: 50px;
+    width: 70px;
+  }
+}
+
+.note-remove-icon-container {
+  display:flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
