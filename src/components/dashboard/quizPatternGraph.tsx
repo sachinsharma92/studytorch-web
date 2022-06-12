@@ -1,15 +1,15 @@
-import { Card, Spin } from 'antd';
-import { useState, useEffect } from 'react';
-import get from 'lodash/get';
-import map from 'lodash/map';
-import { useDispatch } from 'react-redux';
-import moment from 'moment';
-import ScoreHighchartChart from '../charts/scoreHighchartChart';
-import { fetchDashboardQuizPattern } from '../../redux/actions/dashboardActions';
-import arrowIcon2 from '../../assets/images/icons/arrow-down2.svg';
-import EmptyState from '../../common/emptyState/emptyState';
-import noDataImage from '../../assets/images/study-not-data.svg';
-import { rangeQueryObj } from '../../utilities/helpers';
+import { Card, Spin } from "antd";
+import { useState, useEffect } from "react";
+import get from "lodash/get";
+import map from "lodash/map";
+import { useDispatch } from "react-redux";
+import moment from "moment";
+import ScoreHighchartChart from "../charts/scoreHighchartChart";
+import { fetchDashboardQuizPattern } from "../../redux/actions/dashboardActions";
+import arrowIcon2 from "../../assets/images/icons/arrow-down2.svg";
+import EmptyState from "../../common/emptyState/emptyState";
+import noDataImage from "../../assets/images/study-not-data.svg";
+import { rangeQueryObj } from "../../utilities/helpers";
 
 const QuizPatternGraph = (props: any) => {
   const { user, dateRange } = props;
@@ -20,8 +20,8 @@ const QuizPatternGraph = (props: any) => {
     values: [],
   });
   const [date] = useState({
-    start: moment().startOf('month'),
-    end: moment().endOf('month'),
+    start: moment().startOf("month"),
+    end: moment().endOf("month"),
   });
 
   const getGraphData = (result: any) => {
@@ -29,8 +29,8 @@ const QuizPatternGraph = (props: any) => {
     const valArr: any[] = [];
 
     map(result, (d) => {
-      catArr.push(moment(get(d, 'date'), 'YYYY-MM-DD').format('DD/MM'));
-      valArr.push(get(d, 'avg'));
+      catArr.push(moment(get(d, "date"), "YYYY-MM-DD").format("DD/MM"));
+      valArr.push(parseInt(get(d, "avg")));
     });
 
     return {
@@ -42,7 +42,7 @@ const QuizPatternGraph = (props: any) => {
   const getDashboardQuizPattern = () => {
     setLoading(true);
     dispatch(
-      fetchDashboardQuizPattern(get(user, 'id'), rangeQueryObj(dateRange))
+      fetchDashboardQuizPattern(get(user, "id"), rangeQueryObj(dateRange))
     )
       .then((result: any) => {
         setData(getGraphData(result));
@@ -67,7 +67,7 @@ const QuizPatternGraph = (props: any) => {
           )} - ${get(date, 'end').format('DD MMMM, YYYY')}`}</p>
           <img src={arrowIcon2} alt="" />
         </div> */}
-        {get(data, 'categories', []).length === 0 && (
+        {get(data, "categories", []).length === 0 && (
           <EmptyState
             imgUrl={noDataImage}
             description="No study pattern, for this month"
@@ -75,11 +75,11 @@ const QuizPatternGraph = (props: any) => {
             imgStyle="empty-image"
           />
         )}
-        {get(data, 'categories', []).length > 0 && (
+        {get(data, "categories", []).length > 0 && (
           <Card className="score-chart-card">
             <ScoreHighchartChart
-              categories={get(data, 'categories')}
-              values={get(data, 'values')}
+              categories={get(data, "categories")}
+              values={get(data, "values")}
             />
           </Card>
         )}
