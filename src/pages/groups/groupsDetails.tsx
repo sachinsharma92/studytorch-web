@@ -43,6 +43,7 @@ import GroupMembers from "../../components/groups/groupMembers";
 import GroupCreateModal from "../../components/groups/modals/groupCreateModal";
 import GroupQuizTab from "../../components/groups/groupQuizTab/groupQuizTab";
 import GroupReportTab from "../../components/groups/groupReportTab";
+import EventsSocket from "../../components/eventSocket";
 import {
   fetchGroupCollectionDetails,
   fetchGroupDetails,
@@ -685,6 +686,14 @@ function GroupDetailScreen(props: any) {
             createQuizToggleModal();
           }}
           onCancel={createQuizToggleModal}
+        />
+      )}
+
+      {get(collectionDetails, "id") && (
+        <EventsSocket
+          time={30}
+          type="collection"
+          uuid={get(collectionDetails, "id")}
         />
       )}
 

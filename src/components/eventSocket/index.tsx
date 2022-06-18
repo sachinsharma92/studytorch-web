@@ -1,16 +1,9 @@
-import useWebSocket from 'react-use-websocket';
-import { useEffect, useRef } from 'react';
-import { useSelector } from 'react-redux';
-import get from 'lodash/get';
-import { useStopwatch } from 'react-timer-hook';
-
-function usePrevious(value: any) {
-  const ref = useRef();
-  useEffect(() => {
-    ref.current = value;
-  }, [value]);
-  return ref.current;
-}
+import useWebSocket from "react-use-websocket";
+import { useEffect, useRef } from "react";
+import { useSelector } from "react-redux";
+import get from "lodash/get";
+import assign from "lodash/assign";
+import { useStopwatch } from "react-timer-hook";
 
 const EventsSocket = (props: any) => {
   const {
@@ -23,13 +16,18 @@ const EventsSocket = (props: any) => {
     onError = () => {},
   } = props;
 
-  const token = useSelector((state) => get(state, 'userState.accessToken'));
+  const token = useSelector((state) => get(state, "userState.accessToken"));
   const { seconds, reset } = useStopwatch({ autoStart: true });
-  const prevUuid = usePrevious(uuid);
+
+  const secondRef = useRef();
 
   const shouldSocketReconnect = () => {
     return true;
   };
+
+  useEffect(() => {
+    assign(secondRef, { current: seconds });
+  }, [seconds]);
 
   const sendEvent = (uuid: any, t: any) => {
     if (uuid) {
@@ -46,16 +44,16 @@ const EventsSocket = (props: any) => {
 
   const onMessage = (message: any) => {
     try {
-      onEvent(JSON.parse(get(message, 'data')));
+      onEvent(JSON.parse(get(message, "data")));
     } catch (e) {
       onEvent(null);
     }
   };
 
   useEffect(() => {
-    if (uuid) {
-      sendEvent(prevUuid, seconds);
-    }
+    return () => {
+      sendEvent(uuid, secondRef.current);
+    };
   }, [uuid]);
 
   const { sendMessage } = useWebSocket(`${process.env.REACT_APP_WSS_HOST}`, {
@@ -75,7 +73,7 @@ const EventsSocket = (props: any) => {
     }
   }, [seconds]);
 
-  return <></>;
+  return <>{seconds}</>;
 };
 
 export default EventsSocket;

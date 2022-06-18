@@ -181,8 +181,6 @@ function CollectionDetails(props: any) {
   };
 
   const onKeyPressFunction = (event: any) => {
-    console.log(get(event, "altKey"), event, get(event, "keyCode"));
-
     if (get(event, "altKey") && get(event, "keyCode") === 67) {
       setCollectionModal({ visible: true, data: null });
     }
