@@ -1,16 +1,17 @@
-import { Button, Form, Input, Checkbox, Spin } from "antd";
-import { useState } from "react";
-
+import { Button, Form, Input, Checkbox, Spin, Select } from "antd";
+import { useEffect, useState } from "react";
 import get from "lodash/get";
+import map from "lodash/map";
 import { Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import ROUTES from "../../router";
 import AuthLayout from "./authLayout";
-import { register } from "../../redux/actions/userActions";
+import { register, fetchTimeZones } from "../../redux/actions/userActions";
 
 // Styles
 import "./styles.scss";
 
+const { Option } = Select;
 /**
  * Props
  */
@@ -18,6 +19,8 @@ interface RegisterScreenProps {}
 
 function RegisterScreen(props: RegisterScreenProps) {
   const [loading, setLoading] = useState(false);
+  const [timeZones, setTimeZones] = useState([]);
+
   const dispatch = useDispatch();
 
   const isLoggedIn = useSelector((state) => get(state, "userState.isLoggedIn"));
@@ -40,6 +43,22 @@ function RegisterScreen(props: RegisterScreenProps) {
     onRegister(values);
   };
 
+  const getTimeZones = () => {
+    setLoading(true);
+    dispatch(fetchTimeZones())
+      .then((result: any) => {
+        setTimeZones(result);
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  };
+
+  useEffect(() => {
+    getTimeZones();
+  }, []);
+
   if (showOnBoarding && isLoggedIn) {
     return <Navigate to={ROUTES.ONBOARDING_SCREEN} />;
   }
@@ -49,7 +68,7 @@ function RegisterScreen(props: RegisterScreenProps) {
   }
 
   const onFinishFailed = (errorInfo: any) => {};
-
+  console.log("=======>timeZones", timeZones);
   return (
     <div className="auth-page-style">
       <AuthLayout>
@@ -117,6 +136,33 @@ function RegisterScreen(props: RegisterScreenProps) {
                 ]}
               >
                 <Input placeholder="Type your contact " />
+              </Form.Item>
+
+              <Form.Item
+                label="User Time Zone"
+                name="time_zone"
+                rules={[
+                  { required: true, message: "Please input your time zone!" },
+                ]}
+              >
+                <Select
+                  showSearch
+                  size="large"
+                  placeholder="Select Note"
+                  filterOption={(input, option) =>
+                    (option!.children as unknown as string)
+                      .toLowerCase()
+                      .includes(input.toLowerCase())
+                  }
+                >
+                  {map(timeZones, (tz, i) => {
+                    return (
+                      <Option key={i} value={get(tz, "id")}>
+                        {get(tz, "label")}
+                      </Option>
+                    );
+                  })}
+                </Select>
               </Form.Item>
 
               <Form.Item

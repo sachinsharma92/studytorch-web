@@ -1,7 +1,11 @@
-import { Form, Input, Button, Spin, message } from "antd";
+import { Form, Input, Button, Spin, message, Select } from "antd";
 import get from "lodash/get";
+import map from "lodash/map";
 import { useDispatch, useSelector } from "react-redux";
-import { updateUserProfile } from "../../redux/actions/userActions";
+import {
+  updateUserProfile,
+  fetchTimeZones,
+} from "../../redux/actions/userActions";
 import ProfileLayout from "../../common/profileLayout/profileLayout";
 import UploadImage from "../../common/profileLayout/uploadProfileImage";
 import { PROFILE_UPDATE_SUCCESS } from "../../constants/messages";
@@ -9,11 +13,14 @@ import { checkValidMobileNumber } from "../../utilities/helpers";
 
 // Styles
 import "./styles.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+const { Option } = Select;
 
 function ProfileScreen(props: any) {
   const user = useSelector((state) => get(state, "userState.user"));
   const [loading, setLoading] = useState(false);
+  const [timeZones, setTimeZones] = useState([]);
 
   const [profileImage, setProfileImage] = useState(
     get(user, "image")
@@ -25,6 +32,18 @@ function ProfileScreen(props: any) {
   );
 
   const dispatch = useDispatch();
+
+  const getTimeZones = () => {
+    setLoading(true);
+    dispatch(fetchTimeZones())
+      .then((result: any) => {
+        setTimeZones(result);
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  };
 
   const onFinish = (values: any) => {
     setLoading(true);
@@ -43,6 +62,10 @@ function ProfileScreen(props: any) {
   const onUploadDone = (urlObj: any) => {
     setProfileImage(urlObj);
   };
+
+  useEffect(() => {
+    getTimeZones();
+  }, []);
 
   return (
     <ProfileLayout className="profile-page-style">
@@ -72,6 +95,7 @@ function ProfileScreen(props: any) {
               username: get(user, "name"),
               phone: get(user, "phone"),
               email: get(user, "email"),
+              time_zone: get(user, "time_zone"),
             }}
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
@@ -107,6 +131,33 @@ function ProfileScreen(props: any) {
               <Input placeholder="Type your e-mail " />
             </Form.Item>
             {/* // "", */}
+            <Form.Item
+              label="User Time Zone"
+              name="time_zone"
+              rules={[
+                { required: true, message: "Please input your time zone!" },
+              ]}
+            >
+              <Select
+                showSearch
+                size="large"
+                placeholder="Select Note"
+                filterOption={(input, option) =>
+                  (option!.children as unknown as string)
+                    .toLowerCase()
+                    .includes(input.toLowerCase())
+                }
+              >
+                {map(timeZones, (tz, i) => {
+                  return (
+                    <Option key={i} value={get(tz, "id")}>
+                      {get(tz, "label")}
+                    </Option>
+                  );
+                })}
+              </Select>
+            </Form.Item>
+
             <Form.Item
               label="Phone"
               name="phone"

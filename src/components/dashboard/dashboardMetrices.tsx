@@ -141,27 +141,19 @@ const DashboardMetrices = (props: any) => {
                 >
                   <h4 className="title4">
                     <span className="dot-unsuccessful" />{" "}
-                    {get(metrices, "total_quizzes_attempted", 0) -
-                      get(metrices, "pass_quiz", 0)}
+                    {get(metrices, "total_quizzes_attempted", 0)}
                   </h4>
-                  <p className="description">Unsuccessful</p>
-                </div>
-                <div>
-                  <h4 className="title4">
-                    <span className="dot-Successful" />{" "}
-                    {get(metrices, "pass_quiz")}
-                  </h4>
-                  <p className="description">Successful</p>
+                  <p className="description">Quiz attempted</p>
                 </div>
               </div>
             </div>
 
             <PieChart
-              success={get(metrices, "pass_quiz", 0)}
+              success={get(metrices, "total_score", 0)}
               percentText={get(metrices, "total_score", 0)}
               unSuccess={
                 get(metrices, "total_quizzes_attempted", 0) -
-                get(metrices, "pass_quiz", 0)
+                get(metrices, "total_score", 0)
               }
             />
           </div>

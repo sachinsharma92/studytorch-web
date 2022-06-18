@@ -1,6 +1,6 @@
-import get from 'lodash/get';
-import * as APIS from '../../constants/apis';
-import { USER_LOGGED_IN } from '../../constants/actions';
+import get from "lodash/get";
+import * as APIS from "../../constants/apis";
+import { USER_LOGGED_IN } from "../../constants/actions";
 
 export const login =
   (payload: any): any =>
@@ -8,9 +8,9 @@ export const login =
     return api
       .post(APIS.LOGIN, payload)
       .then((user: any) => {
-        api.defaults.headers.common['authorization'] = `Bearer ${get(
+        api.defaults.headers.common["authorization"] = `Bearer ${get(
           user,
-          'token'
+          "token"
         )}`;
         dispatch({
           type: USER_LOGGED_IN,
@@ -25,7 +25,7 @@ export const login =
 export const logout =
   (): any =>
   (dispatch: any, getState: any, { api }: any): any => {
-    api.defaults.headers.common['authorization'] = null;
+    api.defaults.headers.common["authorization"] = null;
   };
 
 export const register =
@@ -34,9 +34,9 @@ export const register =
     return api
       .post(APIS.REGISTER, payload)
       .then((user: any) => {
-        api.defaults.headers.common['authorization'] = `Bearer ${get(
+        api.defaults.headers.common["authorization"] = `Bearer ${get(
           user,
-          'token'
+          "token"
         )}`;
         dispatch({
           type: USER_LOGGED_IN,
@@ -74,6 +74,19 @@ export const verifyforgotPassword =
       });
   };
 
+export const fetchTimeZones =
+  (): any =>
+  (dispatch: any, getState: any, { api }: any): any => {
+    return api
+      .get(APIS.TIME_ZONES)
+      .then((result: any) => {
+        return result;
+      })
+      .catch((error: any) => {
+        throw error;
+      });
+  };
+
 export const updateforgotPassword =
   (payload: any): any =>
   (dispatch: any, getState: any, { api }: any): any => {
@@ -93,9 +106,9 @@ export const updateUserProfile =
     return api
       .put(APIS.PROFILE, payload)
       .then((user: any) => {
-        api.defaults.headers.common['authorization'] = `Bearer ${get(
+        api.defaults.headers.common["authorization"] = `Bearer ${get(
           user,
-          'token'
+          "token"
         )}`;
         dispatch({
           type: USER_LOGGED_IN,
@@ -113,9 +126,9 @@ export const updateUserNotification =
     return api
       .post(APIS.USER_NOTIFICATION, payload)
       .then((user: any) => {
-        api.defaults.headers.common['authorization'] = `Bearer ${get(
+        api.defaults.headers.common["authorization"] = `Bearer ${get(
           user,
-          'token'
+          "token"
         )}`;
         dispatch({
           type: USER_LOGGED_IN,
