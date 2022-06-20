@@ -151,10 +151,7 @@ const DashboardMetrices = (props: any) => {
             <PieChart
               success={get(metrices, "total_score", 0)}
               percentText={get(metrices, "total_score", 0)}
-              unSuccess={
-                get(metrices, "total_quizzes_attempted", 0) -
-                get(metrices, "total_score", 0)
-              }
+              unSuccess={100 - get(metrices, "total_score", 0)}
             />
           </div>
         </Col>

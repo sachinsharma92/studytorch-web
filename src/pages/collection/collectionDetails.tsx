@@ -545,7 +545,7 @@ function CollectionDetails(props: any) {
       </div>
       {get(collectionDetails, "id") && (
         <EventsSocket
-          time={30}
+          time={10}
           type="collection"
           uuid={get(collectionDetails, "id")}
         />
