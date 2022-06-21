@@ -164,7 +164,7 @@ function SharedWithMeScreen() {
               </h2>
             </div>
           </ModalConfirmation>
-
+          {console.log({ sharedDrawer })}
           {/* Drawer Style here */}
           <Drawer
             title="Shared Information"
@@ -187,7 +187,11 @@ function SharedWithMeScreen() {
                   <h4 className="title4">
                     {get(sharedDrawer, "data.collection.name")}
                   </h4>
-                  <p>20 Notes, 2 Quizzes</p>
+                  <p>
+                    {get(sharedDrawer, "data.collection.note_count")} Notes,{" "}
+                    {get(sharedDrawer, "data.collection.question_count")}
+                    Questions
+                  </p>
                 </div>
               </div>
               <div className="shared-details">

@@ -264,6 +264,7 @@ function QuizSelectModal(props: any) {
     <Modal
       centered
       visible={props.visible}
+      maskClosable={false}
       destroyOnClose
       footer={false}
       onCancel={onModalCancel}
