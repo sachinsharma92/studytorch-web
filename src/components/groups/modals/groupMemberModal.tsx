@@ -290,7 +290,6 @@ function GroupMemberModal(props: any) {
       </Modal>
       <Drawer
         width={"90%"}
-        closable={false}
         destroyOnClose
         onClose={() => {
           setUserProgressDrawer({
