@@ -80,7 +80,7 @@ const GroupReportTab = (props: any) => {
             </div>
             <div className="flex">
               <h3 className="title-md">
-                {getTimeText(get(group, "studied_time"))}
+                {getTimeText(get(report, "studied_time"))}
               </h3>
               <p className="description">Group Studied</p>
             </div>
