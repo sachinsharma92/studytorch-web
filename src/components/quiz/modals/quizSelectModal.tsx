@@ -17,6 +17,7 @@ import { useSelector } from "react-redux";
 import useWebSocket from "react-use-websocket";
 import get from "lodash/get";
 import map from "lodash/map";
+import trim from "lodash/trim";
 import last from "lodash/last";
 import QuizTime from "../quizTime";
 import { LeftOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
@@ -46,7 +47,7 @@ const GetQuestion = (props: any) => {
         <Input.TextArea
           rows={4}
           onChange={(e) => {
-            onSubmitAnswer(e.target.value ? [e.target.value] : []);
+            onSubmitAnswer(e.target.value ? [trim(e.target.value)] : []);
           }}
           placeholder="Answer"
           value={get(question, "submitted_answer.0")}
@@ -125,7 +126,6 @@ function QuizSelectModal(props: any) {
 
   const onSubmitQuiz = (payload: any) => {
     setLoading(true);
-
     dispatch(
       submitQuiz(get(quizDetails, "id"), {
         time: get(time, "current"),
