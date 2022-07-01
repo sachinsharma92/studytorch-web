@@ -14,6 +14,10 @@
     justify-content: center;
   }
 
+  .content-sec {
+    word-break: break-all;
+  }
+
   .card-section {
     margin-top: 30px;
 
@@ -23,6 +27,7 @@
 
     .collection-card-style {
       margin-bottom: 32px;
+      height: 80%;
       
       @include mobile {
         justify-content: space-between;

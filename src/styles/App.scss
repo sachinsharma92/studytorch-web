@@ -599,3 +599,12 @@ p {
   justify-content: center;
   align-items: center;
 }
+
+
+// Editor Image
+.rdw-image-imagewrapper {
+
+  img {
+    max-width: 100% !important;
+  }
+}

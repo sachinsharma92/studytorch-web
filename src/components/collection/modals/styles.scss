@@ -704,11 +704,14 @@
   }
 
   .card-modal {
-    max-width: 536px;
+    // max-width: 536px;
+    max-width: 80%;
     margin: 0 auto;
     border: 1px solid #e4ecf7;
     padding: 40px;
     border-radius: 16px;
+    overflow-y: auto;
+    height: 70vh;
 
     .ant-btn {
       padding: 0 20px;

@@ -7,10 +7,15 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+
+    @include mobile {
+      flex-direction: column;
+    }
   }
   .ranger-picker {
     max-height: 40px;
     min-width: 200px;
+    height: 40px;
   }
 
   .right-section {
