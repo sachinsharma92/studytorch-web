@@ -31,9 +31,16 @@ const CollectionSection = (props: any) => {
     getDashboardCollections();
   }, []);
 
+
+  const [toggle, setToggle] = useState(false);
+
+  const triggerToggle = () => {
+    setToggle(!toggle)
+  }
+
   return (
     <Spin spinning={loading}>
-      <div className="right-section">
+      <div className={`right-section ${toggle && 'right-section-active'}`}>
         <h4 className="title4">Most Studied Collections</h4>
         <Divider />
         {get(collections, "most_used_collections", []).length === 0 && (
@@ -156,6 +163,8 @@ const CollectionSection = (props: any) => {
             )
         )}
       </div>
+
+      <button onClick={triggerToggle} className="toggle">{!toggle ? '+' : '-'}</button>
     </Spin>
   );
 };

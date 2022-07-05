@@ -12,6 +12,7 @@
       flex-direction: column;
     }
   }
+
   .ranger-picker {
     max-height: 40px;
     min-width: 200px;
@@ -23,6 +24,43 @@
     height: calc(100vh - 64px);
     overflow-x: scroll;
     padding: 24px;
+
+    @include mobile {
+      z-index: 9;
+      position: fixed;
+      top: 0;
+      left: auto;
+      height: 100vh;
+      width: 100%;
+      right: -100%;
+      transition: all 0.5s ease-in-out;
+    }
+  }
+
+  .right-section-active {
+    right: 0;
+  }
+
+  .toggle {
+    background-color: $theme-primary;
+    width: 50px;
+    height: 50px;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 999;
+    font-size: 40px;
+    border-radius: 50%;
+    color: $white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+
+    @include desktop {
+      display: none;
+    }
+
   }
 
   .section-main {
@@ -121,6 +159,7 @@
   .space-md {
     margin-bottom: 33px;
   }
+
   .space-md-top {
     margin-top: 20px;
   }

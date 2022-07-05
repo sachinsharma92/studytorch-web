@@ -1,4 +1,5 @@
-@import url("http://fonts.cdnfonts.com/css/sofia-pro");
+// @import url("http://fonts.cdnfonts.com/css/sofia-pro");
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;900&display=swap');
 
 // variables
 @import "./variables/colors";
@@ -10,7 +11,7 @@
 
 // custom css
 * {
-  font-family: "Sofia Pro", sans-serif !important;
+  font-family: 'Poppins', sans-serif !important;
 }
 
 *,
@@ -541,6 +542,8 @@ p {
 
   @include mobile {
     min-width: 190px;
+    left: -27px;
+    position: relative;
   }
 
   &:hover,
@@ -583,10 +586,11 @@ p {
 }
 
 .single-image-upload {
-  .ant-upload-select-picture-card{
+  .ant-upload-select-picture-card {
     height: 70px;
     width: 80px;
   }
+
   img {
     height: 50px;
     width: 70px;
@@ -594,7 +598,7 @@ p {
 }
 
 .note-remove-icon-container {
-  display:flex;
+  display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;

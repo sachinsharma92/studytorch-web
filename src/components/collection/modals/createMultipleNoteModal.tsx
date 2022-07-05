@@ -111,13 +111,13 @@ function CreateMultipleNoteModal(props: any) {
                 <>
                   {fields.map(({ key, name, ...restField }) => (
                     <Row gutter={16}>
-                      <Col xl={22}>
+                      <Col xl={23}>
                         <Card
                           size="small"
                           style={{
                             width: "100%",
                             margin: "10px",
-                            minHeight: 100,
+                            marginBottom: 40
                           }}
                         >
                           <Row gutter={16}>
@@ -133,7 +133,7 @@ function CreateMultipleNoteModal(props: any) {
                                   },
                                 ]}
                               >
-                                <Input placeholder="Heading" />
+                                <Input placeholder="Heading" style={{ height: 71 }} />
                               </Form.Item>
                             </Col>
                             <Col xl={10}>
@@ -148,7 +148,7 @@ function CreateMultipleNoteModal(props: any) {
                                 ]}
                               >
                                 <Input.TextArea
-                                  style={{ height: 46 }}
+                                  style={{ height: 71 }}
                                   placeholder="Description"
                                 />
                               </Form.Item>
