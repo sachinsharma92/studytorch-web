@@ -10,6 +10,12 @@
   gap: 0 108px;
   position: relative;
 
+  @include mobile {
+    padding: 50px 15px;
+    flex-direction: column-reverse;
+    gap: 0 28px;
+  }
+
   .title-l4 {
     font-weight: 700;
     font-size: 30px;
@@ -100,9 +106,22 @@
     position: absolute;
     bottom: 0;
     left: 0;
+
+    @include mobile {
+      max-width: 30%;
+
+      img {
+        width: 100%;
+      }
+    }
   }
 
   .tab-img {
     width: 640px;
+
+    @include mobile {
+      width: 100%;
+      margin-top: 50px;
+    }
   }
 }

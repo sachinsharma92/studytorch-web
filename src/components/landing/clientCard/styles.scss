@@ -6,4 +6,15 @@
   padding: 124px 200px;
   display: flex;
   justify-content: space-between;
+
+  @include mobile {
+    padding: 54px 15px;
+    gap: 30px;
+    flex-wrap: nowrap;
+    @include scrollbrHide;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
 }

@@ -24,7 +24,7 @@ function LandingScreen(props: OnboardingScreenProps) {
 
       <div className='header-section'>
         <div className="header-sec">
-          <img src={LogoPrimary} alt="" />
+          <img src={LogoPrimary} className="logo-style" alt="" />
           <div className="action-section">
             <Link to="/" className='btn-sign-in btn'>
               Sign In

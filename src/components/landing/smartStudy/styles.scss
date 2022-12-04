@@ -10,6 +10,10 @@
   background: #fafafb;
   position: relative;
 
+  @include mobile {
+    padding: 50px 15px 25px;
+  }
+
   .title-l4 {
     font-weight: 700;
     font-size: 30px;
@@ -34,5 +38,13 @@
     position: absolute;
     bottom: 0;
     right: 0;
+
+    @include mobile {
+      max-width: 50%;
+
+      img {
+        width: 100%;
+      }
+    }
   }
 }

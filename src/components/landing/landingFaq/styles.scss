@@ -9,15 +9,25 @@
   background: $white;
   gap: 0 108px;
 
+  @include mobile {
+    padding: 50px 15px;
+    flex-direction: column;
+  }
+
   .icon-img {
     width: 117px;
     margin: 0 auto;
   }
+
   .title-l4 {
     font-weight: 700;
     font-size: 26px;
     line-height: 36px;
     margin-bottom: 64px;
+
+    @include mobile {
+      margin-bottom: 24px;
+    }
   }
 
   .left-sec {

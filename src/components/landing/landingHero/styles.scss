@@ -8,9 +8,17 @@
   justify-content: space-between;
   height: calc(100vh - 90px);
 
+  @include mobile {
+    padding: 0 15px;
+  }
+
   .title1 {
     color: $white;
     line-height: 64px;
+
+    @include mobile;
+    line-height: 34px;
+    font-size: 25px;
   }
 
   .description {
@@ -20,10 +28,19 @@
     color: $white;
     margin-top: 13px;
     max-width: 500px;
+
+    @include mobile {
+      max-width: 100%;
+      line-height: 28px;
+    }
   }
 
   .line-style {
     max-width: 389px;
+
+    @include mobile {
+      max-width: 100%;
+    }
   }
 
   .head-sec {
@@ -33,6 +50,11 @@
     align-items: flex-start;
     position: relative;
     flex-grow: 2;
+
+    @include mobile {
+      margin-top: 50px;
+      max-width: 100%;
+    }
   }
 
   .hero-illustration-style {
@@ -40,6 +62,11 @@
     bottom: 0;
     right: -123px;
     height: 470px;
+
+    @include mobile {
+      right: -20px;
+      height: 300px;
+    }
 
     img {
       width: 100%;
@@ -52,6 +79,10 @@
     align-items: flex-end;
     justify-content: flex-end;
     margin-bottom: 0;
+
+    @include mobile {
+      display: none;
+    }
 
     img {
       width: 90%;

@@ -3,7 +3,11 @@
 @import "../../../styles/variables/mixins";
 
 .grow-brand-section {
-  padding: 80px 120px;
+  padding: 80px 120px 0;
+
+  @include mobile {
+    padding: 15px;
+  }
 
   .blue-card {
     border-radius: 8px;
@@ -13,6 +17,11 @@
     background: $theme-primary url("../../../assets/images/landing/circles.svg");
     background-repeat: no-repeat;
     background-position: right;
+
+    @include mobile {
+      flex-direction: column;
+      padding: 20px;
+    }
   }
 
   .icon-img {
@@ -39,8 +48,16 @@
     align-items: center;
     justify-content: flex-end;
 
+    @include mobile {
+      justify-content: flex-start;
+    }
+
     .btn-free {
       max-width: 230px;
+
+      @include mobile {
+        max-width: 100%;
+      }
     }
   }
 

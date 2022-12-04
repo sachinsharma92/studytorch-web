@@ -3,11 +3,16 @@
 @import "../../../styles/variables/mixins";
 
 .our-champ-section {
-  padding: 80px 120px;
+  padding: 80px 120px 0;
   display: flex;
   justify-content: space-between;
   background: $white;
   gap: 0 108px;
+
+  @include mobile {
+    padding: 10px 15px;
+    flex-direction: column;
+  }
 
   .icon-img {
     width: 117px;
@@ -22,12 +27,14 @@
   .left-sec {
     min-width: 328px;
     max-width: 328px;
+
+    @include mobile {
+      min-width: auto;
+    }
   }
   .right-sec {
-    flex-grow: 2;
-    padding-left: 150px;
     display: flex;
-    flex-wrap: wrap;
+    overflow: hidden;
   }
 
   .carousel-item {
@@ -57,6 +64,85 @@
       width: 100px;
       height: 100px;
       display: flex;
+
+      @include mobile {
+        display: none;
+      }
+    }
+  }
+
+  .carousel .slide {
+    text-align: left;
+    padding-bottom: 50px;
+  }
+
+  .carousel-slider {
+    width: 80% !important;
+    margin-right: 0;
+    margin-left: auto;
+
+    @include mobile {
+      width: 100vw !important;
+      margin-top: 30px;
+    }
+  }
+
+  .carousel .slider-wrapper {
+    width: 83%;
+
+    @include mobile {
+      width: 100%;
+    }
+  }
+
+  .control-next {
+    right: 30px !important;
+  }
+
+  .carousel .control-dots {
+    text-align: left;
+    padding-left: 60px;
+
+    @include mobile {
+      padding-left: 0;
+    }
+  }
+
+  .carousel .control-dots .dot {
+    background: #e2ecf4;
+    width: 10px;
+    height: 10px;
+    border-radius: 100%;
+    box-shadow: none;
+
+    &.selected {
+      background: $theme-primary;
+    }
+  }
+
+  .carousel.carousel-slider .control-arrow {
+    width: 36px;
+    height: 36px;
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: $theme-primary;
+    opacity: 1;
+    top: auto;
+    bottom: 60px;
+
+    @include mobile {
+      display: none;
+    }
+  }
+
+  .control-disabled {
+    background: #e2ecf4 !important;
+
+    &:before {
+      border-right-color: rgba($theme-dark, 0.5) !important;
+      border-left-color: rgba($theme-dark, 0.5) !important;
     }
   }
 }

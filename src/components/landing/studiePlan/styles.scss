@@ -11,9 +11,17 @@
   background: #fafafb;
   gap: 0 108px;
 
+  @include mobile {
+    padding: 50px 15px 0;
+  }
+
   .icon-img {
     width: 117px;
     margin: 0 auto;
+
+    @include mobile {
+      width: 77px;
+    }
   }
 
   .title-l4 {
@@ -21,6 +29,12 @@
     font-size: 30px;
     line-height: 44px;
     margin-bottom: 64px;
+
+    @include mobile {
+      font-size: 24px;
+      line-height: 34px;
+      margin-bottom: 34px;
+    }
   }
 
   .calendar-image {
