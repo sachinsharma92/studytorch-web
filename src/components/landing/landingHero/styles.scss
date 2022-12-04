@@ -1,0 +1,60 @@
+// variables
+@import "../../../styles/variables/colors";
+@import "../../../styles/variables/mixins";
+
+.landing-hero-section {
+  padding: 0 0px 0 80px;
+  display: flex;
+  justify-content: space-between;
+  height: calc(100vh - 90px);
+
+  .title1 {
+    color: $white;
+    line-height: 64px;
+  }
+
+  .description {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 120%;
+    color: $white;
+    margin-top: 13px;
+    max-width: 500px;
+  }
+
+  .line-style {
+    max-width: 389px;
+  }
+
+  .head-sec {
+    margin-top: 133px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: relative;
+    flex-grow: 2;
+  }
+
+  .hero-illustration-style {
+    position: absolute;
+    bottom: 0;
+    right: -123px;
+    height: 470px;
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .img-section {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    margin-bottom: 0;
+
+    img {
+      width: 90%;
+    }
+  }
+}

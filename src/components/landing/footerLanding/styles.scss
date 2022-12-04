@@ -1,0 +1,42 @@
+// variables
+@import "../../../styles/variables/colors";
+@import "../../../styles/variables/mixins";
+
+.footer-landing-section {
+  padding: 0 120px;
+  height: 202px;
+  display: flex;
+  justify-content: space-between;
+
+  .logo {
+    width: 142px;
+  }
+
+  .link-section {
+    display: flex;
+    align-items: center;
+    gap: 0 40px;
+
+    .link-items {
+      display: flex;
+      align-items: center;
+      gap: 0 40px;
+
+      a {
+        transition: all 0.5s ease-in-out;
+        &:hover {
+          color: $theme-primary;
+        }
+      }
+    }
+
+    .description {
+      font-weight: 400;
+      font-size: 15px;
+      line-height: 20px;
+      color: $text-dark;
+      opacity: 0.5;
+      margin: 0;
+    }
+  }
+}

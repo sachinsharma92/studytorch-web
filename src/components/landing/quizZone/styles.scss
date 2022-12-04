@@ -1,0 +1,108 @@
+// variables
+@import "../../../styles/variables/colors";
+@import "../../../styles/variables/mixins";
+
+.quiz-zone-section {
+  padding: 150px 130px;
+  display: flex;
+  justify-content: space-between;
+  background: $theme-primary;
+  gap: 0 108px;
+  position: relative;
+
+  .title-l4 {
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 44px;
+    color: $white;
+  }
+
+  .description {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 24px;
+    color: $white;
+    white-space: normal;
+    text-align: left;
+    margin: 0;
+  }
+
+  .right-section {
+    margin-right: 0;
+    margin-left: auto;
+  }
+
+  .heading {
+    display: flex;
+    align-items: center;
+    gap: 0 16px;
+    margin-bottom: 18px;
+
+    .title-l4 {
+      margin: 0;
+    }
+
+    .number {
+      width: 33px;
+      height: 33px;
+      background: #eff0fe;
+      border-radius: 100%;
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 17px;
+      color: $theme-primary;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  .nav-section {
+    .title-l4 {
+      font-weight: 600;
+      font-size: 20px;
+      line-height: 34px;
+    }
+  }
+
+  .tab-button-sec {
+    .nav-section {
+      background: none;
+      border: none;
+      margin-top: 42px;
+      opacity: 0.5;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.5s ease-in-out;
+
+      &::before {
+        position: absolute;
+        left: -20px;
+        width: 5px;
+        height: 94%;
+        border-radius: 8px;
+        background-color: transparent;
+        content: "";
+        transition: all 0.5s ease-in-out;
+      }
+    }
+
+    .tab-active {
+      opacity: 1;
+
+      &::before {
+        background: $white;
+      }
+    }
+  }
+
+  .with-hand {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+  }
+
+  .tab-img {
+    width: 640px;
+  }
+}

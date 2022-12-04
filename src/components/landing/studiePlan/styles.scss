@@ -1,0 +1,31 @@
+// variables
+@import "../../../styles/variables/colors";
+@import "../../../styles/variables/mixins";
+
+.studie-plan-section {
+  padding: 60px 130px 0;
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+  flex-direction: column;
+  background: #fafafb;
+  gap: 0 108px;
+
+  .icon-img {
+    width: 117px;
+    margin: 0 auto;
+  }
+
+  .title-l4 {
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 44px;
+    margin-bottom: 64px;
+  }
+
+  .calendar-image {
+    img {
+      width: 100%;
+    }
+  }
+}

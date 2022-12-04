@@ -1,0 +1,59 @@
+// variables
+@import "../../../styles/variables/colors";
+@import "../../../styles/variables/mixins";
+
+.best-features-section {
+  padding: 0px 80px 90px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+
+  .head-sec {
+    display: flex;
+    justify-content: space-between;
+    gap: 0 60px;
+    margin-bottom: 80px;
+
+    .description {
+      max-width: 40%;
+      font-weight: 400;
+      font-size: 20px;
+      line-height: 136.02%;
+      color: $textColor;
+    }
+
+    .title-l4 {
+      font-weight: 700;
+      font-size: 48px;
+      line-height: 48px;
+      color: $theme-dark;
+    }
+  }
+
+  .img-item {
+    text-align: center;
+
+    .content {
+      max-width: 70%;
+      margin: 20px auto 0;
+    }
+  }
+
+  .title-l5 {
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 136.02%;
+    color: $theme-dark;
+  }
+
+  .image-sec {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    grid-auto-rows: minmax(100px, auto);
+
+    img {
+      width: 100%;
+    }
+  }
+}

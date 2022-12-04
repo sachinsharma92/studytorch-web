@@ -124,6 +124,11 @@ const ArchiveScreen = lazy(
   () => import(/* webpackChunkName: "scoreDetails" */ "./pages/archives")
 );
 
+const LandingScreen = lazy(
+  () =>
+    import(/* webpackChunkName: "HomeScreen" */ "./pages/landing/landing")
+);
+
 const AppRouter = () => {
   return (
     <Router>
@@ -190,6 +195,13 @@ const AppRouter = () => {
             path={ROUTES.GROUP_SCORE_DETAILS_SCREEN}
             element={<ScoreDetailScreen />}
           />
+
+          <Route
+            path={ROUTES.LANDING_SCREEN}
+            element={<LandingScreen />}
+          />
+
+
         </Routes>
       </Suspense>
     </Router>

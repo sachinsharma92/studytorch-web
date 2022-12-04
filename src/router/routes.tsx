@@ -44,3 +44,4 @@ export const SHARED_COLLECTION_INVITAION = "/shared-collection-invitation/:id";
 
 //ARCHIVES
 export const ARCHIVED = "/archives";
+export const LANDING_SCREEN = "/landing";

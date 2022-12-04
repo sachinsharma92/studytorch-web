@@ -1,0 +1,68 @@
+// variables
+@import "../../../styles/variables/colors";
+@import "../../../styles/variables/mixins";
+
+.landing-faq-section {
+  padding: 80px 120px;
+  display: flex;
+  justify-content: space-between;
+  background: $white;
+  gap: 0 108px;
+
+  .icon-img {
+    width: 117px;
+    margin: 0 auto;
+  }
+  .title-l4 {
+    font-weight: 700;
+    font-size: 26px;
+    line-height: 36px;
+    margin-bottom: 64px;
+  }
+
+  .left-sec {
+    max-width: 328px;
+  }
+  .right-sec {
+    flex-grow: 2;
+
+    .ant-collapse {
+      background: none;
+    }
+
+    .calendar-image {
+      img {
+        width: 100%;
+      }
+    }
+
+    .ant-collapse-content-box {
+      padding: 0;
+      padding-left: 64px;
+      max-width: 90%;
+    }
+  }
+
+  .index-number {
+    font-weight: 600;
+    font-size: 26px;
+    line-height: 48px;
+    color: $theme-primary;
+  }
+
+  .nav-setting {
+    display: flex;
+    align-items: center;
+    gap: 0 30px;
+  }
+
+  .ant-collapse > .ant-collapse-item > .ant-collapse-header {
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    font-weight: 600;
+    font-size: 16px;
+    padding: 16px 0;
+    color: $text-dark;
+    background: none;
+  }
+}

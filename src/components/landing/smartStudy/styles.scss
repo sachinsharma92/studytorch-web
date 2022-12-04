@@ -1,0 +1,38 @@
+// variables
+@import "../../../styles/variables/colors";
+@import "../../../styles/variables/mixins";
+
+.smart-study-section {
+  padding: 50px 180px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  background: #fafafb;
+  position: relative;
+
+  .title-l4 {
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 44px;
+    color: $text-dark;
+    text-align: center;
+  }
+
+  .tab-img {
+    width: 100%;
+  }
+
+  .ant-tabs-top > .ant-tabs-nav::before {
+    display: none;
+  }
+
+  .ant-tabs-tab {
+    border-bottom: 2px solid #eff0fe;
+  }
+
+  .illustration {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
+}

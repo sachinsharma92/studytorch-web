@@ -1,0 +1,9 @@
+// variables
+@import "../../../styles/variables/colors";
+@import "../../../styles/variables/mixins";
+
+.client-card-section {
+  padding: 124px 200px;
+  display: flex;
+  justify-content: space-between;
+}

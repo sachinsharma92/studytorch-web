@@ -1,0 +1,60 @@
+// variables
+@import "../../../styles/variables/colors";
+@import "../../../styles/variables/mixins";
+
+.grow-brand-section {
+  padding: 80px 120px;
+
+  .blue-card {
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    padding: 65px 72px;
+    background: $theme-primary url("../../../assets/images/landing/circles.svg");
+    background-repeat: no-repeat;
+    background-position: right;
+  }
+
+  .icon-img {
+    width: 117px;
+    margin: 0 auto;
+  }
+  .title-l4 {
+    font-weight: 700;
+    font-size: 26px;
+    line-height: 36px;
+    color: $white;
+  }
+
+  .description {
+    color: $white;
+  }
+
+  .left-sec {
+    max-width: 328px;
+  }
+  .right-sec {
+    flex-grow: 2;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    .btn-free {
+      max-width: 230px;
+    }
+  }
+
+  .img-group-sec {
+    display: flex;
+    align-items: center;
+    gap: 0 14px;
+
+    a {
+      color: $white;
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 32px;
+      text-decoration: underline;
+    }
+  }
+}

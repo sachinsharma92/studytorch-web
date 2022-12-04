@@ -1,0 +1,62 @@
+// variables
+@import "../../../styles/variables/colors";
+@import "../../../styles/variables/mixins";
+
+.our-champ-section {
+  padding: 80px 120px;
+  display: flex;
+  justify-content: space-between;
+  background: $white;
+  gap: 0 108px;
+
+  .icon-img {
+    width: 117px;
+    margin: 0 auto;
+  }
+  .title-l4 {
+    font-weight: 700;
+    font-size: 26px;
+    line-height: 36px;
+  }
+
+  .left-sec {
+    min-width: 328px;
+    max-width: 328px;
+  }
+  .right-sec {
+    flex-grow: 2;
+    padding-left: 150px;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .carousel-item {
+    display: flex !important;
+    flex-direction: column;
+
+    .description {
+      font-size: 14px;
+      line-height: 24px;
+      color: $textColor;
+      max-width: 82%;
+    }
+
+    .anticon-star {
+      color: #fb7e7e;
+    }
+  }
+
+  .rate-sec {
+    position: relative;
+    display: flex;
+
+    &::before {
+      content: "";
+      background: url("../../../assets/images/landing/quotes.svg");
+      background-repeat: no-repeat;
+      width: 100px;
+      height: 100px;
+      display: flex;
+    }
+  }
+}
